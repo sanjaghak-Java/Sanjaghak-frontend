@@ -1,8 +1,8 @@
 .signUpBox {
   background-color: rgba(245, 245, 247, 0.85);
-  border: 2px solid #d94f61;
+  border: 2px solid #dc4f61;
   border-radius: 12px;
-  padding: 50px 50px;
+  padding: 20px 50px;
   width: 500px;
   box-shadow: 0 8px 20px rgba(217, 79, 97, 0.25);
   box-sizing: border-box;
@@ -13,18 +13,22 @@
 }
 
 .signUpBox h1 {
-  color: #d94f61;
-  text-align:center;
+  color: #dc2655;
+  text-align: center;
   margin-bottom: 40px;
   margin-top: 1px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+.inputWrapper {
+  position: relative;
+  margin-bottom: 40px;
+}
+
 .signUpInput {
   width: 100%;
-  padding: 12px 15px;
-  margin-bottom: 40px;
-  border: 1.8px solid #d94f61;
+  padding: 14px 15px;
+  border: 1.8px solid #dc2655;
   border-radius: 8px;
   font-size: 16px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -42,10 +46,30 @@
   background-color: #fff0f1;
 }
 
+.floatingLabel {
+  position: absolute;
+  right: 15px;
+  top: 14px;
+  color: #999;
+  font-size: 16px;
+  pointer-events: none;
+  transition: all 0.2s ease;
+  background-color: rgba(245, 245, 247, 0.85);
+  padding: 0 4px;
+}
+
+.signUpInput:focus + .floatingLabel,
+.signUpInput:not(:placeholder-shown) + .floatingLabel {
+  top: -10px;
+  right: 10px;
+  font-size: 13px;
+  color: #dc2655;
+}
+
 .signUpButton {
   width: 100%;
   padding: 14px;
-  background-color: #d94f61;
+  background-color: #dc2655;
   border: none;
   border-radius: 10px;
   color: white;
@@ -57,4 +81,55 @@
 
 .signUpButton:hover {
   background-color: #a33444;
+}
+
+#signinlabel {
+  margin-top: 30px;
+  margin-bottom: 0;
+  text-align: right;
+  color: gray;
+}
+
+.check {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #d94f61;
+  border-radius: 4px;
+  background-color: transparent;
+  cursor: pointer;
+  position: relative;
+  vertical-align: middle;
+  margin-left: 8px;
+  margin-bottom: 20px;
+}
+
+.check:checked {
+  background-color: #d94f61;
+  border-color: #d94f61;
+}
+
+.check:checked::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 6px;
+  width: 4px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.checkboxWrapper {
+  text-align: right;
+  margin-bottom: 20px;
+}
+
+.checkboxWrapper label {
+  font-size: large;
+  color: gray;
+  position: relative;
+  bottom: 7px;
 }

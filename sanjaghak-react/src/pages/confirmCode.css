@@ -1,0 +1,72 @@
+.codeBox {
+  background-color: rgba(245, 245, 247, 0.85);
+  border: 2px solid #dc4f61;
+  border-radius: 12px;
+  padding: 20px 30px;
+  width: 500px;
+  box-shadow: 0 8px 20px rgba(217, 79, 97, 0.25);
+  box-sizing: border-box;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  direction: rtl;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.codeBox h1 {
+  color: #dc2655;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.codeBox p {
+    text-align: center;
+  color: #555;
+  margin-bottom: 30px;
+  font-size: 16px;
+}
+
+.digitContainer {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  direction: ltr; /* digits input left to right */
+  margin-bottom: 30px;
+}
+
+.digitBox {
+  width: 40px;
+  height: 50px;
+  font-size: 28px;
+  text-align: center;
+  border: 2px solid #dc2655;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(220, 38, 85, 0.4);
+  outline: none;
+  transition: border-color 0.3s ease;
+  background-color: #fafafa;
+  direction: ltr; /* input text left to right */
+}
+
+.digitBox:focus {
+  border-color: #a33444;
+  background-color: #fff0f1;
+}
+
+.submitButton {
+  width: 100%;
+  padding: 14px;
+  background-color: #dc2655;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  transition: background-color 0.3s ease;
+}
+
+.submitButton:hover {
+  background-color: #a33444;
+}

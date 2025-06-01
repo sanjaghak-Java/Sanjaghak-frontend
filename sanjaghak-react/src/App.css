@@ -1,5 +1,5 @@
 
-#tsparticles {
+.particles {
   position: fixed;
   top: 0;
   left: 0;
@@ -8,7 +8,7 @@
   z-index: 0;
 }
 
-.appContainer {
-  position: relative;
+.appContainer > *:not(.particles) {
+  position: fixed;
   z-index: 1;
 }

@@ -6,6 +6,7 @@ import SignInMobile from "./pages/signInMobile.jsx"
 import ConfirmCode from './pages/confirmCode.jsx';
 import ParticlesBackground from './ParticlesBackground.jsx';
 import './App.css';
+import Navbar from './pages/navbar.jsx';
 
 function App() {
   const location = useLocation();
@@ -16,16 +17,9 @@ function App() {
 
   return (
     <div className="appContainer">
-      <ParticlesBackground /> 
-
-      {!shouldHideNavbar && (
-        <nav className="navbar">
-          <Link to="/signin">Sign In</Link> | <Link to="/signup">Sign Up</Link>
-        </nav>
-      )}
-
+      <ParticlesBackground/>
       <Routes>
-        <Route path="/" element={<h1>Welcome Home</h1>} />
+        <Route path="/" element={<Navbar/>} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
        <Route path="/signinmobile" element={<SignInMobile/>} />

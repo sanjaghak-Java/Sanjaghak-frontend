@@ -8,6 +8,9 @@ function Navbar() {
     const goToSignIn=()=>{
         navigate("/signin")
     }
+                const goTocart=()=> {
+                    navigate("/cart")
+                }
 
   return (
     <div className='navContainer'>
@@ -49,8 +52,8 @@ function Navbar() {
 
               </div>
 
-
-
+  
+              <button className=''  onClick={goTocart}>test</button>
         </div>
     </div>
   );

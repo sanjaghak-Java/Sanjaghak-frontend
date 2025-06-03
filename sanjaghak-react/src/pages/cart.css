@@ -1,0 +1,148 @@
+.product{
+    width: 912px;
+    height: 470px;
+    border: 2px solid #D1D1D4;
+    border-radius: 20px;
+    display: flex;
+    background-color: #ffffff;
+}
+.product-img {
+
+  width: 360px;
+  height: 334px;
+  margin-top: 26px;
+  object-fit: contain;
+  object-position: center;
+  mix-blend-mode: multiply;
+}
+
+.miniimg-container {
+  display: flex;
+  gap: 10px; 
+  margin-top: 10px;
+}
+
+.miniimg-wrapper {
+  width: 80px;
+  height: 80px;
+  border: 1px solid #D1D1D4;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-miniimg {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  object-position: center;
+  mix-blend-mode: multiply;
+}
+
+#more-miniimg-wrapper {
+  width: 80px;
+  height: 80px;
+  border: 1px solid #000000;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 5px;
+}
+
+#more-product-miniimg {
+  width: 50px;
+  height: 50px;
+  margin-top: 0;
+  object-fit: contain;
+}
+
+#more-miniimg-label {
+  font-size: 16px;
+  font-weight: 600;
+  color: #000;
+}
+
+
+.information{
+    width: 430px;
+    margin-right: 25px ;
+    margin-top: 40px;
+    direction: rtl;
+}
+.product-information-title{
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: 500;
+}
+.product-color{
+    width: 80px;
+    height: 32px;
+    background-color: #F0F0F0;
+    margin: 15px 15px ;
+    border-radius: 25px;
+    display: flex;
+    align-items: center; 
+    padding: 0 10px;
+}
+.product-color-name{
+    font-size: 22px;
+    margin-right: 3px;
+    padding-left: 7px;
+}
+.product-color-show{
+    border: 1px solid ;
+    border-radius: 100%;
+    background-color: white;
+    width: 20px;
+    height: 20px;
+    align-items: center; 
+   
+}
+
+.features{
+    width: 110px;
+    height: 30px;
+    background-color: #F0F0F0;
+    border-radius: 10px;
+    display: flex;
+    align-items: center; 
+    margin: 15px;
+}
+.features-title{
+    font-size: 20px ;
+    margin-right: 7px;
+    padding-left: 18px;
+}
+.features-inf{
+    color: #4a4a50;
+}
+
+.hr {
+  border: none;
+  border-top: 2px dotted #D1D1D4; 
+  width: 90%;
+  margin: 30px 0 20px auto;
+  opacity: 0.9;
+}
+.icons-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.like{
+    width: 30px;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+.link{
+    width: 23px;
+    margin-left: 12px;
+    margin-top: 1px;
+}

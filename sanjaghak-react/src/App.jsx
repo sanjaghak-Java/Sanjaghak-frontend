@@ -7,6 +7,7 @@ import ConfirmCode from './pages/confirmCode.jsx';
 import ParticlesBackground from './ParticlesBackground.jsx';
 import './App.css';
 import Navbar from './pages/navbar.jsx';
+import Cart from './pages/cart.jsx';
 
 function App() {
   const location = useLocation();
@@ -24,6 +25,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
        <Route path="/signinmobile" element={<SignInMobile/>} />
          <Route path="/confirmCode" element={<ConfirmCode/>} />
+         <Route path="/Cart" element={<Cart/>} />
 
       </Routes>
     </div>

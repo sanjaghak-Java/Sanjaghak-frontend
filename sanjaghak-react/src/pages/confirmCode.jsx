@@ -1,6 +1,7 @@
 import React, { useRef,useState,useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import "./confirmCode.css";
+import ParticlesBackground from '../ParticlesBackground';
 
 function confirmCode() {
   const inputs = useRef([]);
@@ -40,6 +41,8 @@ const [secondsLeft, setSecondsLeft] = useState(300);
   };
 
   return (
+    <>
+    <ParticlesBackground/>
     <div className="codeBox">
       <h1>احراز هویت</h1>
       <p>لطفا کد 6 رقمی ارسال شده به ایمیل/شماره خود را وارد نمایید</p>
@@ -61,6 +64,7 @@ const [secondsLeft, setSecondsLeft] = useState(300);
       <button className="submitButton">تایید</button>
       <Link to="/signin" style={{color:"#dc2655",textDecoration:'none',position:"relative",top:"10px",right:"400px"}}>بازگشت</Link>
     </div>
+    </>
   );
 }
 

@@ -8,8 +8,8 @@ function Navbar() {
     const goToSignIn=()=>{
         navigate("/signin")
     }
-                const goTocart=()=> {
-                    navigate("/cart")
+                const goToproduct=()=> {
+                    navigate("/Product")
                 }
 
   return (
@@ -53,7 +53,7 @@ function Navbar() {
               </div>
 
   
-              <button className=''  onClick={goTocart}>test</button>
+              <button className=''  onClick={goToproduct}>test</button>
         </div>
     </div>
   );

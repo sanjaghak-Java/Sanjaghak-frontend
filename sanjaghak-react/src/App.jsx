@@ -6,7 +6,7 @@ import SignInMobile from "./pages/signInMobile.jsx"
 import ConfirmCode from './pages/confirmCode.jsx';
 import ParticlesBackground from './ParticlesBackground.jsx';
 import './App.css';
-import Cart from './pages/Cart.jsx';
+import Product from './pages/Product.jsx';
 import MainPage from './pages/mainPage.jsx';
 
 function App() {
@@ -27,7 +27,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
        <Route path="/signinmobile" element={<SignInMobile/>} />
          <Route path="/confirmCode" element={<ConfirmCode/>} />
-         <Route path="/Cart" element={<Cart/>} />
+         <Route path="/Product" element={<Product/>} />
 
       </Routes>
     </div>

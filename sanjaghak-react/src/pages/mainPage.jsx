@@ -1,15 +1,26 @@
 import Navbar from "./navbar";
 import CategoriesSwiper from "./categoriesSwiper";
-
+import ImagePreview from "./imagePreview";
+import PromoBanner from "./promoBanner";
+import "./mainPage.css"
+import ProductCard from "./ProductCard";
+import ProductSlider from "./productSlider";
 
 function mainPage(){
     return(
-        <div>
+        <div className="mainPageContainer"> 
             <Navbar/>
-            <div style={{marginTop:"200px",marginLeft:"750px"}}>
-            <CategoriesSwiper/>
+            <ImagePreview/>
+            <div>
+                <CategoriesSwiper/>
             </div>
-        </div>
+            <PromoBanner/>
+            <ProductSlider/>
+            <PromoBanner/>
+            <ProductSlider/>
+            <PromoBanner/>
+
+            </div>
 
     );
 }

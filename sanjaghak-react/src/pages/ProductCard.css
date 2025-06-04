@@ -1,0 +1,68 @@
+.cardContainer {
+  width: 220px;
+  background-color: #fff;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 16px;
+  font-family: 'IRANSans', sans-serif;
+  transition: transform 0.3s;
+  direction: rtl; /* for right-to-left languages like Persian */
+}
+
+.cardContainer:hover {
+  transform: translateY(-5px);
+}
+
+.productImage {
+  width: 100px;
+  height: auto;
+  margin: 0 auto 16px;
+  display: block;
+}
+
+.ProductName {
+  font-size: 16px;
+  color: #333;
+  margin: 4px 0;
+  text-align: center;
+}
+
+.ProductModel {
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.priceSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 16px;
+}
+
+.priceDetails {
+  text-align: left;
+}
+
+.productSalePrice {
+  font-size: 13px;
+  color: #888;
+  text-decoration: line-through;
+}
+
+.ProductPrice {
+  font-size: 16px;
+  color: #000;
+  font-weight: bold;
+  margin-top: 4px;
+}
+
+.salePercent {
+  background-color: #f55d5d;
+  color: white;
+  padding: 4px 12px;
+  font-size: 13px;
+  border-radius: 9999px;
+  white-space: nowrap;
+}

@@ -6,8 +6,8 @@ import SignInMobile from "./pages/signInMobile.jsx"
 import ConfirmCode from './pages/confirmCode.jsx';
 import ParticlesBackground from './ParticlesBackground.jsx';
 import './App.css';
-import Navbar from './pages/navbar.jsx';
-import Cart from './pages/cart.jsx';
+import Cart from './pages/Cart.jsx';
+import MainPage from './pages/mainPage.jsx';
 
 function App() {
   const location = useLocation();
@@ -18,9 +18,11 @@ function App() {
 
   return (
     <div className="appContainer">
-      <ParticlesBackground/>
+      {shouldHideNavbar && <ParticlesBackground />}
+      
+
       <Routes>
-        <Route path="/" element={<Navbar/>} />
+        <Route path="/" element={<MainPage/>} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
        <Route path="/signinmobile" element={<SignInMobile/>} />

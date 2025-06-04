@@ -1,0 +1,44 @@
+.PromoContainer {
+  position: relative;
+  background: linear-gradient(90deg, #666 0%, #999 100%);
+  border-radius: 20px;
+  color: white;
+  padding: 40px;
+  text-align: right;
+  direction: rtl;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+  height: 200px;
+  max-width: 1200px;
+  margin: 20px auto;
+}
+
+.promoTitle {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin: 0 0 10px 0;
+}
+
+.PromoDescription {
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+}
+
+.seeAllBtn {
+  align-self: flex-end;
+  background-color: #ef3e63;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.seeAllBtn:hover {
+  background-color: #d73055;
+}

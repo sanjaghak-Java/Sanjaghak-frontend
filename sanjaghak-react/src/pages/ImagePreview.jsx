@@ -23,18 +23,22 @@ function ImagePreview() {
         spaceBetween={0}
       >
         <SwiperSlide className="slide">
-          <img src="./src/assets/mainslide1.png"  />
-          <p className="slideTitle">Welcome to Our Store</p>
+          <img src="./src/assets/linus-mimietz-gvptKmonylk-unsplash.jpg"  />
+          <p className="slideTitle"></p>
         </SwiperSlide>
 
         <SwiperSlide className="slide">
-          <img src="./src/assets/mainslide1.png"  />
-          <p className="slideTitle">Discover Amazing Deals</p>
+          <img src="./src/assets/pexels-pavel-danilyuk-8038351.jpg"  />
+          <p className="slideTitle"></p>
         </SwiperSlide>
 
         <SwiperSlide className="slide">
-          <img src="./src/assets/mainslide1.png"  />
-          <p className="slideTitle">Shop the Latest Trends</p>
+          <img src="./src/assets/pexels-sorjigrey-9956771.jpg"  />
+          <p className="slideTitle"></p>
+        </SwiperSlide>
+        <SwiperSlide className="slide">
+          <img src="./src/assets/pexels-madebymath-331684 (1).jpg"  />
+          <p className="slideTitle"></p>
         </SwiperSlide>
       </Swiper>
     </div>

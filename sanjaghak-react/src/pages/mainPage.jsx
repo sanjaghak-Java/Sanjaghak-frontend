@@ -5,6 +5,7 @@ import PromoBanner from "./promoBanner";
 import "./mainPage.css"
 import ProductCard from "./ProductCard";
 import ProductSlider from "./productSlider";
+import Footer from "./Footer";
 
 function mainPage(){
     return(
@@ -19,8 +20,8 @@ function mainPage(){
             <PromoBanner/>
             <ProductSlider/>
             <PromoBanner/>
-
-            </div>
+            <Footer/>
+        </div>
 
     );
 }

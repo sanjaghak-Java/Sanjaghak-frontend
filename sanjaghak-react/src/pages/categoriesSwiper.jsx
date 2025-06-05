@@ -17,18 +17,21 @@ const categories = [
 
  function CategoriesSwiper() {
   return (
+    <>
+    <p className="categorie-title">دسته بندی محصولات</p>
+
     <div className="swiperContainer">
       <Swiper className="Swiper"
         dir="rtl"
      navigation
        loop={true} 
-     spaceBetween={100}
-     slidesPerView={4}
+     spaceBetween={38}
+     slidesPerView={5}
     modules={[Navigation]}
     initialSlide={0}
       >
         {categories.map((item, index) => (
-          <SwiperSlide className="SwiperSlide" key={index} style={{maxWidth:"50px"}}>
+          <SwiperSlide className="SwiperSlide" key={index} >
             <div >
               <img className="slideImg"
                 src={item.image}
@@ -39,6 +42,7 @@ const categories = [
         ))}
       </Swiper>
     </div>
+    </>
   );
 }
 export default CategoriesSwiper

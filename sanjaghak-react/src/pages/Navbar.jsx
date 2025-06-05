@@ -20,7 +20,7 @@ function Navbar() {
             </Link>
             <div className="searchContainer">
                 <button className="searchBtn">
-                    <img src="./src/assets/icons8-search-64.png" alt="search" />
+                    <img src="./src/assets/search.png" alt="search" />
                 </button>
                 <input type="text" className="searchBar" placeholder="جستجو" />
             </div>

@@ -1,6 +1,7 @@
 import "./product.css";
 import { Link } from 'react-router-dom';
 import Navbar from "./navbar";
+import Footer from "./Footer";
 import React, { useRef, useState } from 'react';
 
 function Product() {
@@ -131,17 +132,9 @@ function Product() {
                 </div>
 
                 <p className="Information-title" ref={specsRef}>مشخصات</p>
-                <div className="product-info-box">
-                    <ul className="specs-list">
-                        <li><strong>پردازنده:</strong> Helio G36</li>
-                        <li><strong>رم:</strong> 4GB</li>
-                        <li><strong>صفحه‌نمایش:</strong> 6.5 اینچ IPS، نرخ نوسازی 90Hz</li>
-                        <li><strong>دوربین:</strong> 8 مگاپیکسل</li>
-                        <li><strong>باتری:</strong> 5000 میلی‌آمپر ساعت</li>
-                        <li><strong>سیستم‌عامل:</strong> اندروید 13 (Go Edition)</li>
-                    </ul>
-                </div>
+               
             </div>
+            <Footer/>
         </>
     );
 }

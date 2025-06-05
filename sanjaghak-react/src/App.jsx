@@ -9,6 +9,8 @@ import './App.css';
 import Product from './pages/Product.jsx';
 import MainPage from './pages/mainPage.jsx';
 
+
+
 function App() {
   const location = useLocation();
 
@@ -28,6 +30,7 @@ function App() {
        <Route path="/signinmobile" element={<SignInMobile/>} />
          <Route path="/confirmCode" element={<ConfirmCode/>} />
          <Route path="/Product" element={<Product/>} />
+         
 
       </Routes>
     </div>

@@ -6,7 +6,7 @@
 
 
 .upperNav {
-    direction: rtl;
+  direction: rtl;
   width: 100%;
   position: fixed;
   top: 0;
@@ -29,14 +29,16 @@
   display: flex;
   flex-direction: row-reverse;
   align-items: center;
-  gap: 10px;
+  gap: 0px;
 }
 
 .searchBar {
-  width: 320px;
+  box-shadow: 2px 2px 7px #68686841;
+  width: 500px;
   padding: 12px 16px;
   border: 1.5px solid #ccc;
-  border-radius: 8px;
+  /* border-left: none; */
+  border-radius: 0 12px 12px 0;
   background-color: #fafafa;
   text-align: right;
   font-size: 15px;
@@ -44,26 +46,38 @@
 }
 
 .searchBar:focus {
+  box-shadow: 3px 3px 10px #dfb9b9;
   outline: none;
-  border-color: #dc2655;
+  border-color: #ffd8e4cc;
   background-color: #fff0f1;
 }
 
 .searchBtn {
-  padding: 10px 16px;
-  border: 1.5px solid #ccc;
-  background-color: white;
-  border-radius: 8px;
+  box-shadow: -2px 2px 7px #68686841;
+  padding: 0px;
+  border: 1.5px  solid #ccc;
+  border-right: none;
+  background-color: #fafafa;
+  border-radius: 12px 0 0 12px;
   cursor: pointer;
-  font-size: 15px;
   transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .searchBtn:hover {
+ transform: translate(-1px, -2px);
+  box-shadow: 3px 3px 10px #dfb9b9;
   background-color: #fff0f1;
-  border-color: #dc2655;
-  color: #dc2655;
+  border-color: #ff5286cc;
 }
+
+.searchBtn img {
+  width: 42px;
+  height: 42px;
+}
+
 
 .userActions {
   display: flex;
@@ -72,19 +86,26 @@
 }
 
 .loginBtn {
+  box-shadow: 4px 3px 15px #68686841;
+  height: 40px;
+  width: 110px;
   background-color: white;
   border: 1.5px solid #ccc;
-  padding: 10px 18px;
+  padding: 5px 9px;
   border-radius: 8px;
   color: #333;
   cursor: pointer;
   font-size: 15px;
   transition: all 0.3s ease;
 }
+.space{
+  padding: 8px;
+}
 
 .loginBtn:hover {
-  border-color: #dc2655;
-  color: #dc2655;
+  box-shadow: 3px 3px 10px #dfb9b9;
+  border-color: #dc265463;
+  color: #dc2654;
 }
 
 .cartIcon {
@@ -93,38 +114,57 @@
 }
 
 .lowerNav {
-    direction: rtl;
-    margin-top: 10px;
+  height: 55px;
+  direction: rtl;
+  margin-top: 10px;
   width: 100%;
   position: fixed;
   top: 70px;
   z-index: 999;
   display: flex;
   align-items: center;
-  padding: 12px 40px;
+  padding: 22px 90px 12px 90px;
   gap: 50px;
   background-color: white;
   font-size: 15px;
   border-bottom: 2px solid #ccc;
 }
 
-.lowerNav .item {
+.dropDownContainer {
+  position: relative;
+  display: inline-block;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  margin-left: 7px;
+  transition: filter 0.3s ease;
+}
+
+.itemContent {
+  display: flex;
+  align-items: center;
+  line-height: 1.8;
+}
+
+.item {
   text-decoration: none;
   color: #333;
   font-weight: 500;
   transition: color 0.3s ease, border-bottom 0.3s ease;
-  padding-bottom: 4px;
+  display: inline-block;
 }
 
-.lowerNav .item:hover,
-.lowerNav .item:focus {
+.dropDownContainer:hover .item,
+.dropDownContainer:focus-within .item {
   color: #dc2655;
   border-bottom: 2px solid #dc2655;
 }
 
-.dropDownContainer {
-  position: relative;
-  display: inline-block;
+.dropDownContainer:hover .icon,
+.dropDownContainer:focus-within .icon {
+  filter: brightness(0) saturate(100%) invert(29%) sepia(80%) saturate(4383%) hue-rotate(329deg) brightness(95%) contrast(91%);
 }
 
 .dropDown {
@@ -160,12 +200,26 @@
 .dropDownContainer:focus-within .dropDown {
   display: flex;
 }
-.categories{
-    background-color: transparent;
-    border: none;
-    text-decoration: none;
-    color: #333;
-    font-weight: 500;
-    transition: color 0.3s ease, border-bottom 0.3s ease;
-    padding-bottom: 4px;
+
+.categories {
+  background-color: transparent;
+  border: none;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: color 0.3s ease, border-bottom 0.3s ease;
+  padding-bottom: 4px;
+}
+
+.lowerNav .navItem {
+  position: relative;
+}
+
+.lowerNav .navItem:hover .item {
+  color: #dc2655;
+  border-bottom: 2px solid #dc2655;
+}
+
+.lowerNav .navItem:hover .icon {
+  filter: brightness(0) saturate(100%) invert(29%) sepia(80%) saturate(4383%) hue-rotate(329deg) brightness(95%) contrast(91%);
 }

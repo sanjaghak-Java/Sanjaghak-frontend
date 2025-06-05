@@ -15,46 +15,60 @@ function Navbar() {
   return (
     <div className='navContainer'>
         <div className='upperNav'>
-         <img src="./src/assets/sanjaghak-logo.png" alt="" className='logo' />
-
-         <div className='searchContainer'>
-         <button className='searchBtn'>جستجو</button>
-         <input type='text' placeholder='جستجو' className='searchBar' />
-         </div>
-
-        <div className='userActions'>
-            <button className='loginBtn'  onClick={goToSignIn}>ثبت نام | ورود</button>
-         <img src="./src/assets/sanjaghak-logo.png" alt="" className='cartIcon' />
-        </div>
-        </div>
-        <div className='lowerNav'>
-            <div className='dropDownContainer'>
-                <img className='icon'/>
-               <Link className='item'>categories</Link>
-                <div className='dropDown'>
-                    <Link>a</Link>
-                     <Link>a</Link>
-                     <Link>a</Link>
-                </div>
-
+            <Link to="/">
+                <img src="./src/assets/sanjaghak-logo.png" alt="" className='logo' />
+            </Link>
+            <div className="searchContainer">
+                <button className="searchBtn">
+                    <img src="./src/assets/icons8-search-64.png" alt="search" />
+                </button>
+                <input type="text" className="searchBar" placeholder="جستجو" />
             </div>
-             <div>
-               <img className='icon'/>
-               <Link className='item'>bestseller</Link>
 
-             </div>
-             
-              <div>
-              <img className='icon'/>
-              <Link className='item'>something</Link>
-
-
-
-              </div>
-
-  
-              <button className=''  onClick={goToproduct}>test</button>
+            <div className='userActions'>
+                <button className='loginBtn'  onClick={goToSignIn}>ثبت نام<span className='space'>|</span>ورود</button>
+                <img src="./src/assets/icons8-cart-64.png" alt="cart" className='cartIcon' />
+            </div>
         </div>
+
+        <div className='lowerNav'>
+
+             <div className='dropDownContainer'>
+                 <Link className='item'>
+                 <div className='itemContent'>        
+                     <img src="./src/assets/justify.png" alt="" className='icon' />
+                     <span className='itemText'>دسته بندی کالا ها</span>
+                 </div>
+                 </Link>
+
+                 <div className='dropDown'>
+                 <Link>a</Link>
+                 <Link>a</Link>
+                 <Link>a</Link>
+                 </div>
+             </div>
+
+             <div className='navItem'>
+                 <Link className='item'>
+                 <div className='itemContent'>
+                     <img src="./src/assets/cup-2.png" alt="" className='icon' />
+                     <span className='itemText'>پرفروش‌ترین‌ها</span>
+                 </div>
+                 </Link>
+             </div>
+
+             <div className='navItem'>
+                 <Link className='item'>
+                 <div className='itemContent'>
+                     <img src="./src/assets/icons8-new-32.png" alt="" className='icon' />
+                     <span className='itemText'>جدید ترین</span>
+                 </div>
+                 </Link>
+             </div>
+
+             <button className='' onClick={goToproduct}>test</button>
+        </div>
+
     </div>
   );
 }

@@ -27,7 +27,6 @@
 
 
 .productSwiperSlide > div:hover {
-  border-color: gray;
   box-shadow: 0 6px 15px rgba(220, 79, 97, 0.25);
 }
 

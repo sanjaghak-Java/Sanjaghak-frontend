@@ -8,6 +8,7 @@ import ParticlesBackground from './ParticlesBackground.jsx';
 import './App.css';
 import Product from './pages/Product.jsx';
 import MainPage from './pages/mainPage.jsx';
+import CategoryPage from './pages/productCategoryPage.jsx';
 
 
 
@@ -30,6 +31,7 @@ function App() {
        <Route path="/signinmobile" element={<SignInMobile/>} />
          <Route path="/confirmCode" element={<ConfirmCode/>} />
          <Route path="/Product" element={<Product/>} />
+         <Route path='/productCategory' element={<CategoryPage/>}/>
          
 
       </Routes>

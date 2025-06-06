@@ -8,9 +8,9 @@ function Navbar() {
     const goToSignIn=()=>{
         navigate("/signin")
     }
-                const goToproduct=()=> {
-                    navigate("/Product")
-                }
+    const goToproduct=()=> {
+        navigate("/Product")
+    }
 
   return (
     <div className='navContainer'>

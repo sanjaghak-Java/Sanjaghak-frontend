@@ -3,15 +3,22 @@ import { Link } from 'react-router-dom';
 import Navbar from "./navbar";
 import Footer from "./Footer";
 import React, { useRef, useState } from 'react';
+import Cartreport from './Cartreport';
 
 function Product() {
+    const [showCartReport, setShowCartReport] = useState(false);
+
+    const handleAddToCart = () => {
+        setShowCartReport(true);
+    };
+
+    const handleCloseCartReport = () => {
+        setShowCartReport(false);
+    };
+
     const targetRef = useRef(null);
     const introRef = useRef(null);
     const specsRef = useRef(null);
-
-    const handleScroll = () => {
-        targetRef.current.scrollIntoView({ behavior: 'smooth' });
-    };
 
     const scrollToSection = (ref) => {
         if (ref.current) {
@@ -50,7 +57,7 @@ function Product() {
                         </div>
                     </div>
                     <div className="buy">
-                        <button className="buy-button">افزودن به سبد خرید</button>
+                        <button className="buy-button" onClick={handleAddToCart}>افزودن به سبد خرید</button>
                     </div>
                 </div>
                 <div className="product">
@@ -134,7 +141,11 @@ function Product() {
                 <p className="Information-title" ref={specsRef}>مشخصات</p>
                
             </div>
+
+            {showCartReport && <Cartreport onClose={handleCloseCartReport} />}
+
             <Footer/>
+            
         </>
     );
 }

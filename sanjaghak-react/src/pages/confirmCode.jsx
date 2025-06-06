@@ -1,6 +1,6 @@
 import React, { useRef,useState,useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import "./confirmCode.css";
+import "/src/styles/confirmCode.css";
 import ParticlesBackground from '../ParticlesBackground';
 
 function confirmCode() {

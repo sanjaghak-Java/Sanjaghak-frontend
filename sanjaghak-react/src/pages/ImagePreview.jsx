@@ -3,8 +3,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
-import "./categorySwiper.css";
-import "./slideShow.css";
+import "/src/styles/categorySwiper.css";
+import "/src/styles/slideShow.css";
 
 function ImagePreview() {
   return (

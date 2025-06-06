@@ -1,5 +1,5 @@
 
-import "./promoBanner.css"
+import "/src/styles/promoBanner.css"
 
 function PromoBanner(){
     return(

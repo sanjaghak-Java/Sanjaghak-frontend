@@ -1,5 +1,5 @@
 
-import "./ProductCard.css"
+import "/src/styles/ProductCard.css"
 function ProductCard(props){
     return(
         <div className="cardContainer">

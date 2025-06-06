@@ -2,7 +2,7 @@ import Navbar from "./navbar";
 import CategoriesSwiper from "./categoriesSwiper";
 import ImagePreview from "./imagePreview";
 import PromoBanner from "./promoBanner";
-import "./mainPage.css"
+import "/src/styles/mainPage.css"
 import ProductCard from "./ProductCard";
 import ProductSlider from "./productSlider";
 import Footer from "./Footer";

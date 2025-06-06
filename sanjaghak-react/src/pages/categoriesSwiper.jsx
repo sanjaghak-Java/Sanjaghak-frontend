@@ -3,7 +3,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
-import "./categorySwiper.css"
+import "/src/styles/categorySwiper.css"
 
 const categories = [
   { title: "Cooldog", image: "./src/assets/testimage.jpg" },

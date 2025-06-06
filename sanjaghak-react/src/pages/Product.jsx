@@ -1,4 +1,4 @@
-import "./product.css";
+import "/src/styles/product.css";
 import { Link } from 'react-router-dom';
 import Navbar from "./navbar";
 import Footer from "./Footer";

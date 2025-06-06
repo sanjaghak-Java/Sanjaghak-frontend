@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './signUp.css';
+import '/src/styles/signUp.css';
 import ParticlesBackground from '../ParticlesBackground';
 
 

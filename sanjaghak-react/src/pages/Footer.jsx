@@ -1,5 +1,5 @@
 import React from 'react';
-import './footer.css';
+import '/src/styles/footer.css';
 import { Link, useNavigate } from 'react-router-dom';
 import marker from '../assets/marker-pin.png';
 import Instagram from '../assets/Instagram.png';

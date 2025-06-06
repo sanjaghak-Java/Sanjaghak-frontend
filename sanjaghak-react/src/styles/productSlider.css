@@ -1,25 +1,24 @@
 .productSwiperContainer {
-  max-width: 1000px;
+  max-width: 1300px;
   width: 100%;
   margin: 0 auto;
   padding: 24px 40px;
   box-sizing: border-box;
   position: relative;
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: transparent;
   direction: rtl;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   overflow: hidden;
 }
 
 .productSwiper {
+  background-color: transparent;
   direction: rtl !important;
   overflow: visible !important;
 }
 
 .productSwiperSlide {
-  max-width: 160px !important;
+  width: 800px; 
   display: flex;
   justify-content: center;
   box-sizing: border-box;
@@ -28,6 +27,7 @@
 
 
 .productSwiperSlide > div:hover {
+  border-color: gray;
   box-shadow: 0 6px 15px rgba(220, 79, 97, 0.25);
 }
 

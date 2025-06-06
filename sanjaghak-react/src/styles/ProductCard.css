@@ -2,11 +2,11 @@
   width: 220px;
   background-color: #fff;
   border-radius: 20px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.85);
   padding: 16px;
   font-family: 'IRANSans', sans-serif;
   transition: transform 0.3s;
-  direction: rtl; /* for right-to-left languages like Persian */
+  direction: rtl; 
 }
 
 .cardContainer:hover {

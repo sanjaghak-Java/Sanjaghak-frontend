@@ -6,6 +6,8 @@ import "/src/styles/mainPage.css"
 import ProductCard from "./ProductCard";
 import ProductSlider from "./productSlider";
 import Footer from "./Footer";
+import New from '../assets/new.png';
+import { Form } from "react-router-dom";
 
 function mainPage(){
     return(
@@ -16,9 +18,18 @@ function mainPage(){
                 <CategoriesSwiper/>
             </div>
             <PromoBanner/>
-            <ProductSlider/>
+            <div className="sliderdiv">
+                <div className="titlepart">
+                    <p className='titleslider'>جدید ترین ها</p>
+                    <img src={New} alt="" />
+                </div>
+                <ProductSlider/>
+            </div>
             <PromoBanner/>
-            <ProductSlider/>
+            <div className="sliderdiv1">
+                <p className="titleslider1">پر فروش ترین ها</p>
+                <ProductSlider/>
+            </div>            
             <PromoBanner/>
             <Footer/>
         </div>

@@ -6,12 +6,12 @@ import "swiper/css/navigation";
 import "/src/styles/categorySwiper.css"
 
 const categories = [
-  { title: "Cooldog", image: "./src/assets/testimage.jpg" },
-   { title: "Cooldog", image: "./src/assets/testimage.jpg" },
-    { title: "Cooldog", image: "./src/assets/testimage.jpg"},
-     { title: "Cooldog", image: "./src/assets/testimage.jpg" },
-          { title: "Cooldog", image: "./src/assets/testimage.jpg"},
-               { title: "Cooldog", image: "./src/assets/testimage.jpg" }
+  { title: "گوشی موبایل", image: "./src/assets/images (2).jpg" },
+  { title: "هدفون", image: "./src/assets/hedphone.jpg" },
+  { title: "ساعت هوشمند", image: "./src/assets/watch.jpg"},
+  { title: "لپ تاپ", image: "./src/assets/lap.jpg" },
+  { title: "گوشی موبایل", image: "./src/assets/images (2).jpg" },
+  { title: "هدفون", image: "./src/assets/hedphone.jpg" },
 
 ];
 
@@ -36,7 +36,7 @@ const categories = [
               <img className="slideImg"
                 src={item.image}
               />
-              <p className="slideText">{item.title}</p>
+              <p className="slidetext">{item.title}</p>
             </div>
           </SwiperSlide>
         ))}

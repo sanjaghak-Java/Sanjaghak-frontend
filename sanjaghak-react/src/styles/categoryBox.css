@@ -1,0 +1,82 @@
+.categoryBox {
+  max-width: 1500px;
+  border-radius: 20px;
+  background-color: #fff;
+  color: #000;
+  padding: 2rem;
+  font-family: 'IRANSans', sans-serif;
+  margin: 0 auto;
+  margin-top: 200px;
+  margin-bottom: 100px;
+}
+
+.labelsContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.categoryTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  flex: 1;
+  text-align: left;
+}
+
+.labelGroup {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  order: 1;
+}
+
+.bestsellerLabel {
+  order: 1;
+}
+
+.newestLabel {
+  order: 2;
+}
+
+.filterWrapper {
+  display: flex;
+  align-items: center;
+  order: 3;
+  padding: 0.4rem 1rem;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.filterWrapper:focus-within {
+  background-color: #ff4d6d;
+}
+
+.filterImg {
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+}
+
+.filterLabel,
+.newestLabel,
+.bestsellerLabel {
+  font-size: 0.95rem;
+  padding: 0.4rem 1rem;
+  border-radius: 12px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.newestLabel:focus,
+.bestsellerLabel:focus,
+.newestLabel.active,
+.bestsellerLabel.active {
+  background-color: #ff4d6d;
+  color: white;
+  font-weight: bold;
+}

@@ -49,3 +49,34 @@
   padding: 10px 20px;
   border-radius: 10px;
 }
+
+#slideTitle1{
+  color: #1b1b1b;
+  font-style: italic;
+  font-size: 40px;
+  margin-top: -30px;
+  margin-left: -180px;
+}
+#slideTitle2{
+  color: #E8E2E2;
+  direction: ltr;
+  font-size: 44px;
+  margin-top: 260px;
+  margin-left: -500px;
+}
+
+#slideTitle3{
+  color: rgb(212, 212, 212);
+  font-size: 32px;
+    font-style: italic;
+
+  margin-top: -40px;
+  margin-left: -155px;
+}
+#slideTitle4{
+  color: rgb(0, 0, 0);
+  font-size: 45px;
+  direction: ltr;
+  margin-top: 240px;
+  margin-left: 200px;
+}

@@ -8,8 +8,32 @@ function ProductDetail({ onAddToCart }) {
                 <div className="icons-container">
                     <Link><img src="./src/assets/icons8-like-50.png" alt="like" className="like" /></Link>
                 </div>
+                <div className="pay">
+                    <div className="price">
+                        <div className="discount">  
+                            <div className="discount-percent">
+                                <label className="discount-percent-num">15%</label>
+                            </div>
+                            <label className="base-price">100.000.000</label>
+                        </div>
+                        <div className="final-price">         
+                            <img src="./src/assets/toman.png" alt="تومان" className="toman" />
+                            <label className="final-price-num">80.000.000</label>
 
+                        </div>
+                    </div>
+
+                    <div className="buy-box">
+                        <button className="buy-button" onClick={onAddToCart}>
+                            افزودن به سبد خرید
+                        </button>
+                    </div>
+                </div>
                 <div className="information">
+                    <div className="brand">
+                        <img src="/src/assets/instagram.png" alt="brand" className="brand-img"/>
+                        <label className="brand-name">iphone</label>
+                    </div>
                     <h2>galaxy A53</h2>
                     <p className="product-information-title">رنگبندی :</p>
                     <div className="product-color">
@@ -23,6 +47,13 @@ function ProductDetail({ onAddToCart }) {
                     <div className="features">
                         <label className="features-title">حافظه</label>
                         <label className="features-inf">256GB</label>
+                    </div>
+
+                    <hr className="hr" />
+                    
+                    <div className="warranty">
+                        <img src="./src/assets/tools-wench-ruler.png" alt="warranty" className="warranty-img" />
+                        <label className="warranty-name">گارانتی 12 ماهه گلدیران</label>
                     </div>
                 </div>
 
@@ -40,6 +71,7 @@ function ProductDetail({ onAddToCart }) {
                         ))}
                     </div>
                 </div>
+
             </div>
         </div>
     );

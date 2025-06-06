@@ -10,10 +10,10 @@ import "/src/styles/productSlider.css"
 
 function ProductSlider(){
     const products = [
-  { name: "Cooldog1", image: "./src/assets/testimage.jpg" ,model:"coolest",salepercent:"50",salePrice:"160000",price:"100000"},
-    { name: "Cooldog2", image: "./src/assets/testimage.jpg" ,model:"coolest",salepercent:"50",salePrice:"160000",price:"100000"},
-  { name: "Cooldog3", image: "./src/assets/testimage.jpg" ,model:"coolest",salepercent:"50",salePrice:"160000",price:"100000"},
-  { name: "Cooldog4", image: "./src/assets/testimage.jpg" ,model:"coolest",salepercent:"50",salePrice:"160000",price:"100000"},
+  { name: "گوشی موبایل اپل مدل iPhone 16 CH", image: "./src/assets/images (1).jpg" ,model:"iPhone 16",salepercent:"20%",salePrice:"160000",price:"100000"},
+    { name: "هدفون بی سیم بیتس Studio 3", image: "./src/assets/hedphone.jpg" ,model:"coolest",salepercent:"20%",salePrice:"160000",price:"100000"},
+  { name: "موس گیمینگ بیسیم iMICE GW-X7", image: "./src/assets/mouse.jpg" ,model:"coolest",salepercent:"20%",salePrice:"160000",price:"100000"},
+  { name: "کیبورد گیمینگ هیسکا", image: "./src/assets/keyboard.jpg" ,model:"HX-KEG400 RGB",salepercent:"20%",salePrice:"160000",price:"100000"},
   { name: "Cooldog5", image: "./src/assets/testimage.jpg" ,model:"coolest",salepercent:"50",salePrice:"160000",price:"100000"},
     { name: "Cooldog6", image: "./src/assets/testimage.jpg" ,model:"coolest",salepercent:"50",salePrice:"160000",price:"100000"},
   { name: "Cooldog7", image: "./src/assets/testimage.jpg" ,model:"coolest",salepercent:"50",salePrice:"160000",price:"100000"},

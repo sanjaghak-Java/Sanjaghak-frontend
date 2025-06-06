@@ -1,16 +1,20 @@
 .cardContainer {
-  width: 220px;
+  width: 230px;
+  height: 340px;
   background-color: #fff;
-  border-radius: 20px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.85);
-  padding: 16px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  box-shadow: 0 4px 0px 0px rgba(129, 127, 127, 0.8);
+  padding: 0 16px 16px 16px;
   font-family: 'IRANSans', sans-serif;
   transition: transform 0.3s;
   direction: rtl; 
+  
 }
 
 .cardContainer:hover {
-  transform: translateY(-5px);
+  transform: translateY(-3px);
+  cursor: pointer;
 }
 
 .productImage {
@@ -34,15 +38,23 @@
   text-align: center;
 }
 
+.productinfo{
+  padding: 5px 0;
+  height: 20%;
+  margin-bottom: 15px;
+}
+
 .priceSection {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-top: 16px;
+  margin-top: 10px;
+  margin-right: 5px;
+  bottom: 0;
 }
 
 .priceDetails {
+  margin-top: 5px;
   text-align: left;
+  flex: 1;
+  bottom: 0;
 }
 
 .productSalePrice {
@@ -59,10 +71,16 @@
 }
 
 .salePercent {
-  background-color: #f55d5d;
+  top: 0;
+  margin-right: 150px;
+  height: 38px;
+  width: 32px;
+  background-color: #F87171;
   color: white;
-  padding: 4px 12px;
+  text-align: center;
+  padding-top: 8px;
   font-size: 13px;
-  border-radius: 9999px;
   white-space: nowrap;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
 }

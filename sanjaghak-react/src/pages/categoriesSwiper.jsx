@@ -12,6 +12,9 @@ const categories = [
   { title: "لپ تاپ", image: "./src/assets/lap.jpg" },
   { title: "گوشی موبایل", image: "./src/assets/images (2).jpg" },
   { title: "هدفون", image: "./src/assets/hedphone.jpg" },
+    { title: "هدفون", image: "./src/assets/hedphone.jpg" },
+      { title: "هدفون", image: "./src/assets/hedphone.jpg" }
+
 
 ];
 
@@ -20,23 +23,23 @@ const categories = [
     <>
     <p className="categorie-title">دسته بندی محصولات</p>
 
-    <div className="swiperContainer">
-      <Swiper className="Swiper"
+    <div className="categorySwiperContainer">
+      <Swiper className="categorySwiper"
         dir="rtl"
      navigation
        loop={true} 
      spaceBetween={38}
-     slidesPerView={5}
+     slidesPerView={6}
     modules={[Navigation]}
-    initialSlide={0}
+
       >
         {categories.map((item, index) => (
-          <SwiperSlide className="SwiperSlide" key={index} >
+          <SwiperSlide className="categorySwiperSlide" key={index} >
             <div >
-              <img className="slideImg"
+              <img className="categorySlideImg"
                 src={item.image}
               />
-              <p className="slidetext">{item.title}</p>
+              <p className="categorySlidetext">{item.title}</p>
             </div>
           </SwiperSlide>
         ))}

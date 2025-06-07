@@ -13,9 +13,23 @@ function PromoBanner(){
     );
     return(
         <div className="PromoContainer">
-            <h1 className="promoTitle">promo title</h1>
-            <h4 className="PromoDescription">promo description</h4>
-            <button className="seeAllBtn" onClick={changeToCategory}>see all</button>
+            <div className="promodiv">
+                <div className='promotexts'>
+                    <h1 className="promoTitle">عنوان</h1>
+                    <h4 className="PromoDescription">دسته بندی محصول</h4>
+                    <button className="seeAllBtn" onClick={changeToCategory}>مشاهده &gt;</button>
+                </div>
+                <img src="./src/assets/laptop background.png" alt="" className="computerimg"/>
+            </div>
+
+            <div className="promodiv">
+                <div className='promotexts'>
+                    <h1 className="promoTitle">عنوان</h1>
+                    <h4 className="PromoDescription">دسته بندی محصول</h4>
+                    <button className="seeAllBtn" onClick={changeToCategory}>مشاهده &gt;</button>
+                </div>
+                <img src="./src/assets/laptop background.png" alt="" className="computerimg"/>
+            </div>
 
         </div>
     )

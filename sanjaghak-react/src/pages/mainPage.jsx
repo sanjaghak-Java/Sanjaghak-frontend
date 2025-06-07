@@ -8,6 +8,7 @@ import ProductSlider from "./productSlider";
 import Footer from "./Footer";
 import New from '../assets/new.png';
 import { Form } from "react-router-dom";
+import best from '../assets/best-seller.png'
 
 function mainPage(){
     return(
@@ -17,17 +18,19 @@ function mainPage(){
             <div>
                 <CategoriesSwiper/>
             </div>
+            <div className="sliderdiv">
+                <div className="titlepart">
+                    <p className="titleslider">جدید ترین ها</p>
+                    <img src={New} alt="" className="rotatedimg"/>
+                </div>
+                <ProductSlider/>
+            </div>            
             <PromoBanner/>
             <div className="sliderdiv">
                 <div className="titlepart">
-                    <p className='titleslider'>جدید ترین ها</p>
-                    <img src={New} alt="" />
+                    <p className="titleslider">پر فروش ترین ها</p>
+                    <img src={best} alt="" className="rotatedimg"/>
                 </div>
-                <ProductSlider/>
-            </div>
-            <PromoBanner/>
-            <div className="sliderdiv1">
-                <p className="titleslider1">پر فروش ترین ها</p>
                 <ProductSlider/>
             </div>            
             <PromoBanner/>

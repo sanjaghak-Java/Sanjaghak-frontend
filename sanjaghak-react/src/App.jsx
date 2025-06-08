@@ -9,6 +9,7 @@ import './App.css';
 import Product from './pages/Product.jsx';
 import MainPage from './pages/mainPage.jsx';
 import CategoryPage from './pages/productCategoryPage.jsx';
+import CartPage from './pages/CartPage';
 
 
 
@@ -32,6 +33,7 @@ function App() {
          <Route path="/confirmCode" element={<ConfirmCode/>} />
          <Route path="/Product" element={<Product/>} />
          <Route path='/productCategory' element={<CategoryPage/>}/>
+        <Route path="/mycart" element={<CartPage />} />
          
 
       </Routes>

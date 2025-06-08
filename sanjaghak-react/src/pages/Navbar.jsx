@@ -11,6 +11,9 @@ function Navbar() {
     const goToproduct=()=> {
         navigate("/Product")
     }
+    const goTomycart=()=> {
+        navigate("/mycart")
+    };
 
   return (
     <div className='navContainer'>
@@ -27,7 +30,9 @@ function Navbar() {
 
             <div className='userActions'>
                 <button className='loginBtn'  onClick={goToSignIn}>ثبت نام<span className='space'>|</span>ورود</button>
-                <img src="./src/assets/icons8-cart-64.png" alt="cart" className='cartIcon' />
+                <button className='cartbutton' onClick={goTomycart}>
+                    <img src="./src/assets/icons8-cart-64.png" alt="cart" className='cartIcon' />
+                </button>
             </div>
         </div>
 

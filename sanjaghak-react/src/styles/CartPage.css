@@ -1,0 +1,218 @@
+.cartpagecontainer{
+  direction: rtl;
+  display: flex;
+  right: 0;
+  left: 0;
+  padding: 50px;
+  margin-top: 100px;
+  gap: 50px;
+
+}
+
+.itemcontainor{
+    padding: 20px;
+    width: 80%;
+}
+
+.title{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.titleimg{
+  width: 30px;
+  height: 30px;
+}
+.titleh{
+  color: #3E4344;
+}
+
+.items{
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.pricediv{
+    margin-top: 120px;
+}
+
+.pricecontainor {
+  border: 1px solid #ccc;
+  width: 230px;
+  padding: 20px 0 0 0;
+  border-radius: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  background-color: #fff;
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.Totalprice{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 18px;
+}
+
+.pricetext{
+  text-align: right;
+  width: 100%;
+}
+
+.pricenum{
+  width: 100%;
+}
+
+.buybutton {
+  height: 50px;
+  width: 100%; 
+  background-color: #DC2655;
+  border-radius: 0 0 20px 20px;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  bottom: 0;
+}
+
+.tomanimg{
+    width: 18px;
+    height: 18px;
+}
+
+.pricenumber{
+  font-size: 30px;
+  font-weight: bold;
+  display: inline-block; 
+  text-shadow: 3px 3px 3px rgba(0,0,0,0.4);
+}
+
+.cartitemlink {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  width: 92%;
+  gap: 20px;
+}
+
+
+.cartitem {
+    background-color: white;
+  width: 80%;
+  border: 1px solid #D1D4D4;
+  border-radius: 20px;
+  display: flex;
+  gap: 20px;
+  padding: 20px 25px 25px 0;
+}
+
+.itemsimg {
+  width: auto;
+  height: 250px;
+}
+
+.itemsinfo{
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.itemsname{
+    font-size: 20px;
+}
+
+.warrantycontainor{
+    display: flex;
+    gap: 30px;
+}
+.warrantydiv{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.warrantylabel{
+    color: #3E4344;
+}
+
+.warrantyimg{
+    width: 23px;
+    height: 23px;
+}
+
+.itemsproductcolor{
+    width: 80px;
+    height: 32px;
+    background-color: #F0F0F0;
+    border-radius: 25px;
+    display: flex;
+    align-items: center; 
+    padding: 2px 10px;
+    gap: 10px;
+}
+
+.itemsproductcolorshow{
+    border-radius: 100%;
+    background-color: white;
+    width: 20px;
+    height: 20px;   
+}
+
+.number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  width: 100px;
+  border-radius: 8px;
+  padding: 4px;
+  background-color: #F0F0F0;
+}
+
+.numberbtn {
+  width: 26px;
+  height: 25px;
+  font-size: 18px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.numbercount {
+  margin: 0 10px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.pricepart{
+    display: flex;
+    align-items: center;
+    gap: 50px;
+}
+
+.pricelab{
+  color: rgb(155, 63, 63);
+}
+
+
+.binbutton{
+    display: flex;
+    align-items: center;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.binimg{
+    width: 25px;
+    height: 25px;
+}

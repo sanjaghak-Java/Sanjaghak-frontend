@@ -226,3 +226,10 @@
 .lowerNav .navItem:hover .icon {
   filter: brightness(0) saturate(100%) invert(29%) sepia(80%) saturate(4383%) hue-rotate(329deg) brightness(95%) contrast(91%);
 }
+
+.cartbutton{
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}

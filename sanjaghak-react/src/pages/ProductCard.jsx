@@ -29,7 +29,7 @@ function ProductCard(props) {
                     </div>
                     <hr />
                     <div className="priceSection">
-                        <p>قیمت:</p>
+                        <p className="price-title">قیمت:</p>
                         <div className="priceDetails">
                             <h5 className="productSalePrice">{props.salePrice} تومان</h5>
                             <h2 className="ProductPrice">{props.price} تومان</h2>

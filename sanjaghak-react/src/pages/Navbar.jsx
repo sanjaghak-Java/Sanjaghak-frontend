@@ -57,19 +57,19 @@ function Navbar() {
                 </div>
 
                 <div className='navItem'>
-                    <Link className='item'>
+                    <Link to="/#newest" className='item'>
                         <div className='itemContent'>
-                            <img src="./src/assets/cup-2.png" alt="" className='icon' />
-                            <span className='itemText'>پرفروش‌ترین‌ها</span>
+                            <img src="./src/assets/icons8-new-32.png" alt="" className='icon' />
+                            <span className='itemText'>جدید ترین</span>
                         </div>
                     </Link>
                 </div>
 
                 <div className='navItem'>
-                    <Link className='item'>
+                    <Link to="/#bestseller" className='item'>
                         <div className='itemContent'>
-                            <img src="./src/assets/icons8-new-32.png" alt="" className='icon' />
-                            <span className='itemText'>جدید ترین</span>
+                            <img src="./src/assets/cup-2.png" alt="" className='icon' />
+                            <span className='itemText'>پرفروش ترین‌ها</span>
                         </div>
                     </Link>
                 </div>

@@ -1,38 +1,25 @@
+import { useNavigate } from "react-router-dom";
+import "/src/styles/promoBanner.css";
 
-import { Navigate } from "react-router-dom";
-import "/src/styles/promoBanner.css"
-import { Link, useNavigate } from 'react-router-dom';
+function PromoBanner({ title, description, imageUrl, categoryLink }) {
+  const navigate = useNavigate();
 
+  const changeToCategory = () => {
+    navigate(categoryLink);
+  };
 
-function PromoBanner(){
-    const navigate= useNavigate();
-    const changeToCategory=()=>(
-        navigate("/productCategory")
-        
-
-    );
-    return(
-        <div className="PromoContainer">
-            <div className="promodiv">
-                <div className='promotexts'>
-                    <h1 className="promoTitle">عنوان</h1>
-                    <h4 className="PromoDescription">دسته بندی محصول</h4>
-                    <button className="seeAllBtn" onClick={changeToCategory}>مشاهده &gt;</button>
-                </div>
-                <img src="./src/assets/laptop background.png" alt="" className="computerimg"/>
-            </div>
-
-            <div className="promodiv">
-                <div className='promotexts'>
-                    <h1 className="promoTitle">عنوان</h1>
-                    <h4 className="PromoDescription">دسته بندی محصول</h4>
-                    <button className="seeAllBtn" onClick={changeToCategory}>مشاهده &gt;</button>
-                </div>
-                <img src="./src/assets/laptop background.png" alt="" className="computerimg"/>
-            </div>
-
-        </div>
-    )
-
+  return (
+    <div className="PromoContainer">
+      <div className="promotexts">
+        <h1 className="promoTitle">{title}</h1>
+        <h4 className="PromoDescription">{description}</h4>
+        <button className="seeAllBtn" onClick={changeToCategory}>
+          مشاهده &gt;
+        </button>
+      </div>
+      <img src={imageUrl} alt={title} className="phoneimg" />
+    </div>
+  );
 }
-export default PromoBanner
+
+export default PromoBanner;

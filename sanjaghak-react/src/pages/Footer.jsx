@@ -8,6 +8,7 @@ import box from '../assets/box.png';
 import checkmark from '../assets/checkmark.png';
 import logo from '../assets/sanjaghak-logo.png';
 
+
 const Footer = () => {
   return (
     <footer className='footer'>
@@ -42,7 +43,7 @@ const Footer = () => {
         <div className="Services">
           <p>درباره ما</p>
           <br />
-          <Link to="/target-path" className="link-footer">معرفی فروشگاه</Link>
+          <Link to="/Aboutus" className="link-footer">معرفی فروشگاه</Link>
           <br /><br />
           <Link to="/target-path" className="link-footer">تماس با ما</Link>
         </div>

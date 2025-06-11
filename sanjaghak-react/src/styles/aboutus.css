@@ -1,0 +1,58 @@
+@font-face {
+    font-family: 'Vazirmatn';
+    src: url('./src/fonts/Vazirmatn.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.aboutus-head {}
+
+.aboutus-head-img {
+    width: 100%;
+    height: 750px;
+    object-fit: cover;
+}
+
+.aboutus-head-p {
+    color: rgba(255, 255, 255, 0.91);
+    text-shadow: 2px 2px 7px #ffffffe8;
+    font-size: 60px;
+    margin-top: -160px;
+    text-align: center;
+}
+
+.aboutus-body-logo {
+    width: 200px;
+    margin: 150px auto 0 auto;
+    display: block;
+}
+
+.aboutus-body-p {
+    color: #2d3748;
+    font-family: 'Vazirmatn', sans-serif;
+    direction: rtl;
+    font-size: 20px;
+    line-height: 1.6;
+    padding: 0 60px;
+}
+
+#aboutus-span {
+    text-decoration: none;
+    cursor: pointer;
+    color: #dc2655;
+}
+
+.aboutus-under-body-img {
+    width: 800px;
+    margin: 80px auto 0 auto;
+    display: block;
+}
+
+.aboutus-under-body-p {
+    text-align: center;
+    font-family: 'Vazirmatn', sans-serif;
+    font-weight: bold;
+    font-size: 30px;
+    margin-top: -350px;
+    margin-bottom: 300px;
+}

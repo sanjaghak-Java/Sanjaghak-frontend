@@ -14,6 +14,8 @@ function MainPage() {
   const location = useLocation();
 
   useEffect(() => {
+     document.title = "سنجاقک";
+    //  document.querySelector("/src/assets/dragonfly (2).png");
     const hash = location.hash;
     if (hash === "#bestseller" || hash === "#newest") {
       const element = document.getElementById(hash.substring(1));

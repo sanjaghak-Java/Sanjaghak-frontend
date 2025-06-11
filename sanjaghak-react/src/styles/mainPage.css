@@ -32,6 +32,7 @@ overflow-y: auto;
   border: 1px solid #c97575;
   border-radius: 12px;
   margin: 0 60px;
+  scroll-margin-top: 150px;
 }
 
 .titlepart{
@@ -63,4 +64,12 @@ overflow-y: auto;
 .titleslider1{
   color: white;
   font-size: 28px;
+}
+
+.promobannerdiv{
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  margin: 0 38px;
 }

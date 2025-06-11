@@ -4,7 +4,7 @@
   background-color: #fff;
   color: #000;
   padding: 2rem;
-  font-family: 'IRANSans', sans-serif;
+  padding-top: 0px;
   margin: 0 auto;
   margin-top: 200px;
   margin-bottom: 100px;
@@ -15,11 +15,11 @@
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  margin-bottom: 2rem;
+  margin-bottom: 14px;
 }
 
 .categoryTitle {
-  font-size: 1.5rem;
+  font-size: 25px;
   font-weight: bold;
   color: #333;
   flex: 1;
@@ -50,17 +50,27 @@
   transition: all 0.3s ease;
 }
 
-.filterWrapper:focus-within {
-  background-color: #ff4d6d;
+.filterWrapper:hover {
+  background-color: #cccccc;
 }
 
 .filterImg {
   width: 20px;
   height: 20px;
+  margin-bottom: 4px;
   vertical-align: middle;
 }
 
-.filterLabel,
+.filterLabel {
+  margin-right: 10px;
+  font-size: 18px;
+  border-radius: 12px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
 .newestLabel,
 .bestsellerLabel {
   font-size: 0.95rem;

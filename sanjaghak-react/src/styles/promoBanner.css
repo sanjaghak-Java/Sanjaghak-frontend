@@ -1,15 +1,16 @@
 .PromoContainer {
   position: relative;
-  padding: 10px 60px;
   direction: rtl;
   overflow: hidden;
-  display: flex;
-  /* flex-direction: column;
-  justify-content: center; */
   height: 250px;
-  max-width: 100%;
-  margin: 20px auto;
-  gap: 25px;
+  width: 60%;
+  margin: 20px ;
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  background-color: #919494;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
 }
 
 .promoTitle {
@@ -42,18 +43,6 @@
   text-shadow: 1px 1px 5px rgba(79, 26, 26, 0.3);
 }
 
-
-.promodiv{
-  display: flex;
-  align-items: center;
-  height: 100%;
-  width: 50%;
-  padding: 20px;
-  background-color: #919494;
-  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
-  border-radius: 20px;
-}
-
 .promotexts{
   width: 100%;
   display: flex;
@@ -66,3 +55,8 @@
   height: auto;
 }
 
+.phoneimg{
+  width: 220px;
+  height: auto;
+  margin-left: 20px;
+}

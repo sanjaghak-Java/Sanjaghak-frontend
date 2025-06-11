@@ -1,0 +1,181 @@
+.addProductContainer {
+    margin-top: 0px;
+  max-width: 900px;
+  margin: auto;
+  margin-right: auto;
+  padding: 32px;
+  background-color: #fff;
+  border: 1px solid #f1cdd0;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(184, 64, 80, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  direction: rtl;
+}
+
+.inputGroup {
+  display: flex;
+  gap: 24px;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+
+.inputGroup .inputWrapper {
+  flex: 1;
+  min-width: 0;
+}
+
+.inputWrapper {
+  position: relative;
+  flex: 1;
+  min-width: 200px;
+}
+
+.inputWrapper input,
+.inputWrapper textarea,
+.inputWrapper select {
+  width: 100%;
+  padding: 16px 12px 8px;
+  border: 1px solid #e1aab4;
+  border-radius: 8px;
+  outline: none;
+  font-size: 14px;
+  background: none;
+  transition: border-color 0.2s ease;
+}
+
+.inputWrapper textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.inputWrapper input:focus,
+.inputWrapper textarea:focus,
+.inputWrapper select:focus {
+  border-color: #b84050;
+}
+
+.adminFloatingLabel {
+  position: absolute;
+  top: 14px;
+  right: 12px;
+  font-size: 14px;
+  color: #999;
+  background-color: white;
+  padding: 0 4px;
+  transition: all 0.2s ease;
+  pointer-events: none;
+}
+
+.inputWrapper input:focus + .adminFloatingLabel,
+.inputWrapper input:not(:placeholder-shown) + .adminFloatingLabel,
+.inputWrapper textarea:focus + .adminFloatingLabel,
+.inputWrapper textarea:not(:placeholder-shown) + .adminFloatingLabel,
+.inputWrapper select:focus + .adminFloatingLabel,
+.inputWrapper select:not(:placeholder-shown) + .adminFloatingLabel {
+  top: -10px;
+  right: 10px;
+  font-size: 12px;
+  color: #b84050;
+}
+
+.submitButton {
+  padding: 12px 24px;
+  background-color: #b84050;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  align-self: flex-end;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submitButton:hover {
+  background-color: #9e2f3f;
+}
+
+.addAttributeBtn {
+  display: block;
+  margin: 15px auto 0 auto;
+  padding: 6px 12px;
+  width: 120px;
+  background-color: #e75454;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 3px 6px rgba(231, 84, 84, 0.3);
+}
+
+.addAttributeBtn:hover {
+  background-color: #d54343;
+}
+
+.attributesTitle {
+  text-align: center;
+  color: #e75454;
+  font-weight: 700;
+  font-size: 22px;
+  margin: 20px 0 10px 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-shadow: 1px 1px 2px rgba(231, 84, 84, 0.5);
+}
+.pageTitle{
+    margin-bottom: 10px;
+      text-align: center;
+  color: #e75454;
+  font-weight: 700;
+  font-size: 22px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-shadow: 1px 1px 2px rgba(231, 84, 84, 0.5);
+}
+.imageInput {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #e1aab4;
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: #fff;
+  transition: border-color 0.2s ease;
+  cursor: pointer;
+  color: #555;
+  direction: rtl;
+}
+
+.imageInput:focus {
+  outline: none;
+  border-color: #b84050;
+}
+
+.imageInput::file-selector-button {
+  background-color: #e75454;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-right: auto;
+  margin-left: 8px;
+  direction: ltr;
+}
+
+.imageInput::before {
+  content: "تصویر دسته را انتخاب کنید";
+  margin-right: 12px;
+  color: #888;
+  font-style: italic;
+  white-space: nowrap;
+}
+
+.imageInput::-webkit-file-upload-button {
+  visibility: hidden;
+}
+

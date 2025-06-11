@@ -1,71 +1,77 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import warranty from '../assets/tools-wench-ruler.png';
 import box from '../assets/box.png';
 import bin from '../assets/bin.png';
-// import './CartPage.css'; 
+import store from '../assets/store.png';
+import "../styles/CartPage.css";
 
-
-function CartItem({ item }) {
-  const [count, setCount] = useState(1);
-
+function CartItem({ item, onQuantityChange }) {
   const increase = (e) => {
-    e.preventDefault(); 
-    setCount(prev => prev + 1);
+    e.preventDefault();
+    onQuantityChange(item.id, item.quantity + 1);
   };
 
   const decrease = (e) => {
-    e.preventDefault(); 
-    setCount(prev => (prev > 1 ? prev - 1 : 1));
+    e.preventDefault();
+    if (item.quantity > 1) {
+      onQuantityChange(item.id, item.quantity - 1);
+    }
   };
 
   return (
     <div className='cartitem'>
-      <Link  className='cartitemlink'>
-        <img src="./src/assets/images.jpg" alt="" className="itemsimg" />
-        <div className='itemsinfo'>
-          <label className="itemsname">{item.productname}</label>
+      <button className="binbutton">
+        <img src={bin} alt="حذف" className='binimg' />
+      </button>
+      <Link to="/Product" className="cartitemlink">
+        <div style={{ display: 'flex' }}>
+          <img src={item.image} alt={item.productname} className="itemsimg" />
+          <div className='itemsinfo'>
+            <label className="itemsname">{item.productname}</label>
 
-          <div className="warrantycontainor">
+            <div className="itemsproductcolor">
+              <label
+                className="itemsproductcolorshow"
+                style={{ backgroundColor: item.color }}
+              ></label>
+              <label className="itemsproductcolorname">{item.color}</label>
+            </div>
+
             <div className="warrantydiv">
-              <img src={warranty} alt="" className="warrantyimg"/>
-              <span className="warrantylabel">گارانتی</span>
-              <label className="warrantylabel">{item.warranty}</label>
+              <img src={store} alt="فروشگاه" className="warrantyimg" />
+              <label className="warrantylabel">سنجاقک</label>
             </div>
-            <div className="warrantydiv">
-              <img src={box} alt="" className="warrantyimg"/>
-              <label className="warrantylabel">{item.inventory}</label>
+
+            <div className="warrantycontainor">
+              <div className="warrantydiv">
+                <img src={warranty} alt="گارانتی" className="warrantyimg" />
+                <label className="warrantylabel">{item.warranty}</label>
+              </div>
+              <div className="warrantydiv">
+                <img src={box} alt="انبار" className="warrantyimg" />
+                <label className="warrantylabel">{item.inventory}</label>
+              </div>
+            </div>
+            <hr className="itemshr"/>
+            <div className="pricenum">
+              <div className='number'>
+                <button className="numberbtn" onClick={increase}>+</button>
+                <span className="numbercount">{item.quantity}</span>
+                <button className="numberbtn" onClick={decrease}>−</button>
+              </div>
+              <div className="pricepart">
+                <div style={{ display: 'flex', gap: '5px' }}>
+                  <label className="pricelab">تومان</label>
+                  <label className="pricelab">{(item.price * item.quantity).toLocaleString()}</label>
+                </div>
+              </div>
             </div>
           </div>
-
-          <div className="itemsproductcolor">
-            <label className="itemsproductcolorshow" style={{ backgroundColor: item.color}}></label>
-            <label className="itemsproductcolorname">{item.color}</label>
-          </div>
-
-          <div className='number'>
-            <button className="numberbtn" onClick={increase}>+</button>
-            <span className="numbercount">{count}</span>
-            <button className="numberbtn" onClick={decrease}>−</button>
-          </div>
-
-          <div className="pricepart">
-            <p>قیمت محصول:</p>
-            <div style={{display : 'flex' , gap:'5px'}}>
-              <label className="pricelab">{(item.price * count).toLocaleString()}</label>
-              <label className="pricelab">تومان</label>
-            </div>
-          </div>
-
         </div>
-      </Link>
+    </Link>
+  </div>
 
-      <div className='bindiv'>
-        <button className="binbutton">
-          <img src={bin} alt="" className='binimg'/>
-        </button>
-      </div>
-    </div>
   );
 }
 

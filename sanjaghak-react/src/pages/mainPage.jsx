@@ -1,7 +1,7 @@
 import Navbar from "./Navbar";
 import CategoriesSwiper from "./categoriesSwiper";
 import ImagePreview from "./imagePreview";
-import PromoBanner from "./promoBanner";
+import PromoBanner from "./PromoBanner";
 import "/src/styles/mainPage.css";
 import ProductSlider from "./productSlider";
 import Footer from "./Footer";
@@ -28,25 +28,25 @@ function MainPage() {
       title: "لپ‌تاپ‌های جدید",
       description: "پیشتاز تکنولوژی",
       imageUrl: "./src/assets/laptop background.png",
-      categoryLink: "/productCategory/laptop"
+      categoryLink: "/productCategory"
     },
     {
       title: "هدفون‌های باکیفیت",
       description: "صدایی که تو رو می‌بره!",
       imageUrl: './src/assets/smartwatch.png',
-      categoryLink: "/productCategory/headphone"
+      categoryLink: "/productCategory"
     },
     {
       title: "ساعت‌های هوشمند",
       description: "زندگی مدرن با ساعت دیجیتال",
       imageUrl: './src/assets/smartwatch.png',
-      categoryLink: "/productCategory/watch"
+      categoryLink: "/productCategory"
     },
     {
       title: "موبایل‌های جدید",
       description: "دنیا در دستان توست",
       imageUrl: "./src/assets/smartphone.png",
-      categoryLink: "/productCategory/mobile"
+      categoryLink: "/productCategory"
     }
   ];
 

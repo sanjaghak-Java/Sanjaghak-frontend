@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import CartItem from './CartItem';
+import CartPrice from './CartPrice';
 import "../styles/CartPage.css";
 import Cart from '../assets/shop.png';
 
@@ -11,78 +12,68 @@ function CartPage() {
   useEffect(() => {
     const sampleItems = [
       {
-        productname: 'کالای اول',
-        warranty: 'دارد',
+        id: 1,
+        productname: 'گوشی موبایل سامسونگ',
+        warranty: 'گارانتی 12 ماهه',
         inventory: 'موجود در انبار',
         color: 'قرمز',
         price: 40000000,
-        image: './src/assets/product1.png',
+        quantity: 1,
+        image: './src/assets/images (1).jpg',
       },
-
+      {
+        id: 2,
+        productname: 'گوشی موبایل سامسونگ',
+        warranty: 'گارانتی 12 ماهه',
+        inventory: 'موجود در انبار',
+        color: 'سفید',
+        price: 25000000,
+        quantity: 1,
+        image: './src/assets/images (2).jpg',
+      }
     ];
 
     setItems(sampleItems);
   }, []);
 
+  const handleQuantityChange = (id, newQuantity) => {
+    setItems(prevItems =>
+      prevItems.map(item =>
+        item.id === id ? { ...item, quantity: newQuantity } : item
+      )
+    );
+  };
+
+  const shippingCost = 400000;
   const totalPrice = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
     <>
-        <Navbar />
-        <div className="cartpagecontainer">
-            <div className="itemcontainor">
-                <div className="title">
-                    <img src={Cart} alt="" className='titleimg' />
-                    <h3 className="titleh">سبد خرید</h3>
-                </div>
-                <br />
-                <hr />
-                <div className='items'>
-                    {items.map(item => (
-                    <CartItem key={item.id} item={item} />
-                    ))}
-                </div>
-                </div>
-
-                <div className="pricediv">
-                    <div className="pricecontainor">
-                      <div className="Totalprice">
-                        <div className='pricetext'>
-                          <p>قیمت کل:</p>
-                        </div>
-                        <div className='pricenum'>
-                          
-                            <label>2000000</label>
-                          
-                            <img src="./src/assets/toman.png" alt="تومان" className="tomanimg" />
-                        </div>
-                      </div>
-                      <div className="Totalprice">
-                        <div className='pricetext'>
-                          <p>هزینه ارسال:</p>
-                        </div>
-                        <div className="pricenum">
-                            <label>400000</label>
-                            <img src="./src/assets/toman.png" alt="تومان" className="tomanimg" />
-                        </div>                        
-                      </div>
-                      <hr style={{ margin : '5px 15px'}}/>
-                      <div className="Totalprice">
-                        <div className='pricetext'>
-                          <p>قابل پرداخت</p>
-                        </div>
-                        <div className="pricenum">
-                            <label>400000</label>
-                            <img src="./src/assets/toman.png" alt="تومان" className="tomanimg" />
-                        </div>                        
-                      </div>
-
-
-                        <button className="buybutton">تایید و ادامه خرید</button>
-                    </div>
-                </div>
+      <Navbar />
+      <div className="cartpagecontainer">
+        <div className="itemcontainor">
+          <div className="title">
+            <img src={Cart} alt="cart" className='titleimg' />
+            <h3 className="titleh">سبد خرید من</h3>
+          </div>
+          <div className='items'>
+            {items.map(item => (
+              <CartItem
+                key={item.id}
+                item={item}
+                onQuantityChange={handleQuantityChange}
+              />
+            ))}
+          </div>
         </div>
-        <Footer/>
+
+        <div className="pricediv">
+            <h3 className="title">صورت حساب</h3>
+          <CartPrice totalPrice={totalPrice} shippingCost={shippingCost} />
+        </div>
+      </div>
+
+      <Footer />
     </>
   );
 }

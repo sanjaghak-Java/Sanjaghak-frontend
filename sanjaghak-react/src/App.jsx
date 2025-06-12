@@ -12,33 +12,35 @@ import CategoryPage from './pages/productCategoryPage.jsx';
 import AdminPage from './pages/adminPage.jsx';
 import CartPage from './pages/CartPage';
 import Aboutus from './pages/Aboutus.jsx';
+import Contactus from './pages/Contactus.jsx';
 
 
 
 function App() {
   const location = useLocation();
 
-  const hideNavbarPaths = ['/signin', '/signup','/signinmobile','/confirmCode'];
+  const hideNavbarPaths = ['/signin', '/signup', '/signinmobile', '/confirmCode'];
 
   const shouldHideNavbar = hideNavbarPaths.includes(location.pathname);
 
   return (
     <div className="appContainer">
       {shouldHideNavbar && <ParticlesBackground />}
-      
+
 
       <Routes>
-        <Route path="/" element={<MainPage/>} />
+        <Route path="/" element={<MainPage />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
-       <Route path="/signinmobile" element={<SignInMobile/>} />
-         <Route path="/confirmCode" element={<ConfirmCode/>} />
-         <Route path="/Product" element={<Product/>} />
-         <Route path='/productCategory' element={<CategoryPage/>}/>
-         <Route path='/Admin' element= {<AdminPage/>}/>
+        <Route path="/signinmobile" element={<SignInMobile />} />
+        <Route path="/confirmCode" element={<ConfirmCode />} />
+        <Route path="/Product" element={<Product />} />
+        <Route path='/productCategory' element={<CategoryPage />} />
+        <Route path='/Admin' element={<AdminPage />} />
         <Route path="/mycart" element={<CartPage />} />
         <Route path="/Aboutus" element={<Aboutus />} />
-         
+        <Route path="/Contactus" element={<Contactus />} />
+
 
       </Routes>
     </div>

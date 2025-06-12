@@ -1,0 +1,117 @@
+@font-face {
+    font-family: 'Vazirmatn';
+    src: url('./src/fonts/Vazirmatn.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.contactus-head {}
+
+.contactus-head-logo {
+    margin: -50px 540px 0 auto;
+    display: block;
+}
+
+.contactus-head-img {
+    width: 100%;
+    height: 750px;
+    object-fit: cover;
+}
+
+.contactus-head-p {
+    color: rgba(255, 255, 255, 0.91);
+    text-shadow: 2px 2px 7px #ffffffe8;
+    font-size: 60px;
+    margin-top: -420px;
+    text-align: center;
+}
+
+.contactus-upbody {
+    direction: rtl;
+    margin-top: 200px;
+    margin-right: 100px;
+    gap: 10px;
+    align-items: center;
+    display: flex;
+}
+
+.contactus-upbody-img {
+    width: 40px;
+}
+
+.contactus-upbody-title {
+    font-size: 28px;
+    color: #2d3748;
+    font-family: 'Vazirmatn', sans-serif;
+}
+
+#contactus-span {
+
+    color: #dc2655;
+}
+
+.contactus-upbody-p {
+    color: #2d3748;
+    font-family: 'Vazirmatn', sans-serif;
+    direction: rtl;
+    font-size: 20px;
+    line-height: 1.6;
+    padding: 10px 80px;
+}
+
+.contactus-body {
+    width: 1000px;
+    height: 750px;
+    margin: 40px auto;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+}
+
+.contactus-map {
+    width: 700px;
+    height: 350px;
+    border-radius: 16px;
+    margin: 60px auto;
+    display: block;
+}
+
+.contactus-body-info {}
+
+.contactus-Support {
+    display: flex;
+    direction: rtl;
+    margin-right: 110px;
+    align-items: center;
+    gap: 7px;
+}
+
+.contactus-Support-img {
+    width: 35px;
+}
+
+.contactus-Support-p {
+    color: #2d3748;
+    font-family: 'Vazirmatn', sans-serif;
+}
+
+#phone-num {
+    font-size: 14px;
+    white-space: pre;
+    margin-left: 635px;
+    margin-top: 8px;
+    padding-bottom: 20px;
+}
+#gmail-add {
+    font-size: 18px;
+    white-space: pre;
+    margin-left: 635px;
+    margin-top: 8px;
+    padding-bottom: 20px;
+}
+#address {
+    font-size: 18px;
+    white-space: pre;
+    margin-left: 520px;
+    margin-top: 8px;
+    padding-bottom: 20px;
+}

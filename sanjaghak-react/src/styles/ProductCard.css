@@ -36,8 +36,6 @@
   box-shadow: 2px 2px 3px rgba(129, 127, 127, 0.8);
   padding: 0 16px 16px 16px;
   z-index: 2;
-
-  /* اضافه شده: فلکس برای حفظ ساختار منظم عمودی */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -75,7 +73,6 @@
   display: block;
 }
 
-/* تغییر داده شده: محدود کردن به 2 خط */
 .ProductName {
   font-size: 16px;
   color: #333;
@@ -86,18 +83,16 @@
   overflow: hidden;
 }
 
-/* تغییر داده شده: نمایش کامل برند در یک خط */
 .ProductModel {
   font-size: 13px;
   color: #888;
   margin: 2px 0;
   text-align: center;
-  white-space: nowrap; /* فقط یک خط */
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-/* تغییر داده شده: افزایش ارتفاع برای جا دادن برند کامل */
 .productinfo {
   padding: 5px 0;
   height: 72px;

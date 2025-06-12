@@ -45,7 +45,7 @@ const Footer = () => {
           <br />
           <Link to="/Aboutus" className="link-footer">معرفی فروشگاه</Link>
           <br /><br />
-          <Link to="/target-path" className="link-footer">تماس با ما</Link>
+          <Link to="/Contactus" className="link-footer">تماس با ما</Link>
         </div>
       </section>
 

@@ -2,28 +2,35 @@ import React from 'react';
 import '/src/styles/Navbar.css';
 import { Link, useNavigate } from 'react-router-dom';
 
+import logo from '../assets/sanjaghak-logo.png';
+import searchIcon from '../assets/search.png';
+import cartIcon from '../assets/icons8-cart-64.png';
+import justifyIcon from '../assets/justify.png';
+import newIcon from '../assets/icons8-new-32.png';
+import cupIcon from '../assets/cup-2.png';
+
 function Navbar() {
     const navigate = useNavigate();
 
     const goToSignIn = () => {
-        navigate("/signin")
-    }
+        navigate("/signin");
+    };
     const goToproduct = () => {
-        navigate("/Product")
-    }
+        navigate("/Product");
+    };
     const goTomycart = () => {
-        navigate("/mycart")
+        navigate("/mycart");
     };
 
     return (
         <div className='navContainer'>
             <div className='upperNav'>
                 <Link to="/">
-                    <img src="./src/assets/sanjaghak-logo.png" alt="" className='logo' />
+                    <img src={logo} alt="logo" className='logo' />
                 </Link>
                 <div className="searchContainer">
                     <button className="searchBtn">
-                        <img src="./src/assets/search.png" alt="search" />
+                        <img src={searchIcon} alt="search" />
                     </button>
                     <input type="text" className="searchBar" placeholder="جستجو" />
                 </div>
@@ -32,7 +39,7 @@ function Navbar() {
                     <button className='loginBtn' onClick={goToSignIn}>ثبت نام<span className='space'>|</span>ورود</button>
                     <div className='cart-navbar'>
                         <button className='cartbutton' onClick={goTomycart}>
-                            <img src="./src/assets/icons8-cart-64.png" alt="cart" className='cartIcon' />
+                            <img src={cartIcon} alt="cart" className='cartIcon' />
                             <label htmlFor="" className='cart-num'>1</label>
                         </button>
                     </div>
@@ -40,11 +47,10 @@ function Navbar() {
             </div>
 
             <div className='lowerNav'>
-
                 <div className='dropDownContainer'>
                     <Link className='item'>
                         <div className='itemContent'>
-                            <img src="./src/assets/justify.png" alt="" className='icon' />
+                            <img src={justifyIcon} alt="justify" className='icon' />
                             <span className='itemText'>دسته بندی کالا ها</span>
                         </div>
                     </Link>
@@ -59,7 +65,7 @@ function Navbar() {
                 <div className='navItem'>
                     <Link to="/#newest" className='item'>
                         <div className='itemContent'>
-                            <img src="./src/assets/icons8-new-32.png" alt="" className='icon' />
+                            <img src={newIcon} alt="newest" className='icon' />
                             <span className='itemText'>جدید ترین</span>
                         </div>
                     </Link>
@@ -68,7 +74,7 @@ function Navbar() {
                 <div className='navItem'>
                     <Link to="/#bestseller" className='item'>
                         <div className='itemContent'>
-                            <img src="./src/assets/cup-2.png" alt="" className='icon' />
+                            <img src={cupIcon} alt="bestseller" className='icon' />
                             <span className='itemText'>پرفروش ترین‌ها</span>
                         </div>
                     </Link>
@@ -76,7 +82,6 @@ function Navbar() {
 
                 <button className='' onClick={goToproduct}>test</button>
             </div>
-
         </div>
     );
 }

@@ -12,6 +12,7 @@ import CategoryPage from './pages/productCategoryPage.jsx';
 import AdminPage from './pages/adminPage.jsx';
 import CartPage from './pages/CartPage';
 import Aboutus from './pages/Aboutus.jsx';
+import Rules from './pages/Rules.jsx';
 
 
 
@@ -38,6 +39,7 @@ function App() {
          <Route path='/Admin' element= {<AdminPage/>}/>
         <Route path="/mycart" element={<CartPage />} />
         <Route path="/Aboutus" element={<Aboutus />} />
+        <Route path="/rules" element={<Rules />} />
          
 
       </Routes>

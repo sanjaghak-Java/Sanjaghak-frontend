@@ -1,0 +1,89 @@
+@font-face {
+    font-family: 'Vazirmatn';
+    src: url('./src/fonts/Vazirmatn.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.rulescontainor{
+  font-family: 'Vazirmatn', sans-serif;
+  border-radius: 25px;
+  box-shadow: 0 0 20px rgba(203, 87, 87, 0.3);
+  direction: rtl;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin:  450px 40px 100px;
+  padding: 35px;
+}
+
+.rulesimg {
+  margin-top: 130px;
+    width: 100%;
+    height: 750px;
+    object-fit: cover;
+}
+
+.rulesp {
+    color: rgba(255, 255, 255, 0.91);
+    text-shadow: 2px 2px 7px #495ea2e8;
+    font-size: 60px;
+    margin-top: -450px;
+    text-align: center;
+}
+
+.paragraphsdiv {
+  direction: rtl;
+  line-height: 1.9;
+  padding: 20px;
+}
+
+.rulestext{
+  text-align: center;
+}
+
+.uldiv{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 38px;
+}
+
+.welcametext{
+  font-size: 20px;
+}
+
+.lipart {
+  font-size: 16.5px;
+  color: #444;
+  line-height: 1.9;
+  margin-right: 30px;
+}
+
+h3{
+  color: #dc2655;
+}
+
+.blinking-line {
+  width: 80%;
+  height: 2px;
+  background-color: #dc2655;
+  border-radius: 10px;
+  box-shadow: 0 0 8px #dc2655, 0 0 16px #dc2655;
+  animation: softBlink 1.5s ease-in-out infinite;
+  margin: 10px auto;
+  transition: all 0.3s ease-in-out;
+}
+
+@keyframes softBlink {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 10px #dc2655, 0 0 20px #dc2655;
+  }
+  50% {
+    opacity: 0.3;
+    box-shadow: 0 0 3px #dc2655, 0 0 6px #dc2655;
+  }
+}
+
+

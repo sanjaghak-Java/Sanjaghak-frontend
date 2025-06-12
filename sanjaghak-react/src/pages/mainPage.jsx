@@ -1,4 +1,4 @@
-import Navbar from "./Navbar";
+import Navbar from "./navbar";
 import CategoriesSwiper from "./categoriesSwiper";
 import ImagePreview from "./imagePreview";
 import PromoBanner from "./PromoBanner";
@@ -85,6 +85,7 @@ function MainPage() {
         <PromoBanner {...promoBanners[2]} />
         <PromoBanner {...promoBanners[3]} />
       </div>
+      <br />
 
       <Footer />
     </div>

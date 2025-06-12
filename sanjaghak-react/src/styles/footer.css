@@ -51,11 +51,9 @@
   transform: translateX(0);
 }
 
-
-
 .section{
   display: flex;
-  gap: 310px;
+  gap: 10px;
 }
 
 .logo-img{
@@ -81,6 +79,8 @@
 
 .Services{
   padding: 0 10px;
+  width: 90%;
+  line-height: 1.9;
 }
 
 .iconfooter{
@@ -119,4 +119,8 @@ span{
 .more{
   margin-top: 10px;
   color: #676F71;
+}
+
+.footerp{
+  width: 50%;
 }

@@ -37,10 +37,12 @@ const Footer = () => {
 
         <section className="section">
           <div className="Services">
-            <p>تلفن پشتیبانی : 33340081-041</p>
-            <br />
-            <div style={{ display: 'flex' }}>
-              <p>همراه ما باشید</p>
+            <div style={{ display: 'flex' , alignItems: 'center' }}>
+              <p className="footerp">تلفن پشتیبانی :</p>
+              <p> 041-33340081</p>
+          </div>
+            <div style={{ display: 'flex' , alignItems: 'center' }}>
+              <p className="footerp">همراه ما باشید</p>
               <div className="iconfooter">
                 <Link to="#">
                   <img src={marker} alt="marker" className="marker-img" />
@@ -54,17 +56,15 @@ const Footer = () => {
 
           <div className="Services">
             <p>خدمات مشتریان</p>
-            <br />
             <Link to="/rules" className="link-footer">شرایط و قوانین</Link>
-            <br /><br />
+            <br />
             <Link to="/FAQPage" className="link-footer">سوالات متداول</Link>
           </div>
 
           <div className="Services">
             <p>درباره ما</p>
-            <br />
             <Link to="/Aboutus" className="link-footer">معرفی فروشگاه</Link>
-            <br /><br />
+            <br />
             <Link to="/Contactus" className="link-footer">تماس با ما</Link>
           </div>
         </section>

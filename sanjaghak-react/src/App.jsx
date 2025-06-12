@@ -41,9 +41,8 @@ function App() {
         <Route path="/mycart" element={<CartPage />} />
         <Route path="/Aboutus" element={<Aboutus />} />
         <Route path="/Contactus" element={<Contactus />} />
-
         <Route path="/rules" element={<Rules />} />
-         
+
 
       </Routes>
     </div>

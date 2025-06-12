@@ -85,4 +85,4 @@ function Contactus() {
     );
 }
 
-export default Contactus;
+export default Contactus

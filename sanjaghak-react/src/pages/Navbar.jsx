@@ -39,8 +39,8 @@ function Navbar() {
                     <button className='loginBtn' onClick={goToSignIn}>ثبت نام<span className='space'>|</span>ورود</button>
                     <div className='cart-navbar'>
                         <button className='cartbutton' onClick={goTomycart}>
-                            <img src={cartIcon} alt="cart" className='cartIcon' />
                             <label htmlFor="" className='cart-num'>1</label>
+                            <img src={cartIcon} alt="cart" className='cartIcon' />
                         </button>
                     </div>
                 </div>

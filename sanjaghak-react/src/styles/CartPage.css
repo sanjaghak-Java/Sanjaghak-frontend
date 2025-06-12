@@ -1,3 +1,7 @@
+html, body {
+overflow-y: auto;
+}
+
 .cartpagecontainer{
   direction: rtl;
   display: flex;

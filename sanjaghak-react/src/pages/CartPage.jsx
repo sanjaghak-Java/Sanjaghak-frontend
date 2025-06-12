@@ -50,7 +50,7 @@ function CartPage() {
   return (
     <>
       <Navbar />
-      <div className="cartpagecontainer">
+      <div className="cartpagecontainer" id="main-scroll-container">
         <div className="itemcontainor">
           <div className="title">
             <img src={Cart} alt="cart" className='titleimg' />

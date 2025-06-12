@@ -53,7 +53,7 @@ function MainPage() {
   ];
 
   return (
-    <div className="mainPageContainer">
+    <div className="mainPageContainer" id="main-scroll-container">
       <Navbar />
       <ImagePreview />
       <div>

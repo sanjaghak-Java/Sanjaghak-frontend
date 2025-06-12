@@ -4,17 +4,21 @@
     font-weight: normal;
     font-style: normal;
 }
+.maincontainorrules{
+  margin:  390px 40px 100px;
+
+}
 
 .rulescontainor{
   font-family: 'Vazirmatn', sans-serif;
   border-radius: 25px;
-  box-shadow: 0 0 20px rgba(203, 87, 87, 0.3);
+  box-shadow: 0 0 20px rgba(220, 38, 85, 0.3);
   direction: rtl;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  margin:  450px 40px 100px;
   padding: 35px;
+  margin-top: 20px;
 }
 
 .rulesimg {

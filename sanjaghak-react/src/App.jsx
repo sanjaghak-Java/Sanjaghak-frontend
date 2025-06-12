@@ -14,6 +14,8 @@ import CartPage from './pages/CartPage';
 import Aboutus from './pages/Aboutus.jsx';
 import Contactus from './pages/Contactus.jsx';
 import Rules from './pages/Rules.jsx';
+import FAQPage  from './pages/FAQPage.jsx';
+
 
 
 
@@ -42,6 +44,8 @@ function App() {
         <Route path="/Aboutus" element={<Aboutus />} />
         <Route path="/Contactus" element={<Contactus />} />
         <Route path="/rules" element={<Rules />} />
+        <Route path="/FAQPage" element={<FAQPage />} />
+
 
 
       </Routes>

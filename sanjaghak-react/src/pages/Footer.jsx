@@ -35,7 +35,7 @@ const Footer = () => {
         <div className="Services">
           <p>خدمات مشتریان</p>
           <br />
-          <Link to="/target-path" className="link-footer">شرایط و قوانین</Link>
+          <Link to="/rules" className="link-footer">شرایط و قوانین</Link>
           <br /><br />
           <Link to="/target-path" className="link-footer">سوالات متداول</Link>
         </div>

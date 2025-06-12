@@ -13,6 +13,7 @@ import AdminPage from './pages/adminPage.jsx';
 import CartPage from './pages/CartPage';
 import Aboutus from './pages/Aboutus.jsx';
 import Contactus from './pages/Contactus.jsx';
+import Rules from './pages/Rules.jsx';
 
 
 
@@ -41,6 +42,8 @@ function App() {
         <Route path="/Aboutus" element={<Aboutus />} />
         <Route path="/Contactus" element={<Contactus />} />
 
+        <Route path="/rules" element={<Rules />} />
+         
 
       </Routes>
     </div>

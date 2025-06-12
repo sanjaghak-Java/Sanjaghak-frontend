@@ -26,7 +26,7 @@ function Navbar() {
         <div className='navContainer'>
             <div className='upperNav'>
                 <Link to="/">
-                    <img src={logo} alt="logo" className='logo' />
+                    <img src="./src/assets/sanjaghak-logo.png" alt="" className='logonav' />
                 </Link>
                 <div className="searchContainer">
                     <button className="searchBtn">
@@ -48,14 +48,14 @@ function Navbar() {
 
             <div className='lowerNav'>
                 <div className='dropDownContainer'>
-                    <Link className='item'>
-                        <div className='itemContent'>
-                            <img src={justifyIcon} alt="justify" className='icon' />
-                            <span className='itemText'>دسته بندی کالا ها</span>
+                    <Link className='itemnav'>
+                        <div className='itemContentnav'>
+                            <img src="./src/assets/justify.png" alt="" className='iconnav' />
+                            <span className='itemTextnav'>دسته بندی کالا ها</span>
                         </div>
                     </Link>
 
-                    <div className='dropDown'>
+                    <div className="dropDown">
                         <Link>a</Link>
                         <Link>a</Link>
                         <Link>a</Link>
@@ -63,19 +63,19 @@ function Navbar() {
                 </div>
 
                 <div className='navItem'>
-                    <Link to="/#newest" className='item'>
-                        <div className='itemContent'>
-                            <img src={newIcon} alt="newest" className='icon' />
-                            <span className='itemText'>جدید ترین</span>
+                    <Link to="/#newest" className='itemnav'>
+                        <div className='itemContentnav'>
+                            <img src="./src/assets/icons8-new-32.png" alt="" className='iconnav' />
+                            <span className='itemTextnav'>جدید ترین</span>
                         </div>
                     </Link>
                 </div>
 
                 <div className='navItem'>
-                    <Link to="/#bestseller" className='item'>
-                        <div className='itemContent'>
-                            <img src={cupIcon} alt="bestseller" className='icon' />
-                            <span className='itemText'>پرفروش ترین‌ها</span>
+                    <Link to="/#bestseller" className='itemnav'>
+                        <div className='itemContentnav'>
+                            <img src="./src/assets/cup-2.png" alt="" className='iconnav' />
+                            <span className='itemTextnav'>پرفروش ترین‌ها</span>
                         </div>
                     </Link>
                 </div>

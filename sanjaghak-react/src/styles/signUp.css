@@ -1,15 +1,16 @@
 .signUpBox {
   background-color: rgba(245, 245, 247, 0.85);
-  border: 2px solid #dc4f61;
+  border: 2px solid #dc4f623f;
   border-radius: 12px;
   padding: 20px 50px;
   width: 500px;
-  box-shadow: 0 8px 20px rgba(217, 79, 97, 0.25);
+  box-shadow: 0 8px 20px rgba(217, 79, 97, 0.582);
   box-sizing: border-box;
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  direction: rtl;
 }
 
 .signUpBox h1 {
@@ -20,15 +21,15 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.inputWrapper {
+.signup-inputWrapper {
   position: relative;
-  margin-bottom: 40px;
+  margin-bottom: 10px;
 }
 
 .signUpInput {
   width: 100%;
   padding: 14px 15px;
-  border: 1.8px solid #dc2655;
+  border: 1.8px solid #5c5c5c75;
   border-radius: 8px;
   font-size: 16px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -42,11 +43,11 @@
 
 .signUpInput:focus {
   outline: none;
-  border-color: #a33444;
+  border-color: #dc265475;
   background-color: #fff0f1;
 }
 
-.floatingLabel {
+.signup-floatingLabel {
   position: absolute;
   right: 15px;
   top: 14px;
@@ -58,8 +59,8 @@
   padding: 0 4px;
 }
 
-.signUpInput:focus + .floatingLabel,
-.signUpInput:not(:placeholder-shown) + .floatingLabel {
+.signUpInput:focus+.signup-floatingLabel,
+.signUpInput:not(:placeholder-shown)+.signup-floatingLabel {
   top: -10px;
   right: 10px;
   font-size: 13px;
@@ -84,6 +85,7 @@
 }
 
 #signinlabel {
+
   margin-top: 30px;
   margin-bottom: 0;
   text-align: right;
@@ -123,8 +125,10 @@
 }
 
 .checkboxWrapper {
+  direction: ltr;
   text-align: right;
-  margin-bottom: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .checkboxWrapper label {
@@ -132,4 +136,34 @@
   color: gray;
   position: relative;
   bottom: 7px;
+}
+
+.signup-logo {
+  width: 160px;
+  height: auto;
+  position: relative;
+  z-index: 10;
+}
+
+.signup-logo-container {
+  text-align: center;
+  margin-top: 15px;
+  /* margin-bottom: 10px; */
+}
+
+.signup-link {
+  color: #dc2655;
+  text-decoration: none;
+  position: relative;
+  margin-right: 10px;
+}
+
+.for-signin {
+  color: #dc2655;
+  text-decoration: none;
+  font-size: 18px;
+  text-align: right;
+  position: relative;
+  margin-right: 113px;
+  bottom: 21px;
 }

@@ -80,8 +80,9 @@
   color: gray;
   font-size: large;
 }
+
 .signInButton {
-    margin-top: 10px;
+  margin-top: 10px;
   width: 100%;
   padding: 14px;
   background-color: #dc2655;
@@ -98,3 +99,22 @@
   background-color: #a33444;
 }
 
+.sign-logo {
+  width: 160px;
+  height: auto;
+  position: relative;
+  z-index: 10;
+}
+
+.logo-container {
+  text-align: center;
+  margin-top: 125px;
+  margin-bottom: 10px;
+}
+
+.signup-link {
+  color: #dc2655;
+  text-decoration: none;
+  position: relative;
+  margin-right: 10px;
+}

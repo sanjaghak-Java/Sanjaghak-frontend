@@ -81,6 +81,7 @@ function Navbar() {
                 </div>
 
                 <button className='' onClick={goToproduct}>test</button>
+                <Link to="/profile-orders">پروفایل</Link>
             </div>
         </div>
     );

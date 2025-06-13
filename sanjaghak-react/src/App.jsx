@@ -15,6 +15,10 @@ import Aboutus from './pages/Aboutus.jsx';
 import Contactus from './pages/Contactus.jsx';
 import Rules from './pages/Rules.jsx';
 import FAQPage  from './pages/FAQPage.jsx';
+import Orders from './pages/Orders.jsx';
+import ProfileEdit from './pages/ProfileEdit';
+import ProfileFavorite  from './pages/ProfileFavorite.jsx';
+
 
 
 
@@ -45,6 +49,9 @@ function App() {
         <Route path="/Contactus" element={<Contactus />} />
         <Route path="/rules" element={<Rules />} />
         <Route path="/FAQPage" element={<FAQPage />} />
+        <Route path="/profile-orders" element={<Orders />} />
+        <Route path="/profile-edit" element={<ProfileEdit />} />
+        <Route path="/profile-favorites" element={<ProfileFavorite />} />
 
 
 

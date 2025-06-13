@@ -1,0 +1,299 @@
+.profilepage{
+    width: 19%;
+  display: flex;
+  padding: 20px;
+}
+
+.profilecontent{
+    margin: 160px 30px 50px 30px;
+  direction: rtl;
+  display: flex;
+  gap: 20px;
+}
+
+.backimg{
+  width: 100%;
+  height: 100px;
+}
+.menubar{
+    width: 100%;
+    background-color: white;
+    padding-bottom: 40px;
+    border: 1px solid #D1D4D4;
+    border-radius: 15px;
+    height: auto;
+}
+
+.infopart{
+  display: flex;
+  align-items: center;
+  padding: 30px;
+  gap: 10px;
+}
+
+
+.name{
+  font-weight: bold;
+}
+
+.phonenum{
+  color: #676F71;
+}
+
+
+.editimg{
+  width: 22px;
+  height: 22px;
+}
+
+.profimg{
+  width: 18px;
+  height: 18px;
+}
+
+.linkprof{
+    background-color: transparent;
+    width: 80%;
+    text-decoration: none;
+    color: #292C2D;
+    border-radius: 10px;
+    border: none;
+    margin: 20px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    box-shadow: 0 1.5px 0px 0px rgba(95, 94, 94, 0.8);
+    transition: box-shadow 0.2s ease;
+    cursor: pointer;
+}
+
+.linkprof:focus{
+  background-color: #dc26542a;
+  box-shadow: 0 1.5px 0px 0px #DC2655;
+
+}
+
+.linkprof.active {
+  background-color: #dc26542a;
+  box-shadow: 0 1.5px 0px 0px #DC2655;
+}
+
+
+.exit{
+    background-color: transparent;
+    width: 80%;
+    text-decoration: none;
+    color: #DC2655;
+    font-size: 15px;
+    border: none;
+    margin: 20px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: box-shadow 0.2s ease;
+    cursor: pointer;
+}
+
+
+.orderdiv{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.border{
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    border: 1px solid #D1D4D4;
+    border-radius: 15px;
+    padding: 20px;
+    gap: 300px;
+    width: 100%;
+}
+
+.bordertwo{
+    background-color: white;
+    border: 1px solid #D1D4D4;
+    border-radius: 15px;
+    padding: 20px;
+    width: 100%;
+}
+
+.statusdiv{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.statusicons{
+  width: 65px;
+  height: 65px;
+}
+
+.description{
+  color: #676F71;
+}
+
+.statusparts{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.titleprofile{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.titleimg{
+  width: 30px;
+  height: 30px;
+}
+.titlehprof{
+  color: #3E4344;
+}
+
+.filterpart{
+  display: flex;
+  gap: 80px;
+  align-items: center;
+  justify-content: center;
+}
+
+  .formlabel {
+    display: block;
+    color: #333;
+    margin-bottom: 15px;
+    margin-right: 5px;
+  }
+
+  .customselect,
+  .custominput {
+    width: 250px;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    background-color: transparent;
+  }
+
+  .customselect:focus,
+  .custominput:focus {
+    outline: none;
+  }
+
+    .customdate {
+    width: 250px;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    background-color: transparent;
+  }
+
+  .filter{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #DC2655;
+    border: none;
+    border-radius: 12px;
+    padding: 9px 30px;
+    color: white;
+    margin-top: 30px;
+    cursor: pointer;
+  }
+
+  .filter:hover{
+    background-color: #BF173E;
+  }
+
+
+.status {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 14px;
+  display: inline-block;
+  font-weight: 500;
+}
+
+.status.cancelled {
+  background-color: #ffe5e5;
+  color: #ff4d4d;
+}
+
+.status.delivered {
+  background-color: #e5fff1;
+  color: #00b67a;
+}
+
+.status.returned {
+  background-color: #e0e0e0;
+  color: #666;
+}
+
+.titleprof{
+  display: flex;
+  align-items: center;
+  gap: 400px;
+}
+
+.profdiv{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+}
+
+.profhr{
+  border: none;
+  width: 60%;
+  height: 1px;
+  background-color: #ccc;
+}
+
+.proftext{
+  color: #676F71;
+}
+
+
+.editbutton{
+  display: flex;
+  align-items: center;
+  color: #DC2655;
+  font-size: 16px;
+  margin-right: 500px;
+  gap: 5px;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.editbutton:hover{
+  text-shadow: 1px 1px 6px rgba(102, 100, 100, 0.3);
+  filter: drop-shadow(2px 2px 4px rgba(102, 100, 100, 0.3));
+}
+
+.favitems{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border: 1px solid #D1D4D4;
+    border-radius: 15px;
+    padding: 20px;
+    width: 100%;
+}
+
+.favitemscontainor{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 0 60px;
+    width: 100%;
+}

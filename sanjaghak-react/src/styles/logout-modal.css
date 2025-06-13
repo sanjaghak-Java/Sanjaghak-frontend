@@ -1,0 +1,99 @@
+.exitpage {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4); /* نیمه‌شفاف */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.exitpopup {
+  background-color: #fff;
+  width: 400px;
+  padding: 40px 25px;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  position: relative;
+}
+
+.exitclose {
+  position: absolute;
+  top: 40px;
+  left: 30px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #333;
+}
+
+.exithr{
+  border: none;
+  height: 1px;
+  background-color: #ccc;
+}
+
+.exittext{
+  display: flex;
+  align-items: center;  
+}
+
+.exitp{
+    display: flex;
+    margin-top: 12px;
+}
+
+.exitlogo{
+    width: 100px;
+    height: auto;
+}
+
+.exitbuttons{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+
+}
+
+.exitquestion{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.buttonscontainor{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.exitbut{
+    width: 150px;
+    background-color: #DC2655;
+    border: none;
+    padding:  8px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.optoutbut{
+    width: 150px;
+    background-color: white;
+    border: none;
+    border: 1px solid #3E4344;
+    padding:  8px;
+    color: #3E4344;
+    border-radius: 5px;
+    cursor: pointer;
+}

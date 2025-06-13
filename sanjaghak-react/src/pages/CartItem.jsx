@@ -6,7 +6,7 @@ import bin from '../assets/bin.png';
 import store from '../assets/store.png';
 import "../styles/CartPage.css";
 
-function CartItem({ item, onQuantityChange }) {
+function CartItem({ item, onQuantityChange, showQuantityControls = true, showDeleteButton = true }) {
   const increase = (e) => {
     e.preventDefault();
     onQuantityChange(item.id, item.quantity + 1);
@@ -21,9 +21,12 @@ function CartItem({ item, onQuantityChange }) {
 
   return (
     <div className='cartitem'>
-      <button className="binbutton">
-        <img src={bin} alt="حذف" className='binimg' />
-      </button>
+      {showDeleteButton && (
+        <button className="binbutton">
+          <img src={bin} alt="حذف" className='binimg' />
+        </button>
+      )}
+
       <Link to="/Product" className="cartitemlink">
         <div style={{ display: 'flex' }}>
           <img src={item.image} alt={item.productname} className="itemsimg" />
@@ -53,13 +56,18 @@ function CartItem({ item, onQuantityChange }) {
                 <label className="warrantylabel">{item.inventory}</label>
               </div>
             </div>
-            <hr className="itemshr"/>
+
+            <hr className="itemshr" />
+
             <div className="pricenum">
-              <div className='number'>
-                <button className="numberbtn" onClick={increase}>+</button>
-                <span className="numbercount">{item.quantity}</span>
-                <button className="numberbtn" onClick={decrease}>−</button>
-              </div>
+              {showQuantityControls && (
+                <div className='number'>
+                  <button className="numberbtn" onClick={decrease}>−</button>
+                  <span className="numbercount">{item.quantity}</span>
+                  <button className="numberbtn" onClick={increase}>+</button>
+
+                </div>
+              )}
               <div className="pricepart">
                 <div style={{ display: 'flex', gap: '5px' }}>
                   <label className="pricelab">تومان</label>
@@ -69,9 +77,8 @@ function CartItem({ item, onQuantityChange }) {
             </div>
           </div>
         </div>
-    </Link>
-  </div>
-
+      </Link>
+    </div>
   );
 }
 

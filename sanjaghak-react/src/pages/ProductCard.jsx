@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react"
 import "/src/styles/ProductCard.css"
+import { useNavigate } from "react-router-dom"
 
 function ProductCard(props) {
     const [imageSizeClass, setImageSizeClass] = useState("backImage-small");
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const img = new Image();
@@ -17,8 +20,12 @@ function ProductCard(props) {
         };
     }, [props.image]);
 
+    const gotoproduct = () => {
+        navigate("/product");
+    };
+
     return (
-        <div className="cardContainer">
+        <div className="cardContainer" onClick={gotoproduct}>
             <div className="cardInner">
                 <div className="cardFront">
                     <div className="salePercent">{props.salepercent}</div>

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import '/src/styles/signUp.css';
 import ParticlesBackground from '../ParticlesBackground';
 import logo from '/src/assets/sanjaghak-logo.png';
-
+import Rules from "./Rules";
 
 
 function SignUp() {
@@ -44,7 +44,7 @@ function SignUp() {
         </div>
 
         <div className="checkboxWrapper">
-          <label >با شرایط و ضوابط سایت موافقم</label>
+          <label >با   <Link to="/rules" id='singup-rules'>شرایط و ضوابط</Link> سایت موافقم</label>
           <input type="checkbox" required className="check" />
         </div>
 

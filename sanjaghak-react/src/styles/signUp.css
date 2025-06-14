@@ -4,7 +4,7 @@
   border-radius: 12px;
   padding: 20px 50px;
   width: 500px;
-  box-shadow: 0 8px 20px rgba(217, 79, 97, 0.582);
+  box-shadow: 0 8px 20px #d94f6194;
   box-sizing: border-box;
   position: fixed;
   top: 50%;
@@ -166,4 +166,12 @@
   position: relative;
   margin-right: 113px;
   bottom: 21px;
+}
+#singup-rules{
+  text-decoration: none;
+  color: #d94f6194;
+}
+
+#singup-rules:hover{
+  color: #ff0022b6;
 }

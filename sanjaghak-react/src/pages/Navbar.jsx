@@ -15,9 +15,7 @@ function Navbar() {
     const goToSignIn = () => {
         navigate("/signin");
     };
-    const goToproduct = () => {
-        navigate("/Product");
-    };
+
     const goTomycart = () => {
         navigate("/mycart");
     };
@@ -80,7 +78,6 @@ function Navbar() {
                     </Link>
                 </div>
 
-                <button className='' onClick={goToproduct}>test</button>
                 <Link to="/profile-orders">پروفایل</Link>
             </div>
         </div>

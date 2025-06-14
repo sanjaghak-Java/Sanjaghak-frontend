@@ -2,7 +2,7 @@
   "dependencies": {
     "leaflet": "^1.9.4",
     "react-leaflet": "^5.0.0",
-    "react-router-dom": "^7.6.1",
+    "react-router-dom": "^7.6.2",
     "react-tsparticles": "^2.12.2",
     "swiper": "^11.2.8",
     "tsparticles": "^3.8.1",

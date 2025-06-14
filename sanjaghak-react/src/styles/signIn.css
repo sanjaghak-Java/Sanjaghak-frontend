@@ -1,10 +1,10 @@
 .signInBox {
   background-color: rgba(245, 245, 247, 0.85);
-  border: 2px solid #dc4f61;
+  border: 2px solid #dc4f623f;
   border-radius: 12px;
   padding: 20px 20px;
   width: 500px;
-  box-shadow: 0 8px 20px rgba(217, 79, 97, 0.25);
+  box-shadow: 0 8px 20px #d94f6194;
   box-sizing: border-box;
   position: fixed;
   top: 50%;
@@ -65,8 +65,8 @@
   user-select: none;
 }
 
-.signInInput:focus + .floatingLabel,
-.signInInput:not(:placeholder-shown) + .floatingLabel {
+.signInInput:focus+.floatingLabel,
+.signInInput:not(:placeholder-shown)+.floatingLabel {
   top: -10px;
   right: 10px;
   font-size: 13px;

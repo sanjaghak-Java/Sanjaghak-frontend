@@ -1,3 +1,9 @@
+@font-face {
+  font-family: 'Tunisia';
+  src: url('./src/fonts/Tunisia Bd_MRT.ttf') format('truetype');
+}
+
+
 .cardContainer {
   width: 230px;
   height: 340px;
@@ -132,6 +138,7 @@
 }
 
 .salePercent {
+  font-family: 'Tunisia';
   top: 0;
   margin-right: 162px;
   height: 38px;

@@ -1,8 +1,14 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/cartreport.css";
 
 function Cartreport({ onClose }) {
     const [isHovered, setIsHovered] = useState(false);
+    const navigate = useNavigate();
+
+    const goToCart = () => {
+        navigate("/mycart");
+    };
 
     return (
         <div className="total">
@@ -25,11 +31,11 @@ function Cartreport({ onClose }) {
                     <div className="product-info">
                         <img src="./src/assets/images.jpg" alt="" className="img"/>
                         <div className="vasat">
-                        <labale className="product-name">سامسونگ</labale>
-                        <div className="product-color1">
-                            <label className="product-color-name1">سفید</label>
-                            <label className="product-color-show1"></label>
-                        </div>
+                            <label className="product-name">سامسونگ</label>
+                            <div className="product-color1">
+                                <label className="product-color-name1">سفید</label>
+                                <label className="product-color-show1"></label>
+                            </div>
                         </div>
                         <div className="product-price">
                             <label className="price-num">80.000.000</label>
@@ -37,7 +43,7 @@ function Cartreport({ onClose }) {
                         </div>
                     </div>
                     
-                    <button className="go-to-cart-btn">برو به سبد خرید</button>
+                    <button className="go-to-cart-btn" onClick={goToCart}>برو به سبد خرید</button>
                 </div>
             </div>
         </div>

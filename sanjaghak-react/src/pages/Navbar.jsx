@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '/src/styles/Navbar.css';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -11,6 +11,7 @@ import cupIcon from '../assets/cup-2.png';
 
 function Navbar() {
     const navigate = useNavigate();
+    const [isFocused, setIsFocused] = useState(false); // اضافه کردن state برای فوکوس
 
     const goToSignIn = () => {
         navigate("/signin");
@@ -24,17 +25,25 @@ function Navbar() {
         <div className='navContainer'>
             <div className='upperNav'>
                 <Link to="/">
-                    <img src="./src/assets/sanjaghak-logo.png" alt="" className='logonav' />
+                    <img src={logo} alt="logo" className='logonav' />
                 </Link>
-                <div className="searchContainer">
+                <div className={`searchContainer ${isFocused ? 'focused' : ''}`}>
+                    <input
+                        type="text"
+                        className="searchBar"
+                        placeholder="جستجوی محصول"
+                        onFocus={() => setIsFocused(true)}
+                        onBlur={() => setIsFocused(false)}
+                    />
                     <button className="searchBtn">
                         <img src={searchIcon} alt="search" />
                     </button>
-                    <input type="text" className="searchBar" placeholder="جستجو" />
                 </div>
 
                 <div className='userActions'>
-                    <button className='loginBtn' onClick={goToSignIn}>ثبت نام<span className='space'>|</span>ورود</button>
+                    <button className='loginBtn' onClick={goToSignIn}>
+                        ثبت نام<span className='space'>|</span>ورود
+                    </button>
                     <div className='cart-navbar'>
                         <button className='cartbutton' onClick={goTomycart}>
                             <label htmlFor="" className='cart-num'>1</label>
@@ -48,7 +57,7 @@ function Navbar() {
                 <div className='dropDownContainer'>
                     <Link className='itemnav'>
                         <div className='itemContentnav'>
-                            <img src="./src/assets/justify.png" alt="" className='iconnav' />
+                            <img src={justifyIcon} alt="" className='iconnav' />
                             <span className='itemTextnav'>دسته بندی کالا ها</span>
                         </div>
                     </Link>
@@ -63,7 +72,7 @@ function Navbar() {
                 <div className='navItem'>
                     <Link to="/#newest" className='itemnav'>
                         <div className='itemContentnav'>
-                            <img src="./src/assets/icons8-new-32.png" alt="" className='iconnav' />
+                            <img src={newIcon} alt="" className='iconnav' />
                             <span className='itemTextnav'>جدید ترین</span>
                         </div>
                     </Link>
@@ -72,8 +81,8 @@ function Navbar() {
                 <div className='navItem'>
                     <Link to="/#bestseller" className='itemnav'>
                         <div className='itemContentnav'>
-                            <img src="./src/assets/cup-2.png" alt="" className='iconnav' />
-                            <span className='itemTextnav'>پرفروش ترین‌ها</span>
+                            <img src={cupIcon} alt="" className='iconnav' />
+                            <span className='itemTextnav'>پرفروش‌ترین‌ها</span>
                         </div>
                     </Link>
                 </div>

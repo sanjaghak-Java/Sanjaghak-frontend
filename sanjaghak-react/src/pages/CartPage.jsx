@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import Navbar from "./navbar";
+import Navbar from "./Navbar";
 import Footer from "./Footer";
 import CartItem from './CartItem';
 import CartPrice from './CartPrice';
 import "../styles/CartPage.css";
-import Cart from '../assets/shop.png';
+import Cart from '../assets/Shop.png';
+import bill from '../assets/bill.png';
+
 
 function CartPage() {
   const [items, setItems] = useState([]);
@@ -54,7 +56,7 @@ function CartPage() {
         <div className="itemcontainor">
           <div className="title">
             <img src={Cart} alt="cart" className='titleimg' />
-            <h3 className="titleh">سبد خرید من</h3>
+            <h3 className="carttitle">سبد خرید من</h3>
           </div>
           <div className='items'>
             {items.map(item => (
@@ -68,7 +70,10 @@ function CartPage() {
         </div>
 
         <div className="pricediv">
-            <h3 className="title">صورت حساب</h3>
+          <div className="title">
+            <img src={bill} alt="bill" className='titleimg' />
+            <h3 className="carttitle">صورت حساب</h3>
+          </div>
           <CartPrice totalPrice={totalPrice} shippingCost={shippingCost} />
         </div>
       </div>

@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'Yekan';
+    src: url('./src/fonts/BYekan.ttf') format('truetype');
+}
+
 .categorie-title{
   text-align: center;
   font-size: 28px;
@@ -64,9 +69,9 @@
 }
 
 .categorySlidetext{
-  font-size: 14px;
+  font-family: 'Yekan';
+  font-size: 17px;
   color: black;
-  font-weight: 600;
 }
 
 

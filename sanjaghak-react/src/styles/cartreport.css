@@ -124,6 +124,7 @@
     width: 100%;
     height: auto;
     transition: background-color 0.3s;
+    cursor: pointer;
 }
 
 .go-to-cart-btn:hover {

@@ -1,9 +1,18 @@
+@font-face {
+  font-family: 'Jalal';
+    src: url('./src/fonts/BJalalBd.ttf') format('truetype');
+}
+
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+.navContainer{
+  font-family: 'Jalal';
+}
 
 .upperNav {
   direction: rtl;
@@ -28,39 +37,41 @@
 }
 
 .searchContainer {
+  box-shadow: 2px 2px 7px #68686841;
+  background-color: #fafafa;
+  border: 1.5px solid #ccc;
+  border-radius: 20px;
   display: flex;
   flex-direction: row-reverse;
   align-items: center;
   gap: 0px;
+  padding: 0 10px;
+  transition: border-color 0.3s ease;
 }
 
-.searchBar {
-  box-shadow: 2px 2px 7px #68686841;
-  width: 500px;
-  padding: 12px 16px;
-  border: 1.5px solid #ccc;
-  /* border-left: none; */
-  border-radius: 0 12px 12px 0;
-  background-color: #fafafa;
-  text-align: right;
-  font-size: 15px;
-  transition: border-color 0.3s ease, background-color 0.3s ease;
-}
-
-.searchBar:focus {
-  box-shadow: 3px 3px 10px #dfb9b9;
-  outline: none;
-  border-color: #ffd8e4cc;
+.focused {
+  border-color: #dc265463;
   background-color: #fff0f1;
 }
 
+.searchBar {
+  width: 500px;
+  border: none;
+  outline: none;
+  padding: 10px;
+  background-color: transparent;
+  text-align: right;
+  font-size: 17px;
+}
+
+.searchBar:focus{
+  outline: none;
+}
+
 .searchBtn {
-  box-shadow: -2px 2px 7px #68686841;
   padding: 0px;
-  border: 1.5px solid #ccc;
-  border-right: none;
-  background-color: #fafafa;
-  border-radius: 12px 0 0 12px;
+  border: none;
+  background-color: transparent;
   cursor: pointer;
   transition: all 0.3s ease;
   display: flex;
@@ -69,15 +80,13 @@
 }
 
 .searchBtn:hover {
-  transform: translate(-1px, -2px);
-  box-shadow: 3px 3px 10px #dfb9b9;
-  background-color: #fff0f1;
-  border-color: #ff5286cc;
+  background-color: transparent;
+  transform: scale(1.05);
 }
 
 .searchBtn img {
-  width: 42px;
-  height: 42px;
+  width: 32px;
+  height: 32px;
 }
 
 
@@ -112,16 +121,16 @@
 }
 
 .lowerNav {
-  height: 55px;
+  /* height: 55px; */
   direction: rtl;
   margin-top: 10px;
   width: 100%;
   position: fixed;
-  top: 70px;
+  top: 88px;
   z-index: 999;
   display: flex;
   align-items: center;
-  padding: 22px 90px 12px 90px;
+  padding: 10px 90px 0;
   gap: 50px;
   background-color: white;
   font-size: 15px;
@@ -162,7 +171,7 @@
 }
 
 .dropDownContainer:hover .iconnav,
-.dropDownContainer:focus-within .iconnav {
+.dropDownContainer:focus-within .iconnav{
   filter: brightness(0) saturate(100%) invert(29%) sepia(80%) saturate(4383%) hue-rotate(329deg) brightness(95%) contrast(91%);
 }
 
@@ -219,7 +228,7 @@
   border-bottom: 2px solid #dc2655;
 }
 
-.lowerNav .navItem:hover .iconnav {
+.navItem:hover , .itemContentnav:hover , .itemnav:focus{
   filter: brightness(0) saturate(100%) invert(29%) sepia(80%) saturate(4383%) hue-rotate(329deg) brightness(95%) contrast(91%);
 }
 

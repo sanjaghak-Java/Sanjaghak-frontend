@@ -1,35 +1,53 @@
+@font-face {
+  font-family: 'Kamran';
+  src: url('./src/fonts/KamranB.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Yekan';
+    src: url('./src/fonts/BYekan.ttf') format('truetype');
+}
+
 .PromoContainer {
   position: relative;
   direction: rtl;
   overflow: hidden;
-  height: 250px;
-  width: 60%;
-  margin: 20px ;
-  display: flex;
-  align-items: center;
   padding: 20px;
-  background-color: #919494;
-  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+  align-items: center;
   border-radius: 20px;
 }
 
+.prompolink{
+  width: 60%;
+  margin: 0 4px;
+  text-decoration: none;
+  color: inherit;  
+  display: inline-block;
+  transition: transform 0.5s ease;
+  border-radius: 20px;
+}
+
+.prompolink:hover{
+  transform: rotate(360deg) scale(1.085);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
 .promoTitle {
+  font-family: 'Kamran';
   font-size: 1.8rem;
   font-weight: bold;
-  /* margin: 0 0 10px 0; */
 }
 
 .PromoDescription {
-  font-size: 1.1rem;
-  /* margin-bottom: 20px; */
+  font-family: 'Kamran';
+  font-size: 1.2rem;
 }
 
-.seeAllBtn {
-  align-self: flex-start;
+/* .seeAllBtn {
   background-color: transparent;
   color: #a72639;
-  font-size: 20px;
-  font-weight: bold;
+  font-family: 'Yekan';
+  font-size: 16px;
   border: none;
   border-radius: 8px;
   padding: 6px 0;
@@ -41,22 +59,23 @@
 .seeAllBtn:hover {
   transform: scale(1.05);
   text-shadow: 1px 1px 5px rgba(79, 26, 26, 0.3);
-}
+} */
 
 .promotexts{
   width: 100%;
   display: flex;
+  align-items: center;
   flex-direction: column;
-  gap:10px; 
+  gap:4px; 
 }
 
-.computerimg{
-  width: 300px;
-  height: auto;
+.phoneimgcontainor{
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .phoneimg{
-  width: 220px;
+  width: 78px;
   height: auto;
-  margin-left: 20px;
 }

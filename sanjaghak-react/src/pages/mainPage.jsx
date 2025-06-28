@@ -1,4 +1,4 @@
-import Navbar from "./navbar";
+import Navbar from "./Navbar";
 import CategoriesSwiper from "./categoriesSwiper";
 import ImagePreview from "./imagePreview";
 import PromoBanner from "./PromoBanner";
@@ -25,32 +25,37 @@ function MainPage() {
     }
   }, [location]);
 
-  const promoBanners = [
-    {
-      title: "لپ‌تاپ‌های جدید",
-      description: "پیشتاز تکنولوژی",
-      imageUrl: "./src/assets/laptop background.png",
-      categoryLink: "/productCategory"
-    },
-    {
-      title: "هدفون‌های باکیفیت",
-      description: "صدایی که تو رو می‌بره!",
-      imageUrl: './src/assets/smartwatch.png',
-      categoryLink: "/productCategory"
-    },
-    {
-      title: "ساعت‌های هوشمند",
-      description: "زندگی مدرن با ساعت دیجیتال",
-      imageUrl: './src/assets/smartwatch.png',
-      categoryLink: "/productCategory"
-    },
-    {
-      title: "موبایل‌های جدید",
-      description: "دنیا در دستان توست",
-      imageUrl: "./src/assets/smartphone.png",
-      categoryLink: "/productCategory"
-    }
-  ];
+const promoBanners = [
+  {
+    title: "لپ‌تاپ‌های جدید",
+    description: "پیشتاز تکنولوژی",
+    imageUrl: "./src/assets/laptop background.png",
+    categoryLink: "/productCategory",
+    bgGradient: "radial-gradient(circle, #e3f2fd, #90caf9)"
+  },
+  {
+    title: "هدفون‌های باکیفیت",
+    description: "صدایی که تو رو می‌بره!",
+    imageUrl: './src/assets/headphone.png',
+    categoryLink: "/productCategory",
+    bgGradient: "radial-gradient(circle, #fce4ec, #f48fb1)"
+  },
+  {
+    title: "ساعت‌های هوشمند",
+    description: "زندگی مدرن با ساعت دیجیتال",
+    imageUrl: './src/assets/smartwatch.png',
+    categoryLink: "/productCategory",
+    bgGradient: "radial-gradient(circle, #ede7f6, #b39ddb)"
+  },
+  {
+    title: "موبایل‌های جدید",
+    description: "دنیا در دستان توست",
+    imageUrl: "./src/assets/smartphone.png",
+    categoryLink: "/productCategory",
+    bgGradient: "radial-gradient(circle, #e8f5e9, #81c784)"
+  }
+];
+
 
   return (
     <div className="mainPageContainer" id="main-scroll-container">
@@ -68,10 +73,16 @@ function MainPage() {
         <ProductSlider />
       </div>
 
-      <div className="promobannerdiv">
-        <PromoBanner {...promoBanners[0]} />
-        <PromoBanner {...promoBanners[1]} />
+      <div className="prompopart">
+        <p className="watercolor-text">بهترین های مجموعه ما</p>
+        <div className="promobannerdiv">
+          <PromoBanner {...promoBanners[0]} />
+          <PromoBanner {...promoBanners[1]} />
+          <PromoBanner {...promoBanners[2]} />
+          <PromoBanner {...promoBanners[3]} />
+        </div>
       </div>
+
 
       <div className="sliderdiv" id="bestseller">
         <div className="titlepart">
@@ -81,10 +92,6 @@ function MainPage() {
         <ProductSlider />
       </div>
 
-      <div className="promobannerdiv">
-        <PromoBanner {...promoBanners[2]} />
-        <PromoBanner {...promoBanners[3]} />
-      </div>
       <br />
 
       <Footer />

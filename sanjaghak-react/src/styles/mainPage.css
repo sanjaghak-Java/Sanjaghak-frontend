@@ -71,12 +71,26 @@ overflow-y: auto;
   font-size: 28px;
 }
 
+.prompopart{
+  margin: 0px 55px;
+  direction: rtl;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.watercolor-text {
+  font-size: 1.5rem;
+  color: #333;
+  font-weight: bold;
+}
+
+
 .promobannerdiv{
   display: flex;
   gap: 20px;
   align-items: center;
   justify-content: center;
-  margin: 20px 38px;
 }
 
 

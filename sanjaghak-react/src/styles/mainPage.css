@@ -28,14 +28,19 @@ overflow-y: auto;
 
 
 .sliderdiv{
-  border: 1px solid #c97575;
+  border: 2px solid #eed8d88f;
   border-radius: 12px;
+  box-shadow: 0px 1px 7px #eed8d8;
   margin: 50px 60px;
   scroll-margin-top: 150px;
 }
 
+
 .titlepart{
-  background-color: #c97575;
+  /* background-color: #c97575; */
+  box-shadow: 1px 1px 7px #fc2b2b;
+  background-color: #fc2b2b;
+  animation: lampBlink 2s infinite;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -44,6 +49,7 @@ overflow-y: auto;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
 }
+
 
 
 @keyframes swing {
@@ -71,4 +77,20 @@ overflow-y: auto;
   align-items: center;
   justify-content: center;
   margin: 20px 38px;
+}
+
+
+@keyframes lampBlink {
+  0% {
+    background-color: #ff0000; 
+  }
+  50% {
+    background-color: #ff7373;
+  }
+  100% {
+    background-color: #ff0000; 
+  }
+
+
+  /* fc2b2b */
 }

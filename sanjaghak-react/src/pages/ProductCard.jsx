@@ -34,7 +34,7 @@ function ProductCard(props) {
                         <h2 className="ProductName">{props.name}</h2>
                         <h4 className="ProductModel">{props.model}</h4>
                     </div>
-                    <hr />
+                    <hr id="idont-know-hr"/>
                     <div className="priceSection">
                         <p className="price-title">قیمت:</p>
                         <div className="priceDetails">

@@ -33,7 +33,8 @@
 .cardFront {
   background-color: #fff;
   border: 1px solid #ccc;
-  box-shadow: 2px 2px 3px rgba(129, 127, 127, 0.8);
+  /* box-shadow: 2px 2px 3px #817f7fcc; */
+  box-shadow: 0px 2px 8px #817f7fcc;
   padding: 0 16px 16px 16px;
   z-index: 2;
   display: flex;
@@ -58,6 +59,7 @@
 }
 
 .backImage-large {
+  /* box-shadow: 0px 2px 10px rgba(255, 0, 0, 0.514); */
   max-width: 90%;
   max-height: 90%;
   width: auto;
@@ -67,6 +69,7 @@
 }
 
 .productImage {
+  mix-blend-mode: multiply;
   width: 100px;
   height: auto;
   margin: 0 auto 16px;
@@ -145,4 +148,11 @@
 .price-title {
   font-size: 18px;
   /* font-weight: 600; */
+}
+
+#idont-know-hr{
+  border: none;
+  height: 1px;
+  background-color: #dc2655;
+  box-shadow: 3px 2px 10px red;
 }

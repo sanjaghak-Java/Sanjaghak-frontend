@@ -29,7 +29,7 @@ overflow-y: auto;
 
 .sliderdiv{
   border: 2px solid #eed8d88f;
-  border-radius: 12px;
+  border-radius: 15px;
   box-shadow: 0px 1px 7px #eed8d8;
   margin: 50px 60px;
   scroll-margin-top: 150px;
@@ -38,16 +38,16 @@ overflow-y: auto;
 
 .titlepart{
   /* background-color: #c97575; */
-  box-shadow: 1px 1px 7px #fc2b2b;
-  background-color: #fc2b2b;
+  box-shadow: 1px 1px 7px #e33753;
+  background-color: #d03b5e;
   animation: lampBlink 2s infinite;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 5px;
   padding: 20px;
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
 }
 
 
@@ -83,6 +83,7 @@ overflow-y: auto;
   font-size: 1.5rem;
   color: #333;
   font-weight: bold;
+  text-shadow: -6px 6px 6px rgba(0, 0, 0, 0.3);
 }
 
 
@@ -96,13 +97,13 @@ overflow-y: auto;
 
 @keyframes lampBlink {
   0% {
-    background-color: #ff0000; 
+    background-color: #e33753; 
   }
   50% {
-    background-color: #ff7373;
+    background-color: #fc748b;
   }
   100% {
-    background-color: #ff0000; 
+    background-color: #e33753; 
   }
 
 

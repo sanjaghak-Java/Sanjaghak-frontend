@@ -11,10 +11,10 @@
 }
 
 .categorySwiperContainer {
-  max-width: 1220px;
+  max-width: 1350px;
   width: 100%;
   margin: 0 auto;
-  padding: 24px 35px;
+  padding: 24px 54px;
   box-sizing: border-box;
   position: relative;
   background-color: transparent;
@@ -33,7 +33,9 @@
   display: flex;
   justify-content: center;
   box-sizing: border-box;
-  border-radius: 800px;
+  border-radius: 100%;
+  text-decoration: none;
+  color: inherit;
 }
 
 .categorySwiperSlide > div {
@@ -78,13 +80,13 @@
 .swiper-button-prev,
 .swiper-button-next {
   position: absolute;
-  top: 50%;
-  width: 15px;
-  height: 15px;
-  background-color: transparent;
-  color: #000000;
-  box-shadow: none;
-  transition: color 0.3s ease;
+  top: 60%;
+  width: 32px;
+  height: 32px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 100%;
+  color: #484646;
+  transition: all 0.3s ease;
   z-index: 10 !important;
   transform: translateY(-50%);
   display: flex;
@@ -95,15 +97,24 @@
 
 .swiper-button-prev:hover,
 .swiper-button-next:hover {
-  color: #a33444 !important;
+  box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.3);
+  transform: translateY(-40%) scale(1.08);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
+
 .swiper-button-prev {
-  right: -40px !important;
+  right: -38px !important;
   left: auto !important;
 }
 
 .swiper-button-next {
-  left: -40px !important;
+  left: -38px !important;
   right: auto !important;
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 18px;
+  transition: font-size 0.3s ease;
 }

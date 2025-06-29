@@ -4,6 +4,7 @@ import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "/src/styles/categorySwiper.css"
+import { Link } from "react-router-dom";
 
 const categories = [
   { title: "گوشی موبایل", image: "./src/assets/images (2).jpg" },
@@ -28,19 +29,21 @@ function CategoriesSwiper() {
           dir="rtl"
           navigation
           loop={true}
-          spaceBetween={38}
+          spaceBetween={57}
           slidesPerView={6}
           modules={[Navigation]}
 
         >
           {categories.map((item, index) => (
             <SwiperSlide className="categorySwiperSlide" key={index} >
-              <div >
-                <img className="categorySlideImg"
-                  src={item.image}
-                />
-                <p className="categorySlidetext">{item.title}</p>
-              </div>
+              <Link to= "productCategory" className="categorySwiperSlide">
+                <div >
+                  <img className="categorySlideImg"
+                    src={item.image}
+                  />
+                  <p className="categorySlidetext">{item.title}</p>
+                </div>
+              </Link>
             </SwiperSlide>
           ))}
         </Swiper>

@@ -44,10 +44,10 @@ const Footer = () => {
             <div style={{ display: 'flex' , alignItems: 'center' }}>
               <p className="footerp">همراه ما باشید</p>
               <div className="iconfooter">
-                <Link to="#">
+                <Link to="/Contactus">
                   <img src={marker} alt="marker" className="marker-img" />
                 </Link>
-                <Link to="#">
+                <Link to="https://www.instagram.com/">
                   <img src={Instagram} alt="Instagram" className="marker-img" />
                 </Link>
               </div>

@@ -49,7 +49,7 @@
 }
 
 .cardBack {
-  background-color: #f3f4f5;
+  /* background-color: #fff; */
   transform: rotateY(180deg);
   display: flex;
   justify-content: center;

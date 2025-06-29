@@ -10,7 +10,7 @@
       #fafafad0,
       #c0bfbf,
       #a6a6a6);
-  border-radius: 50px 50px 0 0 ;
+  border-radius: 50px 50px 0 0;
 }
 
 .Footerhead {
@@ -70,6 +70,11 @@
 .marker-img {
   width: 25px;
   height: 25px;
+}
+
+.marker-img:hover {
+  background-color: transparent;
+  transform: scale(1.15);
 }
 
 .link-footer {

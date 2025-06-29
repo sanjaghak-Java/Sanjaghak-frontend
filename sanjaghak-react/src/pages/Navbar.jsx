@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import '/src/styles/Navbar.css';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 import logo from '../assets/sanjaghak-logo.png';
 import searchIcon from '../assets/search.png';
@@ -11,7 +11,8 @@ import cupIcon from '../assets/cup-2.png';
 
 function Navbar() {
     const navigate = useNavigate();
-    const [isFocused, setIsFocused] = useState(false); // اضافه کردن state برای فوکوس
+    const location = useLocation();
+    const [isFocused, setIsFocused] = useState(false);
 
     const goToSignIn = () => {
         navigate("/signin");
@@ -53,6 +54,7 @@ function Navbar() {
                 </div>
             </div>
 
+            {/* همیشه دسته بندی نمایش داده می‌شود */}
             <div className='lowerNav'>
                 <div className='dropDownContainer'>
                     <Link className='itemnav'>
@@ -69,25 +71,30 @@ function Navbar() {
                     </div>
                 </div>
 
-                <div className='navItem'>
-                    <Link to="/#newest" className='itemnav'>
-                        <div className='itemContentnav'>
-                            <img src={newIcon} alt="" className='iconnav' />
-                            <span className='itemTextnav'>جدید ترین</span>
+               
+                {location.pathname === '/' && (
+                    <>
+                        <div className='navItem'>
+                            <Link to="/#newest" className='itemnav'>
+                                <div className='itemContentnav'>
+                                    <img src={newIcon} alt="" className='iconnav' />
+                                    <span className='itemTextnav'>جدید ترین</span>
+                                </div>
+                            </Link>
                         </div>
-                    </Link>
-                </div>
 
-                <div className='navItem'>
-                    <Link to="/#bestseller" className='itemnav'>
-                        <div className='itemContentnav'>
-                            <img src={cupIcon} alt="" className='iconnav' />
-                            <span className='itemTextnav'>پرفروش‌ترین‌ها</span>
+                        <div className='navItem'>
+                            <Link to="/#bestseller" className='itemnav'>
+                                <div className='itemContentnav'>
+                                    <img src={cupIcon} alt="" className='iconnav' />
+                                    <span className='itemTextnav'>پرفروش‌ترین‌ها</span>
+                                </div>
+                            </Link>
                         </div>
-                    </Link>
-                </div>
 
-                <Link to="/profile-orders">پروفایل</Link>
+                        <Link to="/profile-orders">پروفایل</Link>
+                    </>
+                )}
             </div>
         </div>
     );

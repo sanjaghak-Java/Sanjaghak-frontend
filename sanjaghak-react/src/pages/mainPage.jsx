@@ -14,7 +14,7 @@ function MainPage() {
   const location = useLocation();
 
   useEffect(() => {
-     document.title = "سنجاقک";
+    document.title = "سنجاقک";
     //  document.querySelector("/src/assets/dragonfly (2).png");
     const hash = location.hash;
     if (hash === "#bestseller" || hash === "#newest") {
@@ -25,36 +25,36 @@ function MainPage() {
     }
   }, [location]);
 
-const promoBanners = [
-  {
-    title: "لپ‌تاپ‌های جدید",
-    description: "پیشتاز تکنولوژی",
-    imageUrl: "./src/assets/laptop background.png",
-    categoryLink: "/productCategory",
-    bgGradient: "radial-gradient(circle, #e3f2fd, #90caf9)"
-  },
-  {
-    title: "هدفون‌های باکیفیت",
-    description: "صدایی که تو رو می‌بره!",
-    imageUrl: './src/assets/headphone.png',
-    categoryLink: "/productCategory",
-    bgGradient: "radial-gradient(circle, #fce4ec, #f48fb1)"
-  },
-  {
-    title: "ساعت‌های هوشمند",
-    description: "زندگی مدرن با ساعت دیجیتال",
-    imageUrl: './src/assets/smartwatch.png',
-    categoryLink: "/productCategory",
-    bgGradient: "radial-gradient(circle, #ede7f6, #b39ddb)"
-  },
-  {
-    title: "موبایل‌های جدید",
-    description: "دنیا در دستان توست",
-    imageUrl: "./src/assets/smartphone.png",
-    categoryLink: "/productCategory",
-    bgGradient: "radial-gradient(circle, #e8f5e9, #81c784)"
-  }
-];
+  const promoBanners = [
+    {
+      title: "لپ‌تاپ‌های جدید",
+      description: "پیشتاز تکنولوژی",
+      imageUrl: "./src/assets/laptop background.png",
+      categoryLink: "/productCategory",
+      bgGradient: "radial-gradient(circle, #e3f2fd, #90caf9)"
+    },
+    {
+      title: "هدفون‌های باکیفیت",
+      description: "صدایی که تو رو می‌بره!",
+      imageUrl: './src/assets/headphone.png',
+      categoryLink: "/productCategory",
+      bgGradient: "radial-gradient(circle, #fce4ec, #f48fb1)"
+    },
+    {
+      title: "ساعت‌های هوشمند",
+      description: "زندگی مدرن با ساعت دیجیتال",
+      imageUrl: './src/assets/smartwatch.png',
+      categoryLink: "/productCategory",
+      bgGradient: "radial-gradient(circle, #ede7f6, #b39ddb)"
+    },
+    {
+      title: "موبایل‌های جدید",
+      description: "دنیا در دستان توست",
+      imageUrl: "./src/assets/smartphone.png",
+      categoryLink: "/productCategory",
+      bgGradient: "radial-gradient(circle, #e8f5e9, #81c784)"
+    }
+  ];
 
 
   return (

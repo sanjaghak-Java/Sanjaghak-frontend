@@ -30,11 +30,31 @@
 }
 
 .labelGroup {
+  background: linear-gradient(270deg,
+    #ffd1dc,
+    #ffe5b4,
+    #e0bbff,
+    #b2f7ef,
+    #caffbf,
+    #fdffb6 
+  );
+  background-size: 1200% 1200%;
+  animation: pastelMove 12s ease infinite;
+  width: 100%;
+  padding: 10px 5px;
+  border-radius: 12px;
   display: flex;
-  align-items: center;
+  direction: rtl;
   gap: 1.2rem;
   order: 1;
 }
+
+@keyframes pastelMove {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 
 .bestsellerLabel {
   order: 1;
@@ -78,18 +98,17 @@
 .bestsellerLabel {
   font-size: 0.95rem;
   padding: 0.4rem 1rem;
-  border-radius: 12px;
   background-color: transparent;
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
+  color: #444;
+  font-weight: normal;
 }
 
 .newestLabel:focus,
-.bestsellerLabel:focus,
-.newestLabel.active,
-.bestsellerLabel.active {
-  background-color: #ff4d6d;
-  color: white;
+.bestsellerLabel:focus {
+  color: #d35d6e;
   font-weight: bold;
+  outline: none;
 }

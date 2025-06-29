@@ -1,8 +1,40 @@
 .productGridContainer {
+  width: 100%;
   display: grid;
+  direction: rtl;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 40px;
-  padding: 20px;
+  padding: 5px 20px;
   max-width: 1500px;
   margin: 0 auto; 
+}
+
+.productGridWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+.paginationControls {
+  direction: rtl;
+  margin-top: 60px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.paginationControls button {
+  padding: 8px 12px;
+  background-color: #dc2655;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.paginationControls button:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
 }

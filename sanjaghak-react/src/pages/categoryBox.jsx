@@ -20,7 +20,6 @@ function CategoryBox(props) {
                     </div>
                 </div>
             </div>
-            <hr />
             <br />
             <ProductGrid />
         </div>

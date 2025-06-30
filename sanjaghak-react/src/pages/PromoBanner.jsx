@@ -10,21 +10,21 @@ function PromoBanner({ title, description, imageUrl, categoryLink, bgGradient })
   };
 
   return (
-          <Link to= "productCategory" className="prompolink">
-    <div className="PromoContainer" style={{ background: bgGradient }}>
-        <div className="phoneimgcontainor">
-          <img src={imageUrl} alt={title} className="phoneimg" />
-        </div>
-        <div className="promotexts">
-          <h1 className="promoTitle">{title}</h1>
-          <h4 className="PromoDescription">{description}</h4>
-          {/* <button className="seeAllBtn" onClick={changeToCategory}>
-            مشاهده &gt;
-          </button> */}
-        </div>
+    <Link to= "productCategory" className="prompolink">
+      <div className="PromoContainer" style={{ background: bgGradient }}>
+          <div className="phoneimgcontainor">
+            <img src={imageUrl} alt={title} className="phoneimg" />
+          </div>
+          <div className="promotexts">
+            <h1 className="promoTitle">{title}</h1>
+            <h4 className="PromoDescription">{description}</h4>
+            {/* <button className="seeAllBtn" onClick={changeToCategory}>
+              مشاهده &gt;
+            </button> */}
+          </div>
 
-    </div>
-          </Link>
+      </div>
+    </Link>
   );
 }
 

@@ -1,31 +1,49 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import "/src/styles/promoBanner.css";
+import React from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Pagination, EffectCoverflow } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/effect-coverflow';
+import '/src/styles/PromoBanner.css';
 
-function PromoBanner({ title, description, imageUrl, categoryLink, bgGradient }) {
-  const navigate = useNavigate();
-
-  const changeToCategory = () => {
-    navigate(categoryLink);
-  };
-
+const PromoBanner = ({ banners }) => {
   return (
-    <Link to= "productCategory" className="prompolink">
-      <div className="PromoContainer" style={{ background: bgGradient }}>
-          <div className="phoneimgcontainor">
-            <img src={imageUrl} alt={title} className="phoneimg" />
-          </div>
-          <div className="promotexts">
-            <h1 className="promoTitle">{title}</h1>
-            <h4 className="PromoDescription">{description}</h4>
-            {/* <button className="seeAllBtn" onClick={changeToCategory}>
-              مشاهده &gt;
-            </button> */}
-          </div>
-
-      </div>
-    </Link>
+    <div className="promo-banner-swiper">
+      <Swiper
+        modules={[Autoplay, Pagination, EffectCoverflow]}
+        effect="coverflow"
+        centeredSlides={true}
+        slidesPerView="auto"
+        loop={true}
+        spaceBetween={230}
+        coverflowEffect={{
+        rotate: 0,
+        stretch: 0,
+        depth: 120,
+        modifier: 2.5,
+        slideShadows: false,
+        }}
+        pagination={{ clickable: true }}
+        autoplay={{ delay: 4000 }}
+        className="promo-swiper"
+      >
+        {banners.map((banner, index) => (
+          <SwiperSlide key={index} className="promo-slide">
+            <div className="promo-banner-slide" style={{ backgroundColor: banner.bgColor }}>
+              <div className="promo-banner-content">
+                <h2>{banner.title}</h2>
+                <p className="promo-banner-discription">{banner.discription}</p>
+                <button onClick={banner.onClick}>مشاهده و خرید</button>
+              </div>
+              <div className="promo-banner-image">
+                <img src={banner.image} alt={banner.title} />
+              </div>
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
   );
-}
+};
 
 export default PromoBanner;

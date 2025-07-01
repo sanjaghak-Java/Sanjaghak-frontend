@@ -36,7 +36,7 @@ function ProductSlider(){
            dir="rtl"
         navigation
           loop={true} 
-        spaceBetween={100}
+        spaceBetween={80}
         slidesPerView={4}
        modules={[Navigation]}
        initialSlide={0}

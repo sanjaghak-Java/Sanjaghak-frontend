@@ -1,81 +1,66 @@
 @font-face {
-  font-family: 'Kamran';
-  src: url('./src/fonts/KamranB.ttf') format('truetype');
+  font-family: 'MehrB';
+    src: url('./src/fonts/B Mehr Bold_0.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: 'Yekan';
-    src: url('./src/fonts/BYekan.ttf') format('truetype');
+  font-family: 'Kamran';
+    src: url('./src/fonts/KamranB.ttf') format('truetype');
 }
 
-.PromoContainer {
-  position: relative;
+
+.promo-banner-swiper {
+  padding: 30px 0;
   direction: rtl;
-  overflow: hidden;
-  padding: 20px;
+}
+
+.promo-slide {
+  width: 90%;
+  height: 250px;
+  max-width: 1500px;
+}
+
+.promo-banner-slide {
+  display: flex;
+  flex-direction: row;
   align-items: center;
+  justify-content: space-between;
   border-radius: 20px;
+  padding: 30px;
+  gap: 2rem;
+  direction: rtl;
+  transition: all 0.4s ease-in-out;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
 }
 
-.prompolink{
-  width: 60%;
-  margin: 0 4px;
-  text-decoration: none;
-  color: inherit;  
-  display: inline-block;
-  transition: transform 0.5s ease;
-  border-radius: 20px;
-}
 
-.prompolink:hover{
-  transform: rotate(360deg) scale(1.085);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
-.promoTitle {
-  font-family: 'Kamran';
-  font-size: 1.8rem;
+.promo-banner-content h2 {
+  font-family: "MehrB";
+  font-size: 24px;
   font-weight: bold;
+  color: #333;
+  margin: 0;
 }
 
-.PromoDescription {
-  font-family: 'Kamran';
-  font-size: 1.2rem;
+.promo-banner-discription {
+  font-size: 18px;
+  color: #d32f2f;
+  margin: 1rem 0;
 }
 
-/* .seeAllBtn {
-  background-color: transparent;
-  color: #a72639;
-  font-family: 'Yekan';
-  font-size: 16px;
+.promo-banner-content button {
+  background-color: #ffffff;
+  color: black;
+  padding: 0.5rem 1.2rem;
   border: none;
-  border-radius: 8px;
-  padding: 6px 0;
-  font-size: 0.9rem;
+  border-radius: 200px;
+  font-size: 22px;
+  font-family: "Kamran";
   cursor: pointer;
+  box-shadow: 0 8px 10px -4px rgba(0, 0, 0, 0.5); /* فقط پایین */
   transition: all 0.3s ease;
 }
 
-.seeAllBtn:hover {
-  transform: scale(1.05);
-  text-shadow: 1px 1px 5px rgba(79, 26, 26, 0.3);
-} */
-
-.promotexts{
-  width: 100%;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  gap:4px; 
-}
-
-.phoneimgcontainor{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.phoneimg{
-  width: 78px;
-  height: auto;
+.promo-banner-content button:hover {
+  background-color: #cfd0d2;
 }

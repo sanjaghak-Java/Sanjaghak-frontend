@@ -4,6 +4,7 @@ import ImagePreview from "./imagePreview";
 import PromoBanner from "./PromoBanner";
 import "/src/styles/mainPage.css";
 import ProductSlider from "./productSlider";
+import BrandsSwiper  from "./BrandsSwiper";
 import Footer from "./Footer";
 import New from "../assets/new.png";
 import best from "../assets/best-seller.png";
@@ -93,6 +94,7 @@ function MainPage() {
       </div>
 
       <br />
+      <BrandsSwiper />
 
       <Footer />
     </div>

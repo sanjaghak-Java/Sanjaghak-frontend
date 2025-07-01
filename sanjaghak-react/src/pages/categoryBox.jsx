@@ -18,7 +18,6 @@ function CategoryBox(props) {
                     </div>
                     <label className="bestsellerLabel" tabIndex="0">پرفروش ترین ها</label>
                     <label className="newestLabel" tabIndex="0">جدید ترین ها</label>
-
                 </div>
             </div>
             <br />

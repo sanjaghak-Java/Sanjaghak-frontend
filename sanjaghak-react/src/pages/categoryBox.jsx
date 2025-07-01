@@ -1,5 +1,3 @@
-
-
 import ProductGrid from "./productGrid";
 import "/src/styles/categoryBox.css"
 

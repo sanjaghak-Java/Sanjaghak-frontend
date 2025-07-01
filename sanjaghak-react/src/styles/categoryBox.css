@@ -13,7 +13,7 @@
 .labelsContainer {
   display: flex;
   flex-direction: column;
-  align-items: flex-end; 
+  align-items: flex-end;
   margin-bottom: 14px;
 }
 
@@ -31,28 +31,36 @@
 
 .labelGroup {
   background: linear-gradient(270deg,
-    #ffd1dc,
-    #ffe5b4,
-    #e0bbff,
-    #b2f7ef,
-    #caffbf,
-    #fdffb6 
-  );
+      #ffd1dc,
+      #ffe5b4,
+      #e0bbff,
+      #b2f7ef,
+      #caffbf,
+      #fdffb6);
   background-size: 1200% 1200%;
   animation: pastelMove 12s ease infinite;
   width: 100%;
   padding: 10px 5px;
   border-radius: 12px;
   display: flex;
+  align-items: center;
   direction: rtl;
   gap: 1.2rem;
   order: 1;
 }
 
 @keyframes pastelMove {
-  0%   { background-position: 0% 50%; }
-  50%  { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 

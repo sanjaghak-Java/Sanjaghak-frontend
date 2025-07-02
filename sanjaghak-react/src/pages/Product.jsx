@@ -28,9 +28,7 @@ function Product() {
         <>
             <Navbar />
             <ProductDetail onAddToCart={handleAddToCart} />
-            <hr className="hr-side" />
-            <h1 className="similar-title">محصولات مشابه</h1>
-            <Similarproducts />
+
             <hr className="hr-side" />
 
             <div className="Information">
@@ -56,7 +54,14 @@ function Product() {
             </div>
 
             <ProductIntroduction introRef={introRef} />
+
             <p className="Information-title" ref={specsRef}>مشخصات</p>
+
+            <div className="similar-dev">
+            <hr className="hr-side" />
+            <h1 className="similar-title">محصولات مشابه</h1>
+            <Similarproducts />
+</div>
 
             {showCartReport && <Cartreport onClose={handleCloseCartReport} />}
             <Footer />

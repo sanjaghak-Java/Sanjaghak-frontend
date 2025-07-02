@@ -1,72 +1,81 @@
+import React, { useRef, useState } from 'react';
 import "/src/styles/product.css";
-import { Link } from 'react-router-dom';
 import Navbar from "./navbar";
 import Footer from "./Footer";
-import ProductIntroduction from "./PorductIntroduction";
-import React, { useRef, useState } from 'react';
+import ProductIntroduction from "./ProductIntroduction";
 import Cartreport from './Cartreport';
 import ProductDetail from "./Productdetail";
 import Similarproducts from "./Similarproducts";
 
-
 function Product() {
-    const [showCartReport, setShowCartReport] = useState(false);
+  const [showCartReport, setShowCartReport] = useState(false);
 
-    const handleAddToCart = () => setShowCartReport(true);
-    const handleCloseCartReport = () => setShowCartReport(false);
+  const handleAddToCart = () => setShowCartReport(true);
+  const handleCloseCartReport = () => setShowCartReport(false);
 
-    const introRef = useRef(null);
-    const specsRef = useRef(null);
+  const introRef = useRef(null);
+  const specsRef = useRef(null);
 
-    const scrollToSection = (ref) => {
-        if (ref.current) {
-            ref.current.scrollIntoView({ behavior: 'smooth' });
-        }
-    };
+  const scrollToSection = (ref) => {
+    if (ref.current) {
+      const navbarHeight = 80; // ارتفاع Navbar ثابت خودت را وارد کن
+      const elementPosition = ref.current.getBoundingClientRect().top;
+      const offsetPosition = window.pageYOffset + elementPosition - navbarHeight;
 
-    return (
-        <>
-            <Navbar />
-            <ProductDetail onAddToCart={handleAddToCart} />
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
+    }
+  };
 
-            <hr className="hr-side" />
+  return (
+    <>
+      <Navbar />
 
-            <div className="Information">
-                <input
-                    type="radio"
-                    name="section"
-                    value="intro"
-                    id="intro"
-                    className="Introduction"
-                    onChange={() => scrollToSection(introRef)}
-                />
-                <label htmlFor="intro" className="up-cadr">معرفی</label>
+      <ProductDetail onAddToCart={handleAddToCart} />
 
-                <input
-                    type="radio"
-                    name="section"
-                    value="specs"
-                    id="specs"
-                    className="specs"
-                    onChange={() => scrollToSection(specsRef)}
-                />
-                <label htmlFor="specs" className="up-cadr">مشخصات</label>
-            </div>
+      <hr className="hr-side" />
 
-            <ProductIntroduction introRef={introRef} />
+      <div className="Information">
+        <input
+          type="radio"
+          name="section"
+          value="intro"
+          id="intro"
+          className="Introduction"
+          onChange={() => scrollToSection(introRef)}
+        />
+        <label htmlFor="intro" className="up-cadr">معرفی</label>
 
-            <p className="Information-title" ref={specsRef}>مشخصات</p>
+        <input
+          type="radio"
+          name="section"
+          value="specs"
+          id="specs"
+          className="specs"
+          onChange={() => scrollToSection(specsRef)}
+        />
+        <label htmlFor="specs" className="up-cadr">مشخصات</label>
+      </div>
 
-            <div className="similar-dev">
-            <hr className="hr-side" />
-            <h1 className="similar-title">محصولات مشابه</h1>
-            <Similarproducts />
-</div>
+      {/* معرفی محصول */}
+      <ProductIntroduction introRef={introRef} />
 
-            {showCartReport && <Cartreport onClose={handleCloseCartReport} />}
-            <Footer />
-        </>
-    );
+      {/* مشخصات محصول */}
+      <p className="Information-title" ref={specsRef}>مشخصات</p>
+
+      <div className="similar-dev">
+        <hr className="hr-side" />
+        <h1 className="similar-title">محصولات مشابه</h1>
+        <Similarproducts />
+      </div>
+
+      {showCartReport && <Cartreport onClose={handleCloseCartReport} />}
+
+      <Footer />
+    </>
+  );
 }
 
 export default Product;

@@ -11,6 +11,12 @@
   padding: 0;
 }
 
+.product-name {
+  font-family: 'Digikala';
+  font-size: 30px;
+  margin-right: 10px;
+}
+
 .head-cart {
   margin-top: 180px;
   justify-content: center;

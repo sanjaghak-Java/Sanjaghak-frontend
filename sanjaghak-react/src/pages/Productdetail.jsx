@@ -50,7 +50,7 @@ function ProductDetail({ onAddToCart }) {
             />
             <label className="brand-name">iphone</label>
           </div>
-          <h2>galaxy A53</h2>
+          <h2 className="product-name">galaxy A53</h2>
           <p className="product-information-title">رنگبندی :</p>
           <div className="product-color">
             <label className="product-color-name">سفید</label>

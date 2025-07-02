@@ -1,0 +1,40 @@
+
+.similar-productSwiperContainer {
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 24px 50px;
+  box-sizing: border-box;
+  position: relative;
+  background-color: transparent;
+  direction: rtl;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow: hidden;
+}
+
+.similar-productSwiper {
+  background-color: transparent;
+  direction: rtl !important;
+  overflow: visible !important;
+}
+
+.similar-productSwiperSlide {
+  width: 800px; 
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+/* 
+.productSwiperSlide > div:hover {
+  box-shadow: 0 6px 15px rgba(6, 6, 6, 0.25);
+} */
+
+
+.similar-slideText {
+  font-size: 14px;
+  color: #8b2d38;
+  font-weight: 600;
+  margin: 0;
+  user-select: none;
+}

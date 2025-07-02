@@ -6,6 +6,8 @@ import ProductIntroduction from "./PorductIntroduction";
 import React, { useRef, useState } from 'react';
 import Cartreport from './Cartreport';
 import ProductDetail from "./Productdetail";
+import Similarproducts from "./Similarproducts";
+
 
 function Product() {
     const [showCartReport, setShowCartReport] = useState(false);
@@ -26,7 +28,9 @@ function Product() {
         <>
             <Navbar />
             <ProductDetail onAddToCart={handleAddToCart} />
-
+            <hr className="hr-side" />
+            <h1 className="similar-title">محصولات مشابه</h1>
+            <Similarproducts />
             <hr className="hr-side" />
 
             <div className="Information">
@@ -38,7 +42,7 @@ function Product() {
                     className="Introduction"
                     onChange={() => scrollToSection(introRef)}
                 />
-                <label htmlFor="intro">معرفی</label>
+                <label htmlFor="intro" className="up-cadr">معرفی</label>
 
                 <input
                     type="radio"
@@ -48,7 +52,7 @@ function Product() {
                     className="specs"
                     onChange={() => scrollToSection(specsRef)}
                 />
-                <label htmlFor="specs">مشخصات</label>
+                <label htmlFor="specs" className="up-cadr">مشخصات</label>
             </div>
 
             <ProductIntroduction introRef={introRef} />

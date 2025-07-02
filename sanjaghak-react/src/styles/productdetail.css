@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'Digikala ';
+  src: url('./src/fonts/Digikala -_font.ttf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -282,10 +289,11 @@
 }
 
 .buy-button {
+  font-family: 'Digikala ';
   background-color: #DC2655;
   box-shadow: 1px 1px 5px #00000093;
   color: white;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 500;
   border: none;
   border-radius: 15px;

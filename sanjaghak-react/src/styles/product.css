@@ -1,9 +1,22 @@
+
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
+.similar-title {
+  margin-top: -44px;
+  margin-bottom: 10px;
+  background-color: #fff;
+  padding: 0 12px;
+  color: #333;
+  display: block;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  text-shadow: 0 2px 5px #5c5c5c;
+}
 
 .Information {
   margin-right: 150px;
@@ -11,29 +24,32 @@
   gap: 10px;
   direction: rtl;
 }
+
 .hr {
   border: none;
-  border-top: 2px dotted #D1D1D4; 
+  border-top: 2px dotted #D1D1D4;
   width: 90%;
   margin: 30px 0 20px auto;
   opacity: 0.9;
 }
 
 .hr-side {
+  /* box-shadow: 0 1px 4px rgb(231, 0, 0); */
   border: none;
   height: 2px;
-  width: 85%;            
-  background-color: #D1D1D4; 
-  margin: 24px auto;      
-  border-radius: 2px;   
+  width: 85%;
+  background-color: #D1D1D4;
+  margin: 24px auto;
+  border-radius: 2px;
 }
+
 .Introduction,
 .specs {
   display: none;
 }
 
-.Introduction + label,
-.specs + label {
+.Introduction+label,
+.specs+label {
   width: 70px;
   cursor: pointer;
   font: 800 18px/1.2 sans-serif;
@@ -46,13 +62,13 @@
   position: relative;
 }
 
-.Introduction:checked + label,
-.specs:checked + label {
+.Introduction:checked+label,
+.specs:checked+label {
   background: rgba(0, 0, 0, 0.1);
 }
 
-.Introduction:checked + label::after,
-.specs:checked + label::after {
+.Introduction:checked+label::after,
+.specs:checked+label::after {
   content: '';
   position: absolute;
   right: 0;

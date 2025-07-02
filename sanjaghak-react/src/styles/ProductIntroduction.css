@@ -1,13 +1,21 @@
+@font-face {
+  font-family: 'kanun ';
+  src: url('./src/fonts/KanunStencilAR+LT-Bold.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 .Information-title {
   direction: rtl;
-  width: 85%;             
-  margin: 30px auto 10px auto;  
+  width: 85%;
+  margin: 30px auto 10px auto;
   background-color: #F0F1F1;
   font-weight: 600;
-  font-size: 20px;
+  font-size: 19px;
   padding: 10px 20px;
   border-radius: 8px;
   text-align: center;
+  font-family: 'kanun ';
 }
 
 .product-info-box {
@@ -44,7 +52,7 @@
 
 .product-text.collapsed {
   display: -webkit-box;
-  -webkit-line-clamp: 3; 
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -52,4 +60,3 @@
 .product-text.expanded {
   display: block;
 }
-

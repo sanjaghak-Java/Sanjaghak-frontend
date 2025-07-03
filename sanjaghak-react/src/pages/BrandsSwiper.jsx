@@ -35,12 +35,12 @@ function BrandsSwiper() {
           modules={[Navigation, Autoplay]}
         >
           {brands.map((brand, index) => (
-          <SwiperSlide key={index} className="brandSlide">
-            <div className="brandWrapper">
-              <img className="brandLogo" src={brand.image} alt={brand.name} />
-             <div className="brandDivider"/>
-            </div>
-          </SwiperSlide>
+            <SwiperSlide key={index} className="brandSlide">
+              <div className="brandWrapper">
+                <img className="brandLogo" src={brand.image} alt={brand.name} />
+                <div className="brandDivider" />
+              </div>
+            </SwiperSlide>
 
           ))}
         </Swiper>

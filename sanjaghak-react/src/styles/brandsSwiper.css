@@ -1,10 +1,13 @@
+
+
 .brandsSwiperContainer {
   background-color: #f0f0f0;
-  border-radius: 16px;
+  border-radius: 0 0 16px 16px;
   overflow: hidden;
   margin: 0 50px 20px 50px;
   padding: 20px;
   position: relative;
+  /* box-shadow: 0px 0px 5px #ff00006b; */
 }
 
 .brandsTitle {
@@ -12,11 +15,15 @@
   text-align: center;
   font-size: 20px;
   font-weight: bold;
+  font-family: 'kanun ';
   padding: 12px 24px;
-  margin: 0 50px 20px 50px;
-  background: linear-gradient(135deg, #dc2655, #ff6b81, #ef8ca8);
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(220, 38, 85, 0.3);
+  margin: 0 50px 0px 50px;
+  background-color: #ee3333;
+  /* background: linear-gradient(135deg, #dc2655, #ff6b81, #ef8ca8); */
+  border-radius: 12px 12px 0 0;
+  /* box-shadow: 0 4px 12px rgba(220, 38, 85, 0.3); */
+  /* box-shadow: -0px -0px 5px #af0000; */
+  text-shadow: 2px 2px 5px #e6e6e6;
 }
 
 .brandSlide {
@@ -42,9 +49,10 @@
 .brandDivider {
   width: 1px;
   height: 60px;
-  background-color: #666;
+  background-color: #af0000;
   opacity: 0.5;
   margin-right: 82px;
+  box-shadow: 0px 0px 5px #ff0000
 }
 
 

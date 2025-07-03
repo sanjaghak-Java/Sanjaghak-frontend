@@ -1,6 +1,9 @@
-html, body, #root {
-overflow-y: auto;
+html,
+body,
+#root {
+  overflow-y: auto;
 }
+
 .mainPageContainer {
   height: 100vh;
   overflow-y: auto;
@@ -8,26 +11,30 @@ overflow-y: auto;
   position: relative;
   scroll-behavior: smooth;
 }
-.mainPageContainer::-webkit-scrollbar-track{
-    margin-top: 100px;
-    margin-bottom: 100px;
-    padding-bottom: 100px;
-    padding-top: 100px;
-}
-.mainPageContainer::-webkit-scrollbar{
-        margin-top: 100px;
-    margin-bottom: 100px;
-    padding-bottom: 100px;
-    padding-top: 100px;
+
+.mainPageContainer::-webkit-scrollbar-track {
+  margin-top: 100px;
+  margin-bottom: 100px;
+  padding-bottom: 100px;
+  padding-top: 100px;
 }
 
-.titleslider{
+.mainPageContainer::-webkit-scrollbar {
+  margin-top: 100px;
+  margin-bottom: 100px;
+  padding-bottom: 100px;
+  padding-top: 100px;
+}
+
+.titleslider {
+  font-family: 'kanun ';
   color: white;
   font-size: 28px;
+  text-shadow: 2px 2px 5px #111111;
 }
 
 
-.sliderdiv{
+.sliderdiv {
   border: 2px solid #eed8d88f;
   border-radius: 15px;
   box-shadow: 0px 1px 7px #eed8d8;
@@ -36,7 +43,7 @@ overflow-y: auto;
 }
 
 
-.titlepart{
+.titlepart {
   /* background-color: #c97575; */
   box-shadow: 1px 1px 7px #e33753;
   background-color: #d03b5e;
@@ -53,25 +60,33 @@ overflow-y: auto;
 
 
 @keyframes swing {
-  0%   { transform: rotate(-10deg); }
-  50%  { transform: rotate(10deg); }
-  100% { transform: rotate(-10deg); }
+  0% {
+    transform: rotate(-10deg);
+  }
+
+  50% {
+    transform: rotate(10deg);
+  }
+
+  100% {
+    transform: rotate(-10deg);
+  }
 }
 
 .rotatedimg {
   animation: swing 0.8s ease-in-out infinite;
-  transform-origin: center; 
+  transform-origin: center;
   width: 45px;
   height: 45px;
 }
 
 
-.titleslider1{
+.titleslider1 {
   color: white;
   font-size: 28px;
 }
 
-.prompopart{
+.prompopart {
   margin: 0px 55px;
   direction: rtl;
   display: flex;
@@ -87,7 +102,7 @@ overflow-y: auto;
 }
 
 
-.promobannerdiv{
+.promobannerdiv {
   gap: 20px;
   align-items: center;
   justify-content: center;
@@ -96,13 +111,15 @@ overflow-y: auto;
 
 @keyframes lampBlink {
   0% {
-    background-color: #e33753; 
+    background-color: #e33753;
   }
+
   50% {
     background-color: #fc748b;
   }
+
   100% {
-    background-color: #e33753; 
+    background-color: #e33753;
   }
 
 

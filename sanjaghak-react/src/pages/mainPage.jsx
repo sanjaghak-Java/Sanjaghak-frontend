@@ -29,28 +29,28 @@ function MainPage() {
 
 const promoBanners = [
   {
-    title: "جدیدترین لپ‌تاپ‌های لنوو",
+    title: "جدیدترین مکبوک ها",
     discription: "دنیا در دستان تو",
-    image: "./src//assets/headphone.png",
-    bgColor: "#e3f2fd",
+    image: "./src//assets/mac.jpg",
+    bgColor: "#000000",
   },
   {
     title: "صدای باکیفت با هایلو",
     discription: "همراه همیشگی تو",
-    image: "./src//assets/headphone.png",
-    bgColor: "#fff3e0",
+    image: "./src//assets/headphones.jpg",
+    bgColor: "#bfcee1",
   },
   {
-    title: "ساعت‌های هوشمند مخصوص ورزشکاران",
-    discription: "تا ۲۰٪ تخفیف تابستانه",
-    image: "./src//assets/headphone.png",
-    bgColor: "#f1f8e9",
+    title: "ساعت‌های هوشمند اپل",
+    discription: "مخصوص ورزشکاران",
+    image: "./src//assets/applewatch.jpg",
+    bgColor: "#d1a092",
   },
   {
-    title: "نسل جدید گوشی های سامسونگ",
+    title: "نسل جدید گوشی های پوکو",
     discription: "آنلاین در همه جا",
-    image: "./src//assets/headphone.png",
-    bgColor: "#fce4ec",
+    image: "./src//assets/POCO-Best-Phones.jpg",
+    bgColor: "#ffb400",
   },
 ];
 

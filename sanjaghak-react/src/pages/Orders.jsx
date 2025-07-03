@@ -1,13 +1,13 @@
 import React from 'react';
 import "/src/styles/profile.css";
-import Navbar from './navbar';    
+import Navbar from './Navbar';    
 import Footer from './Footer';  
 import ProfileMenu from './ProfileMenu';
 import delivered from '../assets/delivered.png';
 import returned from '../assets/returned.png';
 import cancel from '../assets/cancel.png';
 import filter from '../assets/filter.png';
-import Shop from '../assets/shop.png';
+import Shop from '../assets/shopping-bag.png';
 
 function Orders() {
   return (

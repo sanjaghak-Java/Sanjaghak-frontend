@@ -1,57 +1,94 @@
-.profilepage{
+  @font-face {
+    font-family: 'Jalal';
+    src: url('./src/fonts/BJalalBd.ttf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'KanunStencilAR';
+    src: url('./src/fonts/KanunStencilAR+LT-Bold.otf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Traffic';
+    src: url('./src/fonts/Far.Traffic.ttf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Bita';
+    src: url('./src/fonts/Far.Bita.ttf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'B Mehr Bold_0';
+    src: url('./src/fonts/B Mehr Bold_0.ttf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'KamranB';
+    src: url('./src/fonts/KamranB.ttf') format('truetype');
+  }
+
+  .profilepage{
     width: 19%;
-  display: flex;
-  padding: 20px;
-}
+    display: flex;
+    padding: 20px;
+  }
 
-.profilecontent{
+  .profilecontent{
     margin: 160px 30px 50px 30px;
-  direction: rtl;
-  display: flex;
-  gap: 20px;
-}
+    direction: rtl;
+    display: flex;
+    gap: 20px;
+  }
 
-.backimg{
-  width: 100%;
-  height: 100px;
-}
-.menubar{
+  .backimg{
+    width: 100%;
+    height: 100px;
+  }
+  .menubar{
     width: 100%;
     background-color: white;
     padding-bottom: 40px;
     border: 1px solid #D1D4D4;
     border-radius: 15px;
     height: auto;
-}
+  }
 
-.infopart{
-  display: flex;
-  align-items: center;
-  padding: 30px;
-  gap: 10px;
-}
+  .menubar button{
+    font-family: "Bita";
+    font-size: 20px;
+  }
 
-
-.name{
-  font-weight: bold;
-}
-
-.phonenum{
-  color: #676F71;
-}
+  .infopart{
+    display: flex;
+    align-items: center;
+    padding: 30px;
+    gap: 10px;
+  }
 
 
-.editimg{
-  width: 22px;
-  height: 22px;
-}
+  .name{
+    font-family: "B Mehr Bold_0";
+    font-weight: bold;
+    font-size: 18px;
+  }
 
-.profimg{
-  width: 18px;
-  height: 18px;
-}
+  .phonenum{
+    color: #676F71;
+  }
 
-.linkprof{
+
+  .editimg{
+    width: 22px;
+    height: 22px;
+  }
+
+  .profimg{
+    width: 18px;
+    height: 18px;
+  }
+
+  .linkprof{
     background-color: transparent;
     width: 80%;
     text-decoration: none;
@@ -66,46 +103,46 @@
     box-shadow: 0 1.5px 0px 0px rgba(95, 94, 94, 0.8);
     transition: box-shadow 0.2s ease;
     cursor: pointer;
-}
+  }
 
-.linkprof:focus{
-  background-color: #dc26542a;
-  box-shadow: 0 1.5px 0px 0px #DC2655;
+  .linkprof:focus{
+    background-color: #dc26542a;
+    box-shadow: 0 1.5px 0px 0px #DC2655;
 
-}
+  }
 
-.linkprof.active {
-  background-color: #dc26542a;
-  box-shadow: 0 1.5px 0px 0px #DC2655;
-}
+  .linkprof.active {
+    background-color: #dc26542a;
+    box-shadow: 0 1.5px 0px 0px #DC2655;
+  }
 
 
-.exit{
+  .exit{
     background-color: transparent;
     width: 80%;
     text-decoration: none;
     color: #DC2655;
     font-size: 15px;
     border: none;
-    margin: 20px;
+    margin: 20px 20px 0 20px;
     padding: 15px;
     display: flex;
     align-items: center;
     gap: 5px;
     transition: box-shadow 0.2s ease;
     cursor: pointer;
-}
+  }
 
 
-.orderdiv{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 20px;
-}
+  .orderdiv{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+  }
 
-.border{
+  .border{
     background-color: white;
     display: flex;
     justify-content: center;
@@ -114,62 +151,65 @@
     padding: 20px;
     gap: 300px;
     width: 100%;
-}
+  }
 
-.bordertwo{
+  .bordertwo{
     background-color: white;
     border: 1px solid #D1D4D4;
     border-radius: 15px;
     padding: 20px;
     width: 100%;
-}
+  }
 
-.statusdiv{
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
+  .statusdiv{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
 
-.statusicons{
-  width: 65px;
-  height: 65px;
-}
+  .statusicons{
+    width: 65px;
+    height: 65px;
+  }
 
-.description{
-  color: #676F71;
-}
+  .description{
+    color: #676F71;
+  }
 
-.statusparts{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-}
+  .statusparts{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
 
-.titleprofile{
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
+  .titleprofile{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
 
-.titleimg{
-  width: 30px;
-  height: 30px;
-}
-.titlehprof{
-  color: #3E4344;
-}
+  .titleimg{
+    width: 30px;
+    height: 30px;
+  }
+  .titlehprof{
+    font-family: "KanunStencilAR";
+    color: #3E4344;
+  }
 
-.filterpart{
-  display: flex;
-  gap: 80px;
-  align-items: center;
-  justify-content: center;
-}
+  .filterpart{
+    display: flex;
+    gap: 80px;
+    align-items: center;
+    justify-content: center;
+  }
 
   .formlabel {
     display: block;
     color: #333;
+    font-family: "Traffic";
+    font-weight: bold;
     margin-bottom: 15px;
     margin-right: 5px;
   }
@@ -178,6 +218,7 @@
   .custominput {
     width: 250px;
     padding: 10px;
+    font-family: "Traffic";
     border: 2px solid #ccc;
     border-radius: 8px;
     background-color: transparent;
@@ -185,10 +226,10 @@
 
   .customselect:focus,
   .custominput:focus {
-    outline: none;
+      outline: none;
   }
 
-    .customdate {
+  .customdate {
     width: 250px;
     padding: 10px;
     border: 2px solid #ccc;
@@ -201,11 +242,13 @@
     align-items: center;
     justify-content: center;
     background-color: #DC2655;
+    font-family: "KamranB";
+    font-size: 22px;
     border: none;
     border-radius: 12px;
-    padding: 9px 30px;
+    padding: 5px 26px;
     color: white;
-    margin-top: 30px;
+    margin-top: 40px;
     cursor: pointer;
   }
 
@@ -214,73 +257,79 @@
   }
 
 
-.status {
-  padding: 6px 12px;
-  border-radius: 999px;
-  font-size: 14px;
-  display: inline-block;
-  font-weight: 500;
-}
+  .status {
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 14px;
+    display: inline-block;
+    font-weight: 500;
+  }
 
-.status.cancelled {
-  background-color: #ffe5e5;
-  color: #ff4d4d;
-}
+  .status.cancelled {
+    background-color: #ffe5e5;
+    color: #ff4d4d;
+  }
 
-.status.delivered {
-  background-color: #e5fff1;
-  color: #00b67a;
-}
+  .status.delivered {
+    background-color: #e5fff1;
+    color: #00b67a;
+  }
 
-.status.returned {
-  background-color: #e0e0e0;
-  color: #666;
-}
+  .status.returned {
+    background-color: #e0e0e0;
+    color: #666;
+  }
 
-.titleprof{
-  display: flex;
-  align-items: center;
-  gap: 400px;
-}
+  .titleprof{
+    font-family: "KanunStencilAR";
+    display: flex;
+    align-items: center;
+    gap: 400px;
+  }
 
-.profdiv{
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 10px;
-}
+  .profdiv{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+  }
 
-.profhr{
-  border: none;
-  width: 60%;
-  height: 1px;
-  background-color: #ccc;
-}
+  .profdiv label{
+    font-family: "Jalal";
+  }
 
-.proftext{
-  color: #676F71;
-}
+  .profhr{
+    border: none;
+    width: 60%;
+    height: 1px;
+    background-color: #ccc;
+  }
+
+  .proftext{
+    font-family: "Traffic";
+    color: #676F71;
+  }
 
 
-.editbutton{
-  display: flex;
-  align-items: center;
-  color: #DC2655;
-  font-size: 16px;
-  margin-right: 500px;
-  gap: 5px;
-  background-color: transparent;
-  border: none;
-  outline: none;
-  cursor: pointer;
-}
+  .editbutton{
+    display: flex;
+    align-items: center;
+    color: #DC2655;
+    font-size: 16px;
+    margin-right: 500px;
+    gap: 5px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+  }
 
-.editbutton:hover{
-  text-shadow: 1px 1px 6px rgba(102, 100, 100, 0.3);
-  filter: drop-shadow(2px 2px 4px rgba(102, 100, 100, 0.3));
-}
+  .editbutton:hover{
+    text-shadow: 1px 1px 6px rgba(102, 100, 100, 0.3);
+    filter: drop-shadow(2px 2px 4px rgba(102, 100, 100, 0.3));
+  }
 
-.favitems{
+  .favitems{
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -288,12 +337,12 @@
     border-radius: 15px;
     padding: 20px;
     width: 100%;
-}
+  }
 
-.favitemscontainor{
+  .favitemscontainor{
     display: flex;
     flex-direction: column;
     gap: 20px;
     padding: 0 60px;
     width: 100%;
-}
+  }

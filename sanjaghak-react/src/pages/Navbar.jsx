@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '/src/styles/Navbar.css';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';
+import UserMenu from "./UserMenu";
 import logo from '../assets/sanjaghak-logo.png';
 import searchIcon from '../assets/search.png';
 import cartIcon from '../assets/icons8-cart-64.png';
@@ -11,7 +11,6 @@ import cupIcon from '../assets/cup-2.png';
 
 function Navbar() {
     const navigate = useNavigate();
-    const location = useLocation();
     const [isFocused, setIsFocused] = useState(false);
 
     const goToSignIn = () => {
@@ -45,6 +44,9 @@ function Navbar() {
                     <button className='loginBtn' onClick={goToSignIn}>
                         ثبت نام<span className='space'>|</span>ورود
                     </button>
+                    
+                    <UserMenu />
+
                     <div className='cart-navbar'>
                         <button className='cartbutton' onClick={goTomycart}>
                             <label htmlFor="" className='cart-num'>1</label>
@@ -54,7 +56,6 @@ function Navbar() {
                 </div>
             </div>
 
-            {/* همیشه دسته بندی نمایش داده می‌شود */}
             <div className='lowerNav'>
                 <div className='dropDownContainer'>
                     <Link className='itemnav'>
@@ -71,30 +72,24 @@ function Navbar() {
                     </div>
                 </div>
 
-               
-                {location.pathname === '/' && (
-                    <>
-                        <div className='navItem'>
-                            <Link to="/#newest" className='itemnav'>
-                                <div className='itemContentnav'>
-                                    <img src={newIcon} alt="" className='iconnav' />
-                                    <span className='itemTextnav'>جدید ترین</span>
-                                </div>
-                            </Link>
+                <div className='navItem'>
+                    <Link to="/#newest" className='itemnav'>
+                        <div className='itemContentnav'>
+                            <img src={newIcon} alt="" className='iconnav' />
+                            <span className='itemTextnav'>جدید ترین</span>
                         </div>
+                    </Link>
+                </div>
 
-                        <div className='navItem'>
-                            <Link to="/#bestseller" className='itemnav'>
-                                <div className='itemContentnav'>
-                                    <img src={cupIcon} alt="" className='iconnav' />
-                                    <span className='itemTextnav'>پرفروش‌ترین‌ها</span>
-                                </div>
-                            </Link>
+                <div className='navItem'>
+                    <Link to="/#bestseller" className='itemnav'>
+                        <div className='itemContentnav'>
+                            <img src={cupIcon} alt="" className='iconnav' />
+                            <span className='itemTextnav'>پرفروش‌ترین‌ها</span>
                         </div>
+                    </Link>
+                </div>
 
-                        <Link to="/profile-orders">پروفایل</Link>
-                    </>
-                )}
             </div>
         </div>
     );

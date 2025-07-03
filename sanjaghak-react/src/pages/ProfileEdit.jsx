@@ -47,16 +47,23 @@ function EditProfile() {
             <br />
 
             <div className="profdiv">
-              <p className="proftext">نام و نام خانوادگی</p><label>{userInfo.fullName}</label><hr className="profhr" />
+              <p className="proftext">نام و نام خانوادگی</p>
+              <label>{userInfo.fullName}</label>
+              <hr className="profhr" />
             </div>
             <div className="profdiv">
-              <p className="proftext">شماره موبایل</p><label>{userInfo.phone}</label><hr className="profhr" />
+              <p className="proftext">شماره موبایل</p>
+              <label>{userInfo.phone}</label>
+              <hr className="profhr" />
             </div>
             <div className="profdiv">
-              <p className="proftext">ایمیل</p><label>{userInfo.email}</label><hr className="profhr" />
+              <p className="proftext">ایمیل</p>
+              <label>{userInfo.email}</label>
+              <hr className="profhr" />
             </div>
             <div className="profdiv">
-              <p className="proftext">آدرس</p><label>{userInfo.address}</label>
+              <p className="proftext">آدرس</p>
+              <label>{userInfo.address}</label>
             </div>
           </div>
         </div>

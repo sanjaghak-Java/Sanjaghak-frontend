@@ -3,6 +3,10 @@
   src: url('./src/fonts/Tunisia Bd_MRT.ttf') format('truetype');
 }
 
+@font-face {
+  font-family: 'Estedad';
+  src: url('./src/fonts/Estedad[wght,kshd].ttf') format('truetype');
+}
 
 .cardContainer {
   width: 230px;
@@ -83,7 +87,8 @@
 }
 
 .ProductName {
-  font-size: 16px;
+  font-size: 13px;
+  font-family: "Estedad";
   color: #333;
   margin: 4px 0;
   text-align: center;

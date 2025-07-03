@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import background from '../assets/background.png';
-import prof from '../assets/prof.png';
-import Shop from '../assets/shop.png';
+import prof from '../assets/user.png';
+import profile from '../assets/prof.png';
+import Shop from '../assets/shopping-bag.png';
 import favorite from '../assets/favorite.png';
 import exit from '../assets/exit2.png';
 import LogoutModal from './LogoutModal';
@@ -17,7 +18,7 @@ const ProfileMenu = () => {
       <div className="menubar">
         <img src={background} alt="" className="backimg" />
         <div className="infopart">
-          <img src={prof} alt="" className="editimg" />
+          <img src={profile} alt="" className="editimg" />
           <label className="name">جعفر تنها</label>
         </div>
 
@@ -39,7 +40,7 @@ const ProfileMenu = () => {
           className={`linkprof ${location.pathname === '/profile-edit' ? 'active' : ''}`}
           onClick={() => navigate('/profile-edit')}
         >
-          <img src={prof} alt="" className='profimg' /> ویرایش پروفایل
+          <img src={prof} alt="" className='editimg' /> ویرایش پروفایل
         </button>
 
         <button className="exit" onClick={() => setShowLogoutModal(true)}>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import "/src/styles/profile.css";
-import Navbar from './navbar';
+import Navbar from './Navbar';
 import Footer from './Footer';
 import CartItem from './CartItem';
 import ProfileMenu from './ProfileMenu';

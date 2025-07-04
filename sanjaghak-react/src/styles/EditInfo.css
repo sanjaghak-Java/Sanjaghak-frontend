@@ -1,31 +1,57 @@
-.overlay {
+  @font-face {
+    font-family: 'KanunStencilAR';
+    src: url('./src/fonts/KanunStencilAR+LT-Bold.otf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'B Mehr Bold_0';
+    src: url('./src/fonts/B Mehr Bold_0ttf') format(truetype);
+  }
+
+  @font-face {
+    font-family: 'Traffic';
+    src: url('./src/fonts/Far.Traffic.ttf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'c';
+    src: url('./src/fonts/B Mehr Bold_0.ttf') format('truetype');
+  }
+  
+  @font-face {
+    font-family: 'Jalal';
+    src: url('./src/fonts/BJalalBd.ttf') format('truetype');
+  }
+
+  .overlay {
   direction: rtl;
   position: fixed;
-  top: 100px;
+  top: 120px;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.4); /* نیمه‌شفاف */
+  background-color: rgba(0, 0, 0, 0.4);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 999;
+  z-index: 1000;
 }
 
 .popupbox {
   background-color: #fff;
   width: 400px;
-  padding: 40px;
+  padding: 30px;
   border-radius: 12px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 12px;
   position: relative;
 }
 
 .popuptitle {
-  font-size: 22px;
+  font-family: "KanunStencilAR";
+  font-size: 20px;
 }
 
 .hrpart{
@@ -37,12 +63,18 @@
 .formbox {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 10px;
+}
+
+.formbox p{
+  font-family: "Traffic";
 }
 
 .profinput{
   border: 1px solid #ccc;
   border-radius: 6px;
+  font-family: "Jalal";
+  font-size: 14px;
   padding: 6px;
 }
 
@@ -54,11 +86,10 @@
 .closebtn {
   position: absolute;
   top: 12px;
-  left: 12px;
+  left: 15px;
   background: none;
   border: none;
   font-size: 28px;
-  font-weight: bold;
   cursor: pointer;
   color: #333;
 }
@@ -66,17 +97,18 @@
 .formbuttons {
   display: flex;
   justify-content: flex-end;
-  gap: 1rem;
   margin-top: 1.5rem;
 }
 
 .submitbtn {
+  width: 100%;
+  font-family: "B Mehr Bold_0";
+  font-size: 18px;
   background-color: #dc3545;
   color: white;
   border: none;
-  padding: 8px 25px;
+  padding: 2px;
   border-radius: 8px;
-  font-size: 16px;
   cursor: pointer;
 }
 

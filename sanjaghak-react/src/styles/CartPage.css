@@ -149,11 +149,13 @@ overflow-y: auto;
 }
 
 .cartitem{
+  background-color: white;
   width: 100%;
   border: 1px solid #D1D4D4;
   border-radius: 20px;
   gap: 20px;
   padding: 15px 25px 30px 0;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 .cartitemlink{
   text-decoration: none;

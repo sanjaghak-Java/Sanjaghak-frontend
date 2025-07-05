@@ -70,19 +70,22 @@
   height: 100%;
 }
 
-.promo-banner-content button {
+.promo-banner-button {
   background-color: #ffffff;
   color: black;
   padding: 0.5rem 1.2rem;
+  text-decoration: none;
   border: none;
   border-radius: 200px;
   font-size: 22px;
+  display: inline-block;
+  text-align: center;
   font-family: "Kamran";
   cursor: pointer;
   box-shadow: 0 8px 10px -4px rgba(0, 0, 0, 0.5);
   transition: all 0.3s ease;
 }
 
-.promo-banner-content button:hover {
+.promo-banner-button:hover {
   background-color: #cfd0d2;
 }

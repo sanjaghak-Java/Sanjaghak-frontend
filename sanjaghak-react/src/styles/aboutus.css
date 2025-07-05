@@ -1,58 +1,149 @@
 @font-face {
-    font-family: 'Vazirmatn';
-    src: url('./src/fonts/Vazirmatn.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'Vazirmatn';
+  src: url('./src/fonts/Vazirmatn.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
-.aboutus-head {}
-
 .aboutus-head-img {
-    width: 100%;
-    height: 750px;
-    object-fit: cover;
+  width: 100%;
+  height: 750px;
+  object-fit: cover;
 }
 
 .aboutus-head-p {
-    color: rgba(255, 255, 255, 0.91);
-    text-shadow: 2px 2px 7px #ffffffe8;
-    font-size: 60px;
-    margin-top: -160px;
-    text-align: center;
+  color: rgba(255, 255, 255, 0.91);
+  text-shadow: 2px 2px 7px #ffffffe8;
+  font-size: 60px;
+  margin-top: -160px;
+  text-align: center;
 }
 
 .aboutus-body-logo {
-    width: 200px;
-    margin: 150px auto 0 auto;
-    display: block;
+  width: 200px;
+  margin: 150px auto 0 auto;
+  display: block;
 }
 
 .aboutus-body-p {
-    color: #2d3748;
-    font-family: 'Vazirmatn', sans-serif;
-    direction: rtl;
-    font-size: 20px;
-    line-height: 1.6;
-    padding: 0 60px;
+  color: #2d3748;
+  font-family: 'Vazirmatn', sans-serif;
+  direction: rtl;
+  font-size: 20px;
+  line-height: 1.6;
+  padding: 0 60px;
 }
 
 #aboutus-span {
-    text-decoration: none;
-    cursor: pointer;
-    color: #dc2655;
+  text-decoration: none;
+  cursor: pointer;
+  color: #dc2655;
 }
 
 .aboutus-under-body-img {
-    width: 800px;
-    margin: 80px auto 0 auto;
-    display: block;
+  width: 800px;
+  margin: 80px auto 0 auto;
+  display: block;
 }
 
 .aboutus-under-body-p {
-    text-align: center;
-    font-family: 'Vazirmatn', sans-serif;
-    font-weight: bold;
-    font-size: 30px;
-    margin-top: -350px;
-    margin-bottom: 300px;
+  text-align: center;
+  font-family: 'Vazirmatn', sans-serif;
+  font-weight: bold;
+  font-size: 30px;
+  margin-top: -350px;
+  margin-bottom: 300px;
+}
+
+/* ------------------- ریسپانسیو ------------------- */
+
+@media (max-width: 1024px) {
+  .aboutus-head-img {
+    height: 500px;
+  }
+
+  .aboutus-head-p {
+    font-size: 45px;
+    margin-top: -120px;
+  }
+
+  .aboutus-body-logo {
+    width: 150px;
+    margin-top: 100px;
+  }
+
+  .aboutus-body-p {
+    font-size: 18px;
+    padding: 0 40px;
+  }
+
+  .aboutus-under-body-img {
+    width: 90%;
+  }
+
+  .aboutus-under-body-p {
+    font-size: 26px;
+    margin-top: -250px;
+    margin-bottom: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .aboutus-head-img {
+    height: 400px;
+  }
+
+  .aboutus-head-p {
+    font-size: 32px;
+    margin-top: -100px;
+    padding: 0 20px;
+  }
+
+  .aboutus-body-logo {
+    width: 120px;
+    margin-top: 80px;
+  }
+
+  .aboutus-body-p {
+    font-size: 16px;
+    padding: 0 30px;
+  }
+
+  .aboutus-under-body-p {
+    font-size: 22px;
+    margin-top: -180px;
+    margin-bottom: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  .aboutus-head-img {
+    height: 300px;
+  }
+
+  .aboutus-head-p {
+    font-size: 26px;
+    margin-top: -80px;
+    padding: 0 15px;
+  }
+
+  .aboutus-body-logo {
+    width: 100px;
+    margin-top: 60px;
+  }
+
+  .aboutus-body-p {
+    font-size: 15px;
+    padding: 0 20px;
+  }
+
+  .aboutus-under-body-img {
+    width: 100%;
+  }
+
+  .aboutus-under-body-p {
+    font-size: 20px;
+    margin-top: -120px;
+    margin-bottom: 100px;
+  }
 }

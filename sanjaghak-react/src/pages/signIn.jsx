@@ -53,8 +53,8 @@ function signIn() {
       <form className='signInBox' onSubmit={handleSubmit}>
         <h1>ورود با ایمیل</h1>
         <p>لطفا ایمیل خود را جهت دریافت کد وارد نمایید</p>
-        <div className="inputWrapper">
-          <input type="email" required className="signInInput" id="email" placeholder=" " onChange={handleEmailChange} />
+        <div className="inputWrappersignin">
+          <input type="email" required className="signInInputemail" id="email" placeholder=" " onChange={handleEmailChange} />
           <label className="floatingLabel">ایمیل</label>
           <button className="signInButton" type="submit">ارسال کد</button>
         </div>

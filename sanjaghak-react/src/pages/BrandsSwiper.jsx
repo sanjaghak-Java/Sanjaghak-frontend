@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
 import "swiper/css";
@@ -36,10 +37,13 @@ function BrandsSwiper() {
         >
           {brands.map((brand, index) => (
             <SwiperSlide key={index} className="brandSlide">
-              <div className="brandWrapper">
-                <img className="brandLogo" src={brand.image} alt={brand.name} />
-                <div className="brandDivider" />
-              </div>
+              <Link to={`/productCategory?brand=${brand.name}`}>
+                <div className="brandWrapper">
+                  <img className="brandLogo" src={brand.image} alt={brand.name} />
+                  <div className="brandDivider" />
+                </div>
+              </Link>
+
             </SwiperSlide>
 
           ))}

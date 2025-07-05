@@ -10,19 +10,18 @@
 }
 
 .pattern-img {
+  width: 150px;
   position: absolute;
   opacity: 0.4;
   user-select: none;
 }
 
 .pattern-img.left {
-  width: 120px;
   left: -20px; 
   transform: scaleX(-1);
 }
 
 .pattern-img.right {
-  width: 160px;
   right: -20px;
 }
 

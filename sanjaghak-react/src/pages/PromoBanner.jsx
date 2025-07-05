@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, EffectCoverflow } from 'swiper/modules';
 import 'swiper/css';
@@ -33,7 +34,12 @@ const PromoBanner = ({ banners }) => {
               <div className="promo-banner-content">
                 <h2>{banner.title}</h2>
                 <p className="promo-banner-discription">{banner.discription}</p>
-                <button onClick={banner.onClick}>مشاهده و خرید</button>
+                <Link
+                  to={`/productCategory?banner=${banner.title}`}
+                  className="promo-banner-button"
+                >
+                  مشاهده و خرید
+                </Link>
               </div>
               <div className="promo-banner-image">
                 <img src={banner.image} alt={banner.title} />

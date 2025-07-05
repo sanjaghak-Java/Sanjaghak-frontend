@@ -51,8 +51,8 @@ function signInMobile() {
       <form className='signInBox' onSubmit={handleSubmit}>
         <h1>ورود با شماره موبایل</h1>
         <p>لطفا شماره موبایل خود را جهت دریافت کد وارد نمایید</p>
-        <div className="inputWrapper">
-          <input type="tel" required pattern="^09\d{9}$" inputMode="numeric" className="signUpInput" placeholder=" " onChange={handleNumberChange} />
+        <div className="inputWrappersignin">
+          <input type="tel" required pattern="^09\d{9}$" inputMode="numeric" className="signInInputemail" placeholder=" " onChange={handleNumberChange} />
           <label className="floatingLabel">شماره موبایل</label>
           <button className="signInButton" type="submit">ارسال کد</button>
         </div>

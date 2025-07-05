@@ -55,12 +55,13 @@
   font-size: 16px;
   pointer-events: none;
   transition: all 0.2s ease;
-  background-color: rgba(245, 245, 247, 0.85);
+  background-color: transparent;
   padding: 0 4px;
 }
 
 .signUpInput:focus+.signup-floatingLabel,
 .signUpInput:not(:placeholder-shown)+.signup-floatingLabel {
+  background-color: rgba(245, 245, 247, 0.85);
   top: -10px;
   right: 10px;
   font-size: 13px;

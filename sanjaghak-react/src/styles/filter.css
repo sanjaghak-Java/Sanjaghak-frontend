@@ -1,35 +1,40 @@
-
 .filter-backdrop {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   background: rgba(0, 0, 0, 0.3);
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease;
-  z-index: 1000;
-}
-.filter-backdrop.show {
+  z-index: 99999;
   opacity: 1;
   visibility: visible;
+  transition: opacity 0.3s ease;
 }
 
 .filter-itself {
   position: fixed;
   top: 0;
-  right: -300px;
+  right: 0;
   width: 300px;
-  height: 100%;
-  background: #fff;
+  height: 100vh;
+  background-color: #fff;
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
-  transition: right 0.3s ease;
   padding: 20px;
   overflow-y: auto;
+  z-index: 100000;
+  background-image: url('/src/assets/dragonfly (3).png');
+  background-size: 260px;
+  background-repeat: no-repeat;
+  background-position: center;
 }
+
 .filter-itself.slide-in {
   right: 0;
+}
+
+.filter-backdrop.show {
+  opacity: 1;
+  visibility: visible;
 }
 
 
@@ -41,15 +46,18 @@
   margin-bottom: 10px;
   font-family: 'Vazirmatn', sans-serif;
 }
+
 .filter-title-right {
   display: flex;
   align-items: center;
   gap: 5px;
 }
+
 .filter-header-img {
   width: 30px;
   height: 34px;
 }
+
 .filter-close {
   width: 28px;
   cursor: pointer;
@@ -87,6 +95,7 @@
   font-size: 18px;
   font-family: 'Vazirmatn', sans-serif;
 }
+
 .filter-price-content {
   direction: rtl;
   padding: 10px 15px;
@@ -114,24 +123,27 @@
 }
 
 .rc-slider-rail {
-  background-color: #ddd; /* رنگ زمینه خط */
+  background-color: #ddd;
+  /* رنگ زمینه خط */
   height: 8px;
   border-radius: 4px;
 }
 
 .rc-slider-track {
-  background-color: #ff5722; /* رنگ محدوده انتخاب شده */
+  background-color: #ff5722;
+  /* رنگ محدوده انتخاب شده */
   height: 8px;
   width: 100px;
   border-radius: 4px;
 }
 
 .rc-slider-handle {
-  border: 2px solid #ff5722; /* حاشیه دسته */
+  border: 2px solid #ff5722;
+  /* حاشیه دسته */
   background-color: white;
   width: 20px;
   height: 20px;
-  margin-top: -6px; 
+  margin-top: -6px;
   box-shadow: 0 0 5px rgba(255, 87, 34, 0.6);
   cursor: grab;
 }
@@ -140,4 +152,45 @@
   border-color: #e64a19;
   box-shadow: 0 0 8px rgba(230, 74, 25, 0.8);
   cursor: grabbing;
+}
+
+.Apply-filter-box {
+  width: 260px;
+  height: 50px;
+  margin-top: 450px;
+}
+
+.Apply-filter-button {
+  font-family: 'Digikala ';
+  background-color: #DC2655;
+  box-shadow: 1px 1px 5px #00000093;
+  color: white;
+  font-size: 23px;
+  font-weight: 500;
+  border: none;
+  border-radius: 15px;
+  width: 100%;
+  height: 50px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+}
+
+.Apply-filter-box :hover {
+  color: #ffffff;
+  background-color: #ff0040ee;
+}
+
+.filter-itself {
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-content-wrapper {
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.Apply-filter-box {
+  margin-top: auto !important;
 }

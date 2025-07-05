@@ -49,7 +49,7 @@ function signInMobile() {
         </Link>
       </div>
       <form className='signInBox' onSubmit={handleSubmit}>
-        <h1>ورود با شماره موبایل</h1>
+        <h1 className='for-font'>ورود با شماره موبایل</h1>
         <p>لطفا شماره موبایل خود را جهت دریافت کد وارد نمایید</p>
         <div className="inputWrappersignin">
           <input type="tel" required pattern="^09\d{9}$" inputMode="numeric" className="signInInputemail" placeholder=" " onChange={handleNumberChange} />

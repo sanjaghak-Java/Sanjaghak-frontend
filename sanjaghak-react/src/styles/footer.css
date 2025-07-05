@@ -81,11 +81,13 @@
   text-decoration: none;
   color: #676F71;
   transition: all 0.3s ease;
+  margin-right: 5px;
 }
 
 .link-footer:hover {
-  text-shadow: 1px 1px 3px rgba(95, 95, 97, 0.6);
+  text-shadow: 1px 1px 3px #5f5f6199;
   text-decoration: none;
+  color: #df0000;
 }
 
 .Services {
@@ -134,4 +136,10 @@ span {
 
 .footerp {
   width: 50%;
+}
+
+.footer-services-title{
+  font-family: 'Kanun ';
+  color: #000000;
+  /* margin-right: 25px; */
 }

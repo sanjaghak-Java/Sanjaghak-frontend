@@ -18,6 +18,7 @@ import FAQPage  from './pages/FAQPage.jsx';
 import Orders from './pages/Orders.jsx';
 import ProfileEdit from './pages/ProfileEdit';
 import ProfileFavorite  from './pages/ProfileFavorite.jsx';
+import Filter  from './pages/Filter.jsx';
 
 
 
@@ -52,6 +53,7 @@ function App() {
         <Route path="/profile-orders" element={<Orders />} />
         <Route path="/profile-edit" element={<ProfileEdit />} />
         <Route path="/profile-favorites" element={<ProfileFavorite />} />
+        <Route path="/Filter" element={<Filter />} />
 
 
 

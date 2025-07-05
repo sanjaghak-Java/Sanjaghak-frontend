@@ -1,17 +1,17 @@
 import ProductGrid from "./productGrid";
-import "/src/styles/categoryBox.css"
+import "/src/styles/categoryBox.css";
 
-
-
-function CategoryBox(props) {
+function CategoryBox({ onFilterClick }) {
     return (
-
         <div className="categoryBox">
             <div className="labelsContainer">
                 <p className="categoryTitle">لپ تاپ</p>
                 <div className="labelGroup">
-                    <div className="filterWrapper">
-                        <img className="filterImg" src="/src/assets/icons8-filter-32.png" />
+                    <div className="filterWrapper" onClick={onFilterClick}>
+                        <img
+                            className="filterImg"
+                            src="/src/assets/icons8-filter-32.png"
+                        />
                         <label className="filterLabel" tabIndex="0">فیلتر</label>
                     </div>
                     <label className="bestsellerLabel" tabIndex="0">پرفروش ترین ها</label>
@@ -21,7 +21,7 @@ function CategoryBox(props) {
             <br />
             <ProductGrid />
         </div>
-
     );
 }
-export default CategoryBox
+
+export default CategoryBox;

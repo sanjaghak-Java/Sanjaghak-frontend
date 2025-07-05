@@ -60,7 +60,7 @@ function MainPage() {
       <Navbar />
       <ImagePreview />
 
-      {/* ✅ بک‌گراند فقط در این محدوده اضافه میشه */}
+
       <div className="background-content-wrapper" ref={backgroundAreaRef}>
         <BackgroundPattern parentRef={backgroundAreaRef} />
 

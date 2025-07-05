@@ -108,6 +108,11 @@ body,
   color: #333;
   font-weight: bold;
   text-shadow: -6px 6px 6px rgba(0, 0, 0, 0.3);
+  font-family: 'Vazirmatn';
+  justify-content: center;
+  display: flex;
+  margin-top: 15px;
+  margin-bottom: -22px;
 }
 
 

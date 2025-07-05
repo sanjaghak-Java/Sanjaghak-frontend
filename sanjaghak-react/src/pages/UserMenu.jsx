@@ -26,26 +26,26 @@ const UserMenu = () => {
       onMouseLeave={() => setOpen(false)}
     >
       <img src={profileIcon} alt="پروفایل" className="profile-icon" />
-      
+
       {open && (
         <div className="user-dropdown">
           <Link to="/profile-orders">
-            <img src={Shop} alt="" className="proficon"/>
+            <img src={Shop} alt="" className="proficon" />
             سفارش‌ها
           </Link>
           <hr />
           <Link to="/profile-favorites">
-            <img src={favorite} alt="" className="proficon"/>
+            <img src={favorite} alt="" className="proficon" />
             علاقه‌مندی‌ها
           </Link>
           <hr />
           <Link to="/profile-edit">
-            <img src={profileIcon} alt="" className="proficon"/>
+            <img src={profileIcon} alt="" className="proficon" />
             اطلاعات کاربری
-            </Link>
+          </Link>
           <hr />
           <div onClick={handleLogoutClick} className="logout">
-            <img src={exit} alt="" className="proficon"/>
+            <img src={exit} alt="" className="proficon" />
             خروج از حساب کاربری
           </div>
         </div>

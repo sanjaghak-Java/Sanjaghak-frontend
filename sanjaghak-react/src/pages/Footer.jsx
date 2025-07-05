@@ -55,14 +55,14 @@ const Footer = () => {
           </div>
 
           <div className="Services">
-            <p>خدمات مشتریان</p>
+            <p className='footer-services-title'>خدمات مشتریان :</p>
             <Link to="/rules" className="link-footer">شرایط و قوانین</Link>
             <br />
             <Link to="/FAQPage" className="link-footer">سوالات متداول</Link>
           </div>
 
           <div className="Services">
-            <p>درباره ما</p>
+            <p className='footer-services-title'>درباره ما :</p>
             <Link to="/Aboutus" className="link-footer">معرفی فروشگاه</Link>
             <br />
             <Link to="/Contactus" className="link-footer">تماس با ما</Link>

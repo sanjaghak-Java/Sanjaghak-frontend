@@ -13,22 +13,6 @@ function Product() {
   const handleAddToCart = () => setShowCartReport(true);
   const handleCloseCartReport = () => setShowCartReport(false);
 
-  const introRef = useRef(null);
-  const specsRef = useRef(null);
-
-  const scrollToSection = (ref) => {
-    if (ref.current) {
-      const navbarHeight = 80; // ارتفاع Navbar ثابت خودت را وارد کن
-      const elementPosition = ref.current.getBoundingClientRect().top;
-      const offsetPosition = window.pageYOffset + elementPosition - navbarHeight;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth",
-      });
-    }
-  };
-
   return (
     <>
       <Navbar />
@@ -37,33 +21,9 @@ function Product() {
 
       <hr className="hr-side" />
 
-      <div className="Information">
-        <input
-          type="radio"
-          name="section"
-          value="intro"
-          id="intro"
-          className="Introduction"
-          onChange={() => scrollToSection(introRef)}
-        />
-        <label htmlFor="intro" className="up-cadr">معرفی</label>
+      <ProductIntroduction />
 
-        <input
-          type="radio"
-          name="section"
-          value="specs"
-          id="specs"
-          className="specs"
-          onChange={() => scrollToSection(specsRef)}
-        />
-        <label htmlFor="specs" className="up-cadr">مشخصات</label>
-      </div>
-
-      {/* معرفی محصول */}
-      <ProductIntroduction introRef={introRef} />
-
-      {/* مشخصات محصول */}
-      <p className="Information-title" ref={specsRef}>مشخصات</p>
+      <p className="Information-title">مشخصات</p>
 
       <div className="similar-dev">
         <hr className="hr-side" />

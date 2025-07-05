@@ -1,4 +1,5 @@
 .productGridContainer {
+  background-color: transparent;
   width: 100%;
   display: grid;
   direction: rtl;

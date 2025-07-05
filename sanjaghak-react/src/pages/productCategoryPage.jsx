@@ -1,25 +1,33 @@
-import React, { useState } from "react";
-import Navbar from "./navbar";
+import React, { useState, useRef } from "react";
+import { useLocation } from "react-router-dom";
+import Navbar from "./Navbar";
 import CategoryBox from "./categoryBox";
 import Footer from "./Footer";
 import Filter from "./Filter";
+import BackgroundPattern from "./BackgroundPattern";
 
 function CategoryPage() {
-    const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const backgroundAreaRef = useRef(null);
 
-    return (
-        <div>
-            <Navbar />
-            <CategoryBox onFilterClick={() => setIsFilterOpen(true)} />
+  return (
+    <div>
+      <Navbar />
 
-            <Filter
-                isOpen={isFilterOpen}
-                onClose={() => setIsFilterOpen(false)}
-            />
+      <div className="background-content-wrapper" ref={backgroundAreaRef}>
+        <BackgroundPattern parentRef={backgroundAreaRef} />
 
-            <Footer />
-        </div>
-    );
+        <CategoryBox onFilterClick={() => setIsFilterOpen(true)} />
+
+        <Filter
+          isOpen={isFilterOpen}
+          onClose={() => setIsFilterOpen(false)}
+        />
+
+        <Footer />
+      </div>
+    </div>
+  );
 }
 
 export default CategoryPage;

@@ -6,9 +6,11 @@ import ProductIntroduction from "./PorductIntroduction";
 import Cartreport from './Cartreport';
 import ProductDetail from "./Productdetail";
 import Similarproducts from "./Similarproducts";
+import BackgroundPattern from "./BackgroundPattern";
 
 function Product() {
   const [showCartReport, setShowCartReport] = useState(false);
+  const backgroundAreaRef = useRef(null);
 
   const handleAddToCart = () => setShowCartReport(true);
   const handleCloseCartReport = () => setShowCartReport(false);
@@ -17,23 +19,27 @@ function Product() {
     <>
       <Navbar />
 
-      <ProductDetail onAddToCart={handleAddToCart} />
+      <div className="background-content-wrapper" ref={backgroundAreaRef}>
+        <BackgroundPattern parentRef={backgroundAreaRef} />
 
-      <hr className="hr-side" />
+        <ProductDetail onAddToCart={handleAddToCart} />
 
-      <ProductIntroduction />
-
-      <p className="Information-title">مشخصات</p>
-
-      <div className="similar-dev">
         <hr className="hr-side" />
-        <h1 className="similar-title">محصولات مشابه</h1>
-        <Similarproducts />
+
+        <ProductIntroduction />
+
+        <p className="Information-title">مشخصات</p>
+
+        <div className="similar-dev">
+          <hr className="hr-side" />
+          <h1 className="similar-title">محصولات مشابه</h1>
+          <Similarproducts />
+        </div>
+
+        {showCartReport && <Cartreport onClose={handleCloseCartReport} />}
+
+        <Footer />
       </div>
-
-      {showCartReport && <Cartreport onClose={handleCloseCartReport} />}
-
-      <Footer />
     </>
   );
 }

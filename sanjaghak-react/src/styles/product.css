@@ -4,6 +4,11 @@
   padding: 0;
 }
 
+.background-content-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
 .similar-title {
   margin-top: -44px;
   margin-bottom: 10px;

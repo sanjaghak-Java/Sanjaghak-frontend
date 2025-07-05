@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import CartItem from './CartItem';
 import CartPrice from './CartPrice';
+import BackgroundPattern from './BackgroundPattern';
 import "../styles/CartPage.css";
 import Cart from '../assets/Shop.png';
 import bill from '../assets/bill.png';
 
-
 function CartPage() {
   const [items, setItems] = useState([]);
+  const backgroundAreaRef = useRef(null);
 
   useEffect(() => {
     const sampleItems = [
@@ -52,33 +53,38 @@ function CartPage() {
   return (
     <>
       <Navbar />
-      <div className="cartpagecontainer" id="main-scroll-container">
-        <div className="itemcontainor">
-          <div className="title">
-            <img src={Cart} alt="cart" className='titleimg' />
-            <h3 className="carttitle">سبد خرید من</h3>
+
+      <div className="background-content-wrapper" ref={backgroundAreaRef}>
+        <BackgroundPattern parentRef={backgroundAreaRef} />
+
+        <div className="cartpagecontainer" id="main-scroll-container">
+          <div className="itemcontainor">
+            <div className="title">
+              <img src={Cart} alt="cart" className='titleimg' />
+              <h3 className="carttitle">سبد خرید من</h3>
+            </div>
+            <div className='items'>
+              {items.map(item => (
+                <CartItem
+                  key={item.id}
+                  item={item}
+                  onQuantityChange={handleQuantityChange}
+                />
+              ))}
+            </div>
           </div>
-          <div className='items'>
-            {items.map(item => (
-              <CartItem
-                key={item.id}
-                item={item}
-                onQuantityChange={handleQuantityChange}
-              />
-            ))}
+
+          <div className="pricediv">
+            <div className="title">
+              <img src={bill} alt="bill" className='titleimg' />
+              <h3 className="carttitle">صورت حساب</h3>
+            </div>
+            <CartPrice totalPrice={totalPrice} shippingCost={shippingCost} />
           </div>
         </div>
 
-        <div className="pricediv">
-          <div className="title">
-            <img src={bill} alt="bill" className='titleimg' />
-            <h3 className="carttitle">صورت حساب</h3>
-          </div>
-          <CartPrice totalPrice={totalPrice} shippingCost={shippingCost} />
-        </div>
+        <Footer />
       </div>
-
-      <Footer />
     </>
   );
 }

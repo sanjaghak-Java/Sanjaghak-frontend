@@ -27,6 +27,12 @@ html, body {
 overflow-y: auto;
 }
 
+.background-content-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+
 .cartpagecontainer{
   direction: rtl;
   display: flex;

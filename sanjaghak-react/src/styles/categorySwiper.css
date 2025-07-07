@@ -1,11 +1,15 @@
 @font-face {
   font-family: 'Yekan';
-    src: url('./src/fonts/BYekan.ttf') format('truetype');
+  src: url('./src/fonts/BYekan.ttf') format('truetype');
 }
 
-.categorie-title{
+.categorie-title {
+  font-size: 1.5rem;
+  color: #333;
+  font-weight: bold;
+  text-shadow: -6px 6px 6px rgba(0, 0, 0, 0.3);
   text-align: center;
-  font-size: 28px;
+  font-family: 'Vazirmatn';
   margin-top: 40px;
   margin-bottom: 20px;
 }
@@ -40,22 +44,21 @@
 
 .categorySwiperSlide > div {
   border: 3px solid #D1D1D4;
-    /* outline: 2px solid #a33444;     */
-    outline-offset: 6px;         
+  outline-offset: 6px;
   border-radius: 800px;
   text-align: center;
   padding: 16px;
   width: 290px;
   height: 160px;
   box-sizing: border-box;
-  transition: box-shadow 0.5s ease;
+  transition: box-shadow 0.5s ease, transform 0.3s ease;
   cursor: pointer;
 }
-
 
 .categorySwiperSlide > div:hover {
   box-shadow: 0 6px 15px rgba(17, 15, 15, 0.25);
   outline: 3px solid #a72639;
+  transform: scale(1.01);
 }
 
 .categorySlideImg {
@@ -66,16 +69,11 @@
   user-select: none;
 }
 
-.categorySwiperSlide > div:hover {
-  transform: scale(1.01);
-}
-
-.categorySlidetext{
+.categorySlidetext {
   font-family: 'Yekan';
   font-size: 17px;
   color: black;
 }
-
 
 .swiper-button-prev,
 .swiper-button-next {
@@ -102,7 +100,6 @@
   transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
-
 .swiper-button-prev {
   right: -38px !important;
   left: auto !important;
@@ -117,4 +114,44 @@
 .swiper-button-prev::after {
   font-size: 18px;
   transition: font-size 0.3s ease;
+}
+
+/* ......ریسپانسیو...... */
+@media (max-width: 1024px) {
+  .categorySwiperSlide > div {
+    width: 250px;
+    height: 130px;
+    padding: 10px;
+  }
+  .categorySlideImg {
+    height: 60px;
+  }
+  .categorySlidetext {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .categorySwiperContainer {
+    padding: 16px;
+  }
+  .categorySwiperSlide > div {
+    width: 120px;
+    height: 120px;
+    padding: 10px;
+  }
+  .categorySlideImg {
+    height: 50px;
+  }
+  .categorySlidetext {
+    font-size: 14px;
+  }
+  .swiper-button-prev,
+  .swiper-button-next {
+    display: none;
+  }
+
+  .categorie-title{
+    font-size: 17px;
+  }
 }

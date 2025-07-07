@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import "/src/styles/profile.css";
+import "/src/styles/ProfileFavorite.css";
 import Navbar from './Navbar';
 import Footer from './Footer';
 import CartItem from './CartItem';
@@ -9,26 +9,26 @@ import favorite from '../assets/favorite.png';
 
 function Favorites() {
   const [favoriteItems, setFavoriteItems] = useState([
-    {
-      id: 1,
-      productname: 'هدفون بلوتوثی شیائومی',
-      warranty: 'گارانتی 18 ماهه',
-      inventory: 'موجود در انبار',
-      color: 'آبی',
-      price: 1200000,
-      quantity: 1,
-      image: './src/assets/images (1).jpg',
-    },
-    {
-      id: 2,
-      productname: 'لپ‌تاپ لنوو مدل IdeaPad',
-      warranty: 'گارانتی 24 ماهه',
-      inventory: 'موجود در انبار',
-      color: 'مشکی',
-      price: 23000000,
-      quantity: 1,
-      image: './src/assets/images (2).jpg',
-    }
+    // {
+    //   id: 1,
+    //   productname: 'هدفون بلوتوثی شیائومی',
+    //   warranty: 'گارانتی 18 ماهه',
+    //   inventory: 'موجود در انبار',
+    //   color: 'آبی',
+    //   price: 1200000,
+    //   quantity: 1,
+    //   image: './src/assets/images (1).jpg',
+    // },
+    // {
+    //   id: 2,
+    //   productname: 'لپ‌تاپ لنوو مدل IdeaPad',
+    //   warranty: 'گارانتی 24 ماهه',
+    //   inventory: 'موجود در انبار',
+    //   color: 'مشکی',
+    //   price: 23000000,
+    //   quantity: 1,
+    //   image: './src/assets/images (2).jpg',
+    // }
   ]);
 
   const backgroundAreaRef = useRef(null);
@@ -59,7 +59,7 @@ function Favorites() {
               <hr />
               <div className="favitemscontainor">
                 {favoriteItems.length === 0 ? (
-                  <p style={{ textAlign: 'center', color: '#2d3748' }}>لیست علاقه‌مندی‌های شما خالی است.</p>
+                  <p className="noOrdersMessage">لیست علاقه‌مندی‌های شما خالی است.</p>
                 ) : (
                   favoriteItems.map(item => (
                     <CartItem

@@ -41,7 +41,6 @@
 }
 
 .cardFront {
-  background-color: #fff;
   border: 1px solid #ccc;
   /* box-shadow: 2px 2px 3px #817f7fcc; */
   box-shadow: 0px 2px 8px #817f7fcc;
@@ -116,30 +115,30 @@
 }
 
 .priceSection {
-  margin-top: 10px;
+  margin-top: 5px;
   margin-right: 5px;
   bottom: 0;
 }
 
 .priceDetails {
-  margin-top: 5px;
   text-align: left;
   flex: 1;
   bottom: 0;
 }
 
 .productSalePrice {
+  font-family: "BYekan";
   font-style: oblique;
-  font-size: 12px;
+  font-size: 11px;
   color: #888;
   text-decoration: line-through #646464;
 }
 
 .ProductPrice {
-  font-size: 16px;
+  font-family: "BYekan";
+  font-size: 14px;
   color: #000;
   font-weight: bold;
-  margin-top: 4px;
 }
 
 .salePercent {
@@ -158,7 +157,8 @@
 }
 
 .price-title {
-  font-size: 18px;
+  font-family: "Jalal";
+  font-size: 17px;
   /* font-weight: 600; */
 }
 
@@ -167,4 +167,34 @@
   height: 1px;
   background-color: #dc2655;
   box-shadow: 3px 2px 10px red;
+}
+
+@media screen and (max-width: 768px) {
+  .cardContainer{
+    margin-right: 5px;
+    margin-left: 5px;
+  }
+  .cardInner {
+    width: 100%;
+    height: 85%;
+  }
+
+  .productImage {
+    width: 48%;
+  }
+
+  .ProductName,
+  .ProductModel,
+  .productSalePrice,
+  .ProductPrice {
+    font-size: 12px;
+  }
+
+  .salePercent {
+    margin-right: 140px;
+    font-size: 10px;
+    width: 25px;
+    height: 26px;
+    padding: 5px;
+  }
 }

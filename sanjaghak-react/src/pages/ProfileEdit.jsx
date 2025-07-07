@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import "/src/styles/profile.css";
+import "/src/styles/ProfileEdit.css";
 import Navbar from './Navbar';
 import Footer from './Footer';
 import ProfileMenu from './ProfileMenu';

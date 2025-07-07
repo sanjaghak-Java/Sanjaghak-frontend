@@ -23,7 +23,7 @@
     src: url('./src/fonts/BJalalBd.ttf') format('truetype');
   }
 
-  .overlay {
+.overlay {
   direction: rtl;
   position: fixed;
   top: 120px;
@@ -102,7 +102,7 @@
 
 .submitbtn {
   width: 100%;
-  font-family: "B Mehr Bold_0";
+  font-family: 'Digikala ';
   font-size: 18px;
   background-color: #dc3545;
   color: white;
@@ -115,4 +115,21 @@
 .submitbtn:hover{
       background-color: #BF173E;
 
+}
+
+@media (max-width: 768px){
+  .overlay{
+    top: 200px;
+    font-size: 90%;
+  }
+
+  .popupbox{
+    width: 350px;
+    height: 490px;
+    padding: 15px 35px;
+  }
+
+  .popuptitle{
+    font-size: 18px;
+  }
 }

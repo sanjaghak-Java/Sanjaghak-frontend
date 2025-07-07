@@ -14,7 +14,7 @@ function Cartreport({ onClose }) {
         <div className="total">
             <div className="cartreport-container">
                 <div className="cartreport-head">
-                    <h3 className="title">کالا به سبد خرید شما اضافه شد</h3>
+                    <h3 className="exitp">✓ کالا به سبد خرید شما اضافه شد.</h3>
                     <button onClick={onClose}>
                         <img
                             src={isHovered ? '/src/assets/icons8-close.gif' : '/src/assets/icons8-close-48.png'}

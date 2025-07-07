@@ -52,14 +52,15 @@ function signIn() {
       </div>
       <form className='signInBox' onSubmit={handleSubmit}>
         <h1>ورود با ایمیل</h1>
-        <p>لطفا ایمیل خود را جهت دریافت کد وارد نمایید</p>
+        <p>لطفا ایمیل خود را جهت دریافت کد وارد نمایید.</p>
         <div className="inputWrappersignin">
           <input type="email" required className="signInInputemail" id="email" placeholder=" " onChange={handleEmailChange} />
           <label className="floatingLabel">ایمیل</label>
           <button className="signInButton" type="submit">ارسال کد</button>
         </div>
-        <h4 id="signuplabel">حساب کاربری ندارید؟</h4><Link to="/signup" style={{ color: "#dc2655", textDecoration: "none", position: "relative", right: "165px", bottom: "22px" }}>ثبت نام</Link>
-        <Link to="/signinmobile" style={{ color: "#dc2655", textDecoration: "none", position: "relative", right: "260px", bottom: "22px" }}>ورود با شماره موبایل</Link><br></br>
+        <h4 id="signuplabel">حساب کاربری ندارید؟</h4>
+        <Link to="/signup" style={{ color: "#dc2655", textDecoration: "none", position: "relative", right: "135px", bottom: "25px", fontFamily: 'Tunisia'}}>ثبت نام</Link>
+        <Link to="/signinmobile" style={{ color: "#dc2655", textDecoration: "none", position: "relative", right: "280px", bottom: "25px",fontFamily: 'Tunisia' }}>ورود با شماره موبایل</Link><br></br>
       </form>
     </>
   )

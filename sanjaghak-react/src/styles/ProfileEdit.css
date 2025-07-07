@@ -1,0 +1,98 @@
+  .profilecontent{
+    margin: 160px 30px 50px 30px;
+    direction: rtl;
+    display: flex;
+    gap: 20px;
+  }
+
+  .orderdiv{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .bordertwo{
+    background-color: white;
+    border: 1px solid #D1D4D4;
+    border-radius: 15px;
+    padding: 20px;
+    width: 100%;
+  }
+
+  .titleprof{
+    font-family: "KanunStencilAR";
+    display: flex;
+    align-items: center;
+    gap: 400px;
+  }
+
+  .titleprofile{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .editimg{
+    width: 22px;
+    height: 22px;
+  }
+
+  .titlehprof{
+    font-family: "KanunStencilAR";
+    color: #3E4344;
+  }
+
+  .editbutton{
+    display: flex;
+    align-items: center;
+    color: #DC2655;
+    font-size: 19px;
+    font-family: "KamranB";
+    margin-right: 500px;
+    gap: 5px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+  }
+
+  .editbutton:hover{
+    text-shadow: 1px 1px 6px rgba(102, 100, 100, 0.3);
+    filter: drop-shadow(2px 2px 4px rgba(102, 100, 100, 0.3));
+  }
+
+  .profdiv{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .proftext{
+    font-family: "Traffic";
+    color: #676F71;
+  }
+
+  .profdiv label{
+    font-family: "Jalal";
+  }
+
+  .profhr{
+    border: none;
+    width: 60%;
+    height: 1px;
+    background-color: #ccc;
+  }
+
+  @media (max-width: 768px){
+
+    .titleprof{
+      gap: 0;
+    }
+
+    .editbutton{
+      margin: 0;
+    }
+  }

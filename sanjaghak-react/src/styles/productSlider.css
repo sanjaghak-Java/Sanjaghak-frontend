@@ -29,11 +29,53 @@
   box-shadow: 0 6px 15px rgba(6, 6, 6, 0.25);
 } */
 
-
 .slideText {
   font-size: 14px;
   color: #8b2d38;
   font-weight: 600;
   margin: 0;
   user-select: none;
+}
+
+/* ...... ریسپانسیو ......*/
+@media (max-width: 1024px) {
+  .productSwiperContainer {
+    padding: 20px 30px;
+  }
+
+  .productSwiperSlide {
+    width: 600px;
+  }
+
+  .slideText {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 768px) {
+  .productSwiperContainer {
+    padding: 15px;
+  }
+
+  .productSwiperSlide {
+    width: 90vw;
+  }
+
+  .slideText {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .productSwiperContainer {
+    padding: 12px 10px;
+  }
+
+  .productSwiperSlide {
+    width: 95vw;
+  }
+
+  .slideText {
+    font-size: 11px;
+  }
 }

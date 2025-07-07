@@ -127,6 +127,7 @@ overflow-y: auto;
 }
 
 .buybutton {
+  font-family: 'Digikala ';
   height: 50px;
   width: 100%; 
   background-color: #DC2655;

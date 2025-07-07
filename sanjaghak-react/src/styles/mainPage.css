@@ -44,6 +44,7 @@ body,
 
 .sliderdiv {
   background-color: white;
+  height: 100%;
   border: 2px solid #eed8d88f;
   border-radius: 15px;
   box-shadow: 0px 1px 7px #eed8d8;
@@ -138,4 +139,101 @@ body,
 
 
   /* fc2b2b */
+}
+
+/* ..... ریسپانسیو ..... */
+
+@media (max-width: 1024px) {
+  .sliderdiv {
+    margin: 40px 30px;
+  }
+
+  .titleslider,
+  .titleslider1 {
+    font-size: 24px;
+  }
+
+  .titlepart {
+    padding: 16px;
+    gap: 4px;
+  }
+
+  .rotatedimg {
+    width: 40px;
+    height: 40px;
+  }
+
+  .prompopart {
+    margin: 0 30px;
+    gap: 20px;
+  }
+
+  .watercolor-text {
+    font-size: 1.3rem;
+    margin-top: 10px;
+    margin-bottom: -18px;
+  }
+}
+
+@media (max-width: 768px) {
+  .sliderdiv {
+    height: 380px;
+    margin: 30px 20px;
+  }
+
+  .titleslider,
+  .titleslider1 {
+    font-size: 20px;
+  }
+
+  .titlepart {
+    height: 48px;
+    padding: 12px;
+    gap: 3px;
+  }
+
+  .rotatedimg {
+    width: 35px;
+    height: 35px;
+  }
+
+  .prompopart {
+    margin: 0 15px;
+  }
+
+  .watercolor-text {
+    font-size: 17px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sliderdiv {
+    margin: 20px 10px;
+  }
+
+  .titleslider,
+  .titleslider1 {
+    font-size: 18px;
+  }
+
+  .titlepart {
+    padding: 10px;
+    gap: 2px;
+  }
+
+  .rotatedimg {
+    width: 30px;
+    height: 30px;
+  }
+
+  .prompopart {
+    margin: 0 10px;
+    gap: 12px;
+  }
+
+  .watercolor-text {
+    font-size: 22px;
+    margin-top: 6px;
+    margin-bottom: -12px;
+  }
 }

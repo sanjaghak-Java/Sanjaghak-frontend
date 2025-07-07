@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import "/src/styles/profile.css";
+import "/src/styles/ProfileOrders.css";
 import Navbar from './Navbar';
 import Footer from './Footer';
 import ProfileMenu from './ProfileMenu';
@@ -12,6 +12,25 @@ import BackgroundPattern from './BackgroundPattern';
 
 function Orders() {
   const backgroundAreaRef = useRef(null);
+
+  const orders = [
+    { id: 1, orderNumber: '1001', date: '1403/04/15', amount: 250000, status: 'تحویل شده' },
+    { id: 2, orderNumber: '1002', date: '1403/04/16', amount: 120000, status: 'لغو شده' },
+    { id: 3, orderNumber: '1003', date: '1403/04/17', amount: 300000, status: 'مرجوع شده' },
+  ];
+
+  const getStatusClass = (status) => {
+    switch (status) {
+      case 'لغو شده':
+        return 'status canceled';
+      case 'تحویل شده':
+        return 'status delivered';
+      case 'مرجوع شده':
+        return 'status returned';
+      default:
+        return 'status';
+    }
+  };
 
   return (
     <>
@@ -94,8 +113,36 @@ function Orders() {
                   فیلتر
                 </button>
               </div>
-            </div>
 
+              <div className="orderTableContainer">
+                {orders.length === 0 ? (
+                  <p className="noOrdersMessage">لیست سفارش های شما خالی است.</p>
+                ) : (
+                  <table className="orderTable">
+                    <thead>
+                      <tr>
+                        <th>ردیف</th>
+                        <th>شماره سفارش</th>
+                        <th>تاریخ</th>
+                        <th>مبلغ</th>
+                        <th>وضعیت</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {orders.map((order, index) => (
+                        <tr key={order.id}>
+                          <td>{index + 1}</td>
+                          <td>{order.orderNumber}</td>
+                          <td>{order.date}</td>
+                          <td>{order.amount.toLocaleString()} تومان</td>
+                          <td><span className={getStatusClass(order.status)}>{order.status}</span></td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
+              </div>
+            </div>
           </div>
         </div>
 

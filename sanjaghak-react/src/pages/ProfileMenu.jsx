@@ -7,7 +7,7 @@ import Shop from '../assets/shopping-bag.png';
 import favorite from '../assets/favorite.png';
 import exit from '../assets/exit2.png';
 import LogoutModal from './LogoutModal';
-import "/src/styles/profile.css";
+import "/src/styles/ProfileMenu.css";
 
 const ProfileMenu = () => {
   const [showLogoutModal, setShowLogoutModal] = useState(false);

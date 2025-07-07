@@ -50,14 +50,15 @@ function signInMobile() {
       </div>
       <form className='signInBox' onSubmit={handleSubmit}>
         <h1 className='for-font'>ورود با شماره موبایل</h1>
-        <p>لطفا شماره موبایل خود را جهت دریافت کد وارد نمایید</p>
+        <p>لطفا شماره موبایل خود را جهت دریافت کد وارد نمایید.</p>
         <div className="inputWrappersignin">
           <input type="tel" required pattern="^09\d{9}$" inputMode="numeric" className="signInInputemail" placeholder=" " onChange={handleNumberChange} />
           <label className="floatingLabel">شماره موبایل</label>
           <button className="signInButton" type="submit">ارسال کد</button>
         </div>
-        <h4 id="signuplabel">حساب کاربری ندارید؟</h4><Link to="/signup" style={{ color: "#dc2655", textDecoration: "none", position: "relative", right: "165px", bottom: "22px" }}>ثبت نام</Link>
-        <Link to="/signin" style={{ color: "#dc2655", textDecoration: "none", position: "relative", right: "320px", bottom: "22px" }}>ورود با ایمیل</Link><br></br>
+        <h4 id="signuplabel">حساب کاربری ندارید؟</h4>
+        <Link to="/signup" style={{ color: "#dc2655", textDecoration: "none", position: "relative", right: "135px", bottom: "25px", fontFamily: 'Tunisia' }}>ثبت نام</Link>
+        <Link id= "signinlink" to="/signin" style={{ color: "#dc2655", textDecoration: "none", position: "relative", right: "330px", bottom: "25px", fontFamily: 'Tunisia' }}>ورود با ایمیل</Link><br></br>
       </form>
     </>
   );

@@ -1,10 +1,10 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
-import { Link } from "react-router-dom";
 import "swiper/css";
 import "swiper/css/navigation";
 import "/src/styles/categorySwiper.css";
+import { Link } from "react-router-dom";
 
 const categories = [
   { title: "گوشی موبایل", image: "./src/assets/images (2).jpg" },
@@ -28,9 +28,19 @@ function CategoriesSwiper() {
           dir="rtl"
           navigation
           loop={true}
-          spaceBetween={57}
+          spaceBetween={30}
           slidesPerView={6}
           modules={[Navigation]}
+          breakpoints={{
+            0: {
+              slidesPerView: 3,
+              spaceBetween: 20,
+            },
+            768: {
+              slidesPerView: 6,
+              spaceBetween: 57,
+            },
+          }}
         >
           {categories.map((item, index) => (
             <SwiperSlide className="categorySwiperSlide" key={index}>

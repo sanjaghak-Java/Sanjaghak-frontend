@@ -56,9 +56,13 @@ function signInMobile() {
           <label className="floatingLabel">شماره موبایل</label>
           <button className="signInButton" type="submit">ارسال کد</button>
         </div>
-        <h4 id="signuplabel">حساب کاربری ندارید؟</h4>
-        <Link to="/signup" style={{ color: "#dc2655", textDecoration: "none", position: "relative", right: "135px", bottom: "25px", fontFamily: 'Tunisia' }}>ثبت نام</Link>
-        <Link id= "signinlink" to="/signin" style={{ color: "#dc2655", textDecoration: "none", position: "relative", right: "330px", bottom: "25px", fontFamily: 'Tunisia' }}>ورود با ایمیل</Link><br></br>
+
+        <div className="signinlinkcontainor">        
+          <h4 id="signuplabel">حساب کاربری ندارید؟</h4>
+          <Link to="/signup" id="signuplink">ثبت نام</Link>
+          <Link id= "signinemaillink" to="/signin">ورود با ایمیل</Link>         
+        </div>
+
       </form>
     </>
   );

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '/src/styles/Navbar.css';
 import { Link, useNavigate } from 'react-router-dom';
 import UserMenu from "./UserMenu";
@@ -12,14 +12,26 @@ import cupIcon from '../assets/cup-2.png';
 function Navbar() {
   const navigate = useNavigate();
   const [isFocused, setIsFocused] = useState(false);
+  const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const goToSignIn = () => {
     navigate("/signin");
+    setMobileMenuOpen(false);
   };
 
   const goTomycart = () => {
     navigate("/mycart");
+    setMobileMenuOpen(false);
   };
+
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  useEffect(() => {
+    document.body.style.overflow = isMobileMenuOpen ? 'hidden' : 'auto';
+    return () => (document.body.style.overflow = 'auto');
+  }, [isMobileMenuOpen]);
 
   return (
     <div className='navContainer'>
@@ -27,6 +39,10 @@ function Navbar() {
         <Link to="/">
           <img src={logo} alt="logo" className='logonav' />
         </Link>
+
+        <button className="mobileMenuButton" onClick={toggleMobileMenu}>
+          <img src={justifyIcon} alt="menu" width="30" />
+        </button>
 
         <div className={`searchContainer ${isFocused ? 'focused' : ''}`}>
           <input
@@ -67,7 +83,6 @@ function Navbar() {
           </div>
 
           <div className="dropDown">
-
             <div className="dropDownItem">
               <Link to="/productCategory" className='dropDownItem-title'>لپتاپ</Link>
               <div className="subDropDown">
@@ -94,7 +109,7 @@ function Navbar() {
                 <Link to="/productCategory">بی سیم</Link>
               </div>
             </div>
-           
+
             <div className="dropDownItem">
               <Link to="/productCategory" className='dropDownItem-title'>ساعت هوشمند</Link>
               <div className="subDropDown">
@@ -103,11 +118,9 @@ function Navbar() {
                 <Link to="/productCategory">سامسونگ</Link>
               </div>
             </div>
-
           </div>
         </div>
 
-       
         <div className='navItem'>
           <Link to="/#newest" className='itemnav'>
             <div className='itemContentnav'>
@@ -125,6 +138,44 @@ function Navbar() {
             </div>
           </Link>
         </div>
+      </div>
+
+      {isMobileMenuOpen && (
+        <div className="mobileOverlay active" onClick={toggleMobileMenu}></div>
+      )}
+
+      <div className={`mobileDrawer ${isMobileMenuOpen ? 'open' : ''}`}>
+        <button className="closeBtn" onClick={toggleMobileMenu}>×</button>
+        <Link to="/" id="logonavlink">
+          <img src={logo} alt="logo" className='logonav' />
+        </Link>
+
+        <div className="usermenucontainer">
+          <button className='loginBtn' onClick={goToSignIn}>
+            ثبت نام<span className='space'>|</span>ورود
+          </button>
+        </div>
+
+        <div className="menuitemcontainor">
+          <UserMenu />
+          <div className='cart-navbar'>
+            <button className='cartbutton' onClick={goTomycart}>
+              <label htmlFor="" className='cart-num'>1</label>
+              <img src={cartIcon} alt="cart" className='cartIcon' />
+            </button>
+          </div>
+        </div>
+
+        <hr />
+        <strong>دسته‌بندی‌ها</strong>
+        <Link to="/productCategory">لپتاپ</Link>
+        <Link to="/productCategory">موبایل</Link>
+        <Link to="/productCategory">هدفون</Link>
+        <Link to="/productCategory">ساعت هوشمند</Link>
+
+        <hr />
+        <Link to="/#newest">جدیدترین‌ها</Link>
+        <Link to="/#bestseller">پرفروش‌ترین‌ها</Link>
       </div>
     </div>
   );

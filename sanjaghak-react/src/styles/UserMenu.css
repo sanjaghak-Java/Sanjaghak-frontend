@@ -90,3 +90,15 @@
     transform: translateY(0);
   }
 }
+
+@media (max-width: 768px){
+  .user-menu-container{
+  width: 48px;
+  height: 48px;  
+  }
+
+  .user-dropdown {
+    left: -250px;
+    top: 0;
+  }
+}

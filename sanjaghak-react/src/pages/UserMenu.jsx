@@ -1,15 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import "/src/styles//UserMenu.css";
+import "/src/styles/UserMenu.css";
 import profileIcon from "../assets/user.png";
-import Shop from '../assets/shopping-bag.png';
-import favorite from '../assets/favorite.png';
-import exit from '../assets/exit2.png';
-import LogoutModal from './LogoutModal';
+import Shop from "../assets/shopping-bag.png";
+import favorite from "../assets/favorite.png";
+import exit from "../assets/exit2.png";
+import LogoutModal from "./LogoutModal";
 
 const UserMenu = () => {
   const [open, setOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const menuRef = useRef(null);
 
   const handleLogoutClick = () => {
     setIsModalOpen(true);
@@ -19,13 +20,26 @@ const UserMenu = () => {
     setIsModalOpen(false);
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div
-      className="user-menu-container"
-      onMouseEnter={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
-    >
-      <img src={profileIcon} alt="پروفایل" className="profile-icon" />
+    <div className="user-menu-container" ref={menuRef}>
+      <img
+        src={profileIcon}
+        alt="پروفایل"
+        className="profile-icon"
+        onClick={() => setOpen((prev) => !prev)}
+      />
 
       {open && (
         <div className="user-dropdown">

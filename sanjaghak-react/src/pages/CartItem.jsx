@@ -4,7 +4,7 @@ import warranty from '../assets/tools-wench-ruler.png';
 import box from '../assets/box.png';
 import bin from '../assets/bin.png';
 import store from '../assets/store.png';
-import "../styles/CartPage.css";
+import "../styles/CartItem.css";
 
 function CartItem({ item, onQuantityChange, showQuantityControls = true, showDeleteButton = true }) {
   const increase = (e) => {
@@ -28,7 +28,7 @@ function CartItem({ item, onQuantityChange, showQuantityControls = true, showDel
       )}
 
       <Link to="/Product" className="cartitemlink">
-        <div style={{ display: 'flex' }}>
+        <div style={{ display: 'flex' }} id="cartinfocontainor">
           <img src={item.image} alt={item.productname} className="itemsimg" />
           <div className='itemsinfo'>
             <label className="itemsname">{item.productname}</label>

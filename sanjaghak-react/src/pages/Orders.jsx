@@ -17,7 +17,13 @@ function Orders() {
     { id: 1, orderNumber: '1001', date: '1403/04/15', amount: 250000, status: 'تحویل شده' },
     { id: 2, orderNumber: '1002', date: '1403/04/16', amount: 120000, status: 'لغو شده' },
     { id: 3, orderNumber: '1003', date: '1403/04/17', amount: 300000, status: 'مرجوع شده' },
+    { id: 4, orderNumber: '1004', date: '1403/04/18', amount: 180000, status: 'تحویل شده' },
   ];
+
+  // داینامیک کردن تعداد هر وضعیت سفارش
+  const deliveredCount = orders.filter(order => order.status === 'تحویل شده').length;
+  const returnedCount = orders.filter(order => order.status === 'مرجوع شده').length;
+  const canceledCount = orders.filter(order => order.status === 'لغو شده').length;
 
   const getStatusClass = (status) => {
     switch (status) {
@@ -49,7 +55,7 @@ function Orders() {
                 <div className='statusdiv'>
                   <p>تحویل شده</p>
                   <div>
-                    <label className='description'>5</label>
+                    <label className='description'>{deliveredCount}</label>
                     <label className='description'>سفارش</label>
                   </div>
                 </div>
@@ -60,7 +66,7 @@ function Orders() {
                 <div className='statusdiv'>
                   <p>مرجوعی</p>
                   <div>
-                    <label className='description'>5</label>
+                    <label className='description'>{returnedCount}</label>
                     <label className='description'>سفارش</label>
                   </div>
                 </div>
@@ -71,7 +77,7 @@ function Orders() {
                 <div className='statusdiv'>
                   <p>لغو شده</p>
                   <div>
-                    <label className='description'>5</label>
+                    <label className='description'>{canceledCount}</label>
                     <label className='description'>سفارش</label>
                   </div>
                 </div>

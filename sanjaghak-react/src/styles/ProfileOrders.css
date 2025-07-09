@@ -140,76 +140,75 @@
   }
 
   .orderTableContainer {
-  margin-top: 30px;
-  overflow-x: auto;
-}
+    margin-top: 30px;
+    overflow-x: auto;
+  }
 
-.orderTable {
-  width: 100%;
-  border-collapse: collapse;
-  font-family: "Estedad";
-  background-color: #fff;
-  box-shadow: 0 0 8px #ccc;
-}
+  .orderTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: "Estedad";
+    background-color: #fff;
+    box-shadow: 0 0 8px #ccc;
+  }
 
-.orderTable th,
-.orderTable td {
-  padding: 12px 16px;
-  border: 1px solid #e0e0e0;
-  text-align: center;
-}
+  .orderTable th,
+  .orderTable td {
+    padding: 12px 16px;
+    border: 1px solid #e0e0e0;
+    text-align: center;
+  }
 
-.orderTable th {
-  background-color: #f2f2f2;
-  font-weight: bold;
-  font-size: 14px;
-}
+  .orderTable th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    font-size: 14px;
+  }
 
-.orderTable td{
-  font-size: 14px;
-  font-family: "BYekan";
-}
+  .orderTable td{
+    font-size: 14px;
+    font-family: "BYekan";
+  }
 
-.status {
-  padding: 5px 12px;
-  border-radius: 12px;
-  font-weight: bold;
-  display: inline-block;
-  font-size: 12px;
-}
+  .status {
+    padding: 5px 12px;
+    border-radius: 12px;
+    font-weight: bold;
+    display: inline-block;
+    font-size: 12px;
+  }
 
-.status.canceled {
-  background-color: #ffe5e5;
-  color: #d60000;
-}
+  .status.canceled {
+    background-color: #ffe5e5;
+    color: #d60000;
+  }
 
-.status.delivered {
-  background-color: #e6f5ec;
-  color: #009d3e;
-}
+  .status.delivered {
+    background-color: #e6f5ec;
+    color: #009d3e;
+  }
 
-.status.returned {
-  background-color: #eeeeee;
-  color: #5f5f5f;
-}
+  .status.returned {
+    background-color: #eeeeee;
+    color: #5f5f5f;
+  }
 
-.noOrdersMessage {
-  font-family: "B Mehr Bold_0";
-  text-align: center;
-  color: #888;
-  font-size: 18px;
-  padding: 30px;
-}
+  .noOrdersMessage {
+    font-family: "B Mehr Bold_0";
+    text-align: center;
+    color: #888;
+    font-size: 18px;
+    padding: 30px;
+  }
 
 
   @media (max-width: 768px){
     .profilecontent{
       display: flex;
       align-items: center;
-      gap: 0;
       width: 100%;
       margin: 0;
-      padding: 240px 20px 50px;
+      padding: 190px 20px 50px;
     }
     .orderdiv{
       width: 100%;
@@ -218,6 +217,7 @@
     .border{
       gap: 40px;
       font-size: 12px;
+      margin-bottom: 30px;
     }
 
     .border img{
@@ -229,13 +229,18 @@
     }
 
     .filterpart{
-        display: flex;
-        flex-direction: column;
-        gap: 25px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
 
     .filter{
-        margin: 0;
+      margin: 0;
     }
 
+    .orderTable th,
+    .orderTable td{
+      font-size: 12px;
+      padding: 10px 4px;
+  }
   }

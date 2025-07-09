@@ -7,7 +7,7 @@
   gap: 40px;
   padding: 5px 20px;
   max-width: 1500px;
-  margin: 0 auto; 
+  margin: 0 auto;
 }
 
 .productGridWrapper {
@@ -16,13 +16,14 @@
   align-items: center;
 }
 
-
 .paginationControls {
   direction: rtl;
   margin-top: 60px;
   display: flex;
   gap: 20px;
   align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .paginationControls button {
@@ -38,4 +39,24 @@
 .paginationControls button:disabled {
   background-color: #aaa;
   cursor: not-allowed;
+}
+
+
+@media (max-width: 768px) {
+  .productGridContainer {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 20px;
+    padding: 0;
+    margin: 8px 0 0 3px;
+
+  }
+
+  .paginationControls {
+    margin-top: 30px;
+    gap: 10px;
+    display: flex;
+    flex-direction: row;
+  }
+
+
 }

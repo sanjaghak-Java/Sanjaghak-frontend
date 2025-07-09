@@ -38,12 +38,12 @@ function ProductSlider() {
         breakpoints={{
           0: {
             slidesPerView: 2,
-            slidesPerGroup: 2,
-            spaceBetween: 10,
+            slidesPerGroup: 1,
+            spaceBetween: -28,
           },
           768: {
             slidesPerView: 4,
-            slidesPerGroup: 4,
+            slidesPerGroup: 1,
             spaceBetween: 80,
           },
         }}

@@ -31,6 +31,7 @@
 
 .cardFront,
 .cardBack {
+  background-color: white;
   position: absolute;
   width: 100%;
   height: 100%;
@@ -175,7 +176,7 @@
     margin-left: 5px;
   }
   .cardInner {
-    width: 100%;
+    width: 85%;
     height: 85%;
   }
 

@@ -87,8 +87,6 @@
 
 #signuplabel {
   font-family: "Vazirmatn";
-  margin-top: 30px;
-  margin-bottom: 0;
   text-align: right;
   color: gray;
   font-size: 15px;
@@ -125,11 +123,28 @@
   margin-bottom: 10px;
 }
 
-.signup-link {
+.signinlinkcontainor{
+  display: flex;
+}
+
+#signinmobilelink ,
+#signuplink ,
+#signinemaillink{
   color: #dc2655;
   text-decoration: none;
   position: relative;
+  font-family: 'Tunisia';
+  border: none;
   margin-right: 10px;
+  margin-top: -2px;
+}
+
+#signinmobilelink{
+  margin-right: 150px;
+}
+
+#signinemaillink{
+  margin-right: 190px;
 }
 
 @media (max-width: 768px){
@@ -144,6 +159,20 @@
   }
   .signInBox h1{
     font-size: 23px;
+  }
+
+  #signinmobilelink ,
+  #signuplink ,
+  #signinemaillinkb{
+    padding: 0;
+  }
+
+  #signinmobilelink{
+    margin-right: 56px;
+  }
+
+  #signinemaillink{
+    margin-right: 100px;
   }
   
 }

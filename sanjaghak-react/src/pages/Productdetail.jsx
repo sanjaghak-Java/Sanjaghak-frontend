@@ -75,14 +75,6 @@ function ProductDetail({ onAddToCart }) {
         <div className="images">
           <img src={mainImage} alt="تصویر محصول" className="product-img" />
           <div className="miniimg-container">
-            <div id="more-miniimg-wrapper">
-              <img
-                src="./src/assets/icons8-images-folder-50.png"
-                alt="تصاویر بیشتر"
-                id="more-product-miniimg"
-              />
-              <label id="more-miniimg-label">+2 تصویر</label>
-            </div>
             {thumbnails.map((img, i) => (
               <div
                 className="miniimg-wrapper"
@@ -99,6 +91,14 @@ function ProductDetail({ onAddToCart }) {
                 />
               </div>
             ))}
+              <div id="more-miniimg-wrapper">
+                <img
+                  src="./src/assets/icons8-images-folder-50.png"
+                  alt="تصاویر بیشتر"
+                  id="more-product-miniimg"
+                />
+                <label id="more-miniimg-label">+2 تصویر</label>
+              </div>
           </div>
         </div>
       </div>

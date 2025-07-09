@@ -54,11 +54,12 @@
 
 @media (max-width: 768px) {
   .productSwiperContainer {
-    padding: 15px;
+    padding: 0;
   }
 
   .productSwiperSlide {
     width: 90vw;
+    margin: 18px 8px;
   }
 
   .slideText {

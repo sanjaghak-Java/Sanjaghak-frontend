@@ -54,9 +54,19 @@
       gap: 0;
       width: 100%;
       margin: 0;
-      padding: 240px 20px 50px;
     }
     .orderdiv{
+      margin: 0;
+      gap: 0;
       width: 100%;
+    }
+
+    .favitems{
+      padding: 20px 5px;
+    }
+
+    .favitemscontainor{
+      padding: 0;
+      margin: 0;
     }
   }

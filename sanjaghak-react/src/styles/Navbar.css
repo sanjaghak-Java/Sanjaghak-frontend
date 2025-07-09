@@ -94,7 +94,7 @@
   box-shadow: 4px 3px 15px #68686841;
   height: 40px;
   width: 110px;
-  background-color: white;
+  background-color: transparent;
   border: 1.5px solid #ccc;
   padding: 5px 9px;
   border-radius: 8px;
@@ -311,4 +311,147 @@
   padding: 0 10px;
   width: 100%;
   box-sizing: border-box;
+}
+
+.mobileMenuButton {
+  display: none;
+}
+
+@media (max-width: 768px) {
+
+  #logonavlink{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  .mobileMenuButton {
+    display: block;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    z-index: 1300;
+    cursor: pointer;
+  }
+
+  .mobileDrawer{
+    direction: rtl;
+  }
+
+  .lowerNav {
+    display: none !important;
+  }
+
+  .userActions {
+    display: none;
+  }
+
+  .upperNav {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 20px;
+  }
+
+  .searchContainer {
+    width: 90%;
+    max-width: 400px;
+  }
+
+  .searchBar {
+    width: 100%;
+  }
+
+  .usermenucontainer {
+    background-color: #e6e6e65d;
+    border-radius: 10px;
+    padding: 4px 8px;
+    position: relative;
+    display: flex;
+    cursor: pointer;
+  }
+
+  .menuitemcontainor{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+  }
+
+  .loginBtn{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .loginBtn:hover{
+    box-shadow: none;
+    color: black;
+  }
+
+}
+
+.mobileOverlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 1100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.mobileOverlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.mobileDrawer {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 260px;
+  height: 100%;
+  background-color: white;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.15);
+  z-index: 1200;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  transition: right 0.3s ease;
+  font-family: "Estedad";
+}
+
+.mobileDrawer.open {
+  right: 0;
+}
+
+.mobileDrawer button,
+.mobileDrawer a {
+  text-align: right;
+  font-size: 15px;
+  background: none;
+  border: none;
+  color: #333;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.mobileDrawer .closeBtn {
+  align-self: flex-end;
+  font-size: 22px;
+  font-weight: bold;
+  color: #dc2654;
+  border: none;
+  background: none;
+  cursor: pointer;
 }

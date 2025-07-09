@@ -75,7 +75,7 @@ function CartPage() {
           </div>
 
           <div className="pricediv">
-            <div className="title">
+            <div className="title" id='carttitle1'>
               <img src={bill} alt="bill" className='titleimg' />
               <h3 className="carttitle">صورت حساب</h3>
             </div>

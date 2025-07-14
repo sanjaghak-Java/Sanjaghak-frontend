@@ -26,7 +26,7 @@
 .overlay {
   direction: rtl;
   position: fixed;
-  top: 120px;
+  top: 0;
   left: 0;
   right: 0;
   bottom: 0;
@@ -41,6 +41,7 @@
   background-color: #fff;
   width: 400px;
   padding: 30px;
+  top: 50px;
   border-radius: 12px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
   display: flex;
@@ -113,19 +114,21 @@
 }
 
 .submitbtn:hover{
-      background-color: #BF173E;
+  background-color: #BF173E;
 
 }
+/* ......ریسپانسیو..... */
 
-@media (max-width: 768px){
+@media (max-width: 600px){
   .overlay{
-    top: 200px;
+    top: 0;
     font-size: 90%;
   }
 
   .popupbox{
     width: 350px;
     height: 490px;
+    top: 80px;
     padding: 15px 35px;
   }
 

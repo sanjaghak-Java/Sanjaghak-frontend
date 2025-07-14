@@ -83,7 +83,7 @@
 
 /* ....ریسپانسیو ....*/
 
-@media (max-width: 768px) {
+@media (max-width: 600px) {
   .slideShowContainer {
     height: 40vh;
     margin-top: 21vh;
@@ -117,40 +117,5 @@
     font-size: 4.5vw;
     margin-top: 15vh;
     margin-left: 3vw;
-  }
-}
-
-@media (max-width: 480px) {
-  .slideShowContainer {
-    height: 40vh;
-    margin-top: 4vh;
-  }
-
-  .slideTitle {
-    font-size: 6vw;
-    padding: 4px 8px;
-  }
-
-  #slideTitle1 {
-    font-size: 6vw;
-    margin-top: -1.5vh;
-  }
-
-  #slideTitle2 {
-    font-size: 6vw;
-    margin-top: 15vh;
-    margin-left: -25vw;
-  }
-
-  #slideTitle3 {
-    font-size: 5vw;
-    margin-top: -2vh;
-    margin-left: -8vw;
-  }
-
-  #slideTitle4 {
-    font-size: 6vw;
-    margin-top: 15vh;
-    margin-left: 12vw;
   }
 }

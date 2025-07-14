@@ -121,7 +121,9 @@
   outline: none;
 }
 
-@media (max-width: 768px){
+/* ....ریسپانسیو..... */
+
+@media (max-width: 600px){
 
   .categoryBox{
     margin-top: 200px;

@@ -143,39 +143,7 @@ body,
 
 /* ..... ریسپانسیو ..... */
 
-@media (max-width: 1024px) {
-  .sliderdiv {
-    margin: 40px 30px;
-  }
-
-  .titleslider,
-  .titleslider1 {
-    font-size: 24px;
-  }
-
-  .titlepart {
-    padding: 16px;
-    gap: 4px;
-  }
-
-  .rotatedimg {
-    width: 40px;
-    height: 40px;
-  }
-
-  .prompopart {
-    margin: 0 30px;
-    gap: 20px;
-  }
-
-  .watercolor-text {
-    font-size: 1.3rem;
-    margin-top: 10px;
-    margin-bottom: -18px;
-  }
-}
-
-@media (max-width: 768px) {
+@media (max-width: 600px) {
   .sliderdiv {
     height: 380px;
     margin: 30px 20px;
@@ -203,37 +171,5 @@ body,
 
   .watercolor-text {
     font-size: 17px;
-  }
-}
-
-@media (max-width: 480px) {
-  .sliderdiv {
-    margin: 20px 10px;
-  }
-
-  .titleslider,
-  .titleslider1 {
-    font-size: 18px;
-  }
-
-  .titlepart {
-    padding: 10px;
-    gap: 2px;
-  }
-
-  .rotatedimg {
-    width: 30px;
-    height: 30px;
-  }
-
-  .prompopart {
-    margin: 0 10px;
-    gap: 12px;
-  }
-
-  .watercolor-text {
-    font-size: 22px;
-    margin-top: 6px;
-    margin-bottom: -12px;
   }
 }

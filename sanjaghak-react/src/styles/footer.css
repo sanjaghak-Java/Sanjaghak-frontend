@@ -157,11 +157,9 @@ span {
 .footer-services-title{
   font-family: 'Kanun ';
   color: #000000;
-  /* margin-right: 25px; */
 }
-
-@media (max-width: 768px){
-
+/* ......ریسپانسیو..... */
+@media (max-width: 600px){
   .footer{
     padding: 20px 50px;
   }

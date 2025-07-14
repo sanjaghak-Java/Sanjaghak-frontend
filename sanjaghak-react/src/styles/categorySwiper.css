@@ -117,21 +117,8 @@
 }
 
 /* ......ریسپانسیو...... */
-@media (max-width: 1024px) {
-  .categorySwiperSlide > div {
-    width: 250px;
-    height: 130px;
-    padding: 10px;
-  }
-  .categorySlideImg {
-    height: 60px;
-  }
-  .categorySlidetext {
-    font-size: 15px;
-  }
-}
 
-@media (max-width: 768px) {
+@media (max-width: 600px) {
   .categorySwiperContainer {
     padding: 16px;
   }

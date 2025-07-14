@@ -58,7 +58,9 @@
   background-color: #c4204b;
 }
 
-@media (max-width: 768px){
+/* .....ریسپانسیو..... */
+
+@media (max-width: 600px){
 
     #Totalprice1 ,
     #Totalprice2 ,

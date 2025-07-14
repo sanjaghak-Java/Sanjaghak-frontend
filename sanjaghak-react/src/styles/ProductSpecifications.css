@@ -1,0 +1,61 @@
+.Specifications-div {
+    direction: rtl;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 85%;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    margin: 20px auto 10px auto;
+    padding: 20px 15px;
+}
+
+.Specification-part {
+    display: flex;
+    width: 100%;
+    padding: 16px;
+    border-radius: 15px;
+}
+
+.Specification-part:nth-child(even) {
+    background-color: #f0f0f0;
+}
+
+.Specification-part:nth-child(odd) {
+    background-color: #fff7f7;
+}
+
+.Attribute-part {
+    font-family: "BYekan";
+    font-size: 15px;
+    color: #333;
+    width: 30%;
+}
+
+.Value-part {
+    font-size: 17px;
+    width: fit-content;
+}
+
+.show-more-btn {
+    display: inline-flex;
+    align-items: center;
+    color: #007bff;
+    justify-content: flex-start;
+    font-size: 14px;
+    user-select: none;
+    cursor: pointer;
+    margin-top: 10px;
+    font-family: "tabriz";
+    transition: color 0.3s;
+}
+
+.show-more-btn:hover{
+    text-decoration: underline;
+}
+
+.show-more-btn .arrow {
+    font-size: 14px;
+    margin-right: 6px;
+    transform: translateY(1px);
+}

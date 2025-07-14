@@ -117,8 +117,8 @@
 
 .lowerNav {
   direction: rtl;
-  margin-top: 10px;
   width: 99%;
+  margin-top: 10px;
   position: fixed;
   top: 80px;
   z-index: 999;
@@ -317,7 +317,68 @@
   display: none;
 }
 
-@media (max-width: 768px) {
+.mobileOverlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 1100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.mobileOverlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.mobileDrawer {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 260px;
+  height: 100%;
+  background-color: white;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.15);
+  z-index: 1200;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  transition: right 0.3s ease;
+  font-family: "Estedad";
+}
+
+.mobileDrawer.open {
+  right: 0;
+}
+
+.mobileDrawer button,
+.mobileDrawer a {
+  text-align: right;
+  font-size: 15px;
+  background: none;
+  border: none;
+  color: #333;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.mobileDrawer .closeBtn {
+  align-self: flex-end;
+  font-size: 22px;
+  font-weight: bold;
+  color: #dc2654;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+/* ......ریسپانسیو..... */
+
+@media (max-width: 600px) {
 
   #logonavlink{
     width: 100%;
@@ -394,64 +455,4 @@
     color: black;
   }
 
-}
-
-.mobileOverlay {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background-color: rgba(0, 0, 0, 0.3);
-  z-index: 1100;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-}
-
-.mobileOverlay.active {
-  opacity: 1;
-  pointer-events: all;
-}
-
-.mobileDrawer {
-  position: fixed;
-  top: 0;
-  right: -100%;
-  width: 260px;
-  height: 100%;
-  background-color: white;
-  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.15);
-  z-index: 1200;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 20px;
-  transition: right 0.3s ease;
-  font-family: "Estedad";
-}
-
-.mobileDrawer.open {
-  right: 0;
-}
-
-.mobileDrawer button,
-.mobileDrawer a {
-  text-align: right;
-  font-size: 15px;
-  background: none;
-  border: none;
-  color: #333;
-  cursor: pointer;
-  text-decoration: none;
-}
-
-.mobileDrawer .closeBtn {
-  align-self: flex-end;
-  font-size: 22px;
-  font-weight: bold;
-  color: #dc2654;
-  border: none;
-  background: none;
-  cursor: pointer;
 }

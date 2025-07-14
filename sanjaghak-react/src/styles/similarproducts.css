@@ -38,8 +38,9 @@
   margin: 0;
   user-select: none;
 }
+/* ....ریسپانسیو.... */
 
-@media (max-width: 768px){
+@media (max-width: 600px){
   .similar-productSwiperContainer {
     padding: 0;
     margin: 0 -18px;

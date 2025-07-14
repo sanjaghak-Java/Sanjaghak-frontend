@@ -9,12 +9,12 @@
   direction: rtl;
   width: 85%;
   margin: 30px auto 10px auto;
-  background-color: #F0F1F1;
+  /* background-color: #F0F1F1; */
   font-weight: 600;
   font-size: 19px;
   padding: 10px 20px;
   border-radius: 8px;
-  text-align: center;
+  text-align: right;
   font-family: 'kanun ';
 }
 

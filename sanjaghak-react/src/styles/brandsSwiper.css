@@ -65,7 +65,8 @@
 }
 
 /* .....ریسپانسیو..... */
-@media (max-width: 768px) {
+
+@media (max-width: 600px) {
   .brandsSwiperContainer {
     margin: 0 20px 20px 20px;
     padding: 16px;
@@ -88,23 +89,5 @@
 
   .brandSlide {
     height: 70px;
-  }
-}
-
-@media (max-width: 480px) {
-  .brandLogo {
-    width: 50px;
-  }
-
-  .brandDivider {
-    display: none;
-  }
-
-  .brandsTitle {
-    font-size: 16px;
-  }
-
-  .brandsSwiperContainer {
-    padding: 12px;
   }
 }

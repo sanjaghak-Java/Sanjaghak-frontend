@@ -46,8 +46,9 @@
     padding: 0 60px;
     width: 100%;
   }
+/* ....ریسپانسیو.... */
 
-  @media (max-width: 768px){
+  @media (max-width: 600px){
     .profilecontent{
       display: flex;
       align-items: center;

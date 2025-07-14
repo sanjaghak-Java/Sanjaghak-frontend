@@ -3,7 +3,7 @@
   border: 2px solid #dc4f623f;
   border-radius: 12px;
   padding: 0 50px;
-  width: 500px;
+  width: 30%;
   box-shadow: 0 8px 20px #d94f6194;
   box-sizing: border-box;
   position: fixed;
@@ -181,8 +181,9 @@
 #singup-rules:hover{
   color: #ff0022b6;
 }
+/* ....ریسپانسیو.... */
 
-@media (max-width: 768px){
+@media (max-width: 600px){
   .signUpBox{
     width: 80%;
   }

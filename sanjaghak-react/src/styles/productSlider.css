@@ -38,28 +38,17 @@
 }
 
 /* ...... ریسپانسیو ......*/
-@media (max-width: 1024px) {
+
+@media (max-width: 600px) {
   .productSwiperContainer {
-    padding: 20px 30px;
+    padding: 0 15px 0 0;
+    width: 100%;
   }
 
   .productSwiperSlide {
-    width: 600px;
-  }
-
-  .slideText {
-    font-size: 13px;
-  }
-}
-
-@media (max-width: 768px) {
-  .productSwiperContainer {
+    width: 100%;
+    margin: 18px 0;
     padding: 0;
-  }
-
-  .productSwiperSlide {
-    width: 90vw;
-    margin: 18px 8px;
   }
 
   .slideText {
@@ -67,16 +56,4 @@
   }
 }
 
-@media (max-width: 480px) {
-  .productSwiperContainer {
-    padding: 12px 10px;
-  }
 
-  .productSwiperSlide {
-    width: 95vw;
-  }
-
-  .slideText {
-    font-size: 11px;
-  }
-}

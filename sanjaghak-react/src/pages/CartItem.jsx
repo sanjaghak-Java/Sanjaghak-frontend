@@ -22,9 +22,12 @@ function CartItem({ item, onQuantityChange, showQuantityControls = true, showDel
   return (
     <div className='cartitem'>
       {showDeleteButton && (
-        <button className="binbutton">
-          <img src={bin} alt="حذف" className='binimg' />
-        </button>
+        <div className="bincontainor">
+          <button className="binbutton">
+            <img src={bin} alt="حذف" className='binimg' />
+          </button>      
+        </div>
+
       )}
 
       <Link to="/Product" className="cartitemlink">
@@ -36,7 +39,7 @@ function CartItem({ item, onQuantityChange, showQuantityControls = true, showDel
             <div className="itemsproductcolor">
               <label
                 className="itemsproductcolorshow"
-                style={{ backgroundColor: item.color }}
+                style={{ backgroundColor: item.hex }}
               ></label>
               <label className="itemsproductcolorname">{item.color}</label>
             </div>

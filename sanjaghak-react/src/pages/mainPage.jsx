@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
-import Navbar from "./Navbar";
+import Navbar from "./navbar";
 import CategoriesSwiper from "./categoriesSwiper";
 import ImagePreview from "./imagePreview";
 import PromoBanner from "./PromoBanner";

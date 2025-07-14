@@ -85,8 +85,9 @@
     height: 1px;
     background-color: #ccc;
   }
+/* ....ریسپانسیو.... */
 
-  @media (max-width: 768px){
+  @media (max-width: 600px){
 
     .titleprof{
       gap: 0;

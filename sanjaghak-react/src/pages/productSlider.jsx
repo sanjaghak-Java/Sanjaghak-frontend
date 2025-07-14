@@ -39,7 +39,7 @@ function ProductSlider() {
           0: {
             slidesPerView: 2,
             slidesPerGroup: 1,
-            spaceBetween: -28,
+            spaceBetween: 0,
           },
           768: {
             slidesPerView: 4,

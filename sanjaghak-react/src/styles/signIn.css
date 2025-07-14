@@ -5,11 +5,11 @@
   border: 2px solid #dc4f623f;
   border-radius: 12px;
   padding: 20px 20px;
-  width: 500px;
+  width: 30%;
   box-shadow: 0 8px 20px #d94f6194;
   box-sizing: border-box;
   position: fixed;
-  top: 50%;
+  top: 52%;
   left: 50%;
   transform: translate(-50%, -50%);
   direction: rtl;
@@ -86,6 +86,7 @@
 }
 
 #signuplabel {
+  width: 100%;
   font-family: "Vazirmatn";
   text-align: right;
   color: gray;
@@ -135,19 +136,22 @@
   position: relative;
   font-family: 'Tunisia';
   border: none;
-  margin-right: 10px;
+  width: 100%;
   margin-top: -2px;
 }
 
-#signinmobilelink{
-  margin-right: 150px;
-}
-
+#signinmobilelink ,
 #signinemaillink{
-  margin-right: 190px;
+direction: ltr;
 }
 
-@media (max-width: 768px){
+/* #signinemaillink{
+  margin-right: 190px;
+  background-color: firebrick;
+} */
+/* ....ریسپانسیو.... */
+
+@media (max-width: 600px){
   .signInBox{
     width: 80%;
   }

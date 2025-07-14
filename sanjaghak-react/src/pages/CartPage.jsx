@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import Navbar from "./Navbar";
+import Navbar from "./navbar";
 import Footer from "./Footer";
 import CartItem from './CartItem';
 import CartPrice from './CartPrice';
@@ -20,6 +20,7 @@ function CartPage() {
         warranty: 'گارانتی 12 ماهه',
         inventory: 'موجود در انبار',
         color: 'قرمز',
+        hex: '#ff0000ff',
         price: 40000000,
         quantity: 1,
         image: './src/assets/images (1).jpg',
@@ -30,6 +31,7 @@ function CartPage() {
         warranty: 'گارانتی 12 ماهه',
         inventory: 'موجود در انبار',
         color: 'سفید',
+        hex: '#ffffff',
         price: 25000000,
         quantity: 1,
         image: './src/assets/images (2).jpg',

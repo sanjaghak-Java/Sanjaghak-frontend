@@ -82,7 +82,7 @@
   mix-blend-mode: multiply;
   width: 100px;
   height: auto;
-  margin: 0 auto 16px;
+  margin: auto auto 16px;
   display: block;
 }
 
@@ -169,14 +169,14 @@
   background-color: #dc2655;
   box-shadow: 3px 2px 10px red;
 }
-
-@media screen and (max-width: 768px) {
+/* ....ریسپانسیو.... */
+@media screen and (max-width: 600px) {
   .cardContainer{
-    margin-right: 5px;
-    margin-left: 5px;
+    margin-right: 0px;
+    margin-left: 0px;
   }
   .cardInner {
-    width: 85%;
+    width: 90%;
     height: 85%;
   }
 
@@ -192,7 +192,7 @@
   }
 
   .salePercent {
-    margin-right: 140px;
+    margin-right: 135px;
     font-size: 10px;
     width: 25px;
     height: 26px;

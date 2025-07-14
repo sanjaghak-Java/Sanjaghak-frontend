@@ -79,7 +79,7 @@
     margin-right: -15px;
 }
 .product-color1{
-    width: 68%;
+    width: fit-content;
     height: 30px;
     margin-right: -40px;
     background-color: #F0F0F0;
@@ -136,4 +136,14 @@
 }
 .img{
     width: 80px;
+}
+
+/* ....ریسپانسیو.... */
+@media (max-width: 600px) {
+  .cartreport-container {
+    width: 90%;
+    padding: 15px 20px;
+    border-radius: 6px;
+  }
+
 }

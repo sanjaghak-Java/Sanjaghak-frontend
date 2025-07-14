@@ -41,8 +41,9 @@
   cursor: not-allowed;
 }
 
+/* ....ریسپانسیو.... */
 
-@media (max-width: 768px) {
+@media (max-width: 600px) {
   .productGridContainer {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 20px;

@@ -201,8 +201,9 @@
     padding: 30px;
   }
 
+/* ....ریسپانسیو.... */
 
-  @media (max-width: 768px){
+  @media (max-width: 600px){
     .profilecontent{
       display: flex;
       align-items: center;
@@ -242,5 +243,5 @@
     .orderTable td{
       font-size: 12px;
       padding: 10px 4px;
-  }
+    }
   }

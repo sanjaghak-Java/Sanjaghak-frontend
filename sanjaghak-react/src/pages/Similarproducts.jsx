@@ -18,17 +18,35 @@ function Similarproducts() {
         <div className="similar-box">
             <div className="similar-productSwiperContainer">
                 
-                <Swiper className="similar-productSwiper"
-                    dir="rtl"
-                    navigation
-                    loop={true}
-                    spaceBetween={80}
-                    slidesPerView={4}
-                    modules={[Navigation]}
-                    initialSlide={0}
-                    slidesPerGroup={4}
-
+                <Swiper
+                className="similar-productSwiper"
+                dir="rtl"
+                navigation
+                loop={true}
+                spaceBetween={80}
+                slidesPerView={4}
+                slidesPerGroup={1}
+                modules={[Navigation]}
+                initialSlide={0}
+                breakpoints={{
+                    0: {
+                    slidesPerView: 2,
+                    slidesPerGroup: 1,
+                    spaceBetween: 0,
+                    },
+                    768: {
+                    slidesPerView: 3,
+                    slidesPerGroup: 1,
+                    spaceBetween: 40,
+                    },
+                    1024: {
+                    slidesPerView: 4,
+                    slidesPerGroup: 1,
+                    spaceBetween: 80,
+                    }
+                }}
                 >
+
                     {products.map((product, index) => (
                         <SwiperSlide className="similar-productSwiperSlide" key={index}>
                             <ProductCard name={product.name} image={product.image} model={product.model} salepercent={product.salepercent} salePrice={product.salePrice} price={product.salePrice} />

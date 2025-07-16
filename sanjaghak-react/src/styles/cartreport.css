@@ -79,11 +79,11 @@
     margin-right: -15px;
 }
 .product-color1{
-    width: 70px;
+    width: fit-content;
     height: 30px;
     margin-right: -40px;
     background-color: #F0F0F0;
-    margin: 15px -20px auto auto ;
+    margin: 15px 10px auto auto ;
     border-radius: 25px;
     display: flex;
     align-items: center; 
@@ -91,7 +91,8 @@
     padding: 0 10px;
 }
 .product-color-name1{
-    font-size: 19px;
+    font-family: "Jannat";
+    font-size: 12px;
 }
 .product-color-show1{
     border: 1px solid ;
@@ -106,6 +107,7 @@
     margin-top: 50px;
 }
 .price-num {
+    font-family: "BYekan";
     font-size: 20px;
     font-weight: bold;
 }
@@ -121,6 +123,7 @@
     border-radius: 10px;
     border: #D1D1D4;
     font-size: 16px;
+    font-family: "Digikala ";
     width: 100%;
     height: auto;
     transition: background-color 0.3s;
@@ -133,4 +136,14 @@
 }
 .img{
     width: 80px;
+}
+
+/* ....ریسپانسیو.... */
+@media (max-width: 600px) {
+  .cartreport-container {
+    width: 90%;
+    padding: 15px 20px;
+    border-radius: 6px;
+  }
+
 }

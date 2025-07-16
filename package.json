@@ -1,8 +1,9 @@
 {
   "dependencies": {
     "leaflet": "^1.9.4",
+    "rc-slider": "^11.1.8",
     "react-leaflet": "^5.0.0",
-    "react-router-dom": "^7.6.2",
+    "react-router-dom": "^7.6.3",
     "react-tsparticles": "^2.12.2",
     "swiper": "^11.2.8",
     "tsparticles": "^3.8.1",

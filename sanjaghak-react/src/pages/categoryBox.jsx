@@ -1,17 +1,27 @@
+import { useLocation } from "react-router-dom";
 import ProductGrid from "./productGrid";
-import "/src/styles/categoryBox.css"
+import "/src/styles/categoryBox.css";
 
+function CategoryBox({ onFilterClick }) {
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const brand = queryParams.get("brand");
+    const banner = queryParams.get("banner");
+    const category = queryParams.get("category");
 
+    const categoryTitle = brand || banner || category || "دسته‌بندی محصولات";
 
-function CategoryBox(props) {
     return (
-
         <div className="categoryBox">
             <div className="labelsContainer">
-                <p className="categoryTitle">لپ تاپ</p>
+                <p className="categoryTitle">{categoryTitle}</p>
                 <div className="labelGroup">
-                    <div className="filterWrapper">
-                        <img className="filterImg" src="/src/assets/icons8-filter-32.png" />
+                    <div className="filterWrapper" onClick={onFilterClick}>
+                        <img
+                            className="filterImg"
+                            src="/src/assets/icons8-filter-32.png"
+                            alt="filter"
+                        />
                         <label className="filterLabel" tabIndex="0">فیلتر</label>
                     </div>
                     <label className="bestsellerLabel" tabIndex="0">پرفروش ترین ها</label>
@@ -21,7 +31,7 @@ function CategoryBox(props) {
             <br />
             <ProductGrid />
         </div>
-
     );
 }
-export default CategoryBox
+
+export default CategoryBox;

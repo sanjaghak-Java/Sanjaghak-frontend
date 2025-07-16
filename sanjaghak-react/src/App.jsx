@@ -15,8 +15,11 @@ import Contactus from './pages/Contactus.jsx';
 import Rules from './pages/Rules.jsx';
 import FAQPage from './pages/FAQPage.jsx';
 import Orders from './pages/Orders.jsx';
-import ProfileEdit from './pages/ProfileEdit.jsx';
-import ProfileFavorite from './pages/ProfileFavorite.jsx';
+import ProfileEdit from './pages/ProfileEdit';
+import ProfileFavorite  from './pages/ProfileFavorite.jsx';
+import Filter  from './pages/Filter.jsx';
+
+
 
 import AdminLayout from './pages/adminLayout.jsx';
 import FinancialReport from './pages/FinancialReport.jsx';
@@ -65,6 +68,7 @@ function App() {
         <Route path="/profile-orders" element={<Orders />} />
         <Route path="/profile-edit" element={<ProfileEdit />} />
         <Route path="/profile-favorites" element={<ProfileFavorite />} />
+        <Route path="/Filter" element={<Filter />} />
 
         <Route path="/admin" element={<AdminLayout />}>
           <Route path="داشبورد" element={<Dashboard />} />

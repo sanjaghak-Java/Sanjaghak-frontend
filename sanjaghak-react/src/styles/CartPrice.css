@@ -1,0 +1,113 @@
+.pricecontainor {
+  border: 1px solid #ccc;
+  width: 100%;
+  padding: 20px 0 0 0;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  background-color: #fff;
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.Totalprice{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 18px;
+}
+
+.pricetext{
+  text-align: right;
+  width: 100%;
+  font-family: "BYekan";
+}
+
+.pricenumdiv{
+  gap: 5px;
+  direction: ltr;
+  display: flex;
+  width: 100%;
+}
+
+.tomanimg{
+  width: 18px;
+  height: 18px;
+}
+
+.numbercount{
+  font-family: "Far.Traffic";
+  font-size: 17px;
+}
+
+.buybutton {
+  font-family: 'Digikala ';
+  height: 50px;
+  width: 100%; 
+  background-color: #DC2655;
+  border-radius: 0 0 20px 20px;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  bottom: 0;
+}
+
+.buybutton:hover{
+  background-color: #c4204b;
+}
+
+/* .....ریسپانسیو..... */
+
+@media (max-width: 600px){
+
+    #Totalprice1 ,
+    #Totalprice2 ,
+    #Totalprice3 p{
+        display: none;
+    }
+
+    #Totalprice3{
+        width: 100%;
+        height: 50px;
+        background-color: white;
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+    }
+
+    .tomanimg{
+      margin-left: 45px;
+    }
+
+    .pricecontainor {
+      background-color: gainsboro;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0;
+      gap: 0;
+      padding: 25px;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+    }
+
+
+    .pricecontainor hr{
+        display: none;
+    }
+
+    .buybutton{
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 0;
+        width: 100%;
+        margin: 0;
+    }
+
+
+}

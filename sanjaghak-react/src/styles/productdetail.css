@@ -12,19 +12,26 @@
 }
 
 .product-name {
-  font-family: 'Digikala';
-  font-size: 30px;
+  width: 100%;
+  font-family: 'Estedad';
+  font-size: 24px;
+  font-weight: bold;
   margin-right: 10px;
 }
 
 .head-cart {
+  width: 100%;
+  direction: rtl;
   margin-top: 180px;
+  gap: 20px;
   justify-content: center;
+  align-items: center;
   display: flex;
   margin-bottom: 60px;
 }
 
 .warranty {
+  font-family: "Jannat";
   margin: 13px;
   display: flex;
 }
@@ -50,41 +57,32 @@
   border-radius: 2px;
 }
 
-/* .final-color{
-    margin: 20px;
-  display: flex;
-}
-.final-color-img{
-  margin-left: 10px;
-  width: 24px;
-  height: 24px;
-}
-.final-color-name{
-    display: flex;
-    align-items: center; 
-} */
-
 .icons-container {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-self: flex-start;
 }
 
 .like {
   width: 30px;
   height: 30px;
   margin-top: 10px;
-  margin-left: 10px;
+  align-self: self-end;
+  transition: transform 0.3s ease;
+}
+
+.like:hover{
+  transform: scale(1.08);
 }
 
 .product-information-title {
+  font-family: "Jalal";
   margin-top: 10px;
-  font-size: 20px;
-  font-weight: 500;
+  font-size: 18px;
 }
 
 .product-color {
-  width: 80px;
+  width: fit-content;
   height: 32px;
   background-color: #F0F0F0;
   margin: 7px 15px;
@@ -95,13 +93,13 @@
 }
 
 .product-color-name {
-  font-size: 22px;
+  font-family: "Jannat";
+  font-size: 13px;
   margin-right: 3px;
   padding-left: 7px;
 }
 
 .product-color-show {
-  border: 1px solid;
   border-radius: 100%;
   background-color: white;
   width: 20px;
@@ -110,16 +108,13 @@
 }
 
 .product {
-  width: 1050px;
-  height: 470px;
+  width: 70%;
+  height: 100%;
+  padding-bottom: 10px;
   border: 2px solid #D1D1D4;
+  background-color: white;
   border-radius: 20px;
   display: flex;
-  background-color: #ffffff;
-}
-
-.images {
-  /* margin-left: 160px; */
 }
 
 .product-img {
@@ -132,30 +127,37 @@
 }
 
 .information {
-  width: 430px;
+  width: 60%;
   margin-right: 25px;
-  margin-left: 165px;
   margin-top: 40px;
   direction: rtl;
 }
+.features-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 10px;
+  margin-right: 15px;
+}
 
 .features {
-  width: 120px;
+  font-family: "Jannat";
+  width: fit-content;
   height: 30px;
   background-color: #F0F0F0;
   border-radius: 10px;
   display: flex;
   align-items: center;
-  margin: 7px 15px;
+  padding: 18px 15px;
+  gap: 18px;
 }
 
 .features-title {
-  font-size: 20px;
-  margin-right: 7px;
-  padding-left: 18px;
+  font-size: 13px;
 }
 
 .features-inf {
+  font-size: 15px;
   color: #4a4a50;
 }
 
@@ -163,6 +165,9 @@
   display: flex;
   gap: 10px;
   margin-top: 10px;
+  direction: rtl;
+  align-items: center;
+  justify-content: center;
 }
 
 .miniimg-wrapper {
@@ -222,22 +227,63 @@
 }
 
 .brand-name {
-  /* color: #003cff95; */
   align-items: center;
   font-size: 14px;
 }
 
+.pay-part{
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 20%;
+  height: 320px;
+  border: 2px solid #D1D1D4;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.product-nameprice {
+  width: 100%;
+  font-family: 'Estedad';
+  font-size: 18px;
+  padding: 10px 20px;
+}
+
+.value-div{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px 20px;
+}
+
+.value-parts{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.warrantyimg{
+  width: 23px;
+  height: 23px;
+}
+
+.valuelabel{
+  font-family: "Jannat";
+  font-size: 14px;
+  color: #3E4344;
+}
+
 .price {
-  margin-top: 345px;
-  margin-left: 10px;
+  padding: 5px 20px;
+  width: 100%;
+  font-family: "BYekan";
   position: relative;
-  height: 63px;
   display: inline-block;
+  direction: ltr;
 }
 
 .discount {
-  /* position: absolute; */
-  /* right: 30px; */
   display: flex;
   align-items: center;
   gap: 5px;
@@ -246,6 +292,7 @@
 
 .base-price {
   color: #676F71;
+  font-size: 14px;
   font-style: oblique;
   text-decoration: line-through;
 }
@@ -274,35 +321,36 @@
 }
 
 .final-price-num {
-  font-size: 30px;
+  font-size: 22px;
   font-weight: bold;
   display: inline-block;
   text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.4);
 }
 
 .toman {
-  /* margin-top: 30px; */
   margin-right: 5px;
   width: 20px;
   height: 20px;
 }
 
-.buy-box {
-  width: 200px;
+.buy-box{
+  width: 100%;
   height: 50px;
-  margin-left: -12px;
-  margin-bottom: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-end;
 }
 
 .buy-button {
-  font-family: 'Digikala ';
   background-color: #DC2655;
-  box-shadow: 1px 1px 5px #00000093;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  font-family: 'Digikala ';
   color: white;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 500;
   border: none;
-  border-radius: 15px;
   width: 100%;
   height: 50px;
   cursor: pointer;
@@ -313,6 +361,330 @@
   background-color: #c4204b;
 }
 
-/* .pay{
-    height: 300px;
-} */
+
+.qty-controller {
+  background-color: #F0F0F0;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 5px 10px;
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.qty-btn {
+  width: 32px;
+  height: 30px;
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.qty-num {
+  text-align: center;
+  font-size: 17px;
+  font-family: "Traffic";
+}
+
+.go-to-cart-page{
+  background-color: transparent;
+  color: #DC2655;
+  width: fit-content;
+  border: none;
+  margin-bottom: 12px;
+  margin-right: 8px;
+  font-family: "Kamran";
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.go-to-cart-page:hover{
+  color: #c4204b;
+  transform: scale(1.03);
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 8px;
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  position: relative;
+}
+
+
+.modal-close-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-end;
+  top: 10px;
+  left: 20px;
+  border: none;
+  background: transparent;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+.model-product-name{
+  width: 100%;
+  font-family: 'Estedad';
+  font-size: 22px;
+  padding-right: 45px;
+}
+
+.images-containor{
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
+  padding: 0px 45px 45px 45px;
+
+}
+
+.main-image{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-main-img {
+  max-width: 80vw;
+  max-height: 60vh;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+.modal-thumbnails {
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 5px;
+  width: 250px;
+  max-height: calc(85px * 3 + 16px);
+  overflow-y: auto;
+  padding-right: 4px;   
+  scrollbar-width: none;
+}
+
+.modal-thumbnails::-webkit-scrollbar {
+  display: none;
+}
+
+.modal-thumb-img {
+  width: 70px;
+  height: fit-content;
+  object-fit: cover;
+  transition: transform .2s;
+  cursor: pointer;
+  border: 2px solid #efebeb;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.modal-thumb-img.active {
+  opacity: 1;
+  border-color: #c4204b;
+}
+
+.product-color-name2 {
+  font-family: "Jannat";
+  font-size: 15px;
+  font-weight: bold;
+}
+
+
+/* ....ریسپانسیو.... */
+
+
+@media (max-width: 600px){
+  .head-cart{
+    margin-top: 150px;
+    padding: 20px;
+  }
+  .product{
+    width: 100%;
+    height: 100%;
+  }
+  .information {
+    width: 430px;
+    margin-right: 0;
+    margin-left: 0;
+    margin-top: 50px;
+    direction: rtl;
+  }
+
+  .images{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 40px;
+  }
+
+  .product-img{
+    width: 85%;
+    height: 85%;
+  }
+
+  .miniimg-container{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    margin-bottom: 20px;
+    padding: 0;
+  }
+
+  .miniimg-wrapper ,
+  #more-miniimg-wrapper {
+    width: 50px;
+    height: 50px;
+    direction: rtl;
+  }
+
+  .product-miniimg ,
+  #more-product-miniimg{
+    width: 80%;
+    height: 80%;
+  }
+
+
+  #more-miniimg-label{
+    font-size: 8px;
+  }
+
+  .modal-content{
+    width: 85%;
+    height: 60%;
+    top: 80px;
+  }
+
+  .images-containor{
+    gap: 0;
+    padding: 0 5px;
+  }
+  
+  .modal-main-img{
+    width: 78%;
+    height: 78%;
+  }
+
+  .model-product-name{
+    padding: 0 15px;
+  }
+
+  .pay-part{
+    direction: rtl;
+    background-color: gainsboro;
+    border-radius: 0;
+    height: 100px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 5px 25px;
+    width: 100%;
+  }
+
+  .pay-part hr{
+    display: none;
+  }
+
+  .value-div ,
+  #pay-containor ,
+  .qty-controller ,
+  .go-to-cart-page:hover{
+    display: none;
+  }
+
+  .price{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    margin-top: 20px;
+    direction: ltr;
+    background-color: white;
+    width: 70%;
+    height: 50px;
+    padding: 5px;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+
+  .discount-percent-num{
+    font-size: 10px;
+  }
+
+  .base-price{
+    font-size: 12px;
+  } 
+
+  .final-price-num{
+    font-size: 18px;
+  }
+
+  .buy-box{
+    align-self: normal;
+    margin-top: 20px;
+    width: 70%;
+    border-radius: 10px;
+    background-color: #DC2655;
+    color: white;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  .buy-button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: normal;
+    width: 100%;
+    border-radius: 10px;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    font-size: 17px;
+    }
+
+    .go-to-cart-page{
+      width: 100%;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      font-family: "Digikala ";
+      margin-bottom: 0;
+      margin-right: 0;
+      padding: 10px 50px;
+    }
+}

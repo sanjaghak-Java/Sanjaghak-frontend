@@ -45,7 +45,7 @@ const [secondsLeft, setSecondsLeft] = useState(300);
     <ParticlesBackground/>
     <div className="codeBox">
       <h1>احراز هویت</h1>
-      <p>لطفا کد 6 رقمی ارسال شده به ایمیل/شماره خود را وارد نمایید</p>
+      <p>لطفا کد 6 رقمی ارسال شده به ایمیل/شماره خود را وارد نمایید.</p>
 
       <div className="digitContainer">
         {[...Array(6)].map((_, i) => (
@@ -61,8 +61,10 @@ const [secondsLeft, setSecondsLeft] = useState(300);
         ))}
       </div>
       <p>زمان باقی مانده :  {secondsLeft}</p>
-      <button className="submitButton">تایید</button>
-      <Link to="/signin" style={{color:"#dc2655",textDecoration:'none',position:"relative",top:"10px",right:"400px"}}>بازگشت</Link>
+      <button className="submit-Button">تایید</button>
+      <div style={{direction: 'ltr'}}>
+        <Link id= "signinlink" to="/signin">بازگشت</Link>
+      </div>
     </div>
     </>
   );

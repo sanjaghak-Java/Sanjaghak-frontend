@@ -29,7 +29,6 @@
   box-shadow: 0 6px 15px rgba(6, 6, 6, 0.25);
 } */
 
-
 .slideText {
   font-size: 14px;
   color: #8b2d38;
@@ -37,3 +36,24 @@
   margin: 0;
   user-select: none;
 }
+
+/* ...... ریسپانسیو ......*/
+
+@media (max-width: 600px) {
+  .productSwiperContainer {
+    padding: 0 15px 0 0;
+    width: 100%;
+  }
+
+  .productSwiperSlide {
+    width: 100%;
+    margin: 18px 0;
+    padding: 0;
+  }
+
+  .slideText {
+    font-size: 12px;
+  }
+}
+
+

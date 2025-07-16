@@ -1,8 +1,12 @@
-
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+.background-content-wrapper {
+  position: relative;
+  overflow: hidden;
 }
 
 .similar-title {
@@ -10,7 +14,11 @@
   margin-bottom: 10px;
   background-color: #fff;
   padding: 0 12px;
+  font-size: 1.5rem;
   color: #333;
+  font-weight: bold;
+  font-family: "Vazirmatn";
+  text-shadow: -6px 6px 6px rgba(0, 0, 0, 0.3);
   display: block;
   width: fit-content;
   margin-left: auto;
@@ -34,48 +42,12 @@
 }
 
 .hr-side {
-  /* box-shadow: 0 1px 4px rgb(231, 0, 0); */
   border: none;
   height: 2px;
   width: 85%;
   background-color: #D1D1D4;
   margin: 24px auto;
   border-radius: 2px;
-}
-
-.Introduction,
-.specs {
-  display: none;
-}
-
-.Introduction+label,
-.specs+label {
-  width: 70px;
-  cursor: pointer;
-  font: 800 18px/1.2 sans-serif;
-  background: transparent;
-  padding: 6px 10px;
-  border-radius: 5px;
-  color: #000;
-  text-align: center;
-  transition: background-color 0.3s, color 0.3s;
-  position: relative;
-}
-
-.Introduction:checked+label,
-.specs:checked+label {
-  background: rgba(0, 0, 0, 0.1);
-}
-
-.Introduction:checked+label::after,
-.specs:checked+label::after {
-  content: '';
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 4px;
-  height: 100%;
-  background: #e33753;
 }
 
 .product-text {
@@ -87,7 +59,7 @@
   transition: all 0.3s ease;
 }
 
-.similar-dev{
+.similar-dev {
   margin-top: 50px;
   margin-bottom: 30px;
 }

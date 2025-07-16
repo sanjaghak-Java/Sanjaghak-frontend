@@ -4,7 +4,7 @@ import "/src/styles/productGrid.css";
 
 function ProductGrid() {
   const products = [
-    { name: "هدفون بی سیم بیتس Studio 3", image: "./src/assets/hedphone.jpg" ,model:"coolest",salepercent:"20%",salePrice:"160000",price:"100000"},
+    { name: "هدفون بی سیم بیتس Studio 3", image: "./src/assets/hedphone.jpg" ,model:"coolest",price:"100000"},
     { name: "هدفون بی سیم بیتس Studio 3", image: "./src/assets/hedphone.jpg" ,model:"coolest",salepercent:"20%",salePrice:"160000",price:"100000"},
     { name: "هدفون بی سیم بیتس Studio 3", image: "./src/assets/hedphone.jpg" ,model:"coolest",salepercent:"20%",salePrice:"160000",price:"100000"},
     { name: "هدفون بی سیم بیتس Studio 3", image: "./src/assets/hedphone.jpg" ,model:"coolest",salepercent:"20%",salePrice:"160000",price:"100000"},

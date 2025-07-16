@@ -1,7 +1,7 @@
 .categoryBox {
   max-width: 1500px;
   border-radius: 20px;
-  background-color: #fff;
+  background-color: transparent;
   color: #000;
   padding: 2rem;
   padding-top: 0px;
@@ -12,16 +12,17 @@
 
 .labelsContainer {
   display: flex;
+  font-family: 'Vazirmatn';
   flex-direction: column;
   align-items: flex-end;
-  margin-bottom: 14px;
+  margin-bottom: 4px;
 }
 
 
 .categoryTitle {
   font-size: 30px;
   margin-right: 30px;
-  margin-top: -20px;
+  margin-top: -25px;
   margin-bottom: 16px;
   font-weight: bold;
   color: #333;
@@ -118,4 +119,13 @@
   color: #d35d6e;
   font-weight: bold;
   outline: none;
+}
+
+/* ....ریسپانسیو..... */
+
+@media (max-width: 600px){
+
+  .categoryBox{
+    margin-top: 200px;
+  }
 }

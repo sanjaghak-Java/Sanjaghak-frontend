@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import tomanIcon from '../assets/toman.png';
-import "../styles/CartPage.css";
+import "../styles/CartPrice.css";
 import ThankYouModal from './ThankYouModal';
 
 const CartPrice = ({ totalPrice, shippingCost }) => {
@@ -10,7 +10,7 @@ const CartPrice = ({ totalPrice, shippingCost }) => {
   return (
     <>
       <div className="pricecontainor">
-        <div className="Totalprice">
+        <div className="Totalprice" id="Totalprice1">
           <div className="pricetext">
             <p>قیمت کل:</p>
           </div>
@@ -20,7 +20,7 @@ const CartPrice = ({ totalPrice, shippingCost }) => {
           </div>
         </div>
 
-        <div className="Totalprice">
+        <div className="Totalprice" id="Totalprice2">
           <div className="pricetext">
             <p>هزینه ارسال:</p>
           </div>
@@ -32,7 +32,7 @@ const CartPrice = ({ totalPrice, shippingCost }) => {
 
         <hr style={{ margin: '5px 15px' }} />
 
-        <div className="Totalprice">
+        <div className="Totalprice" id="Totalprice3">
           <div className="pricetext">
             <p>قابل پرداخت:</p>
           </div>

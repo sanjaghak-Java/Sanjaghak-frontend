@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
 import "swiper/css";
@@ -20,7 +21,6 @@ function BrandsSwiper() {
     <>
       <p className="brandsTitle">برندهای محبوب</p>
       <div className="brandsSwiperContainer">
-
         <Swiper
           className="brandsSwiper"
           dir="rtl"
@@ -32,21 +32,39 @@ function BrandsSwiper() {
             delay: 2500,
             disableOnInteraction: false,
           }}
+          breakpoints={{
+            0: {
+              slidesPerView: 3,
+              spaceBetween: 20,
+            },
+            768: {
+              slidesPerView: 4,
+              spaceBetween: 30,
+            },
+            1024: {
+              slidesPerView: 6,
+              spaceBetween: 40,
+            },
+          }}
           modules={[Navigation, Autoplay]}
         >
           {brands.map((brand, index) => (
             <SwiperSlide key={index} className="brandSlide">
-              <div className="brandWrapper">
-                <img className="brandLogo" src={brand.image} alt={brand.name} />
-                <div className="brandDivider" />
-              </div>
+              <Link to={`/productCategory?brand=${brand.name}`}>
+                <div className="brandWrapper">
+                  <img
+                    className="brandLogo"
+                    src={brand.image}
+                    alt={brand.name}
+                  />
+                  <div className="brandDivider" />
+                </div>
+              </Link>
             </SwiperSlide>
-
           ))}
         </Swiper>
       </div>
     </>
-
   );
 }
 

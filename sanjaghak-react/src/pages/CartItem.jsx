@@ -4,7 +4,7 @@ import warranty from '../assets/tools-wench-ruler.png';
 import box from '../assets/box.png';
 import bin from '../assets/bin.png';
 import store from '../assets/store.png';
-import "../styles/CartPage.css";
+import "../styles/CartItem.css";
 
 function CartItem({ item, onQuantityChange, showQuantityControls = true, showDeleteButton = true }) {
   const increase = (e) => {
@@ -22,13 +22,16 @@ function CartItem({ item, onQuantityChange, showQuantityControls = true, showDel
   return (
     <div className='cartitem'>
       {showDeleteButton && (
-        <button className="binbutton">
-          <img src={bin} alt="حذف" className='binimg' />
-        </button>
+        <div className="bincontainor">
+          <button className="binbutton">
+            <img src={bin} alt="حذف" className='binimg' />
+          </button>      
+        </div>
+
       )}
 
       <Link to="/Product" className="cartitemlink">
-        <div style={{ display: 'flex' }}>
+        <div style={{ display: 'flex' }} id="cartinfocontainor">
           <img src={item.image} alt={item.productname} className="itemsimg" />
           <div className='itemsinfo'>
             <label className="itemsname">{item.productname}</label>
@@ -36,7 +39,7 @@ function CartItem({ item, onQuantityChange, showQuantityControls = true, showDel
             <div className="itemsproductcolor">
               <label
                 className="itemsproductcolorshow"
-                style={{ backgroundColor: item.color }}
+                style={{ backgroundColor: item.hex }}
               ></label>
               <label className="itemsproductcolorname">{item.color}</label>
             </div>

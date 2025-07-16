@@ -1,0 +1,73 @@
+  .profilecontent{
+    margin: 160px 30px 50px 30px;
+    direction: rtl;
+    display: flex;
+    gap: 20px;
+  }
+
+  .orderdiv{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .favitems{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border: 1px solid #D1D4D4;
+    border-radius: 15px;
+    padding: 20px;
+    width: 100%;
+  }
+
+  .titleprofile{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .titleimg{
+    width: 30px;
+    height: 30px;
+  }
+
+  .titlehprof{
+    font-family: "KanunStencilAR";
+    color: #3E4344;
+  }
+
+  .favitemscontainor{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 0 60px;
+    width: 100%;
+  }
+/* ....ریسپانسیو.... */
+
+  @media (max-width: 600px){
+    .profilecontent{
+      display: flex;
+      align-items: center;
+      gap: 0;
+      width: 100%;
+      margin: 0;
+    }
+    .orderdiv{
+      margin: 0;
+      gap: 0;
+      width: 100%;
+    }
+
+    .favitems{
+      padding: 20px 5px;
+    }
+
+    .favitemscontainor{
+      padding: 0;
+      margin: 0;
+    }
+  }

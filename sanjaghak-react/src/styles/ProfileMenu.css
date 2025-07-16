@@ -1,0 +1,129 @@
+  @font-face {
+    font-family: 'Jalal';
+    src: url('./src/fonts/BJalalBd.ttf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'KanunStencilAR';
+    src: url('./src/fonts/KanunStencilAR+LT-Bold.otf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Traffic';
+    src: url('./src/fonts/Far.Traffic.ttf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Bita';
+    src: url('./src/fonts/Far.Bita.ttf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'B Mehr Bold_0';
+    src: url('./src/fonts/B Mehr Bold_0.ttf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'KamranB';
+    src: url('./src/fonts/KamranB.ttf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'tabriz';
+    src: url('./src/fonts/tabriz.ttf') format('truetype');
+  }
+  
+  .profilepage{
+    direction: rtl;
+    width: 19%;
+    display: flex;
+    padding: 20px;
+  }
+
+  .menubar{
+    width: 100%;
+    background-color: white;
+    padding-bottom: 40px;
+    border: 1px solid #D1D4D4;
+    border-radius: 15px;
+    height: auto;
+  }
+
+  .backimg{
+    width: 100%;
+    height: 100px;
+  }
+
+  .infopart{
+    display: flex;
+    align-items: center;
+    padding: 30px;
+    gap: 10px;
+  }
+
+  .editimg{
+    width: 22px;
+    height: 22px;
+  }
+
+  .name{
+    font-family: "B Mehr Bold_0";
+    font-weight: bold;
+    font-size: 18px;
+  }
+
+  .menubar button{
+    font-family: "Bita";
+    font-size: 20px;
+  }
+
+  .linkprof{
+    background-color: transparent;
+    width: 80%;
+    text-decoration: none;
+    color: #292C2D;
+    border-radius: 10px;
+    border: none;
+    margin: 20px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    box-shadow: 0 1.5px 0px 0px rgba(95, 94, 94, 0.8);
+    transition: box-shadow 0.2s ease;
+    cursor: pointer;
+  }
+
+  .linkprof:focus{
+    background-color: #dc26542a;
+    box-shadow: 0 1.5px 0px 0px #DC2655;
+
+  }
+
+  .linkprof.active {
+    background-color: #dc26542a;
+    box-shadow: 0 1.5px 0px 0px #DC2655;
+  }
+
+  .exit{
+    background-color: transparent;
+    width: 80%;
+    text-decoration: none;
+    color: #DC2655;
+    font-size: 15px;
+    border: none;
+    margin: 20px 20px 0 20px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: box-shadow 0.2s ease;
+    cursor: pointer;
+  }
+/* ....ریسپانسیو.... */
+
+  @media (max-width: 600px){
+    .profilepage{
+      display: none;
+    }
+  }

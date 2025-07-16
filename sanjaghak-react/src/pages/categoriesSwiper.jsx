@@ -3,7 +3,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
-import "/src/styles/categorySwiper.css"
+import "/src/styles/categorySwiper.css";
 import { Link } from "react-router-dom";
 
 const categories = [
@@ -15,8 +15,6 @@ const categories = [
   { title: "هدفون", image: "./src/assets/hedphone.jpg" },
   { title: "هدفون", image: "./src/assets/hedphone.jpg" },
   { title: "هدفون", image: "./src/assets/hedphone.jpg" }
-
-
 ];
 
 function CategoriesSwiper() {
@@ -25,22 +23,30 @@ function CategoriesSwiper() {
       <p className="categorie-title">دسته بندی محصولات</p>
 
       <div className="categorySwiperContainer">
-        <Swiper className="categorySwiper"
+        <Swiper
+          className="categorySwiper"
           dir="rtl"
           navigation
           loop={true}
-          spaceBetween={57}
+          spaceBetween={30}
           slidesPerView={6}
           modules={[Navigation]}
-
+          breakpoints={{
+            0: {
+              slidesPerView: 3,
+              spaceBetween: 20,
+            },
+            768: {
+              slidesPerView: 6,
+              spaceBetween: 57,
+            },
+          }}
         >
           {categories.map((item, index) => (
-            <SwiperSlide className="categorySwiperSlide" key={index} >
-              <Link to= "productCategory" className="categorySwiperSlide">
-                <div >
-                  <img className="categorySlideImg"
-                    src={item.image}
-                  />
+            <SwiperSlide className="categorySwiperSlide" key={index}>
+              <Link to={`/productCategory?category=${item.title}`} className="categorySwiperSlide">
+                <div>
+                  <img className="categorySlideImg" src={item.image} alt={item.title} />
                   <p className="categorySlidetext">{item.title}</p>
                 </div>
               </Link>
@@ -51,4 +57,5 @@ function CategoriesSwiper() {
     </>
   );
 }
-export default CategoriesSwiper
+
+export default CategoriesSwiper;

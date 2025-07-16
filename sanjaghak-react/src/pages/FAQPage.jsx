@@ -62,7 +62,7 @@ function FAQPage() {
       </div>
       
       <div className="Maincontent1">
-        <img src="./src/assets/sanjaghak-logo.png" alt="" className='aboutus-body-logo' />
+        <img src="./src/assets/sanjaghak-logo.png" alt="" className='FAQ-body-logo' />
         <div className="divscontainor">
           {faqs.map((faq, index) => {
             const isOpen = openIndexes.includes(index);

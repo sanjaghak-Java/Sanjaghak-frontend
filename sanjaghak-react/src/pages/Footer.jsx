@@ -37,10 +37,10 @@ const Footer = () => {
 
         <section className="section">
           <div className="Services">
-            <div style={{ display: 'flex' , alignItems: 'center' }}>
+            <div style={{ display: 'flex' , alignItems: 'center', marginTop: '30px'}}>
               <p className="footerp">تلفن پشتیبانی :</p>
-              <p> 041-33340081</p>
-          </div>
+              <p className="phonenumber"> 041-33340081</p>
+            </div>
             <div style={{ display: 'flex' , alignItems: 'center' }}>
               <p className="footerp">همراه ما باشید</p>
               <div className="iconfooter">
@@ -54,15 +54,15 @@ const Footer = () => {
             </div>
           </div>
 
-          <div className="Services">
-            <p>خدمات مشتریان</p>
+          <div className="Services" id="Services1">
+            <p className='footer-services-title'>خدمات مشتریان :</p>
             <Link to="/rules" className="link-footer">شرایط و قوانین</Link>
             <br />
             <Link to="/FAQPage" className="link-footer">سوالات متداول</Link>
           </div>
 
-          <div className="Services">
-            <p>درباره ما</p>
+          <div className="Services" id="Services2">
+            <p className='footer-services-title'>درباره ما :</p>
             <Link to="/Aboutus" className="link-footer">معرفی فروشگاه</Link>
             <br />
             <Link to="/Contactus" className="link-footer">تماس با ما</Link>
@@ -75,7 +75,7 @@ const Footer = () => {
           <div className="service-part">
             <img src={Delivery} alt="" className="marker-img" />
             <div>
-              <p>ارسال سریع</p>
+              <p className="service-partp">ارسال سریع</p>
               <p className="more">در کمترین زمان ممکن</p>
             </div>
           </div>
@@ -85,7 +85,7 @@ const Footer = () => {
           <div className="service-part">
             <img src={checkmark} alt="" className="marker-img" />
             <div>
-              <p>ضمانت بازگشت کالا</p>
+              <p className="service-partp">ضمانت بازگشت کالا</p>
               <p className="more">حداکثر 10 روز کاری</p>
             </div>
           </div>
@@ -95,7 +95,7 @@ const Footer = () => {
           <div className="service-part">
             <img src={box} alt="" className="marker-img" />
             <div>
-              <p>اصالت کالا</p>
+              <p className="service-partp">اصالت کالا</p>
               <p className="more">از بهترین برند ها</p>
             </div>
           </div>

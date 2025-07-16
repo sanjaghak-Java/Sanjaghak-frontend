@@ -2,8 +2,8 @@
   background-color: rgba(245, 245, 247, 0.85);
   border: 2px solid #dc4f623f;
   border-radius: 12px;
-  padding: 20px 50px;
-  width: 500px;
+  padding: 0 50px;
+  width: 30%;
   box-shadow: 0 8px 20px #d94f6194;
   box-sizing: border-box;
   position: fixed;
@@ -16,9 +16,10 @@
 .signUpBox h1 {
   color: #dc2655;
   text-align: center;
-  margin-bottom: 40px;
   margin-top: 1px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 20px;
+  font-family: 'B Mehr Bold_0';
+  font-size: 28px;
 }
 
 .signup-inputWrapper {
@@ -53,14 +54,16 @@
   top: 14px;
   color: #999;
   font-size: 16px;
+  font-family: "Traffic";
   pointer-events: none;
   transition: all 0.2s ease;
-  background-color: rgba(245, 245, 247, 0.85);
+  background-color: transparent;
   padding: 0 4px;
 }
 
 .signUpInput:focus+.signup-floatingLabel,
 .signUpInput:not(:placeholder-shown)+.signup-floatingLabel {
+  background-color: rgba(245, 245, 247, 0.85);
   top: -10px;
   right: 10px;
   font-size: 13px;
@@ -69,14 +72,14 @@
 
 .signUpButton {
   width: 100%;
-  padding: 14px;
+  padding: 8px;
   background-color: #dc2655;
   border: none;
   border-radius: 10px;
   color: white;
-  font-size: 18px;
+  font-size: 20px;
   cursor: pointer;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Digikala ";
   transition: background-color 0.3s ease;
 }
 
@@ -85,7 +88,8 @@
 }
 
 #signinlabel {
-
+  font-family: "Vazirmatn";
+  font-style: normal;
   margin-top: 30px;
   margin-bottom: 0;
   text-align: right;
@@ -125,6 +129,7 @@
 }
 
 .checkboxWrapper {
+  font-family: "Traffic";
   direction: ltr;
   text-align: right;
   margin-top: 10px;
@@ -161,11 +166,12 @@
 .for-signin {
   color: #dc2655;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 17px;
   text-align: right;
   position: relative;
-  margin-right: 113px;
-  bottom: 21px;
+  margin-right: 140px;
+  bottom: 28px;
+  font-family: "Tunisia";
 }
 #singup-rules{
   text-decoration: none;
@@ -174,4 +180,21 @@
 
 #singup-rules:hover{
   color: #ff0022b6;
+}
+/* ....ریسپانسیو.... */
+
+@media (max-width: 600px){
+  .signUpBox{
+    width: 80%;
+  }
+
+  .signInInputemail ,
+  .signInButton{
+    height: 40px;
+    font-size: 18px;
+  }
+  .signInBox h1{
+    font-size: 23px;
+  }
+  
 }

@@ -4,7 +4,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.4); /* نیمه‌شفاف */
+  background-color: rgba(0, 0, 0, 0.4);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,7 +14,7 @@
 .exitpopup {
   background-color: #fff;
   width: 400px;
-  padding: 40px 25px;
+  padding: 30px 25px;
   border-radius: 12px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
   display: flex;
@@ -41,11 +41,14 @@
 }
 
 .exittext{
+  margin-right: 14px;
+  color: #DC2655;
   display: flex;
   align-items: center;  
 }
 
 .exitp{
+    font-family: "BYekan";
     display: flex;
     margin-top: 12px;
 }
@@ -65,6 +68,8 @@
 }
 
 .exitquestion{
+    font-family: "BYekan";
+    font-weight: bold;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -78,21 +83,23 @@
 }
 
 .exitbut{
+    font-family: "Digikala ";
     width: 150px;
     background-color: #DC2655;
     border: none;
-    padding:  8px;
+    padding:  5px;
     color: white;
     border-radius: 5px;
     cursor: pointer;
 }
 
 .optoutbut{
+    font-family: "Digikala ";
     width: 150px;
     background-color: white;
     border: none;
     border: 1px solid #3E4344;
-    padding:  8px;
+    padding:  5px;
     color: #3E4344;
     border-radius: 5px;
     cursor: pointer;

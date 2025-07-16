@@ -26,6 +26,14 @@ body,
   padding-top: 100px;
 }
 
+.background-content-wrapper {
+  position: relative;
+  z-index: 0;
+  overflow: hidden;
+}
+
+
+
 .titleslider {
   font-family: 'kanun ';
   color: white;
@@ -35,6 +43,8 @@ body,
 
 
 .sliderdiv {
+  background-color: white;
+  height: 100%;
   border: 2px solid #eed8d88f;
   border-radius: 15px;
   box-shadow: 0px 1px 7px #eed8d8;
@@ -99,6 +109,11 @@ body,
   color: #333;
   font-weight: bold;
   text-shadow: -6px 6px 6px rgba(0, 0, 0, 0.3);
+  font-family: 'Vazirmatn';
+  justify-content: center;
+  display: flex;
+  margin-top: 15px;
+  margin-bottom: -22px;
 }
 
 
@@ -124,4 +139,37 @@ body,
 
 
   /* fc2b2b */
+}
+
+/* ..... ریسپانسیو ..... */
+
+@media (max-width: 600px) {
+  .sliderdiv {
+    height: 380px;
+    margin: 30px 20px;
+  }
+
+  .titleslider,
+  .titleslider1 {
+    font-size: 20px;
+  }
+
+  .titlepart {
+    height: 48px;
+    padding: 12px;
+    gap: 3px;
+  }
+
+  .rotatedimg {
+    width: 35px;
+    height: 35px;
+  }
+
+  .prompopart {
+    margin: 0 15px;
+  }
+
+  .watercolor-text {
+    font-size: 17px;
+  }
 }

@@ -7,11 +7,12 @@ import Shop from '../assets/shopping-bag.png';
 import favorite from '../assets/favorite.png';
 import exit from '../assets/exit2.png';
 import LogoutModal from './LogoutModal';
-import "/src/styles/profile.css";
+import "/src/styles/ProfileMenu.css";
 
-const ProfileMenu = () => {
+  const ProfileMenu = ({ username = 'کاربر' }) => {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const navigate = useNavigate();
+
 
   return (
     <div className='profilepage'>
@@ -19,7 +20,7 @@ const ProfileMenu = () => {
         <img src={background} alt="" className="backimg" />
         <div className="infopart">
           <img src={profile} alt="" className="editimg" />
-          <label className="name">جعفر تنها</label>
+          <label className="name">{username}</label>
         </div>
 
         <button

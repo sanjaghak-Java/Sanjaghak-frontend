@@ -2,8 +2,7 @@
 function AddBrand(){
     return(
         <>
-        <br />
-        <br />
+ <br /><br /><br /><br /><br />
         <h1 className="pageTitle">افزودن برند</h1>
         <form className="addProductContainer">
         <div className="inputWrapper">

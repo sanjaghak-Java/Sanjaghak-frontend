@@ -1,4 +1,4 @@
-.navigationContainer {
+.adminNavigationContainer {
   width: 260px;
   height: 100vh;
   background-color: #ffffff;
@@ -19,7 +19,7 @@
   z-index: 100;
 }
 
-.navContent {
+.adminNavContent {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -27,23 +27,23 @@
   flex-grow: 1;
 }
 
-.logoContainer {
+.adminLogoContainer {
   margin-bottom: 30px;
 }
 
-.logo {
+.adminLogo {
   width: 140px;
   object-fit: contain;
   filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.3));
 }
 
-.itemContainer {
+.adminItemContainer {
   width: 100%;
   overflow-y: auto;
   padding-bottom: 20px;
 }
 
-.item {
+.adminItem {
   display: flex;
   align-items: center;
   padding: 14px 24px;
@@ -52,23 +52,23 @@
   color: #333;
 }
 
-.item:hover {
+.adminItem:hover {
   background-color: #fbeaec; 
   border-radius: 8px 0 0 8px;
   color: #b84050;
 }
 
-.item.active {
+.adminItem.adminActive {
   background-color: #b84050; 
   color: #fff;               
   border-radius: 8px 0 0 8px;
 }
 
-.item.active .icon {
+.adminItem.adminActive .adminIcon {
   filter: brightness(1) saturate(1) sepia(1) hue-rotate(-10deg);
 }
 
-.icon {
+.adminIcon {
   width: 22px;
   height: 22px;
   margin-left: 12px;
@@ -76,17 +76,21 @@
   transition: filter 0.3s ease;
 }
 
-.item.active .icon {
+.adminItem.adminActive .adminIcon {
   filter: brightness(1) saturate(1) sepia(1) hue-rotate(-10deg);
 }
 
-.itemText {
+.adminItem.adminActive .adminItemText {
+  color: white;
+}
+
+.adminItemText {
   font-size: 15px;
   font-weight: 500;
   margin: 0;
 }
 
-.logOut {
+.adminLogOut {
   display: flex;
   align-items: center;
   padding: 14px 24px;
@@ -98,18 +102,18 @@
   transition: color 0.25s ease;
 }
 
-.logOut:hover {
+.adminLogOut:hover {
   color: #9e2f3f;
 }
 
-.logOutIcon {
+.adminLogOutIcon {
   width: 22px;
   height: 22px;
   margin-left: 12px;
   filter: brightness(0) saturate(100%) sepia(20%) hue-rotate(-10deg);
 }
 
-.logOutText {
+.adminLogOutText {
   font-size: 15px;
   font-weight: bold;
   margin: 0;

@@ -14,8 +14,7 @@ function AddCategory() {
 
   return (
     <>
-      <br />
-      <br />
+ <br /><br /><br /><br /><br />
       <h1 className="pageTitle">افزودن دسته</h1>
       <form className="addProductContainer">
         <div className="inputWrapper">

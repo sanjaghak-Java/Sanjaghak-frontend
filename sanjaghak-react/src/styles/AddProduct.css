@@ -178,4 +178,32 @@
 .imageInput::-webkit-file-upload-button {
   visibility: hidden;
 }
+.stepButtonsaddproduct {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 24px;
+}
 
+.stepButtonsaddproduct.singleButtonaddproduct {
+  justify-content: center;
+}
+
+.nextBtnaddproduct,
+.backBtnaddproduct,
+.submitBtnaddproduct {
+  padding: 12px 24px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: 600;
+  background-color: #e75454;
+  color: white;
+}
+
+.nextBtnaddproduct:hover,
+.backBtnaddproduct:hover,
+.submitBtnaddproduct:hover {
+  background-color: #d54343;
+}

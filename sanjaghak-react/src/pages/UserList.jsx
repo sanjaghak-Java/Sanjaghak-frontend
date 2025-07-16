@@ -3,7 +3,7 @@ import "/src/styles/userList.css"
 const initialUsers = [
   {
     id: 1,
-    profilePic: "./src/assets/testimage.jpg",
+    profilePic: "/src/assets/testimage.jpg",
     name: "علی",
     surname: "علیپور",
     phone: "09148325892",
@@ -12,7 +12,7 @@ const initialUsers = [
   },
   {
     id: 2,
-    profilePic: "./src/assets/testimage.jpg",
+    profilePic: "/src/assets/testimage.jpg",
     name: "جواد",
     surname: "جوادیزاده",
     phone: "09148325891",
@@ -21,7 +21,7 @@ const initialUsers = [
   },
     {
     id: 3,
-    profilePic: "./src/assets/testimage.jpg",
+    profilePic: "/src/assets/testimage.jpg",
     name: "جواد",
     surname: "جوادیزاده",
     phone: "09148325891",
@@ -30,7 +30,7 @@ const initialUsers = [
   },
     {
     id: 4,
-    profilePic: "./src/assets/testimage.jpg",
+    profilePic: "/src/assets/testimage.jpg",
     name: "جواد",
     surname: "جوادیزاده",
     phone: "09148325891",
@@ -39,7 +39,7 @@ const initialUsers = [
   },
     {
     id: 5,
-    profilePic: "./src/assets/testimage.jpg",
+    profilePic: "/src/assets/testimage.jpg",
     name: "جواد",
     surname: "جوادیزاده",
     phone: "09148325891",
@@ -61,6 +61,9 @@ function UserList() {
   };
 
   return (
+    <>
+     <br /><br /><br /><br /><br />
+    <h1 className="pageTitle">لیست کاربران</h1>
     <div className="userListContainer">
       <table className="userTable">
         <thead>
@@ -105,6 +108,7 @@ function UserList() {
         </tbody>
       </table>
     </div>
+    </>
   );
 }
 

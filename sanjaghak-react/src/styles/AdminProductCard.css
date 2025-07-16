@@ -1,0 +1,64 @@
+.adminProductCard {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 24px;
+  padding: 24px 32px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.85); 
+  border: 1px solid #d54343; 
+  box-shadow: 0 8px 20px rgba(213, 67, 67, 0.15);
+  margin: 24px auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  direction: rtl;
+  max-width: 750px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.adminProductCard:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px rgba(213, 67, 67, 0.3);
+}
+
+.adminProductCard__image {
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 16px;
+  border: 2px solid #d54343;
+  box-shadow: 0 4px 12px rgba(213, 67, 67, 0.2);
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.adminProductCard:hover .adminProductCard__image {
+  transform: scale(1.05);
+}
+
+.adminProductCard__details {
+  flex: 1;
+  color: #7a2e2e;
+  user-select: none;
+}
+
+.adminProductCard__name {
+  margin: 0 0 14px 0;
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: 1.2px;
+  color: #d54343;
+  text-shadow: 1px 1px 3px rgba(213, 67, 67, 0.5);
+}
+
+.adminProductCard__info {
+  margin: 6px 0;
+  font-size: 17px;
+  color: #4b1e1e;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 600;
+}

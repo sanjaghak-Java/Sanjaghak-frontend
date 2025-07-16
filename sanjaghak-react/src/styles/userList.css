@@ -15,8 +15,8 @@
   border-collapse: collapse;
   text-align: center;
   font-size: 14px;
+  transition: color 0.3s ease;
 }
-
 
 .userTable th,
 .userTable td {
@@ -24,6 +24,19 @@
   border-bottom: 1px solid #f1cdd0;
   vertical-align: middle;
   color: #333;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+
+.userTable tbody tr:hover {
+  background-color: #ffeaea;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+
+.userTable tbody tr.activeUser:hover td {
+  color: #b84050;
 }
 
 .userTable th {
@@ -37,15 +50,24 @@
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid #b84050;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+.profilePic:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 12px rgba(184, 64, 80, 0.5);
 }
 
 .activeUser {
   background-color: #fff8f8;
+  transition: background-color 0.3s ease;
 }
 
 .inactiveUser {
   background-color: #f9f1f1;
   color: #999;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .toggleActiveBtn {
@@ -58,18 +80,32 @@
   font-weight: 600;
   font-size: 12px;
   box-shadow: 0 3px 6px rgba(231, 84, 84, 0.3);
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  user-select: none;
 }
+
 
 .toggleActiveBtn:hover {
   background-color: #d54343;
+  box-shadow: 0 6px 12px rgba(213, 67, 67, 0.5);
+  transform: scale(1.05);
 }
 
 .inactiveUser .toggleActiveBtn {
   background-color: #4caf50;
   box-shadow: 0 3px 6px rgba(76, 175, 80, 0.3);
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
 }
 
 .inactiveUser .toggleActiveBtn:hover {
   background-color: #3a9e3a;
+  box-shadow: 0 6px 12px rgba(58, 158, 58, 0.5);
+  transform: scale(1.05);
+}
+.adminuserlisttitle{
+      margin-left:47%;
+    margin-bottom: 10px;
+    font-size: 22px;
+    font-weight: 700;
+    color: #e75454;
 }

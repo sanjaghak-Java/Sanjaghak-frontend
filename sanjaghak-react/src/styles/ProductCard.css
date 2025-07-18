@@ -59,6 +59,7 @@
   justify-content: center;
   align-items: center;
   padding: 0;
+  
 }
 
 .backImage-small {
@@ -70,6 +71,7 @@
 
 .backImage-large {
   /* box-shadow: 0px 2px 10px rgba(255, 0, 0, 0.514); */
+  /* filter: drop-shadow(1px 1px 20px rgba(255, 0, 0, 0.514)); */
   max-width: 90%;
   max-height: 90%;
   width: auto;

@@ -1,0 +1,42 @@
+.addCategoryHeaderadmin {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 40px 16px 20px 16px;
+}
+
+.backButtonadmin {
+  position: absolute;
+  left: 16px;
+  background: none;
+  border: 2px solid #d54343;
+  color: #d54343;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.backButtonadmin:hover {
+  background: #d54343;
+  color: white;
+}
+
+.pageTitleadmin {
+  font-size: 32px;
+  font-weight: 900;
+  color: #d54343;
+  margin: 0;
+}
+.addCategoryHeaderadmin {
+  position: relative;
+  padding: 40px 16px 20px 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.submitButton{
+    margin-left: 44%;
+}

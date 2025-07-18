@@ -1,16 +1,17 @@
 .adminProductListContainer {
-  max-width: 960px;
-  margin: auto;
-  padding: 24px 16px;
+  width: 100vw;
+  max-width: 1200px; /* 4 cols * 220px + gaps, adjust if needed */
+  margin: 0 auto; /* center container horizontally */
+  box-sizing: border-box;
+  padding: 0 16px;
 }
-
 .adminProductList__grid {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  animation: fadeIn 0.3s ease-in-out;
+  display: grid;
+  grid-template-columns: repeat(4, 220px); 
+  gap: 24px 16px; 
+  justify-content: center;
+  padding: 16px;
 }
-
 .adminProductList__pagination {
   display: flex;
   flex-wrap: wrap;
@@ -50,8 +51,110 @@
   font-size: 14px;
 }
 
-/* Fade animation */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
+}
+.adminProductList__controls {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin: 16px 0;
+  flex-wrap: wrap;
+}
+
+.adminProductList__search, .adminProductList__filter {
+  padding: 8px 12px;
+  font-size: 16px;
+  border: 2px solid #d54343;
+  border-radius: 8px;
+  outline: none;
+  min-width: 180px;
+  max-width: 300px;
+}
+
+.adminProductList__search:focus, .adminProductList__filter:focus {
+  border-color: #9e3030;
+}
+
+.adminProductList__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 24px;
+  justify-items: center;
+  padding: 16px;
+}
+
+.adminProductList__pagination {
+  margin: 24px 0;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.adminProductList__pagination button {
+  padding: 8px 14px;
+  border: 2px solid #d54343;
+  background: white;
+  color: #d54343;
+  font-weight: 700;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.25s, color 0.25s;
+}
+
+.adminProductList__pagination button:hover:not(:disabled) {
+  background-color: #d54343;
+  color: white;
+}
+
+.adminProductList__pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.adminProductList__pagination button.active {
+  background-color: #9e3030;
+  color: white;
+  border-color: #9e3030;
+}
+
+.adminProductList__jumpInput {
+  width: 100px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 2px solid #d54343;
+  outline: none;
+  font-size: 16px;
+}
+
+.adminProductList__jumpInput:focus {
+  border-color: #9e3030;
+}
+.rc-slider {
+  pointer-events: auto !important;
+}
+.adminProductList__filterButton {
+  background-color: #d54343;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.25s ease;
+  box-shadow: 0 4px 8px rgba(213, 67, 67, 0.4);
+  user-select: none;
+}
+
+.adminProductList__filterButton:hover {
+  background-color: #9e3030;
+  box-shadow: 0 6px 14px rgba(158, 48, 48, 0.6);
+}
+
+.adminProductList__filterButton:focus {
+  outline: 2px solid #ff8a8a;
+  outline-offset: 2px;
 }

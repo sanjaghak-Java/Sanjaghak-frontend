@@ -1,8 +1,9 @@
-
-
+import { useNavigate } from "react-router-dom";
 import "/src/styles/addmanager.css";
 
-function AddManager() {
+function AddEmployee() {
+  const navigate = useNavigate();
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("submitted");
@@ -10,8 +11,14 @@ function AddManager() {
 
   return (
     <>
-     <br /><br /><br /><br /><br />
-      <h1 className="addManagerTitle">افزودن مدیر</h1>
+      <button
+        className="backButtonadmin"
+        onClick={() => navigate("/admin/لیست کارکنان")}
+      >
+        بازگشت
+      </button>
+
+      <h1 className="addManagerTitle">افزودن کارمند</h1>
 
       <form className="addManagerBox" onSubmit={handleSubmit}>
         <div className="addmanager-inputWrapper">
@@ -41,10 +48,18 @@ function AddManager() {
           <label className="addmanager-floatingLabel">ایمیل</label>
         </div>
 
+        <div className="addmanager-inputWrapper">
+          <select required className="addmanagerInput">
+            <option value="storekeeper">انباردار</option>
+            <option value="manager">مدیر</option>
+          </select>
+          <label className="addmanager-floatingLabel">نقش</label>
+        </div>
+
         <button className="addmanagerButton" type="submit">ثبت نام</button>
       </form>
     </>
   );
 }
 
-export default AddManager;
+export default AddEmployee;

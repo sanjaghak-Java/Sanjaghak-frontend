@@ -1,37 +1,53 @@
 
 import React from "react";
 import { NavLink } from "react-router-dom";
+import {
+  FaTachometerAlt,
+  FaFileInvoiceDollar,
+  FaBoxOpen,
+  FaUsers,
+  FaWarehouse,
+  FaUserShield,
+  FaTags,
+  FaListUl,
+  FaSignOutAlt
+} from "react-icons/fa";
 import "/src/styles/adminNav.css";
 
 function AdminNav() {
   const menuItems = [
-    { label: "داشبورد", path: "/admin/داشبورد" },
-    { label: "گزارش مالی", path: "/admin/گزارش مالی" },
-    { label: "افزودن محصول", path: "/admin/افزودن محصول" },
-    { label: "افزودن برند", path: "/admin/افزودن برند" },
-    { label: "افزودن دسته", path: "/admin/افزودن دسته" },
-    { label: "لیست کاربران", path: "/admin/لیست کاربران" },
-    { label: "لیست محصولات", path: "/admin/لیست محصولات" },
-    { label: "افزودن مدیر", path: "/admin/افزودن مدیر" },
-    { label: "افزودن انباردار", path: "/admin/افزودن انباردار" },
+    { label: "داشبورد", path: "/admin/داشبورد", icon: <FaTachometerAlt /> },
+    { label: "گزارش مالی", path: "/admin/گزارش مالی", icon: <FaFileInvoiceDollar /> },
+    { label: "افزودن محصول", path: "/admin/افزودن محصول", icon: <FaBoxOpen /> },
+    { label: "لیست کاربران", path: "/admin/لیست کاربران", icon: <FaUsers /> },
+    { label: "لیست محصولات", path: "/admin/لیست محصولات", icon: <FaWarehouse /> },
+    { label: "لیست کارکنان", path: "/admin/لیست کارکنان", icon: <FaUserShield /> },
+    { label: "لیست برند ها", path: "/admin/لیست برند ها", icon: <FaTags /> },
+    { label: "لیست دسته ها", path: "/admin/لیست دسته ها", icon: <FaListUl /> },
   ];
 
   return (
     <div className="adminNavigationContainer">
       <div className="adminNavContent">
         <div className="adminLogoContainer">
-          <img className="adminLogo" src="/src/assets/sanjaghak-logo.png" alt="Logo" />
+          <img
+            className="adminLogo"
+            src="/src/assets/sanjaghak-logo.png"
+            alt="Logo"
+          />
         </div>
 
         <div className="adminItemContainer">
-          {menuItems.map(({ label, path }) => (
+          {menuItems.map(({ label, path, icon }) => (
             <NavLink
               key={label}
               to={path}
-              className={({ isActive }) => `adminItem ${isActive ? "adminActive" : ""}`}
+              className={({ isActive }) =>
+                `adminItem ${isActive ? "adminActive" : ""}`
+              }
               style={{ textDecoration: "none" }}
             >
-              <img className="adminIcon" alt={`${label} icon`} />
+              <span className="adminIcon">{icon}</span>
               <h3 className="adminItemText">{label}</h3>
             </NavLink>
           ))}
@@ -39,7 +55,7 @@ function AdminNav() {
       </div>
 
       <div className="adminLogOut" style={{ cursor: "pointer" }}>
-        <img className="adminLogOutIcon" alt="Logout icon" />
+        <FaSignOutAlt className="adminLogOutIcon" />
         <h3 className="adminLogOutText">خروج از حساب</h3>
       </div>
     </div>

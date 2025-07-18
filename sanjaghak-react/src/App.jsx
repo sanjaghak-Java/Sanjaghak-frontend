@@ -29,13 +29,17 @@ import AddCategory from './pages/addCategory.jsx';
 import UserList from './pages/UserList.jsx';
 import ProductList from './pages/ProductList.jsx';
 import AddManager from './pages/AddManager.jsx';
-import AddWarehouseManager from './pages/AddWarehouseManager.jsx';
 import Dashboard from './pages/Dashboard.jsx';
+import AdminCategoryList from './pages/AdminCategoryList.jsx';
+import AdminBrandList from './pages/AdminBrandList.jsx';
+import EmployeeList from './pages/EmployeeList.jsx';
+import EditCategoryAttributes from './pages/CategoryAttributes.jsx';
+import AdminBrandDetail from './pages/AdminBrandDetail.jsx';
 
 const products = Array.from({ length: 50 }, (_, i) => ({
   id: i + 1,
   name: `Product ${i + 1}`,
-  price: 10000,
+  price: 1000*i,
   category: "Category 1",
   brand: "Brand X",
   image: "/src/assets/testimage.jpg",
@@ -74,12 +78,15 @@ function App() {
           <Route path="داشبورد" element={<Dashboard />} />
           <Route path="گزارش مالی" element={<FinancialReport />} />
           <Route path="افزودن محصول" element={<AddProduct />} />
-          <Route path="افزودن برند" element={<AddBrand />} />
-          <Route path="افزودن دسته" element={<AddCategory />} />
+          <Route path="لیست کارکنان" element={<EmployeeList />} />
+          <Route path="لیست دسته ها" element={<AdminCategoryList />} />
           <Route path="لیست کاربران" element={<UserList />} />
           <Route path="لیست محصولات" element={<ProductList products={products} />} />
-          <Route path="افزودن مدیر" element={<AddManager />} />
-          <Route path="افزودن انباردار" element={<AddWarehouseManager />} />
+          <Route path="لیست برند ها" element={<AdminBrandList />} />
+          <Route path="افزودن دسته" element={<AddCategory />} />
+          <Route path="افزودن برند" element={<AddBrand />} />
+           <Route path="افزودن کارمند" element={<AddManager />} />
+          <Route path="/admin/category/:id/attributes" element={<EditCategoryAttributes />} />
         </Route>
       </Routes>
     </div>

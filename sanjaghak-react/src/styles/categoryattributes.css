@@ -1,0 +1,87 @@
+/* Container for the whole category attributes form */
+.editCategoryAttributesContainer {
+  margin-top: 0px;
+  max-width: 900px;
+  margin: auto;
+  padding: 32px;
+  background-color: #fff;
+  border: 1px solid #f1cdd0;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(184, 64, 80, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  direction: rtl;
+}
+
+/* Title */
+.editCategoryAttributesTitle {
+  margin-bottom: 10px;
+  text-align: center;
+  color: #e75454;
+  font-weight: 700;
+  font-size: 22px;
+  text-shadow: 1px 1px 2px rgba(231, 84, 84, 0.5);
+}
+
+/* List of attributes container */
+.attributeList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+/* Button to add attribute */
+.addAttributeBtn {
+  display: block;
+  margin: 15px auto 0 auto;
+  padding: 6px 12px;
+  width: 140px;
+  background-color: #e75454;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 3px 6px rgba(231, 84, 84, 0.3);
+}
+
+.addAttributeBtn:hover {
+  background-color: #d54343;
+}
+
+/* Step buttons container (save/cancel or back buttons) */
+.stepButtonsEditCategory {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 24px;
+}
+
+/* Single button mode */
+.stepButtonsEditCategory.singleButton {
+  justify-content: center;
+}
+
+/* Common styles for buttons */
+.saveBtnEditCategory,
+.cancelBtnEditCategory {
+  padding: 12px 24px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: 600;
+  background-color: #e75454;
+  color: white;
+  width: 500px;
+}
+
+.saveBtnEditCategory:hover,
+.cancelBtnEditCategory:hover {
+  background-color: #d54343;
+}

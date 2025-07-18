@@ -1,8 +1,11 @@
 
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "/src/styles/addcategory.css";
 
 function AddCategory() {
   const [imagePreview, setImagePreview] = useState(null);
+  const navigate = useNavigate();
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -14,8 +17,13 @@ function AddCategory() {
 
   return (
     <>
- <br /><br /><br /><br /><br />
-      <h1 className="pageTitle">افزودن دسته</h1>
+      <div className="addCategoryHeaderadmin">
+        <button className="backButtonadmin" onClick={() => navigate("/admin/لیست دسته ها")}>
+          ← بازگشت
+        </button>
+        <h1 className="pageTitle">افزودن دسته</h1>
+      </div>
+
       <form className="addProductContainer">
         <div className="inputWrapper">
           <input type="text" required className="categoryName" placeholder=" " />

@@ -1,4 +1,4 @@
-.userListContainer {
+.employeeListContainer {
   max-width: 900px;
   margin: 32px auto;
   padding: 16px;
@@ -10,7 +10,7 @@
   direction: rtl;
 }
 
-.userTable {
+.employeeTable {
   width: 100%;
   border-collapse: collapse;
   text-align: center;
@@ -18,8 +18,8 @@
   transition: color 0.3s ease;
 }
 
-.userTable th,
-.userTable td {
+.employeeTable th,
+.employeeTable td {
   padding: 12px 8px;
   border-bottom: 1px solid #f1cdd0;
   vertical-align: middle;
@@ -27,19 +27,17 @@
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-
-.userTable tbody tr:hover {
+.employeeTable tbody tr:hover {
   background-color: #ffeaea;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-
-.userTable tbody tr.activeUser:hover td {
+.employeeTable tbody tr.activeEmployee:hover td {
   color: #b84050;
 }
 
-.userTable th {
+.employeeTable th {
   color: #b84050;
   font-weight: 700;
 }
@@ -53,18 +51,17 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-
 .profilePic:hover {
   transform: scale(1.1);
   box-shadow: 0 0 12px rgba(184, 64, 80, 0.5);
 }
 
-.activeUser {
+.activeEmployee {
   background-color: #fff8f8;
   transition: background-color 0.3s ease;
 }
 
-.inactiveUser {
+.inactiveEmployee {
   background-color: #f9f1f1;
   color: #999;
   transition: background-color 0.3s ease, color 0.3s ease;
@@ -84,32 +81,32 @@
   user-select: none;
 }
 
-
 .toggleActiveBtn:hover {
   background-color: #d54343;
   box-shadow: 0 6px 12px rgba(213, 67, 67, 0.5);
   transform: scale(1.05);
 }
 
-.inactiveUser .toggleActiveBtn {
+.inactiveEmployee .toggleActiveBtn {
   background-color: #4caf50;
   box-shadow: 0 3px 6px rgba(76, 175, 80, 0.3);
-  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
 }
 
-.inactiveUser .toggleActiveBtn:hover {
+.inactiveEmployee .toggleActiveBtn:hover {
   background-color: #3a9e3a;
   box-shadow: 0 6px 12px rgba(58, 158, 58, 0.5);
   transform: scale(1.05);
 }
-.adminuserlisttitle{
-      margin-left:47%;
-    margin-bottom: 10px;
-    font-size: 22px;
-    font-weight: 700;
-    color: #e75454;
+
+.adminemployeelisttitle {
+  margin-left: 47%;
+  margin-bottom: 10px;
+  font-size: 22px;
+  font-weight: 700;
+  color: #e75454;
 }
-.userListControlsWrapper {
+
+.employeeListControlsWrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -117,7 +114,7 @@
   margin-bottom: 24px;
 }
 
-.userListControls {
+.employeeListControls {
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
@@ -127,7 +124,8 @@
   max-width: 700px;
   margin: 0 auto;
 }
-.userListSearchInput {
+
+.employeeListSearchInput {
   padding: 8px 14px;
   font-size: 16px;
   border: 2px solid #d54343;
@@ -139,10 +137,11 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.userListSearchInput:focus {
+.employeeListSearchInput:focus {
   border-color: #9e3030;
   box-shadow: 0 0 6px rgba(213, 67, 67, 0.6);
 }
+
 .paginationButton {
   padding: 8px 14px;
   border: 2px solid #d54343;
@@ -169,8 +168,9 @@
   color: white;
   border-color: #9e3030;
 }
-.userListSearchInput,
-.userListFilterSelect {
+
+.employeeListSearchInput,
+.employeeListFilterSelect {
   padding: 8px 12px;
   font-size: 16px;
   border: 2px solid #d54343;
@@ -180,10 +180,11 @@
   max-width: 300px;
 }
 
-.userListSearchInput:focus,
-.userListFilterSelect:focus {
+.employeeListSearchInput:focus,
+.employeeListFilterSelect:focus {
   border-color: #9e3030;
 }
+
 .searchModeDropdown {
   position: absolute;
   top: 100%;
@@ -209,7 +210,6 @@
   font-weight: 700;
 }
 
-/* Filter dropdown */
 .filterDropdown {
   position: absolute;
   top: 100%;
@@ -248,8 +248,7 @@
   user-select: none;
 }
 
-/* Container for the search and filter controls */
-.userListControls {
+.employeeListControls {
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
@@ -262,7 +261,6 @@
   position: relative;
 }
 
-/* Search input container and toggle button */
 .searchInputContainer {
   position: relative;
   min-width: 280px;
@@ -285,7 +283,6 @@
   line-height: 1;
 }
 
-/* Filter container and filter button */
 .filterContainer {
   position: relative;
 }

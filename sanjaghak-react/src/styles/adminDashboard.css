@@ -163,3 +163,28 @@
     font-weight: 700;
     color: #e75454;
 }
+.adminDashboardStatsRow {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.halfWidth {
+  flex: 1 1 45%;
+  min-width: 280px;
+}
+
+.oneThirdWidth {
+  flex: 1 1 28%;
+  min-width: 180px;
+}
+
+.productStatImage {
+  width: 100%;
+  max-height: 120px;
+  object-fit: contain;
+  margin-bottom: 8px;
+  border-radius: 8px;
+}

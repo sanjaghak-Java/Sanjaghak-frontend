@@ -1,0 +1,32 @@
+.adminBrandCardadmin {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%; 
+  border: 3px solid #d54343;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 8px 16px rgba(213, 67, 67, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.adminBrandCardadmin:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 24px rgba(213, 67, 67, 0.3);
+}
+
+.adminBrandCardadmin__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+  pointer-events: none; 
+}
+.adminBrandCard__nameadmin{
+      margin-top: 5px;
+  font-weight: bold;
+  color: #7a2e2e;
+}

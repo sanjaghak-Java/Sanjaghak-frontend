@@ -3,12 +3,10 @@ import "/src/styles/adminBrandCard.css";
 
 function AdminBrandCard({ brand }) {
   return (
-    <div className="adminBrandCardadmin">
-      <img
-        src={brand.image}
-        alt={brand.name || "brand"}
-        className="adminBrandCardadmin__image"
-      />
+    <div
+      className={`adminBrandCardadmin ${brand.active ? 'brandActive' : 'brandInactive'}`}
+    >
+      <img src={brand.logoUrl} className="adminBrandCardadmin__image" />
     </div>
   );
 }

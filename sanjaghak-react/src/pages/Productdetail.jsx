@@ -1,45 +1,20 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import ImageCard from "./AddProductImageCard"; // Your existing ImageCard component
 import "/src/styles/productdetail.css";
 import warranty from "../assets/tools-wench-ruler.png";
 import box from "../assets/box.png";
 
-function ImageModal({ images, currentIndex, onClose, onChangeImage, title }) {
-  return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <button className="modal-close-btn" onClick={onClose}>×</button>
-        <label className="model-product-name">{title}</label>
-        <div className="images-containor">
-          <div className="modal-thumbnails">
-            {images.map((img, i) => (
-              <img
-                key={i}
-                src={`/src/assets/${img.src}`}
-                alt={img.colorName}
-                className={`modal-thumb-img ${i === currentIndex ? "active" : ""}`}
-                onClick={() => onChangeImage(i)}
-              />
-            ))}
-          </div>
-
-          <div className="main-image">
-            <img
-              src={`/src/assets/${images[currentIndex].src}`}
-              alt="تصویر بزرگ"
-              className="modal-main-img"
-            />
-            <label className="product-color-name2">{images[currentIndex].colorName}</label>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function ProductDetail({ product, onAddToCart }) {
+  // Use product images as files or URLs -- here assuming URLs
+  // We track main image index + preview URLs for side images (same as product.images)
+
   const [mainImageIndex, setMainImageIndex] = useState(0);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // For this example, treat product.images as array of {src, colorName, hex}
+  const [mainImagePreview, setMainImagePreview] = useState(product.images[0]?.src || null);
+  const [sideImagesPreview, setSideImagesPreview] = useState(product.images.map(img => img.src));
+
   const [qty, setQty] = useState(0);
 
   const productInfo = {
@@ -47,11 +22,20 @@ function ProductDetail({ product, onAddToCart }) {
     stockText: "موجود در انبار",
   };
 
-  const openModal = (index) => {
-    setMainImageIndex(index);
-    setIsModalOpen(true);
+  useEffect(() => {
+    if (product.images[mainImageIndex]) {
+      setMainImagePreview(product.images[mainImageIndex].src);
+    }
+  }, [mainImageIndex, product.images]);
+
+  const handleMainImageSelect = (file) => {
+    // If you want to support file upload here, implement preview update and uploading logic
+    // For now, no upload, just ignore
   };
-  const closeModal = () => setIsModalOpen(false);
+
+  const handleSideImageClick = (index) => {
+    setMainImageIndex(index);
+  };
 
   const handleAddToCart = () => {
     setQty(1);
@@ -67,48 +51,36 @@ function ProductDetail({ product, onAddToCart }) {
   return (
     <div className="head-cart">
       <div className="product">
-        <div className="images">
-          <img
-            src={`/src/assets/${product.images[mainImageIndex].src}`}
-            alt={product.images[mainImageIndex].colorName}
-            className="product-img"
-            onClick={() => openModal(mainImageIndex)}
-            style={{ cursor: "pointer" }}
-          />
+        <div className="images" style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+          {/* Main ImageCard */}
+          <div style={{ width: 400, height: 320, margin: "0 auto" }}>
+<ImageCard
+  key={idx}
+  image={src}
+  width={100}
+  height={80}
+  title={`تصویر شماره ${idx + 1}`}
+  onClick={() => handleSideImageClick(idx)}
+  onFileSelect={() => {}}
+  style={{ border: idx === mainImageIndex ? "2px solid #e75454" : undefined }}
+/>
+          </div>
 
-          <div className="miniimg-container">
-            {product.images.slice(0, 3).map((img, i) => (
-              <div
-                className="miniimg-wrapper"
-                key={i}
-                onClick={() => setMainImageIndex(i)}
-                style={{ cursor: "pointer" }}
-              >
-                <img
-                  src={`/src/assets/${img.src}`}
-                  alt={img.colorName}
-                  className="product-miniimg"
-                  onClick={() => openModal(i)}
-                />
-              </div>
+          {/* Side Images Cards */}
+          <div style={{ display: "flex", gap: "10px", justifyContent: "center", flexWrap: "wrap" }}>
+            {sideImagesPreview.map((src, idx) => (
+              <ImageCard
+                key={idx}
+                image={src}
+                width={100}
+                height={80}
+                title={`تصویر شماره ${idx + 1}`}
+                onFileSelect={() => {}}
+                // Clicking sets main image index
+                onClick={() => handleSideImageClick(idx)}
+                style={{ border: idx === mainImageIndex ? "2px solid #e75454" : undefined }}
+              />
             ))}
-
-            {product.images.length > 3 && (
-              <div
-                id="more-miniimg-wrapper"
-                onClick={() => openModal(3)}
-                style={{ cursor: "pointer" }}
-              >
-                <img
-                  src="/src/assets/icons8-images-folder-50.png"
-                  alt="تصاویر بیشتر"
-                  id="more-product-miniimg"
-                />
-                <label id="more-miniimg-label">
-                  +{product.images.length - 3} تصویر
-                </label>
-              </div>
-            )}
           </div>
         </div>
 
@@ -209,16 +181,6 @@ function ProductDetail({ product, onAddToCart }) {
           )}
         </div>
       </div>
-
-      {isModalOpen && (
-        <ImageModal
-          images={product.images}
-          currentIndex={mainImageIndex}
-          onClose={closeModal}
-          onChangeImage={setMainImageIndex}
-          title={product.title}
-        />
-      )}
     </div>
   );
 }

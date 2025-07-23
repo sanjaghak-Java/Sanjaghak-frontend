@@ -2,16 +2,19 @@ import React from "react";
 import "/src/styles/AdminProductCard.css";
 
 function AdminProductCard({ product, onClick }) {
+  const imageSrc = product.mainImageUrl || product.image || "/placeholder.png";
+
   return (
     <div className="adminProductCard" onClick={() => onClick(product)} style={{ cursor: 'pointer' }}>
-      <img src={product.image} alt={product.name} className="adminProductCard__image" />
+      <img src={imageSrc} alt={product.productName} className="adminProductCard__image" />
       <div className="adminProductCard__details">
-        <h2 className="adminProductCard__name">{product.name}</h2>
+        <h2 className="adminProductCard__name">{product.productName}</h2>
         <p className="adminProductCard__info">قیمت: {product.price.toLocaleString()} تومان</p>
-        <p className="adminProductCard__info">دسته: {product.category}</p>
-        <p className="adminProductCard__info">برند: {product.brand}</p>
+        <p className="adminProductCard__info">دسته: {product.categoryName || "نامشخص"}</p>
+        <p className="adminProductCard__info">برند: {product.brandName || "نامشخص"}</p>
       </div>
     </div>
   );
 }
+
 export default AdminProductCard;

@@ -1,6 +1,6 @@
 
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
   FaTachometerAlt,
   FaFileInvoiceDollar,
@@ -15,6 +15,14 @@ import {
 import "/src/styles/adminNav.css";
 
 function AdminNav() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('id');
+    navigate('/signin');
+  };
+
   const menuItems = [
     { label: "داشبورد", path: "/admin/داشبورد", icon: <FaTachometerAlt /> },
     { label: "گزارش مالی", path: "/admin/گزارش مالی", icon: <FaFileInvoiceDollar /> },
@@ -54,7 +62,7 @@ function AdminNav() {
         </div>
       </div>
 
-      <div className="adminLogOut" style={{ cursor: "pointer" }}>
+      <div className="adminLogOut" style={{ cursor: "pointer" }} onClick={handleLogout}>
         <FaSignOutAlt className="adminLogOutIcon" />
         <h3 className="adminLogOutText">خروج از حساب</h3>
       </div>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "/src/styles/UserMenu.css";
 import profileIcon from "../assets/user.png";
 import Shop from "../assets/shopping-bag.png";
@@ -11,9 +11,21 @@ const UserMenu = () => {
   const [open, setOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const menuRef = useRef(null);
+  const navigate = useNavigate();
 
   const handleLogoutClick = () => {
-    setIsModalOpen(true);
+        localStorage.removeItem("token");
+        localStorage.removeItem("id")
+    setIsModalOpen(false);
+    navigate("/signin");
+    window.location.reload();
+  };
+
+  const handleConfirmLogout = () => {
+    localStorage.removeItem("token");
+    setIsModalOpen(false);
+    navigate("/signin");
+    window.location.reload();
   };
 
   const handleCloseModal = () => {
@@ -65,7 +77,12 @@ const UserMenu = () => {
         </div>
       )}
 
-      {isModalOpen && <LogoutModal onClose={handleCloseModal} />}
+      {isModalOpen && (
+        <LogoutModal
+          onConfirm={handleConfirmLogout}
+          onClose={handleCloseModal}
+        />
+      )}
     </div>
   );
 };

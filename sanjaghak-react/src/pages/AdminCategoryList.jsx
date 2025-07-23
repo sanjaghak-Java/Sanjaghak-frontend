@@ -1,37 +1,99 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AdminCategoryCard from "./AdminCategoryCard";
 import "/src/styles/admincategorylist.css";
 import { useNavigate } from "react-router-dom";
 
-function AdminCategoryList({ categories = [] }) {
+function AdminCategoryList() {
   const navigate = useNavigate();
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const token = localStorage.getItem("token");
+  const baseUrl = "http://127.0.0.1:8080";
 
-  const dummyCategories = [
-    { id: 1, name: "دسته ۱", image: "/src/assets/testimage.jpg" },
-    { id: 2, name: "دسته ۲", image: "/src/assets/testimage.jpg" },
-    { id: 3, name: "دسته ۳", image: "/src/assets/testimage.jpg" },
-    { id: 4, name: "دسته ۴", image: "/src/assets/testimage.jpg" }
-  ];
+  useEffect(() => {
+    if (!token) {
+      alert("توکن دسترسی وجود ندارد. لطفا وارد شوید.");
+      setLoading(false);
+      return;
+    }
 
-  const finalCategories = categories.length > 0 ? categories : dummyCategories;
+    const fetchCategoriesWithImages = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(`${baseUrl}/api/Sanjaghak/categories/getAllCategory`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
 
-  const handleAddCategory = () => {
-    navigate("/admin/افزودن دسته");
+        if (!response.ok) throw new Error("خطا در دریافت دسته‌بندی‌ها");
+        const categoryData = await response.json();
+
+        // For each category, fetch images, get first image's URL and ID
+        const categoriesWithImages = await Promise.all(
+          categoryData.map(async (category) => {
+            try {
+              const imageRes = await fetch(
+                `${baseUrl}/api/Sanjaghak/categoryImages/${category.categoryId}`,
+                { headers: { Authorization: `Bearer ${token}` } }
+              );
+              if (!imageRes.ok) throw new Error();
+
+              const imageData = await imageRes.json();
+
+              if (imageData.length > 0) {
+                // Use first image's URL and imageId
+                const img = imageData[0];
+                const prefix = baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
+                const suffix = img.imageUrl.startsWith("/") ? img.imageUrl : "/" + img.imageUrl;
+                const fullUrl = prefix + suffix;
+
+                return { 
+                  ...category, 
+                  imageUrl: fullUrl,
+                  imageId: img.imageId,  // <-- include imageId here
+                };
+              }
+
+              // No images found
+              return { ...category, imageUrl: null, imageId: null };
+            } catch (err) {
+              console.error("خطا در دریافت تصویر دسته‌بندی:", err);
+              return { ...category, imageUrl: null, imageId: null };
+            }
+          })
+        );
+
+        setCategories(categoriesWithImages);
+      } catch (error) {
+        alert(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCategoriesWithImages();
+  }, [token, baseUrl]);
+
+  const handleAddCategory = () => navigate("/admin/افزودن دسته");
+
+  // Pass full category object including imageId in state
+  const handleCategoryClick = (category) => {
+    navigate(`/admin/category/${category.categoryId}/attributes`, {
+      state: { category },
+    });
   };
 
-  const handleCategoryClick = (categoryId) => {
-    navigate(`/admin/category/${categoryId}/attributes`);
-  };
+  if (loading) return <p style={{ textAlign: "center", marginTop: 40 }}>در حال بارگذاری دسته‌بندی‌ها...</p>;
 
   return (
     <div className="adminCategoryListContaineradmin">
       <h1 className="adminCategoryTitleadmin">دسته‌بندی‌ها</h1>
 
       <div className="adminCategoryGridadmin">
-        {finalCategories.map((category) => (
+        {categories.length === 0 && <p>دسته‌بندی‌ای وجود ندارد.</p>}
+        {categories.map((category) => (
           <div
-            key={category.id}
-            onClick={() => handleCategoryClick(category.id)}
+            key={category.categoryId}
+            onClick={() => handleCategoryClick(category)}
             style={{ cursor: "pointer" }}
           >
             <AdminCategoryCard category={category} />

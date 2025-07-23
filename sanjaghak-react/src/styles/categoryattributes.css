@@ -1,4 +1,3 @@
-/* Container for the whole category attributes form */
 .editCategoryAttributesContainer {
   margin-top: 0px;
   max-width: 900px;
@@ -13,9 +12,31 @@
   gap: 24px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   direction: rtl;
+  position: relative;
 }
 
-/* Title */
+.backBtnEditCategory {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background-color: transparent;
+  border: none;
+  color: #d54343;
+  font-size: 20px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.backBtnEditCategory:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.backBtnEditCategory:hover:not(:disabled) {
+  color: #a93131;
+}
+
 .editCategoryAttributesTitle {
   margin-bottom: 10px;
   text-align: center;
@@ -25,7 +46,102 @@
   text-shadow: 1px 1px 2px rgba(231, 84, 84, 0.5);
 }
 
-/* List of attributes container */
+.categoryInfoContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.categoryInfoContainer label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.categoryInput {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1.5px solid #d54343;
+  font-size: 16px;
+  direction: rtl;
+  resize: vertical;
+  min-height: 36px;
+  box-sizing: border-box;
+}
+
+.fileInput {
+  margin-bottom: 8px;
+}
+
+.imagePreview {
+  max-width: 100%;
+  max-height: 200px;
+  margin-bottom: 16px;
+  border-radius: 12px;
+  object-fit: contain;
+}
+
+.topButtonsContainer {
+  display: flex;
+  gap: 16px;
+  justify-content: flex-start;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.enableToggleBtn {
+  flex: 1;
+  min-width: 140px;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.enableToggleBtn.enabled {
+  background-color: #d54343;
+}
+
+.enableToggleBtn.enabled:hover {
+  background-color: #a93131;
+}
+
+.enableToggleBtn.disabled {
+  background-color: #4caf50;
+}
+
+.enableToggleBtn.disabled:hover {
+  background-color: #388e3c;
+}
+
+.actionBtnEditCategory.deleteBtn {
+  flex: 1;
+  min-width: 140px;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+  background-color: #d54343;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.actionBtnEditCategory.deleteBtn:hover:not(:disabled) {
+  background-color: #a93131;
+}
+
+.actionBtnEditCategory.deleteBtn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
 .attributeList {
   display: flex;
   flex-direction: column;
@@ -33,7 +149,6 @@
   width: 100%;
 }
 
-/* Button to add attribute */
 .addAttributeBtn {
   display: block;
   margin: 15px auto 0 auto;
@@ -54,21 +169,14 @@
   background-color: #d54343;
 }
 
-/* Step buttons container (save/cancel or back buttons) */
 .stepButtonsEditCategory {
   display: flex;
-  justify-content: space-between;
-  margin-top: 24px;
-}
-
-/* Single button mode */
-.stepButtonsEditCategory.singleButton {
   justify-content: center;
+  margin-top: 24px;
+  gap: 20px;
 }
 
-/* Common styles for buttons */
-.saveBtnEditCategory,
-.cancelBtnEditCategory {
+.saveBtnEditCategory {
   padding: 12px 24px;
   font-size: 16px;
   border: none;
@@ -81,7 +189,11 @@
   width: 500px;
 }
 
-.saveBtnEditCategory:hover,
-.cancelBtnEditCategory:hover {
+.saveBtnEditCategory:hover:not(:disabled) {
   background-color: #d54343;
+}
+
+.saveBtnEditCategory:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
 }

@@ -1,44 +1,53 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AdminBrandCard from "./AdminBrandCard";
 import AdminBrandDetail from "./AdminBrandDetail";
 import "/src/styles/adminbrandlist.css";
 import { useNavigate } from "react-router-dom";
 
-function AdminBrandList({ brands = [] }) {
+function AdminBrandList() {
   const navigate = useNavigate();
-
-  const dummyBrands = [
-    { id: 1, name: "برند ۱", image: "/src/assets/brand1.jpg" },
-    { id: 2, name: "برند ۲", image: "/src/assets/brand2.jpg" },
-    { id: 3, name: "برند ۳", image: "/src/assets/brand3.jpg" },
-    { id: 4, name: "برند ۴", image: "/src/assets/brand3.jpg" },
-  ];
-
-  const [finalBrands, setFinalBrands] = useState(brands.length > 0 ? brands : dummyBrands);
+  const [brands, setBrands] = useState([]);
   const [selectedBrand, setSelectedBrand] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const handleAddBrand = () => {
-    navigate("/admin/افزودن برند");
-  };
+  const token = localStorage.getItem("token");
 
-  const handleBrandClick = (brand) => {
-    setSelectedBrand(brand);
-  };
+  useEffect(() => {
+    setLoading(true);
+    fetch(`http://127.0.0.1:8080/api/Sanjaghak/brand/getPaginationBrands?page=0&size=1000`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("خطا در دریافت برندها");
+        return res.json();
+      })
+      .then((data) => {
+        setBrands(data.content);
+        setLoading(false);
+      })
+      .catch((err) => {
+        alert(err.message);
+        setLoading(false);
+      });
+  }, [token]);
 
-  // Called when back button clicked in detail
-  const closeDetail = () => {
-    setSelectedBrand(null);
-  };
+  const handleAddBrand = () => navigate("/admin/افزودن برند");
 
-  // Save updated brand info from detail
-  const saveBrandChanges = (updatedBrand) => {
-    setFinalBrands((prevBrands) =>
-      prevBrands.map((b) => (b.id === updatedBrand.id ? updatedBrand : b))
-    );
-    setSelectedBrand(null);
-  };
+  const handleBrandClick = (brand) => setSelectedBrand(brand);
 
-  // If a brand is selected, show only detail
+  const closeDetail = () => setSelectedBrand(null);
+
+const saveBrandChanges = (updatedBrand) => {
+  setBrands((prev) =>
+    prev.map((b) => (b.brandId === updatedBrand.brandId ? updatedBrand : b))
+  );
+  setSelectedBrand(null);
+};
+
+  if (loading) return <p>در حال بارگذاری برندها...</p>;
+
   if (selectedBrand) {
     return (
       <AdminBrandDetail
@@ -49,15 +58,14 @@ function AdminBrandList({ brands = [] }) {
     );
   }
 
-  // Otherwise show the brand list
   return (
     <div className="adminBrandListContaineradmin">
       <h1 className="adminBrandTitleadmin">لیست برندها</h1>
 
       <div className="adminBrandGridadmin">
-        {finalBrands.map((brand) => (
+        {brands.map((brand) => (
           <div
-            key={brand.id}
+            key={brand.brandId}
             onClick={() => handleBrandClick(brand)}
             style={{ cursor: "pointer" }}
           >

@@ -5,100 +5,179 @@ function AdminBrandDetail({ brand, onBack, onUpdateBrand }) {
   const [website, setWebsite] = useState("");
   const [logoUrl, setLogoUrl] = useState("");
   const [description, setDescription] = useState("");
+  const [active, setActive] = useState(true);
+
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     if (brand) {
-      setName(brand.name || "");
-      setWebsite(brand.website || "");
+      setName(brand.brandName || "");
+      setWebsite(brand.websiteUrl || "");
       setLogoUrl(brand.logoUrl || "");
-      setDescription(brand.description || "");
+      setDescription(brand.brandDescription || "");
+      setActive(brand.active !== false);
     }
   }, [brand]);
 
-  const handleSave = (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
-
     const updatedBrand = {
-      ...brand,
-      name,
-      website,
-      logoUrl,
-      description,
+      brandName: name,
+      websiteUrl: website,
+      logoUrl: logoUrl,
+      brandDescription: description,
+      active,
     };
 
-    if (onUpdateBrand) {
-      onUpdateBrand(updatedBrand);
+    try {
+      const res = await fetch(`http://127.0.0.1:8080/api/Sanjaghak/brand/${brand.brandId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(updatedBrand),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "خطا در بروزرسانی برند");
+      }
+
+      alert("تغییرات برند با موفقیت ذخیره شد");
+      const data = await res.json();
+      if (onUpdateBrand) onUpdateBrand(data);
+      onBack();
+    } catch (err) {
+      alert(err.message);
     }
   };
 
+  const handleDelete = async () => {
+    if (!window.confirm("آیا از حذف برند مطمئن هستید؟")) return;
+
+    try {
+      const res = await fetch(`http://127.0.0.1:8080/api/Sanjaghak/brand/${brand.brandId}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "خطا در حذف برند");
+      }
+      alert("برند با موفقیت حذف شد");
+      onBack();
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
+const handleToggleActive = () => {
+  setActive((prev) => !prev);
+};
   return (
-    <div className="editBrandContainer" style={{ maxWidth: 600, margin: "auto" }}>
-      <button
-        onClick={onBack}
-        className="backButtonadmin"
-        style={{ marginBottom: 24 }}
-      >
-        ← بازگشت
-      </button>
+    <div className="adminProductDetailContainer">
+  <button onClick={onBack} className="adminBackButton" style={{ marginBottom: 24 }}>
+    ← بازگشت
+  </button>
 
-<h2 className="pageTitleadmin" style={{ marginBottom: 24, textAlign: "center" }}>
-  ویرایش برند
-</h2>
-      <form onSubmit={handleSave} className="addProductContainer">
-        <div className="inputWrapper">
-          <input
-            type="text"
-            required
-            className="brandName"
-            placeholder=" "
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-          <label className="adminFloatingLabel">نام برند</label>
-        </div>
+  <h2 className="adminProductDetail__name" style={{ marginBottom: 24, textAlign: "center" }}>
+    ویرایش برند
+  </h2>
 
-        <div className="inputGroup">
-          <div className="inputWrapper">
-            <input
-              type="text"
-              className="webUrl"
-              placeholder=" "
-              value={website}
-              onChange={(e) => setWebsite(e.target.value)}
-            />
-            <label className="adminFloatingLabel">وبسایت برند</label>
-          </div>
-          <div className="inputWrapper">
-            <input
-              type="text"
-              className="logoUrl"
-              placeholder=" "
-              value={logoUrl}
-              onChange={(e) => setLogoUrl(e.target.value)}
-            />
-            <label className="adminFloatingLabel">URL لوگو</label>
-          </div>
-        </div>
+  <form onSubmit={handleSave}>
+    <div className="adminProductDetail__fields">
+      <div>
+        <label className="adminProductDetail__info">نام برند</label>
+        <input
+          type="text"
+          required
+          className="adminProductDetail__input"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+      </div>
 
-        <div className="inputWrapper">
-          <textarea
-            className="productDescription"
-            placeholder=" "
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-          <label className="adminFloatingLabel">توضیحات برند</label>
-        </div>
+      <div>
+        <label className="adminProductDetail__info">وبسایت برند</label>
+        <input
+          type="text"
+          className="adminProductDetail__input"
+          value={website}
+          onChange={(e) => setWebsite(e.target.value)}
+        />
+      </div>
 
-        <button
-          className="submitButton"
-          type="submit"
-          style={{ marginTop: 16 }}
-        >
-          ذخیره تغییرات
-        </button>
-      </form>
+      <div>
+        <label className="adminProductDetail__info">URL لوگو</label>
+        <input
+          type="text"
+          className="adminProductDetail__input"
+          value={logoUrl}
+          onChange={(e) => setLogoUrl(e.target.value)}
+        />
+      </div>
+
+      <div>
+        <label className="adminProductDetail__info">توضیحات برند</label>
+        <textarea
+          className="adminProductDetail__textarea"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+      </div>
     </div>
+
+    <div
+      style={{
+        display: "flex",
+        gap: 16,
+        width: "80%",
+        margin: "16px auto 0 auto",
+        justifyContent: "center",
+      }}
+    >
+<button
+  className="adminSaveButton"
+  onClick={(e) => {
+    e.preventDefault();
+    handleToggleActive();
+  }}
+  type="button"
+  style={{
+    backgroundColor: active ? "#b00020" : "#28a745",
+    flexBasis: "40%",
+    color: "white",
+  }}
+>
+  {active ? "غیرفعال کردن برند" : "فعال کردن برند"}
+</button>
+
+      <button
+        className="adminDeleteButton"
+        onClick={(e) => {
+          e.preventDefault();
+          handleDelete();
+        }}
+        type="button"
+        style={{
+          flexBasis: "40%",
+          color: "white",
+        }}
+      >
+        حذف برند
+      </button>
+    </div>
+
+    <button
+      className="adminSaveButton"
+      type="submit"
+      style={{ marginTop: 24, width: "100%" }}
+    >
+      ذخیره تغییرات
+    </button>
+  </form>
+</div>
   );
 }
 

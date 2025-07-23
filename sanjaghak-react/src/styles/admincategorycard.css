@@ -20,11 +20,11 @@
   box-shadow: 0 12px 28px rgba(213, 67, 67, 0.25);
 }
 .adminCategoryCard__image {
-  width: 100px;   /* increased from 80px */
-  height: 100px;  /* increased from 80px */
+  width: 100px;   
+  height: 100px;  
   object-fit: cover;
   border-radius: 50%;
-  margin-bottom: 8px; /* reduced a bit to balance */
+  margin-bottom: 8px; 
 }
 
 .adminCategoryCard__name {
@@ -34,7 +34,7 @@
   margin: 0;
 }
 
-/* For the add category card, if you have a separate class */
+
 .addCategoryCard {
   width: 160px;
   height: 160px;

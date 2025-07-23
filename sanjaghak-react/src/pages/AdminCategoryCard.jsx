@@ -4,12 +4,16 @@ import "/src/styles/admincategorycard.css";
 function AdminCategoryCard({ category }) {
   return (
     <div className="adminCategoryCard">
-      <img
-        src={category.image}
-        alt={category.name}
-        className="adminCategoryCard__image"
-      />
-      <h3 className="adminCategoryCard__name">{category.name}</h3>
+      {category.imageUrl ? (
+        <img
+          src={category.imageUrl}
+          alt={category.categoryName}
+          className="adminCategoryCard__image"
+        />
+      ) : (
+        <div className="adminCategoryCard__placeholderadmin">بدون تصویر</div>
+      )}
+      <h3 className="adminCategoryCard__nameadmin">{category.categoryName}</h3>
     </div>
   );
 }

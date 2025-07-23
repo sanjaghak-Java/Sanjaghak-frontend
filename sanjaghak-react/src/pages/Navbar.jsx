@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import '/src/styles/Navbar.css';
 import { Link, useNavigate } from 'react-router-dom';
 import UserMenu from "./UserMenu";
@@ -13,6 +13,12 @@ function Navbar() {
   const navigate = useNavigate();
   const [isFocused, setIsFocused] = useState(false);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    setIsLoggedIn(!!token);
+  }, []);
 
   const goToSignIn = () => {
     navigate("/signin");
@@ -58,15 +64,17 @@ function Navbar() {
         </div>
 
         <div className='userActions'>
-          <button className='loginBtn' onClick={goToSignIn}>
-            ثبت نام<span className='space'>|</span>ورود
-          </button>
-
-          <UserMenu />
+          {!isLoggedIn ? (
+            <button className='loginBtn' onClick={goToSignIn}>
+              ثبت نام<span className='space'>|</span>ورود
+            </button>
+          ) : (
+            <UserMenu />
+          )}
 
           <div className='cart-navbar'>
             <button className='cartbutton' onClick={goTomycart}>
-              <label htmlFor="" className='cart-num'>1</label>
+              <label className='cart-num'>1</label>
               <img src={cartIcon} alt="cart" className='cartIcon' />
             </button>
           </div>
@@ -83,41 +91,16 @@ function Navbar() {
           </div>
 
           <div className="dropDown">
+            {/* Example Category */}
             <div className="dropDownItem">
               <Link to="/productCategory" className='dropDownItem-title'>لپتاپ</Link>
               <div className="subDropDown">
-                <Link to="/productCategory" className='category-choise-all'>همه لپتاپ ها</Link>
+                <Link to="/productCategory">همه لپتاپ ها</Link>
                 <Link to="/productCategory">ایسوس</Link>
                 <Link to="/productCategory">لنوو</Link>
               </div>
             </div>
-
-            <div className="dropDownItem">
-              <Link to="/productCategory" className='dropDownItem-title'>موبایل</Link>
-              <div className="subDropDown">
-                <Link to="/productCategory" className='category-choise-all'>همه موبایل ها</Link>
-                <Link to="/productCategory">سامسونگ</Link>
-                <Link to="/productCategory">آیفون</Link>
-              </div>
-            </div>
-
-            <div className="dropDownItem">
-              <Link to="/productCategory" className='dropDownItem-title'>هدفون</Link>
-              <div className="subDropDown">
-                <Link to="/productCategory" className='category-choise-all'>همه هدفون ها</Link>
-                <Link to="/productCategory">سیمی</Link>
-                <Link to="/productCategory">بی سیم</Link>
-              </div>
-            </div>
-
-            <div className="dropDownItem">
-              <Link to="/productCategory" className='dropDownItem-title'>ساعت هوشمند</Link>
-              <div className="subDropDown">
-                <Link to="/productCategory" className='category-choise-all'>همه ساعت ها</Link>
-                <Link to="/productCategory">اپل</Link>
-                <Link to="/productCategory">سامسونگ</Link>
-              </div>
-            </div>
+            {/* Add other categories similar to above */}
           </div>
         </div>
 
@@ -151,16 +134,19 @@ function Navbar() {
         </Link>
 
         <div className="usermenucontainer">
-          <button className='loginBtn' onClick={goToSignIn}>
-            ثبت نام<span className='space'>|</span>ورود
-          </button>
+          {!isLoggedIn ? (
+            <button className='loginBtn' onClick={goToSignIn}>
+              ثبت نام<span className='space'>|</span>ورود
+            </button>
+          ) : (
+            <UserMenu />
+          )}
         </div>
 
         <div className="menuitemcontainor">
-          <UserMenu />
           <div className='cart-navbar'>
             <button className='cartbutton' onClick={goTomycart}>
-              <label htmlFor="" className='cart-num'>1</label>
+              <label className='cart-num'>1</label>
               <img src={cartIcon} alt="cart" className='cartIcon' />
             </button>
           </div>

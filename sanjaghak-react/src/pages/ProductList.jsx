@@ -5,56 +5,139 @@ import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import "/src/styles/ProductListAdmin.css";
 
-function ProductList({ products = [] }) {
+function ProductList() {
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [brands, setBrands] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
+const [refreshToggle, setRefreshToggle] = useState(false);
+
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 24;
   const [jumpInput, setJumpInput] = useState("");
   const [searchText, setSearchText] = useState("");
-  const [searchMode, setSearchMode] = useState("name"); // 'name' or 'id'
+  const [searchMode, setSearchMode] = useState("name");
   const [filterCategory, setFilterCategory] = useState("");
   const [filterBrand, setFilterBrand] = useState("");
   const [priceRange, setPriceRange] = useState([0, 10000]);
   const [filterDropdownOpen, setFilterDropdownOpen] = useState(false);
   const [searchModeDropdownOpen, setSearchModeDropdownOpen] = useState(false);
   const searchModeRef = useRef(null);
+ const [productImages, setProductImages] = useState({});
+  // Fetch products
+useEffect(() => {
+  async function fetchAllProducts() {
+    try {
+      const response = await fetch('http://127.0.0.1:8080/api/Sanjaghak/product/getProductsByfilter?page=0&size=1000');
+      if (!response.ok) throw new Error('Error fetching products');
+      const data = await response.json();
+      const allProducts = data.content || data;
+      setProducts(allProducts);
 
-  // Close search mode dropdown on outside click
+      // Now fetch images for all products
+      fetchMainImages(allProducts);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    }
+  }
+
+async function fetchMainImages(productsList) {
+  const imagesMap = {};
+  await Promise.all(
+    productsList.map(async (product) => {
+      try {
+        const imgRes = await fetch(`http://127.0.0.1:8080/api/Sanjaghak/productImages/${product.productId}`);
+        if (!imgRes.ok) throw new Error('Image fetch failed');
+        const imgData = await imgRes.json();
+
+        let mainImage = null;
+        if (Array.isArray(imgData)) {
+          const mainImgObj = imgData.find(img => img.primary === true) || imgData[0];
+          if (mainImgObj) mainImage = `http://127.0.0.1:8080${mainImgObj.imageUrl}`;
+        } else {
+          mainImage = `http://127.0.0.1:8080${imgData.imageUrl}`;
+        }
+
+        imagesMap[product.productId] = mainImage;
+      } catch (err) {
+        console.error(`Failed to fetch image for product ${product.productId}`, err);
+        imagesMap[product.productId] = null;
+      }
+    })
+  );
+
+  setProductImages(imagesMap);
+}
+
+  fetchAllProducts();
+}, [refreshToggle]);
+
   useEffect(() => {
-    function handleClickOutside(event) {
-      if (searchModeRef.current && !searchModeRef.current.contains(event.target)) {
-        setSearchModeDropdownOpen(false);
+    async function fetchCategories() {
+      try {
+        const response = await fetch('http://127.0.0.1:8080/api/Sanjaghak/categories/getAllCategory');
+        if (!response.ok) throw new Error('Failed to fetch categories');
+        const data = await response.json();
+        setCategories(data);
+      } catch (error) {
+        console.error(error);
       }
     }
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+    fetchCategories();
+  }, [refreshToggle]);
 
-  // Calculate price bounds dynamically
-  const prices = products.map(p => p.price);
+  useEffect(() => {
+    async function fetchBrands() {
+      try {
+        const response = await fetch('http://127.0.0.1:8080/api/Sanjaghak/brand/getAllBrands');
+        if (!response.ok) throw new Error('Failed to fetch brands');
+        const data = await response.json();
+        setBrands(data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchBrands();
+  }, [refreshToggle]);
+
+  const getCategoryName = (categoryId) => {
+    const cat = categories.find(c => c.categoryId === categoryId);
+    return cat ? cat.categoryName : "نامشخص";
+  };
+
+  const getBrandName = (brandId) => {
+    const br = brands.find(b => b.brandId === brandId);
+    return br ? br.brandName : "نامشخص";
+  };
+
+  const prices = products.map(p => Number(p.price));
   const absoluteMinPrice = prices.length ? Math.min(...prices) : 0;
   const absoluteMaxPrice = prices.length ? Math.max(...prices) : 10000;
   const priceBuffer = 1000;
   const adjustedMin = absoluteMinPrice;
-  const adjustedMax = absoluteMinPrice === absoluteMaxPrice
-    ? absoluteMaxPrice + priceBuffer
-    : absoluteMaxPrice;
+  const adjustedMax = absoluteMinPrice === absoluteMaxPrice ? absoluteMaxPrice + priceBuffer : absoluteMaxPrice;
 
   useEffect(() => {
     setPriceRange([adjustedMin, adjustedMax]);
   }, [adjustedMin, adjustedMax]);
 
-  // Filtered products
   const filteredProducts = products.filter(product => {
     const search = searchText.toLowerCase();
 
-    const matchesSearch = searchMode === 'name'
-      ? product.name.toLowerCase().includes(search)
-      : product.id.toString() === search;
+    const productName = (product.productName || "").toString().toLowerCase();
+    const productId = product.productId?.toString() || "";
+    const productCategoryId = product.categories?.categoryId || "";
+    const productBrandId = product.brands?.brandId || "";
 
-    const matchesCategory = filterCategory ? product.category === filterCategory : true;
-    const matchesBrand = filterBrand ? product.brand === filterBrand : true;
-    const matchesPrice = product.price >= priceRange[0] && product.price <= priceRange[1];
+    const matchesSearch = searchMode === 'name'
+      ? productName.includes(search)
+      : productId === search;
+
+    const matchesCategory = filterCategory ? productCategoryId === filterCategory : true;
+    const matchesBrand = filterBrand ? productBrandId === filterBrand : true;
+
+    const productPrice = Number(product.price);
+    const matchesPrice = !isNaN(productPrice) && productPrice >= priceRange[0] && productPrice <= priceRange[1];
 
     return matchesSearch && matchesCategory && matchesBrand && matchesPrice;
   });
@@ -64,8 +147,15 @@ function ProductList({ products = [] }) {
   const indexOfFirst = indexOfLast - productsPerPage;
   const currentProducts = filteredProducts.slice(indexOfFirst, indexOfLast);
 
+const enhancedCurrentProducts = currentProducts.map(product => ({
+  ...product,
+  categoryName: getCategoryName(product.categories?.categoryId),
+  brandName: getBrandName(product.brands?.brandId),
+  mainImageUrl: productImages[product.productId] || null,
+}));
+
   const handleJump = () => {
-    const page = parseInt(jumpInput);
+    const page = parseInt(jumpInput, 10);
     if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
     }
@@ -84,14 +174,30 @@ function ProductList({ products = [] }) {
     if (currentPage > totalPages) setCurrentPage(1);
   }, [totalPages, currentPage]);
 
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (searchModeRef.current && !searchModeRef.current.contains(event.target)) {
+        setSearchModeDropdownOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   if (selectedProduct) {
     return (
       <AdminProductDetail
         product={selectedProduct}
-        onBack={() => setSelectedProduct(null)}
+              onBack={() => {
+        setSelectedProduct(null);
+        setRefreshToggle(prev => !prev); 
+      }}
+        categories={categories}
+        brands={brands}
       />
     );
   }
+  
 
   return (
     <div className="adminProductListContainer">
@@ -99,7 +205,6 @@ function ProductList({ products = [] }) {
         className="adminProductList__controls"
         style={{ gap: "12px", flexWrap: "wrap", position: "relative", alignItems: 'center' }}
       >
-        {/* Search Input with Left Arrow Button */}
         <div style={{ position: "relative", minWidth: 280, display: 'flex', alignItems: 'center' }}>
           <button
             onClick={() => setSearchModeDropdownOpen(prev => !prev)}
@@ -132,7 +237,6 @@ function ProductList({ products = [] }) {
             style={{ flexGrow: 1, height: '36px', fontSize: '16px' }}
           />
 
-          {/* Search Mode Dropdown */}
           {searchModeDropdownOpen && (
             <div
               ref={searchModeRef}
@@ -183,7 +287,6 @@ function ProductList({ products = [] }) {
           )}
         </div>
 
-        {/* Category Dropdown */}
         <select
           value={filterCategory}
           onChange={e => setFilterCategory(e.target.value)}
@@ -191,12 +294,11 @@ function ProductList({ products = [] }) {
           style={{ minWidth: 150 }}
         >
           <option value="">همه دسته‌ها</option>
-          <option value="دسته ۱">دسته ۱</option>
-          <option value="دسته ۲">دسته ۲</option>
-          <option value="دسته ۳">دسته ۳</option>
+          {categories.map(cat => (
+            <option key={cat.categoryId} value={cat.categoryId}>{cat.categoryName}</option>
+          ))}
         </select>
 
-        {/* Brand Dropdown */}
         <select
           value={filterBrand}
           onChange={e => setFilterBrand(e.target.value)}
@@ -204,12 +306,11 @@ function ProductList({ products = [] }) {
           style={{ minWidth: 150 }}
         >
           <option value="">همه برندها</option>
-          <option value="برند ۱">برند ۱</option>
-          <option value="برند ۲">برند ۲</option>
-          <option value="برند ۳">برند ۳</option>
+          {brands.map(brand => (
+            <option key={brand.brandId} value={brand.brandId}>{brand.brandName}</option>
+          ))}
         </select>
 
-        {/* Filter Button */}
         <div style={{ position: "relative" }}>
           <button
             onClick={() => setFilterDropdownOpen(prev => !prev)}
@@ -242,46 +343,38 @@ function ProductList({ products = [] }) {
                 backgroundColor: "white",
                 border: "1px solid #d54343",
                 borderRadius: "12px",
-                boxShadow: "0 8px 24px rgba(213,67,67,0.15)",
-                width: 280,
+                boxShadow: "0 8px 24px rgba(213,67,67,0.25)",
+                width: 300,
                 zIndex: 1000,
               }}
             >
-              <p
-                style={{
-                  margin: '0 0 8px 0',
-                  fontWeight: '700',
-                  color: '#7a2e2e',
-                  userSelect: 'none',
-                  textAlign: 'center',
-                }}
-              >
-                قیمت: {priceRange[0].toLocaleString()} - {priceRange[1].toLocaleString()} تومان
-              </p>
               <Slider
                 range
                 min={adjustedMin}
                 max={adjustedMax}
                 value={priceRange}
                 onChange={setPriceRange}
+                allowCross={false}
                 trackStyle={[{ backgroundColor: '#d54343' }]}
                 handleStyle={[
                   { borderColor: '#d54343' },
                   { borderColor: '#d54343' }
                 ]}
-                railStyle={{ backgroundColor: '#e0b1b1' }}
               />
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 8, fontWeight: 'bold', color: '#d54343' }}>
+                <span>{priceRange[0].toLocaleString()} تومان</span>
+                <span>{priceRange[1].toLocaleString()} تومان</span>
+              </div>
             </div>
           )}
         </div>
       </div>
 
-      {/* Products Grid */}
       <div className="adminProductList__grid fadeIn" key={currentPage}>
-        {currentProducts.length > 0 ? (
-          currentProducts.map(product => (
+        {enhancedCurrentProducts.length > 0 ? (
+          enhancedCurrentProducts.map(product => (
             <AdminProductCard
-              key={product.id}
+              key={product.productId}
               product={product}
               onClick={() => setSelectedProduct(product)}
             />
@@ -293,7 +386,6 @@ function ProductList({ products = [] }) {
         )}
       </div>
 
-      {/* Pagination */}
       {totalPages > 1 && (
         <div className="adminProductList__pagination">
           <button onClick={handlePrev} disabled={currentPage === 1}>قبلی</button>

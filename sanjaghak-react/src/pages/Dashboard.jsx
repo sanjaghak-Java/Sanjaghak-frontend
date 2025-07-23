@@ -1,18 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  FaTachometerAlt,
   FaFileInvoiceDollar,
   FaBoxOpen,
   FaTags,
   FaListUl,
   FaUsers,
-  FaUserShield,
   FaWarehouse,
-  FaUserPlus,
   FaStar,
   FaSortAmountDown,
-  FaUsersCog,
   FaUserCheck,
   FaUserTimes,
 } from "react-icons/fa";
@@ -29,26 +25,49 @@ const menuItems = [
 
 function AdminDashboard() {
   const navigate = useNavigate();
+  const [latestUser, setLatestUser] = useState(null);
+  const [totalUsers, setTotalUsers] = useState(0);
+  const [activeUsers, setActiveUsers] = useState(0);
+  const [inactiveUsers, setInactiveUsers] = useState(0);
 
-  const latestUser = {
-    profilePic: "/src/assets/testimage.jpg",
-    name: "علی",
-    surname: "علیپور",
-    phone: "09148325892",
-    dateJoined: "1403/1/1",
-    isActive: true,
-  };
-
-  // Dummy data for new stats
   const totalRevenue = "123,456,789 تومان";
   const totalItemsSold = "8,765";
-
   const bestSeller = "محصول الف";
   const leastSeller = "محصول ب";
 
-  const totalUsers = 1234;
-  const activeUsers = 987;
-  const inactiveUsers = totalUsers - activeUsers;
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:8080/api/Sanjaghak/UserAccount/getPaginationUser?page=0&size=1000&sort=createdAt,desc", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          console.error("Failed to fetch user data");
+          return;
+        }
+
+        const data = await response.json();
+        const users = data.content || [];
+
+        if (users.length > 0) setLatestUser(users[0]);
+
+        setTotalUsers(users.length);
+        const activeCount = users.filter(u => u.active === true).length;
+        setActiveUsers(activeCount);
+        setInactiveUsers(users.length - activeCount);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUsers();
+  }, []);
 
   return (
     <div className="adminDashboardRoot">
@@ -61,9 +80,7 @@ function AdminDashboard() {
             tabIndex={0}
             className="adminDashboardMenuCard"
             onClick={() => navigate(path)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") navigate(path);
-            }}
+            onKeyDown={(e) => e.key === "Enter" && navigate(path)}
             role="button"
             aria-label={label}
           >
@@ -73,86 +90,63 @@ function AdminDashboard() {
         ))}
       </div>
 
-      {/* Existing stats row */}
       <div className="adminDashboardStatsRow">
         <div className="adminDashboardCard halfWidth">
           <h3>درآمد کل</h3>
           <p>{totalRevenue}</p>
         </div>
-
         <div className="adminDashboardCard halfWidth">
           <h3>تعداد کل محصولات فروخته شده</h3>
           <p>{totalItemsSold}</p>
         </div>
       </div>
 
-      {/* New row: Best Seller & Least Seller side by side */}
       <div className="adminDashboardStatsRow">
         <div className="adminDashboardCard halfWidth">
-          <h3>
-            <FaStar style={{ marginLeft: "6px" }} /> پرفروش‌ترین محصول
-          </h3>
-          <img
-            src="/src/assets/testimage.jpg"
-            alt="پرفروش‌ترین محصول"
-            className="productStatImage"
-          />
+          <h3><FaStar style={{ marginLeft: "6px" }} /> پرفروش‌ترین محصول</h3>
+          <img src="/src/assets/testimage.jpg" alt="پرفروش‌ترین محصول" className="productStatImage" />
           <p>{bestSeller}</p>
         </div>
-
         <div className="adminDashboardCard halfWidth">
-          <h3>
-            <FaSortAmountDown style={{ marginLeft: "6px" }} /> کم‌فروش‌ترین محصول
-          </h3>
-          <img
-            src="/src/assets/testimage.jpg"
-            alt="کم‌فروش‌ترین محصول"
-            className="productStatImage"
-          />
+          <h3><FaSortAmountDown style={{ marginLeft: "6px" }} /> کم‌فروش‌ترین محصول</h3>
+          <img src="/src/assets/testimage.jpg" alt="کم‌فروش‌ترین محصول" className="productStatImage" />
           <p>{leastSeller}</p>
         </div>
       </div>
 
-      {/* New row: User counts */}
       <div className="adminDashboardStatsRow">
         <div className="adminDashboardCard thirdWidth">
-          <h3>
-            <FaUsers style={{ marginLeft: "6px" }} /> تعداد کل کاربران
-          </h3>
+          <h3><FaUsers style={{ marginLeft: "6px" }} /> تعداد کل کاربران</h3>
           <p>{totalUsers}</p>
         </div>
-
         <div className="adminDashboardCard thirdWidth">
-          <h3>
-            <FaUserCheck style={{ marginLeft: "6px" }} /> کاربران فعال
-          </h3>
+          <h3><FaUserCheck style={{ marginLeft: "6px" }} /> کاربران فعال</h3>
           <p>{activeUsers}</p>
         </div>
-
         <div className="adminDashboardCard thirdWidth">
-          <h3>
-            <FaUserTimes style={{ marginLeft: "6px" }} /> کاربران غیرفعال
-          </h3>
+          <h3><FaUserTimes style={{ marginLeft: "6px" }} /> کاربران غیرفعال</h3>
           <p>{inactiveUsers}</p>
         </div>
       </div>
 
       <h3 className="newusertitleadmin">جدیدترین کاربر</h3>
       <div className="adminDashboardCard fullWidth">
-        <div className="adminDashboardRecentUserInfo">
-          <img
-            src={latestUser.profilePic}
-            alt={`${latestUser.name} ${latestUser.surname}`}
-            className="adminDashboardRecentUserPic"
-          />
-          <div>
-            <p>
-              {latestUser.name} {latestUser.surname} - {latestUser.phone}
-            </p>
-            <p>تاریخ عضویت: {latestUser.dateJoined}</p>
-            <p>وضعیت: {latestUser.isActive ? "فعال" : "غیرفعال"}</p>
+        {latestUser ? (
+          <div className="adminDashboardRecentUserInfo">
+            <img
+              src={latestUser.profilePicture || "/src/assets/testimage.jpg"}
+              alt={`${latestUser.firstName} ${latestUser.lastName}`}
+              className="adminDashboardRecentUserPic"
+            />
+            <div>
+              <p>{latestUser.firstName} {latestUser.lastName} - {latestUser.phoneNumber}</p>
+              <p>ایمیل: {latestUser.email}</p>
+              <p>وضعیت: {latestUser.active ? "فعال" : "غیرفعال"}</p>
+            </div>
           </div>
-        </div>
+        ) : (
+          <p>در حال بارگذاری...</p>
+        )}
       </div>
     </div>
   );

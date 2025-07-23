@@ -2,37 +2,37 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
-import AdminEmployeeDetail from "./AdminEmployeeDetail"; // Adjust path if needed
+import AdminEmployeeDetail from "./AdminEmployeeDetail";
 import "/src/styles/employeelist.css";
 
-const initialEmployees = [
-  { id: 1, profilePic: "/src/assets/testimage.jpg", name: "علی", surname: "علیپور", phone: "09148325892", role: "مدیر", isActive: true, dateJoined: "1403/1/1" },
-  { id: 2, profilePic: "/src/assets/testimage.jpg", name: "جواد", surname: "جوادیزاده", phone: "09148325891", role: "پشتیبانی", isActive: false, dateJoined: "1403/2/10" },
-  { id: 3, profilePic: "/src/assets/testimage.jpg", name: "محمد", surname: "محمدی", phone: "09148325893", role: "فروشنده", isActive: true, dateJoined: "1403/3/5" },
-  { id: 4, profilePic: "/src/assets/testimage.jpg", name: "سارا", surname: "سارایی", phone: "09148325894", role: "پشتیبانی", isActive: false, dateJoined: "1403/4/15" },
-  { id: 5, profilePic: "/src/assets/testimage.jpg", name: "مهدی", surname: "مهدی‌پور", phone: "09148325895", role: "مدیر", isActive: true, dateJoined: "1403/5/20" },
-];
-
-// Helper: parse Persian date string like "1403/1/1" to JS timestamp
-function parsePersianDateToTimestamp(dateStr) {
-  const [year, month, day] = dateStr.split("/").map(Number);
-  return new Date(year, month - 1, day).getTime();
-}
-
-// Helper: convert timestamp back to Persian date string
 function timestampToPersianDate(ts) {
+  if (!ts) return "نامشخص";
   const d = new Date(ts);
-  const year = d.getFullYear();
-  const month = d.getMonth() + 1;
-  const day = d.getDate();
-  return `${year}/${month}/${day}`;
+  return new Intl.DateTimeFormat("fa-IR-u-ca-persian", {
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+  }).format(d);
+}
+function getRoleLabel(role) {
+  switch (role) {
+    case "admin":
+      return "ادمین";
+    case "manager":
+      return "مدیر";
+    case "staff":
+      return "انباردار";
+    default:
+      return "نامشخص";
+  }
 }
 
 function EmployeeList() {
   const navigate = useNavigate();
 
-  // Core states
-  const [employees, setEmployees] = useState(initialEmployees);
+  const [employees, setEmployees] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const [searchText, setSearchText] = useState("");
   const [searchMode, setSearchMode] = useState("name");
   const [searchModeDropdownOpen, setSearchModeDropdownOpen] = useState(false);
@@ -41,76 +41,148 @@ function EmployeeList() {
   const [filterDropdownOpen, setFilterDropdownOpen] = useState(false);
   const filterRef = useRef(null);
 
-  // Date range for slider filtering
-  const datesTimestamps = employees.map((e) => parsePersianDateToTimestamp(e.dateJoined));
-  const minDate = Math.min(...datesTimestamps);
-  const maxDate = Math.max(...datesTimestamps);
-  const [dateRange, setDateRange] = useState([minDate, maxDate]);
+  const [dateRange, setDateRange] = useState([0, Date.now()]);
 
-  // Filters
   const [activeFilter, setActiveFilter] = useState("all");
   const [roleFilter, setRoleFilter] = useState("all");
 
-  // Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const employeesPerPage = 10;
 
-  // For jump to page input
   const [jumpPageInput, setJumpPageInput] = useState("");
 
-  // Selected employee for detail edit
   const [selectedEmployee, setSelectedEmployee] = useState(null);
 
-  // Close dropdowns when clicking outside
+  const token = localStorage.getItem("token");
+
+  // Fetch all users except customers
+  useEffect(() => {
+    setLoading(true);
+    fetch(`http://127.0.0.1:8080/api/Sanjaghak/UserAccount/getPaginationUser`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("خطا در دریافت کارمندان");
+        return res.json();
+      })
+      .then((data) => {
+        const filteredUsers = data.content.filter((u) => u.role !== "customer");
+
+const mappedEmployees = filteredUsers.map((u) => ({
+  id: u.id,
+  profilePic: u.profilePic || "/src/assets/testimage.jpg",
+  name: u.firstName || "",
+  surname: u.lastName || "",
+  phone: u.phoneNumber || "",
+  email: u.email || "",          // <--- add this line
+  role: u.role || "",
+  isActive: u.active,
+  dateJoinedTs: u.createdAt ? Date.parse(u.createdAt) : 0,
+  dateJoinedStr: u.createdAt
+    ? timestampToPersianDate(Date.parse(u.createdAt))
+    : "نامشخص",
+}));
+        setEmployees(mappedEmployees);
+
+        if (mappedEmployees.length > 0) {
+          const timestamps = mappedEmployees.map((e) => e.dateJoinedTs || 0);
+          setDateRange([Math.min(...timestamps), Math.max(...timestamps)]);
+        } else {
+          setDateRange([0, Date.now()]);
+        }
+
+        setLoading(false);
+      })
+      .catch((err) => {
+        alert(err.message);
+        setLoading(false);
+      });
+  }, [token]);
+
   useEffect(() => {
     function handleClickOutside(event) {
-      if (searchModeRef.current && !searchModeRef.current.contains(event.target)) setSearchModeDropdownOpen(false);
-      if (filterRef.current && !filterRef.current.contains(event.target)) setFilterDropdownOpen(false);
+      if (searchModeRef.current && !searchModeRef.current.contains(event.target)) {
+        setSearchModeDropdownOpen(false);
+      }
+      if (filterRef.current && !filterRef.current.contains(event.target)) {
+        setFilterDropdownOpen(false);
+      }
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Filter employees according to all filters/search
-  const filteredEmployees = employees.filter((employee) => {
+  const filteredEmployees = employees.filter((e) => {
     const search = searchText.toLowerCase();
 
     const matchesSearch =
       searchMode === "name"
-        ? employee.name.toLowerCase().includes(search)
-        : employee.id.toString() === search;
+        ? e.name.toLowerCase().includes(search)
+        : e.id.toString() === search;
 
-    const employeeDateTs = parsePersianDateToTimestamp(employee.dateJoined);
-    const matchesDate = employeeDateTs >= dateRange[0] && employeeDateTs <= dateRange[1];
+    const matchesDate = e.dateJoinedTs >= dateRange[0] && e.dateJoinedTs <= dateRange[1];
 
     const matchesActive =
       activeFilter === "all"
         ? true
         : activeFilter === "active"
-        ? employee.isActive
-        : !employee.isActive;
+        ? e.isActive
+        : !e.isActive;
 
-    const matchesRole = roleFilter === "all" ? true : employee.role === roleFilter;
+    const matchesRole = roleFilter === "all" ? true : e.role === roleFilter;
 
     return matchesSearch && matchesDate && matchesActive && matchesRole;
   });
 
   const totalPages = Math.ceil(filteredEmployees.length / employeesPerPage);
 
-  // Employees to display on current page
   const displayedEmployees = filteredEmployees.slice(
     (currentPage - 1) * employeesPerPage,
     currentPage * employeesPerPage
   );
 
-  // Toggle active state
-  const toggleActive = (id) => {
+  const toggleActive = async (id) => {
     setEmployees((prev) =>
       prev.map((e) => (e.id === id ? { ...e, isActive: !e.isActive } : e))
     );
+
+    try {
+      const employeeToUpdate = employees.find((e) => e.id === id);
+      const updatedActive = !employeeToUpdate.isActive;
+
+      const response = await fetch(
+        `http://127.0.0.1:8080/api/Sanjaghak/UserAccount/updateUsers/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            id,
+            firstName: employeeToUpdate.name,
+            lastName: employeeToUpdate.surname,
+            role: employeeToUpdate.role,
+            active: updatedActive,
+            email: employeeToUpdate.email,
+            phoneNumber: employeeToUpdate.phone,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("خطا در بروزرسانی وضعیت کارمند");
+      }
+    } catch (error) {
+      alert(error.message);
+      setEmployees((prev) =>
+        prev.map((e) => (e.id === id ? { ...e, isActive: !e.isActive } : e))
+      );
+    }
   };
 
-  // Jump to page handler
   const handleJumpPage = () => {
     const pageNum = Number(jumpPageInput);
     if (!isNaN(pageNum) && pageNum >= 1 && pageNum <= totalPages) {
@@ -119,14 +191,15 @@ function EmployeeList() {
     }
   };
 
-  // Update employee details from detail view
   const handleUpdateEmployee = (updatedEmployee) => {
     setEmployees((prev) =>
       prev.map((e) => (e.id === updatedEmployee.id ? updatedEmployee : e))
     );
+    setSelectedEmployee(null);
   };
 
-  // If an employee is selected, show the edit detail view
+  if (loading) return <p>در حال بارگذاری کارمندان...</p>;
+
   if (selectedEmployee) {
     return (
       <AdminEmployeeDetail
@@ -153,12 +226,16 @@ function EmployeeList() {
           <button
             onClick={() => setSearchModeDropdownOpen((prev) => !prev)}
             className="searchModeToggleBtn"
+            aria-label="Toggle Search Mode"
+            type="button"
           >
             ▼
           </button>
           <input
             type="text"
-            placeholder={searchMode === "name" ? "جستجو بر اساس نام" : "جستجو بر اساس شناسه"}
+            placeholder={
+              searchMode === "name" ? "جستجو بر اساس نام" : "جستجو بر اساس شناسه"
+            }
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
             className="userListSearchInput"
@@ -166,7 +243,9 @@ function EmployeeList() {
           {searchModeDropdownOpen && (
             <div className="searchModeDropdown">
               <div
-                className={`searchModeOption ${searchMode === "name" ? "selected" : ""}`}
+                className={`searchModeOption ${
+                  searchMode === "name" ? "selected" : ""
+                }`}
                 onClick={() => {
                   setSearchMode("name");
                   setSearchModeDropdownOpen(false);
@@ -176,7 +255,9 @@ function EmployeeList() {
                 جستجو بر اساس نام
               </div>
               <div
-                className={`searchModeOption ${searchMode === "id" ? "selected" : ""}`}
+                className={`searchModeOption ${
+                  searchMode === "id" ? "selected" : ""
+                }`}
                 onClick={() => {
                   setSearchMode("id");
                   setSearchModeDropdownOpen(false);
@@ -193,9 +274,11 @@ function EmployeeList() {
           <button
             className={`filterButton ${filterDropdownOpen ? "active" : ""}`}
             onClick={() => setFilterDropdownOpen((prev) => !prev)}
+            type="button"
           >
             فیلتر
           </button>
+
           {filterDropdownOpen && (
             <div className="filterDropdown">
               <div>
@@ -224,24 +307,29 @@ function EmployeeList() {
                   onChange={(e) => setRoleFilter(e.target.value)}
                   className="filterSelect"
                 >
-                  <option value="all">همه</option>
-                  <option value="انباردار">انباردار</option>
-                  <option value="مدیر">مدیر</option>
+                   <option value="all">همه</option>
+                  <option value="admin">ادمین</option>
+                  <option value="manager">مدیر</option>
+                  <option value="staff">انباردار</option>
                 </select>
               </div>
 
               <div>
                 <p className="dateRangeLabel">
-                  بازه تاریخ عضویت: {timestampToPersianDate(dateRange[0])} - {timestampToPersianDate(dateRange[1])}
+                  بازه تاریخ عضویت: {timestampToPersianDate(dateRange[0])} -{" "}
+                  {timestampToPersianDate(dateRange[1])}
                 </p>
                 <Slider
                   range
-                  min={minDate}
-                  max={maxDate}
+                  min={dateRange[0]}
+                  max={dateRange[1]}
                   value={dateRange}
                   onChange={setDateRange}
                   trackStyle={[{ backgroundColor: "#d54343" }]}
-                  handleStyle={[{ borderColor: "#d54343" }, { borderColor: "#d54343" }]}
+                  handleStyle={[
+                    { borderColor: "#d54343" },
+                    { borderColor: "#d54343" },
+                  ]}
                   railStyle={{ backgroundColor: "#e0b1b1" }}
                 />
               </div>
@@ -254,7 +342,7 @@ function EmployeeList() {
         <table className="userTable">
           <thead>
             <tr>
-              <th>شناسه</th>
+              {/* ID column removed */}
               <th></th>
               <th>نام</th>
               <th>نام خانوادگی</th>
@@ -268,8 +356,11 @@ function EmployeeList() {
           <tbody>
             {displayedEmployees.length > 0 ? (
               displayedEmployees.map((e) => (
-                <tr key={e.id} className={e.isActive ? "activeUser" : "inactiveUser"}>
-                  <td>{e.id}</td>
+                <tr
+                  key={e.id}
+                  className={e.isActive ? "activeUser" : "inactiveUser"}
+                >
+                  {/* ID column removed */}
                   <td>
                     <img
                       src={e.profilePic}
@@ -280,9 +371,9 @@ function EmployeeList() {
                   <td>{e.name}</td>
                   <td>{e.surname}</td>
                   <td>{e.phone}</td>
-                  <td>{e.role}</td>
+                  <td>{getRoleLabel(e.role)}</td>
                   <td>{e.isActive ? "فعال" : "غیرفعال"}</td>
-                  <td>{e.dateJoined}</td>
+                  <td>{timestampToPersianDate(e.dateJoinedTs)}</td>
                   <td>
                     <button
                       className="toggleActiveBtn"
@@ -310,7 +401,7 @@ function EmployeeList() {
               ))
             ) : (
               <tr>
-                <td colSpan={9} className="noUserFound">
+                <td colSpan={8} className="noUserFound">
                   کارمندی پیدا نشد
                 </td>
               </tr>
@@ -332,7 +423,9 @@ function EmployeeList() {
           return (
             <button
               key={pageNum}
-              className={`adminProductList__paginationButton${currentPage === pageNum ? " active" : ""}`}
+              className={`adminProductList__paginationButton${
+                currentPage === pageNum ? " active" : ""
+              }`}
               onClick={() => setCurrentPage(pageNum)}
             >
               {pageNum}

@@ -2,14 +2,51 @@ import React, { useState } from "react";
 
 function AdminEmployeeDetail({ employee, onBack, onUpdateEmployee }) {
   const [editedEmployee, setEditedEmployee] = useState(employee);
+  const token = localStorage.getItem("token");
 
   const handleChange = (field, value) => {
     setEditedEmployee((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleSave = () => {
-    if (onUpdateEmployee) onUpdateEmployee(editedEmployee);
-    onBack();
+  const handleSave = async () => {
+    try {
+      // Prepare data to send exactly like backend expects
+      const payload = {
+        firstName: editedEmployee.name,
+        lastName: editedEmployee.surname,
+        role: editedEmployee.role,
+        active: editedEmployee.isActive === true || editedEmployee.isActive === "active", // normalize boolean
+        email: editedEmployee.email,
+        phoneNumber: editedEmployee.phone,
+      };
+
+      const response = await fetch(
+        `http://127.0.0.1:8080/api/Sanjaghak/UserAccount/updateUsers/${editedEmployee.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(payload),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("خطا در بروزرسانی کارمند");
+      }
+
+      // Optionally get updated employee from response (if your API returns it)
+      // const updatedEmployee = await response.json();
+
+      // Call the callback to update parent state
+      if (onUpdateEmployee) onUpdateEmployee(editedEmployee);
+
+      // Go back to employee list
+      onBack();
+    } catch (error) {
+      alert(error.message);
+    }
   };
 
   return (
@@ -92,13 +129,7 @@ function AdminEmployeeDetail({ employee, onBack, onUpdateEmployee }) {
           <option value="مدیر">مدیر</option>
         </select>
 
-        <label className="adminProductDetail__info">تاریخ عضویت:</label>
-        <input
-          type="text"
-          value={editedEmployee.dateJoined}
-          onChange={(e) => handleChange("dateJoined", e.target.value)}
-          className="adminProductDetail__input"
-        />
+        {/* Date joined removed */}
 
         <label className="adminProductDetail__info">وضعیت:</label>
         <select

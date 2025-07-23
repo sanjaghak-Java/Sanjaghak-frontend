@@ -3,31 +3,19 @@ import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import "/src/styles/userList.css";
 
-import AdminUserDetail from "./AdminUserDetail"; // Adjust path if needed
-
-const initialUsers = [
-  { id: 1, profilePic: "/src/assets/testimage.jpg", name: "علی", surname: "علیپور", phone: "09148325892", isActive: true, dateJoined: "1403/1/1" },
-  { id: 2, profilePic: "/src/assets/testimage.jpg", name: "جواد", surname: "جوادیزاده", phone: "09148325891", isActive: false, dateJoined: "1403/2/10" },
-  // ... other users ...
-  { id: 25, profilePic: "/src/assets/testimage.jpg", name: "نرگس", surname: "نرگسی", phone: "09148325915", isActive: false, dateJoined: "1405/1/10" },
-];
-
-// Utility functions
-function parsePersianDateToTimestamp(dateStr) {
-  const [year, month, day] = dateStr.split("/").map(Number);
-  return new Date(year, month - 1, day).getTime();
-}
+import AdminUserDetail from "./AdminUserDetail";
 
 function timestampToPersianDate(ts) {
+  if (!ts) return "نامشخص";
   const d = new Date(ts);
-  const year = d.getFullYear();
-  const month = d.getMonth() + 1;
-  const day = d.getDate();
-  return `${year}/${month}/${day}`;
+  if (isNaN(d.getTime())) return "نامشخص";
+  return d.toLocaleDateString("fa-IR");
 }
 
 function UserList() {
-  const [users, setUsers] = useState(initialUsers);
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const [searchText, setSearchText] = useState("");
   const [searchMode, setSearchMode] = useState("name");
   const [searchModeDropdownOpen, setSearchModeDropdownOpen] = useState(false);
@@ -36,22 +24,66 @@ function UserList() {
   const [filterDropdownOpen, setFilterDropdownOpen] = useState(false);
   const filterRef = useRef(null);
 
-  const datesTimestamps = users.map((u) => parsePersianDateToTimestamp(u.dateJoined));
-  const minDate = Math.min(...datesTimestamps);
-  const maxDate = Math.max(...datesTimestamps);
+  const usersPerPage = 10;
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const [dateRange, setDateRange] = useState([minDate, maxDate]);
+  const [dateRange, setDateRange] = useState([0, Date.now()]);
   const [activeFilter, setActiveFilter] = useState("all");
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const usersPerPage = 10;
-
-  // State for selected user detail view
   const [selectedUser, setSelectedUser] = useState(null);
+  const [jumpPageInput, setJumpPageInput] = useState("");
+
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    fetch(
+      `http://127.0.0.1:8080/api/Sanjaghak/UserAccount/getPaginationUser?role=customer`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+      .then((res) => {
+        if (!res.ok) throw new Error("خطا در دریافت کاربران");
+        return res.json();
+      })
+      .then((data) => {
+        const mappedUsers = data.content.map((u) => {
+          const timestamp = u.createdAt ? new Date(u.createdAt).getTime() : null;
+          return {
+            id: u.id,
+            profilePic: u.profilePic || "/src/assets/testimage.jpg",
+            name: u.firstName || "",
+            surname: u.lastName || "",
+            phone: u.phoneNumber || "",
+            email: u.email || "",
+            isActive: u.active,
+            isoDateJoined: timestamp,
+          };
+        });
+
+        setUsers(mappedUsers);
+
+        if (mappedUsers.length > 0) {
+          const timestamps = mappedUsers.map((u) => u.isoDateJoined || 0);
+          setDateRange([Math.min(...timestamps), Math.max(...timestamps)]);
+        }
+
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        setLoading(false);
+      });
+  }, [token]);
 
   useEffect(() => {
     function handleClickOutside(event) {
-      if (searchModeRef.current && !searchModeRef.current.contains(event.target)) {
+      if (
+        searchModeRef.current &&
+        !searchModeRef.current.contains(event.target)
+      ) {
         setSearchModeDropdownOpen(false);
       }
       if (filterRef.current && !filterRef.current.contains(event.target)) {
@@ -70,7 +102,7 @@ function UserList() {
         ? user.name.toLowerCase().includes(search)
         : user.id.toString() === search;
 
-    const userDateTs = parsePersianDateToTimestamp(user.dateJoined);
+    const userDateTs = user.isoDateJoined || 0;
     const matchesDate = userDateTs >= dateRange[0] && userDateTs <= dateRange[1];
 
     const matchesActive =
@@ -89,20 +121,54 @@ function UserList() {
     currentPage * usersPerPage
   );
 
-  const toggleActive = (id) => {
+  const toggleActive = async (id) => {
     setUsers((prevUsers) =>
       prevUsers.map((user) =>
         user.id === id ? { ...user, isActive: !user.isActive } : user
       )
     );
+
+    try {
+      const userToUpdate = users.find((user) => user.id === id);
+      const updatedActive = !userToUpdate.isActive;
+
+      const response = await fetch(
+        `http://127.0.0.1:8080/api/Sanjaghak/UserAccount/updateUsers/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            id,
+            firstName: userToUpdate.name,
+            lastName: userToUpdate.surname,
+            role: "customer",
+            active: updatedActive,
+            email: userToUpdate.email,
+            phoneNumber: userToUpdate.phone,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("خطا در بروزرسانی وضعیت کاربر");
+      }
+    } catch (error) {
+      alert(error.message);
+      setUsers((prevUsers) =>
+        prevUsers.map((user) =>
+          user.id === id ? { ...user, isActive: !user.isActive } : user
+        )
+      );
+    }
   };
 
   const handlePageChange = (page) => {
     if (page < 1 || page > totalPages) return;
     setCurrentPage(page);
   };
-
-  const [jumpPageInput, setJumpPageInput] = useState("");
 
   const handleJumpPage = () => {
     const pageNum = Number(jumpPageInput);
@@ -112,13 +178,12 @@ function UserList() {
     }
   };
 
-  // Handler for updating a user from detail window
   const handleUpdateUser = (updatedUser) => {
-    setUsers((prev) =>
-      prev.map((u) => (u.id === updatedUser.id ? updatedUser : u))
-    );
+    setUsers((prev) => prev.map((u) => (u.id === updatedUser.id ? updatedUser : u)));
     setSelectedUser(null);
   };
+
+  if (loading) return <p>در حال بارگذاری کاربران...</p>;
 
   if (selectedUser) {
     return (
@@ -221,8 +286,8 @@ function UserList() {
                 </p>
                 <Slider
                   range
-                  min={minDate}
-                  max={maxDate}
+                  min={dateRange[0]}
+                  max={dateRange[1]}
                   value={dateRange}
                   onChange={setDateRange}
                   trackStyle={[{ backgroundColor: "#d54343" }]}
@@ -242,7 +307,6 @@ function UserList() {
         <table className="userTable">
           <thead>
             <tr>
-              <th>شناسه</th>
               <th></th>
               <th>نام</th>
               <th>نام خانوادگی</th>
@@ -259,7 +323,6 @@ function UserList() {
                   key={user.id}
                   className={user.isActive ? "activeUser" : "inactiveUser"}
                 >
-                  <td>{user.id}</td>
                   <td>
                     <img
                       src={user.profilePic}
@@ -271,7 +334,7 @@ function UserList() {
                   <td>{user.surname}</td>
                   <td>{user.phone}</td>
                   <td>{user.isActive ? "فعال" : "غیرفعال"}</td>
-                  <td>{user.dateJoined}</td>
+                  <td>{timestampToPersianDate(user.isoDateJoined)}</td>
                   <td>
                     <button
                       className="toggleActiveBtn"
@@ -299,7 +362,7 @@ function UserList() {
               ))
             ) : (
               <tr>
-                <td colSpan={8} className="noUserFound">
+                <td colSpan={7} className="noUserFound">
                   کاربری پیدا نشد
                 </td>
               </tr>

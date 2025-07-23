@@ -1,34 +1,93 @@
-import React, { useRef,useState,useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import "/src/styles/confirmCode.css";
 import ParticlesBackground from '../ParticlesBackground';
 
-function confirmCode() {
+function ConfirmCode() {
   const inputs = useRef([]);
-const [secondsLeft, setSecondsLeft] = useState(300);
+  const [secondsLeft, setSecondsLeft] = useState(300);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const email = location.state?.email;
 
   useEffect(() => {
-    const timerId = setInterval(() => {
-      setSecondsLeft((prev) => {
+    if (!email) {
+      alert("ایمیل یافت نشد");
+      navigate('/signin');
+    }
+  }, [email, navigate]);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setSecondsLeft(prev => {
         if (prev <= 1) {
-          clearInterval(timerId);
+          clearInterval(timer);
           return 0;
         }
-        else{
         return prev - 1;
-        }
       });
     }, 1000);
+    return () => clearInterval(timer);
+  }, []);
 
-  },[]);
+  const handleSubmit = async () => {
+    const code = inputs.current.map(input => input.value).join('');
+    if (code.length !== 6) {
+      setError("کد باید 6 رقمی باشد");
+      return;
+    }
+    try {
+      // Step 1: Verify Code
+      const response = await fetch('http://127.0.0.1:8080/api/Sanjaghak/UserAccount/login/verifyCode', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, phoneNumber: null, code: code })
+      });
 
+      if (!response.ok) {
+        const err = await response.text();
+        setError(err);
+        return;
+      }
+
+      const data = await response.json();
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('id', data.id);
+
+      // Step 2: Check Role
+      const roleResponse = await fetch('http://127.0.0.1:8080/api/Sanjaghak/UserAccount/getUserRole', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${data.token}`
+        }
+      });
+
+      if (!roleResponse.ok) {
+        const err = await roleResponse.text();
+        setError("خطا در دریافت نقش کاربر: " + err);
+        return;
+      }
+
+      const role = await roleResponse.text(); // assuming backend returns plain text like "admin" or "customer"
+
+      // Step 3: Redirect based on role
+      if (role === "admin") {
+        navigate('/admin/داشبورد');
+      } else {
+        navigate('/');
+      }
+
+    } catch (e) {
+      console.error(e);
+      setError("خطا در ارتباط با سرور");
+    }
+  };
 
   const handleChange = (e, index) => {
     const value = e.target.value;
     if (/^\d$/.test(value)) {
-      if (index < 5) {
-        inputs.current[index + 1].focus();
-      }
+      if (index < 5) inputs.current[index + 1].focus();
     } else {
       e.target.value = '';
     }
@@ -42,32 +101,32 @@ const [secondsLeft, setSecondsLeft] = useState(300);
 
   return (
     <>
-    <ParticlesBackground/>
-    <div className="codeBox">
-      <h1>احراز هویت</h1>
-      <p>لطفا کد 6 رقمی ارسال شده به ایمیل/شماره خود را وارد نمایید.</p>
-
-      <div className="digitContainer">
-        {[...Array(6)].map((_, i) => (
-          <input
-            key={i}
-            type="text"
-            className="digitBox"
-            maxLength={1}
-            ref={(el) => (inputs.current[i] = el)}
-            onChange={(e) => handleChange(e, i)}
-            onKeyDown={(e) => handleKeyDown(e, i)}
-          />
-        ))}
+      <ParticlesBackground />
+      <div className="codeBox">
+        <h1>احراز هویت</h1>
+        <p>کد ۶ رقمی ارسال شده به {email} را وارد کنید</p>
+        <div className="digitContainer">
+          {[...Array(6)].map((_, i) => (
+            <input
+              key={i}
+              type="text"
+              className="digitBox"
+              maxLength={1}
+              ref={(el) => inputs.current[i] = el}
+              onChange={(e) => handleChange(e, i)}
+              onKeyDown={(e) => handleKeyDown(e, i)}
+            />
+          ))}
+        </div>
+        <p>زمان باقی‌مانده: {secondsLeft} ثانیه</p>
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+        <button className="submit-Button" onClick={handleSubmit}>تایید</button>
+        <div style={{ direction: 'ltr' }}>
+          <Link id="signinlink" to="/signin">بازگشت</Link>
+        </div>
       </div>
-      <p>زمان باقی مانده :  {secondsLeft}</p>
-      <button className="submit-Button">تایید</button>
-      <div style={{direction: 'ltr'}}>
-        <Link id= "signinlink" to="/signin">بازگشت</Link>
-      </div>
-    </div>
     </>
   );
 }
 
-export default confirmCode;
+export default ConfirmCode;

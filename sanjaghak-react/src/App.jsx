@@ -35,6 +35,8 @@ import AdminBrandList from './pages/AdminBrandList.jsx';
 import EmployeeList from './pages/EmployeeList.jsx';
 import EditCategoryAttributes from './pages/CategoryAttributes.jsx';
 import AdminBrandDetail from './pages/AdminBrandDetail.jsx';
+import SupplierList from './pages/SupplierList.jsx';
+import AddSupplier from "./pages/AddSupplier";
 
 const products = Array.from({ length: 50 }, (_, i) => ({
   id: i + 1,
@@ -62,7 +64,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signinmobile" element={<SignInMobile />} />
         <Route path="/confirmCode" element={<ConfirmCode />} />
-        <Route path="/product" element={<Product />} />
+        <Route path="/product" element={<Product/>} />
         <Route path="/productCategory" element={<CategoryPage />} />
         <Route path="/mycart" element={<CartPage />} />
         <Route path="/aboutus" element={<Aboutus />} />
@@ -89,6 +91,8 @@ function App() {
           <Route path="افزودن کارمند" element={<AddManager />} />
           <Route path="/admin/category/:id/attributes" element={<EditCategoryAttributes />} />
 
+          <Route path="تامین‌کنندگان" element={<SupplierList />} />
+          <Route path="افزودن تامین‌کننده" element={<AddSupplier />} />
         </Route>
       </Routes>
     </div>

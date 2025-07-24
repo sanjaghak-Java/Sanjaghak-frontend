@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import "/src/styles/product.css";
-import Navbar from "./navbar";
+import Navbar from "./Navbar";
 import Footer from "./Footer";
 import ProductIntroduction from "./PorductIntroduction";
 import Cartreport from "./Cartreport";

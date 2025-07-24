@@ -17,14 +17,12 @@ function ProductCard(props) {
 
   const gotoproduct = () => navigate("/product");
 
-  /* تعیین وجود تخفیف */
   const hasDiscount = props.salepercent || props.salePrice;
 
   return (
     <div className="cardContainer" onClick={gotoproduct}>
       <div className="cardInner">
         <div className="cardFront">
-          {/* درصد تخفیف (فقط اگر وجود داشته باشد) */}
           {hasDiscount && (
             <div className="salePercent">{props.salepercent}</div>
           )}

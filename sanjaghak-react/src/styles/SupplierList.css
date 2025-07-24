@@ -1,0 +1,158 @@
+.supplier-container {
+  width: 83%;
+  height: 100%;
+  padding: 20px;
+  font-family: "Estedad", sans-serif;
+  direction: rtl;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-patrt-admin{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.supplier-search {
+  width: 100%;
+  max-width: 300px;
+  padding: 8px 12px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  font-family: inherit;
+}
+
+.supplier-search:focus {
+  border: 2px solid #c4204b;
+  outline: none;
+}
+
+.supplier-table {
+  width: 88%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 2px solid #ccc;
+  text-align: center;
+  direction: rtl;
+}
+
+.supplier-table th,
+.supplier-table td {
+  padding: 12px 0;
+  border-bottom: 1px solid #ccc;
+  border-left: none !important;
+  border-right: none !important;
+}
+.supplier-table thead th {
+  border-bottom: 2.5px solid #ccc;
+}
+
+.supplier-table tbody tr:nth-child(even) {
+  background-color: #f5f5f5;
+}
+
+.supplier-table tbody tr:nth-child(odd) {
+  background-color: #fff;
+}
+
+.supplier-image {
+  width: 20px;
+  height: auto;
+}
+
+.add-button-container button{
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: #DC2655;
+  font-family: "Kamran";
+  font-size: 22px;
+  margin-top: 10px;
+}
+
+.add-button-container button:hover{
+  color: #c4204b;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.pagination button {
+  padding: 5px 14px;
+  border: 1px solid #DC2655;
+  background-color: white;
+  color: #DC2655;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pagination button:hover {
+  background-color: #DC2655;
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(220, 38, 85, 0.3);
+}
+
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination .active-page {
+  background-color: #DC2655;
+  color: white;
+  font-weight: bold;
+}
+
+.goto-page-box {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.goto-page-box input {
+  width: 100px;
+  font-size: 12px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-family: inherit;
+  text-align: center;
+}
+
+.goto-page-box input:focus{
+  outline: none;
+  border: 1px solid #c4204b;
+}
+
+.goto-page-box button {
+  background-color: #DC2655;
+  color: white;
+  padding: 5px 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.goto-page-box button:hover {
+  background-color: #c2204a;
+}
+
+

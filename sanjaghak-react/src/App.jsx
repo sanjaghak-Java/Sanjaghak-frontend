@@ -16,11 +16,11 @@ import Rules from './pages/Rules.jsx';
 import FAQPage from './pages/FAQPage.jsx';
 import Orders from './pages/Orders.jsx';
 import ProfileEdit from './pages/ProfileEdit';
-import ProfileFavorite  from './pages/ProfileFavorite.jsx';
-import Filter  from './pages/Filter.jsx';
+import ProfileFavorite from './pages/ProfileFavorite.jsx';
+import Filter from './pages/Filter.jsx';
 
 
-
+import WarehousePage from './pages/WarehousePage.jsx';
 import AdminLayout from './pages/adminLayout.jsx';
 import FinancialReport from './pages/FinancialReport.jsx';
 import AddProduct from './pages/AddProduct.jsx';
@@ -39,7 +39,7 @@ import AdminBrandDetail from './pages/AdminBrandDetail.jsx';
 const products = Array.from({ length: 50 }, (_, i) => ({
   id: i + 1,
   name: `Product ${i + 1}`,
-  price: 1000*i,
+  price: 1000 * i,
   category: "Category 1",
   brand: "Brand X",
   image: "/src/assets/testimage.jpg",
@@ -80,13 +80,15 @@ function App() {
           <Route path="افزودن محصول" element={<AddProduct />} />
           <Route path="لیست کارکنان" element={<EmployeeList />} />
           <Route path="لیست دسته ها" element={<AdminCategoryList />} />
+          <Route path="لیست انبار ها" element={<WarehousePage />} />
           <Route path="لیست کاربران" element={<UserList />} />
           <Route path="لیست محصولات" element={<ProductList products={products} />} />
           <Route path="لیست برند ها" element={<AdminBrandList />} />
           <Route path="افزودن دسته" element={<AddCategory />} />
           <Route path="افزودن برند" element={<AddBrand />} />
-           <Route path="افزودن کارمند" element={<AddManager />} />
+          <Route path="افزودن کارمند" element={<AddManager />} />
           <Route path="/admin/category/:id/attributes" element={<EditCategoryAttributes />} />
+
         </Route>
       </Routes>
     </div>

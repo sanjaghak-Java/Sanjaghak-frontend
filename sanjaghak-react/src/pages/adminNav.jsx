@@ -13,6 +13,8 @@ import {
   FaSignOutAlt
 } from "react-icons/fa";
 import "/src/styles/adminNav.css";
+import warehouseIcon from '../assets/icons8-warehouse-64.png';
+
 
 function AdminNav() {
   const navigate = useNavigate();
@@ -32,6 +34,7 @@ function AdminNav() {
     { label: "لیست کارکنان", path: "/admin/لیست کارکنان", icon: <FaUserShield /> },
     { label: "لیست برند ها", path: "/admin/لیست برند ها", icon: <FaTags /> },
     { label: "لیست دسته ها", path: "/admin/لیست دسته ها", icon: <FaListUl /> },
+    { label: "لیست انبار ها", path: "/admin/لیست انبار ها", icon: <img src={warehouseIcon} alt="Warehouse" className="nav-warehouse-icon" /> },
   ];
 
   return (

@@ -1,0 +1,64 @@
+@font-face {
+  font-family: 'Digikala ';
+  src: url('./src/fonts/Digikala -_font.ttf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.add-supplier-container {
+  direction: rtl;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 50px;
+}
+
+.add-supplier-form {
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  padding: 30px;
+}
+
+.add-supplier-form label {
+  font-weight: bold;
+  text-align: right;
+}
+
+.add-supplier-form input ,
+.add-supplier-container textarea {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.add-supplier-form input:focus ,
+.add-supplier-container textarea:focus {
+
+  border: 1px solid #c4204b;
+  outline: none;
+  background-color: transparent;
+}
+.add-supplier-form button {
+  border: none;
+  border-radius: 6px;
+  background-color: #DC2655;
+  color: white;
+  padding: 6px 0;
+  margin-top: 20px;
+  cursor: pointer;
+  transition: transform all .3s ease;
+  font-family: 'Digikala ';
+  font-size: 16px;
+}
+
+.add-supplier-form button:hover {
+    background-color: #c4204b;
+}

@@ -66,12 +66,23 @@ function MainPage() {
 
         <CategoriesSwiper />
 
-        <div className="sliderdiv" id="newest">
-          <div className="titlepart">
-            <p className="titleslider">جدید ترین ها</p>
-            <img src={New} alt="" className="rotatedimg" />
+        <div className="sliderdiv-containor">
+          <div className="sliderdiv" id="newest">
+            <div className="titlepart">
+              <img src={New} alt="" className="rotatedimg" />
+              <div className="titleslider-wrapper">
+                <p
+                  className="titleslider"
+                  onClick={() => (window.location.href = "/productCategory")}
+                  style={{ cursor: "pointer" }}
+                >
+                  جدید ترین ها
+                </p>
+                <div className="show-more-text">مشاهده بیشتر</div>
+              </div>
+            </div>
+            <ProductSlider />
           </div>
-          <ProductSlider />
         </div>
 
         <div className="prompopart">
@@ -79,12 +90,23 @@ function MainPage() {
           <PromoBanner banners={promoBanners} />
         </div>
 
-        <div className="sliderdiv" id="bestseller">
-          <div className="titlepart">
-            <p className="titleslider">پر فروش ترین ها</p>
-            <img src={best} alt="" className="rotatedimg" />
+        <div className="sliderdiv-containor">
+          <div className="sliderdiv" id="bestseller">
+            <div className="titlepart">
+              <img src={best} alt="" className="rotatedimg" />
+              <div className="titleslider-wrapper">
+                <p
+                  className="titleslider"
+                  onClick={() => (window.location.href = "/productCategory")}
+                  style={{ cursor: "pointer" }}
+                >
+                  پرفروش ترین ها
+                </p>
+                <div className="show-more-text">مشاهده بیشتر</div>
+              </div>
+            </div>
+            <ProductSlider />
           </div>
-          <ProductSlider />
         </div>
 
         <BrandsSwiper />

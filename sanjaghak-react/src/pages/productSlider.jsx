@@ -30,9 +30,9 @@ function ProductSlider() {
         dir="rtl"
         navigation
         loop={true}
-        spaceBetween={30}
-        slidesPerView={4}
-        slidesPerGroup={4}
+        spaceBetween={50}
+        slidesPerView={5}
+        slidesPerGroup={1}
         modules={[Navigation]}
         initialSlide={0}
         breakpoints={{
@@ -42,9 +42,9 @@ function ProductSlider() {
             spaceBetween: 0,
           },
           768: {
-            slidesPerView: 4,
+            slidesPerView: 5,
             slidesPerGroup: 1,
-            spaceBetween: 80,
+            spaceBetween: 50,
           },
         }}
       >

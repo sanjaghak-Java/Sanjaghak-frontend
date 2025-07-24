@@ -10,7 +10,8 @@ import {
   FaUserShield,
   FaTags,
   FaListUl,
-  FaSignOutAlt
+  FaSignOutAlt,
+  FaHandshake
 } from "react-icons/fa";
 import "/src/styles/adminNav.css";
 
@@ -32,6 +33,7 @@ function AdminNav() {
     { label: "لیست کارکنان", path: "/admin/لیست کارکنان", icon: <FaUserShield /> },
     { label: "لیست برند ها", path: "/admin/لیست برند ها", icon: <FaTags /> },
     { label: "لیست دسته ها", path: "/admin/لیست دسته ها", icon: <FaListUl /> },
+    { label: "تأمین‌کنندگان", path: "/admin/تامین‌کنندگان", icon: <FaHandshake  /> },
   ];
 
   return (

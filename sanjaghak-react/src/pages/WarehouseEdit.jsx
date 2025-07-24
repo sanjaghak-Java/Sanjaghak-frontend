@@ -10,6 +10,7 @@ const sampleWarehouses = [
     province: "تهران",
     city: "تهران",
     address: "خیابان ولیعصر",
+    postalCode: "11111",
   },
   {
     id: 2,
@@ -18,6 +19,7 @@ const sampleWarehouses = [
     province: "البرز",
     city: "کرج",
     address: "میدان شهدا",
+    postalCode: "22222",
   },
   {
     id: 3,
@@ -26,8 +28,8 @@ const sampleWarehouses = [
     province: "خراسان رضوی",
     city: "مشهد",
     address: "بلوار سجاد",
+    postalCode: "33333",
   },
-
 ];
 
 function EditWarehouse() {
@@ -40,6 +42,7 @@ function EditWarehouse() {
   const [country, setCountry] = useState(warehouse?.country || "");
   const [province, setProvince] = useState(warehouse?.province || "");
   const [city, setCity] = useState(warehouse?.city || "");
+  const [postalCode, setPostalCode] = useState(warehouse?.postalCode || "");
 
   if (!warehouse) return <div className="not-found">انبار مورد نظر پیدا نشد.</div>;
 
@@ -68,6 +71,14 @@ function EditWarehouse() {
 
         <label>آدرس:</label>
         <input value={address} onChange={(e) => setAddress(e.target.value)} required />
+        
+        <label>کد پستی:</label>
+        <input
+          value={postalCode}
+          onChange={(e) => setPostalCode(e.target.value)}
+          required
+          placeholder="کد پستی را وارد کنید"
+        />
 
         <div className="form-buttons">
           <button type="submit" className="save-button">ذخیره</button>

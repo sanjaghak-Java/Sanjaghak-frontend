@@ -4,7 +4,7 @@ import AddProduct from "./AddProduct";
 import Dashboard from "./Dashboard";
 import FinancialReport from "./FinancialReport";
 import AddBrand from "./AddBrand";
-import AddCategory from "./addCategory";
+import AddCategory from "./AddCategory";
 import UserList from "./UserList";
 import ProductList from "./ProductList";
 import AddManager from "./AddManager";
@@ -27,10 +27,8 @@ function AdminPage() {
 
   return (
     <div className="adminPageRoot" style={{ position: "relative", minHeight: "100vh", overflowX: "hidden" }}>
-      {/* Particles in the background */}
       <AdminParticlesBackground />
 
-      {/* Main Content */}
       <div className="adminMainContent" style={{ position: "relative", zIndex: 1, display: "flex" }}>
         <AdminNav activeItem={activeItem} setActiveItem={setActiveItem} />
         <div className="adminContent" style={{ flexGrow: 1, padding: "20px" }}>

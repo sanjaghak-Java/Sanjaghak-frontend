@@ -62,7 +62,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signinmobile" element={<SignInMobile />} />
         <Route path="/confirmCode" element={<ConfirmCode />} />
-        <Route path="/product" element={<Product />} />
+        <Route path="/product" element={<Product/>} />
         <Route path="/productCategory" element={<CategoryPage />} />
         <Route path="/mycart" element={<CartPage />} />
         <Route path="/aboutus" element={<Aboutus />} />

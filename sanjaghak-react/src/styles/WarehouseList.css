@@ -1,0 +1,80 @@
+/* استایل کلی لیست انبارها */
+.warehouse-list-container {
+  margin-right: 258.4px; /* به اندازه نوبار فاصله بگیر */
+  padding: 20px;
+  font-family: "Vazirmatn", sans-serif;
+  direction: rtl;
+  background-color: #f8f8f8;
+}
+
+.warehouse-list-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.warehouse-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.warehouse-card {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 0 10px #ccc;
+  padding: 16px;
+  transition: 0.3s;
+}
+
+.warehouse-card:hover {
+  transform: translateY(-3px);
+}
+
+.info-line {
+  margin: 4px 0;
+}
+
+/* دکمه‌ها */
+.card-buttons {
+  margin-top: 12px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.edit-button,
+.delete-button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.edit-button {
+  background-color: #4caf50;
+  color: white;
+}
+
+.delete-button {
+  background-color: #f44336;
+  color: white;
+}
+.add-warehouse-button-container {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.add-warehouse-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #929292;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-warehouse-button:hover {
+  background-color: #800000;
+}

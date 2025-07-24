@@ -1,0 +1,30 @@
+/* کانتینر کلی صفحه جزئیات انبار */
+.warehouse-detail-container {
+  padding: 20px;
+  font-family: Estedad, sans-serif;
+  direction: rtl;
+}
+
+/* پیغام انبار پیدا نشد */
+.not-found {
+  padding: 20px;
+  font-family: Estedad, sans-serif;
+  direction: rtl;
+  color: red;
+}
+
+/* دکمه بازگشت */
+.back-button {
+  margin-top: 15px;
+  padding: 8px 12px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+  background-color: #0056b3;
+}

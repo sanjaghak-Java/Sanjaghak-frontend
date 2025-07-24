@@ -19,8 +19,10 @@ import ProfileEdit from './pages/ProfileEdit';
 import ProfileFavorite from './pages/ProfileFavorite.jsx';
 import Filter from './pages/Filter.jsx';
 
-
-import WarehousePage from './pages/WarehousePage.jsx';
+import AddWarehouse from "./pages/AddWarehouse.jsx";
+import WarehouseList from "./pages/WarehouseList";
+import WarehouseDetail from "./pages/WarehouseDetail";
+import WarehouseEdit from "./pages/WarehouseEdit";
 import AdminLayout from './pages/adminLayout.jsx';
 import FinancialReport from './pages/FinancialReport.jsx';
 import AddProduct from './pages/AddProduct.jsx';
@@ -64,7 +66,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signinmobile" element={<SignInMobile />} />
         <Route path="/confirmCode" element={<ConfirmCode />} />
-        <Route path="/product" element={<Product/>} />
+        <Route path="/product" element={<Product />} />
         <Route path="/productCategory" element={<CategoryPage />} />
         <Route path="/mycart" element={<CartPage />} />
         <Route path="/aboutus" element={<Aboutus />} />
@@ -82,7 +84,11 @@ function App() {
           <Route path="افزودن محصول" element={<AddProduct />} />
           <Route path="لیست کارکنان" element={<EmployeeList />} />
           <Route path="لیست دسته ها" element={<AdminCategoryList />} />
-          <Route path="لیست انبار ها" element={<WarehousePage />} />
+          <Route path="لیست انبار ها" element={<WarehouseList />} />
+          <Route path="انبار/:id" element={<WarehouseDetail />} />
+<Route path="ویرایش-انبار/:id" element={<WarehouseEdit />} />
+<Route path="افزودن-انبار" element={<AddWarehouse />} />
+
           <Route path="لیست کاربران" element={<UserList />} />
           <Route path="لیست محصولات" element={<ProductList products={products} />} />
           <Route path="لیست برند ها" element={<AdminBrandList />} />

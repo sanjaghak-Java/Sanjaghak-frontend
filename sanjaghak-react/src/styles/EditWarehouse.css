@@ -1,0 +1,76 @@
+/* کانتینر فرم ویرایش */
+.edit-warehouse-container {
+  padding: 20px;
+  font-family: Estedad, sans-serif;
+  direction: rtl;
+  margin-left: -100px;
+  margin-top: 100px;
+  width: 1000px;
+}
+
+/* فرم ویرایش */
+.edit-warehouse-form {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  background-color: #f5f5f5;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* برچسب فیلد */
+.edit-warehouse-form label {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+/* فیلد ورودی */
+.edit-warehouse-form input {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-top: 4px;
+}
+
+/* دکمه‌ها */
+.form-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.save-button,
+.cancel-button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.save-button {
+  background-color: #28a745;
+  color: white;
+}
+
+.save-button:hover {
+  background-color: #218838;
+}
+
+.cancel-button {
+  background-color: #dc3545;
+  color: white;
+}
+
+.cancel-button:hover {
+  background-color: #c82333;
+}
+
+/* خطای انبار پیدا نشد */
+.not-found {
+  padding: 20px;
+  font-family: Estedad, sans-serif;
+  direction: rtl;
+  color: red;
+}

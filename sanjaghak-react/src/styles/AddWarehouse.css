@@ -1,0 +1,50 @@
+.add-warehouse-container {
+  width: 80%;
+  max-width: 500px;
+  margin: 30px auto;
+  font-family: "Estedad", sans-serif;
+  direction: rtl;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background: #fafafa;
+}
+
+.add-warehouse-form label {
+  display: block;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.add-warehouse-form input,
+.add-warehouse-form textarea {
+  width: 100%;
+  padding: 8px 10px;
+  margin-top: 5px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-family: inherit;
+  font-size: 14px;
+  resize: vertical;
+}
+
+.add-warehouse-form textarea {
+  height: 70px;
+}
+
+.add-warehouse-form button {
+  background-color: #dc2655;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: "Kamran", sans-serif;
+  transition: background-color 0.3s ease;
+}
+
+.add-warehouse-form button:hover {
+  background-color: #c2204a;
+}
+

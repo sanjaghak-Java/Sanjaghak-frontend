@@ -1,27 +1,29 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import "/src/styles/SupplierList.css";
+import edit from "../assets/edit.png";
+import bin from "../assets/bin.png";
+import AddSupplier from "./AddSupplier";
+import ModalConfirm from "./ModalConfirm";
 
-const sampleSuppliers = [
-  { id: 1, name: "نام شرکت", email: "email@example.com", phone: "021-12121", address: "آدرس شرکت" },
-  { id: 2, name: "نام شرکت", email: "email@example.com", phone: "021-12121", address: "آدرس شرکت" },
-  { id: 3, name: "نام شرکت", email: "email@example.com", phone: "021-12121", address: "آدرس شرکت" },
-  { id: 4, name: "نام شرکت", email: "email@example.com", phone: "021-12121", address: "آدرس شرکت" },
-  { id: 5, name: "نام شرکت", email: "email@example.com", phone: "021-12121", address: "آدرس شرکت" },
-  { id: 6, name: "نام شرکت", email: "email@example.com", phone: "021-12121", address: "آدرس شرکت" },
-  { id: 7, name: "نام شرکت", email: "email@example.com", phone: "021-12121", address: "آدرس شرکت" },
-  { id: 8, name: "نام شرکت", email: "email@example.com", phone: "021-12121", address: "آدرس شرکت" }
+const sampleSuppliersInitial = [
+  { id: 1, name: "نام شرکت 1", email: "email1@example.com", phone: "021-12121", address: "آدرس شرکت 1" },
+  { id: 2, name: "نام شرکت 2", email: "email2@example.com", phone: "021-12122", address: "آدرس شرکت 2" },
+  { id: 3, name: "نام شرکت 3", email: "email3@example.com", phone: "021-12123", address: "آدرس شرکت 3" },
 ];
 
 function SupplierList() {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [pageInput, setPageInput] = useState("");
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [suppliers, setSuppliers] = useState(sampleSuppliersInitial);
+  const [supplierToDelete, setSupplierToDelete] = useState(null);
+  const [editingSupplier, setEditingSupplier] = useState(null);
 
   const itemsPerPage = 5;
-  const navigate = useNavigate();
 
-  const filteredSuppliers = sampleSuppliers.filter((supplier) =>
+  const filteredSuppliers = suppliers.filter((supplier) =>
     supplier.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -30,7 +32,40 @@ function SupplierList() {
   const paginatedSuppliers = filteredSuppliers.slice(startIndex, startIndex + itemsPerPage);
 
   const handleAddClick = () => {
-    navigate("/admin/افزودن تامین‌کننده");
+    setEditingSupplier(null);
+    setIsAddModalOpen(true);
+  };
+
+  const handleAddSupplier = (newSupplier) => {
+    if (editingSupplier) {
+      setSuppliers(suppliers.map(s => s.id === editingSupplier.id ? { ...s, ...newSupplier } : s));
+    } else {
+      const newId = suppliers.length ? Math.max(...suppliers.map(s => s.id)) + 1 : 1;
+      setSuppliers([...suppliers, { id: newId, ...newSupplier }]);
+    }
+    setIsAddModalOpen(false);
+    setEditingSupplier(null);
+  };
+
+  const handleDeleteClick = (supplier) => {
+    setSupplierToDelete(supplier);
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleEditClick = (supplier) => {
+    setEditingSupplier(supplier);
+    setIsAddModalOpen(true);
+  };
+
+  const handleConfirmDelete = () => {
+    setSuppliers(suppliers.filter(s => s.id !== supplierToDelete.id));
+    setSupplierToDelete(null);
+    setIsDeleteModalOpen(false);
+  };
+
+  const handleCancelDelete = () => {
+    setSupplierToDelete(null);
+    setIsDeleteModalOpen(false);
   };
 
   const goToPage = (pageNum) => {
@@ -61,6 +96,7 @@ function SupplierList() {
             <th>ایمیل</th>
             <th>شماره تماس</th>
             <th>آدرس</th>
+            <th>ویرایش/حذف</th>
           </tr>
         </thead>
         <tbody>
@@ -71,10 +107,26 @@ function SupplierList() {
               <td>{supplier.email}</td>
               <td>{supplier.phone}</td>
               <td>{supplier.address}</td>
+              <td>
+                <button
+                  className="admin-edit-button"
+                  onClick={() => handleEditClick(supplier)}
+                >
+                  <img src={edit} alt="ویرایش" />
+                </button>
+                <button
+                  className="admin-edit-button"
+                  style={{ marginRight: "15px" }}
+                  onClick={() => handleDeleteClick(supplier)}
+                >
+                  <img src={bin} alt="حذف" />
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
+
       <div className="add-button-container">
         <button onClick={handleAddClick}>+ افزودن</button>
       </div>
@@ -110,6 +162,25 @@ function SupplierList() {
           <button onClick={() => goToPage(Number(pageInput))}>برو</button>
         </div>
       </div>
+
+      {isAddModalOpen && (
+        <AddSupplier
+          onClose={() => {
+            setIsAddModalOpen(false);
+            setEditingSupplier(null);
+          }}
+          onSubmit={handleAddSupplier}
+          initialData={editingSupplier} // ارسال داده برای ویرایش
+        />
+      )}
+
+      {isDeleteModalOpen && (
+        <ModalConfirm
+          message={`آیا از حذف "${supplierToDelete?.name}" اطمینان دارید؟`}
+          onConfirm={handleConfirmDelete}
+          onCancel={handleCancelDelete}
+        />
+      )}
     </div>
   );
 }

@@ -1,0 +1,88 @@
+.details-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.details-modal {
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  width: 400px;
+  max-width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.modal-field {
+  background: #f3f3f3;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.discount-titlediv{
+  display: flex;
+  align-items: center;
+  gap: 5px;  
+}
+
+.discount-titlediv h3{
+  color: #c4204b;
+}
+
+.floating-label {
+  position: relative;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.floating-label input {
+  width: 100%;
+  padding: 12px 10px 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+}
+
+.floating-label label {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: white;
+  padding: 0 4px;
+  color: #888;
+  font-size: 14px;
+  pointer-events: none;
+  transition: 0.2s ease all;
+}
+
+.floating-label input:focus + label,
+.floating-label input:not(:placeholder-shown) + label,
+.floating-label input.filled + label,
+.floating-label label.filled {
+  top: 3px;
+  right: 8px;
+  font-size: 13px;
+  color: #888;
+}
+
+
+.modal-input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.modal-date-row {
+  display: flex;
+  align-items: center;
+}
+

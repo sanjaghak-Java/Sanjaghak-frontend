@@ -1,4 +1,5 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
+import OrderDetailsModal from './OrderDetailsModal';
 import "/src/styles/ProfileOrders.css";
 import Navbar from './Navbar';
 import Footer from './Footer';
@@ -6,24 +7,92 @@ import ProfileMenu from './ProfileMenu';
 import delivered from '../assets/delivered.png';
 import returned from '../assets/returned.png';
 import cancel from '../assets/cancel.png';
-import filter from '../assets/filter.png';
+import current from '../assets/current.png';
 import Shop from '../assets/shopping-bag.png';
+import more from '../assets/more.png';
 import BackgroundPattern from './BackgroundPattern';
+import phone from "../assets/images (1).jpg";
 
 function Orders() {
   const backgroundAreaRef = useRef(null);
+  const [selectedOrder, setSelectedOrder] = useState(null);
 
   const orders = [
-    { id: 1, orderNumber: '1001', date: '1403/04/15', amount: 250000, status: 'تحویل شده' },
-    { id: 2, orderNumber: '1002', date: '1403/04/16', amount: 120000, status: 'لغو شده' },
-    { id: 3, orderNumber: '1003', date: '1403/04/17', amount: 300000, status: 'مرجوع شده' },
-    { id: 4, orderNumber: '1004', date: '1403/04/18', amount: 180000, status: 'تحویل شده' },
+    {
+      id: 1,
+      orderNumber: '1001',
+      orderDate: '1404/04/15',
+      deliveryDate: '1404/05/01',
+      amount: 250000,
+      status: 'تحویل شده',
+      product: {
+        title: 'گوشی موبایل سامسونگ مدل A14',
+        image: phone,
+        color: 'آبی',
+        colorCode: 'blue',
+        category: 'موبایل',
+        price: 1200000
+      }
+    },
+    {
+      id: 2,
+      orderNumber: '1002',
+      orderDate: '1404/04/16',
+      deliveryDate: '1404/04/21',
+      amount: 120000,
+      status: 'لغو شده',
+      product: {
+        title: 'هدفون بی‌سیم شیائومی',
+        image: phone,
+        color: 'قرمز',
+        colorCode: 'red',
+        category: 'هدفون',
+        price: 800000
+      }
+    },
+    {
+      id: 3,
+      orderNumber: '1003',
+      orderDate: '1404/04/17',
+      deliveryDate: '1404/04/22',
+      amount: 300000,
+      status: 'مرجوع شده',
+      product: {
+        title: 'ساعت هوشمند هواوی',
+        image: phone,
+        color: 'مشکی',
+        colorCode: 'black',
+        category: 'ساعت هوشمند',
+        price: 1500000
+      }
+    },
+    {
+      id: 4,
+      orderNumber: '1004',
+      orderDate: '1404/04/25',
+      deliveryDate: '1404/05/01',
+      amount: 180000,
+      status: 'در جریان',
+      product: {
+        title: 'لپ تاپ ایسوس مدل X515',
+        image: phone,
+        color: 'نقره‌ای',
+        colorCode: 'silver',
+        category: 'لپ‌تاپ',
+        price: 22000000
+      }
+    },
   ];
 
-  // داینامیک کردن تعداد هر وضعیت سفارش
   const deliveredCount = orders.filter(order => order.status === 'تحویل شده').length;
   const returnedCount = orders.filter(order => order.status === 'مرجوع شده').length;
   const canceledCount = orders.filter(order => order.status === 'لغو شده').length;
+  const inProgressCount = orders.filter(order => order.status === 'در جریان').length;
+
+  const [statusFilter, setStatusFilter] = useState('همه');
+  const [fromDate, setFromDate] = useState('');
+  const [toDate, setToDate] = useState('');
+  const [filteredOrders, setFilteredOrders] = useState(orders);
 
   const getStatusClass = (status) => {
     switch (status) {
@@ -33,10 +102,27 @@ function Orders() {
         return 'status delivered';
       case 'مرجوع شده':
         return 'status returned';
+      case 'در جریان':
+        return 'status inprogress';
       default:
         return 'status';
     }
   };
+
+  useEffect(() => {
+    const filtered = orders.filter(order => {
+      const from = fromDate ? fromDate.replaceAll('-', '/') : null;
+      const to = toDate ? toDate.replaceAll('-', '/') : null;
+
+      const matchStatus = statusFilter === 'همه' || order.status === statusFilter;
+      const matchFrom = from ? order.orderDate >= from : true;
+      const matchTo = to ? order.orderDate <= to : true;
+
+      return matchStatus && matchFrom && matchTo;
+    });
+
+    setFilteredOrders(filtered);
+  }, [statusFilter, fromDate, toDate]);
 
   return (
     <>
@@ -50,38 +136,23 @@ function Orders() {
           <div className="orderdiv">
 
             <div className="border">
-              <div className="statusparts">
-                <img src={delivered} alt="" className="statusicons" />
-                <div className='statusdiv'>
-                  <p>تحویل شده</p>
-                  <div>
-                    <label className='description'>{deliveredCount}</label>
-                    <label className='description'>سفارش</label>
+              {[
+                { icon: delivered, label: 'تحویل شده', count: deliveredCount },
+                { icon: returned, label: 'مرجوعی', count: returnedCount },
+                { icon: cancel, label: 'لغو شده', count: canceledCount },
+                { icon: current, label: 'در جریان', count: inProgressCount },
+              ].map(({ icon, label, count }) => (
+                <div className="statusparts" key={label}>
+                  <img src={icon} alt="" className="statusicons" />
+                  <div className='statusdiv'>
+                    <p>{label}</p>
+                    <div>
+                      <label className='description'>{count}</label>
+                      <label className='description'>سفارش</label>
+                    </div>
                   </div>
                 </div>
-              </div>
-
-              <div className='statusparts'>
-                <img src={returned} alt="" className="statusicons" />
-                <div className='statusdiv'>
-                  <p>مرجوعی</p>
-                  <div>
-                    <label className='description'>{returnedCount}</label>
-                    <label className='description'>سفارش</label>
-                  </div>
-                </div>
-              </div>
-
-              <div className='statusparts'>
-                <img src={cancel} alt="" className="statusicons" />
-                <div className='statusdiv'>
-                  <p>لغو شده</p>
-                  <div>
-                    <label className='description'>{canceledCount}</label>
-                    <label className='description'>سفارش</label>
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
 
             <div className='bordertwo'>
@@ -96,32 +167,28 @@ function Orders() {
               <div className="filterpart">
                 <div>
                   <label htmlFor="selectBox" className="formlabel">وضعیت</label>
-                  <select id="selectBox" className="customselect">
-                    <option value="1">همه موارد</option>
-                    <option value="2">تحویل شده</option>
-                    <option value="3">مرجوعی</option>
-                    <option value="4">لغو شده</option>
+                  <select id="selectBox" className="customselect" value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
+                    <option value="همه">همه موارد</option>
+                    <option value="در جریان">جاری</option>
+                    <option value="تحویل شده">تحویل شده</option>
+                    <option value="مرجوع شده">مرجوعی</option>
+                    <option value="لغو شده">لغو شده</option>
                   </select>
                 </div>
 
                 <div>
                   <label htmlFor="fromDate" className="formlabel">از تاریخ</label>
-                  <input type="date" id="fromDate" className="customdate" />
+                  <input type="date" id="fromDate" className="customdate" value={fromDate} onChange={(e) => setFromDate(e.target.value)} />
                 </div>
 
                 <div>
                   <label htmlFor="toDate" className="formlabel">تا تاریخ</label>
-                  <input type="date" id="toDate" className="customdate" />
+                  <input type="date" id="toDate" className="customdate" value={toDate} onChange={(e) => setToDate(e.target.value)} />
                 </div>
-
-                <button className='filter'>
-                  <img src={filter} alt="" className='editimg' />
-                  فیلتر
-                </button>
               </div>
 
               <div className="orderTableContainer">
-                {orders.length === 0 ? (
+                {filteredOrders.length === 0 ? (
                   <p className="noOrdersMessage">لیست سفارش های شما خالی است.</p>
                 ) : (
                   <table className="orderTable">
@@ -129,19 +196,27 @@ function Orders() {
                       <tr>
                         <th>ردیف</th>
                         <th>شماره سفارش</th>
-                        <th>تاریخ</th>
+                        <th>تاریخ ثبت</th>
+                        <th>تاریخ تحویل</th>
                         <th>مبلغ</th>
                         <th>وضعیت</th>
+                        <th>جزئیات بیشتر</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {orders.map((order, index) => (
+                      {filteredOrders.map((order, index) => (
                         <tr key={order.id}>
                           <td>{index + 1}</td>
                           <td>{order.orderNumber}</td>
-                          <td>{order.date}</td>
+                          <td>{order.orderDate}</td>
+                          <td>{(order.status === 'لغو شده' || order.status === 'در جریان') ? '' : order.deliveryDate}</td>
                           <td>{order.amount.toLocaleString()} تومان</td>
                           <td><span className={getStatusClass(order.status)}>{order.status}</span></td>
+                          <td>
+                            <button className="profile-more-button" onClick={() => setSelectedOrder(order)}>
+                              <img src={more} alt="" />
+                            </button>
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -151,6 +226,12 @@ function Orders() {
             </div>
           </div>
         </div>
+        {selectedOrder && (
+          <OrderDetailsModal
+            order={selectedOrder}
+            onClose={() => setSelectedOrder(null)}
+          />
+        )}
 
         <Footer />
       </div>

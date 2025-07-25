@@ -1,0 +1,134 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  direction: rtl;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 24px;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 600px;
+  position: relative;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+}
+
+.modal-close {
+  position: absolute;
+  left: 16px;
+  top: 12px;
+  font-size: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.modal-title {
+  margin-bottom: 16px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.modal-body{
+  width: 100%;
+  border-radius: 20px;
+  gap: 20px;
+  padding: 15px 25px 30px 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.profile-oreder-details{
+  direction: rtl;
+  text-align: right;
+  padding: 5px;
+}
+
+.profile-oreder-details div{
+  display: flex;
+  gap: 100px;
+  margin-top: 8px;
+}
+
+.orders-image{
+  width: auto;
+  height: 150px;
+}
+
+.orders-info-div{
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  gap: 8px;
+  width: 100%;
+}
+
+.orders-pricepart{
+  width: 100%;
+  direction: ltr;
+}
+
+.modal-button {
+  background-color: #dc2655;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.modal-button.gray {
+  background-color: #999;
+  margin-right: 8px;
+}
+
+.modal-textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  resize: vertical;
+  font-family: 'Traffic';
+}
+
+.modal-textarea:focus{
+  border: 1px solid #c4204b;
+  outline: none;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+  gap: 10px;
+}
+
+.modal-select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1.5px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: 'Traffic';
+  background-color: #fff;
+  color: #333;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  outline: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  cursor: pointer;
+}
+
+.modal-select:focus {
+  border-color: #c4204b;
+}

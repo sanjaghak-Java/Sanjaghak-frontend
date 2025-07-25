@@ -1,0 +1,194 @@
+.discounts-container {
+  width: 83%;
+  min-height: 100%;
+  padding: 20px;
+  font-family: "Estedad", sans-serif;
+  direction: rtl;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+.discounts-filters {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.discounts-select {
+  width: 150px;
+  padding: 8px 12px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.discounts-select:focus {
+  border-color: #c4204b;
+}
+
+.discounts-search {
+  width: 100%;
+  max-width: 300px;
+  padding: 8px 12px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.discounts-search:focus {
+  border-color: #c4204b;
+}
+
+.ongoing-discounts-cards {
+  margin-bottom: 30px;
+  width: 88%;
+}
+
+.cards-wrapper {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.discount-card {
+  position: relative;
+  width: 260px;
+  height: auto;
+  background: #fefefe;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px 20px 35px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  font-family: Tahoma, sans-serif;
+  direction: rtl;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.active-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: #28a745;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.card-title {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.card-title-name{
+  color: #888;
+}
+
+.card-amount{
+  width: fit-content;
+  padding: 3px;
+  border-radius: 12px;
+  font-size: 14px;
+  color: #fff;
+  background-color: #face56;
+}
+
+.card-dates{
+  display: flex;
+  gap: 25px;
+  font-size: 14px;
+  color: #333;
+}
+
+.days-left {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  font-weight: bold;
+  font-size: 13px;
+  color: #dc3545;
+}
+
+.discounts-table {
+  width: 88%;
+  border-collapse: separate;
+  border-spacing: 0 12px;
+  text-align: center;
+  direction: rtl;
+  background: transparent;
+}
+
+.discounts-table thead th {
+  background: none;
+  font-weight: bold;
+  padding: 12px;
+}
+
+.discounts-table tbody tr {
+  background-color: transparent;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.discounts-table tbody tr:hover  {
+  transform: translateY(-3px);
+  transition: transform 0.3s ease;
+}
+
+.discounts-table tbody tr:nth-child(even) td {
+  background-color: #f0f0f0;
+}
+.discounts-table tbody tr:nth-child(odd) td {
+  background-color: #fff;
+}
+
+.discounts-table tbody tr td:first-child {
+  border-top-right-radius: 20px;
+  border-bottom-right-radius:20px;
+}
+.discounts-table tbody tr td:last-child {
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+
+.discounts-table tbody td {
+  padding: 25px 12px;
+  border: none;
+}
+
+
+.statuslabel {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 14px;
+  min-width: 60px;
+  text-align: center;
+}
+
+.statuslabel.active {
+  background-color: #d7f0d8;
+  color: #2d6a2d;
+}
+
+.statuslabel.inactive {
+  background-color: #f9d7d7;
+  color: #a12727;
+}

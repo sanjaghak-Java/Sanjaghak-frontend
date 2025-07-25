@@ -1,76 +1,170 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import "/src/styles/AddSupplier.css";
 
-function AddSupplier() {
-  const navigate = useNavigate();
+function AddSupplier({ onClose, onSubmit, initialData }) {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
-    image: "",
+    country: "",
+    province: "",
+    city: "",
     address: "",
   });
 
-  const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    if (name === "image") {
-      setFormData({ ...formData, image: URL.createObjectURL(files[0]) });
+
+  useEffect(() => {
+    if (initialData) {
+      setFormData({
+        name: initialData.name || "",
+        email: initialData.email || "",
+        phone: initialData.phone || "",
+        country: initialData.country || "",
+        province: initialData.province || "",
+        city: initialData.city || "",
+        address: initialData.address || "",
+      });
+
     } else {
-      setFormData({ ...formData, [name]: value });
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        country: "",
+        province: "",
+        city: "",
+        address: "",
+      });
     }
+  }, [initialData]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Submitted Supplier:", formData);
-    navigate("/تامین‌کنندگان");
+    onSubmit(formData);
+    onClose();
   };
 
   return (
-    <div className="add-supplier-container">
-      <h2>افزودن تأمین‌کننده جدید</h2>
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <button
+          onClick={onClose}
+          className="modal-close-button"
+          aria-label="بستن"
+          type="button"
+        >
+          &times;
+        </button>
+
+        <h2>{initialData ? "ویرایش تأمین‌کننده" : "افزودن تأمین‌کننده جدید"}</h2>
+
         <form onSubmit={handleSubmit} className="add-supplier-form">
-            <label>نام تأمین‌کننده:</label>
-            <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-            />
 
-            <label>ایمیل:</label>
+          <div className="floating-label">
             <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
+              type="text"
+              id="name"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              placeholder=" "
+              required
             />
+            <label htmlFor="name">نام تأمین‌کننده</label>
+          </div>
 
-            <label>شماره تماس:</label>
+          <div className="floating-label">
             <input
-            type="tel"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            required
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder=" "
+              required
             />
+            <label htmlFor="email">ایمیل</label>
+          </div>
 
-            <label>آدرس:</label>
+          <div className="floating-label">
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              placeholder=" "
+              required
+            />
+            <label htmlFor="phone">شماره تماس</label>
+          </div>
+
+          <div className="location-inputs">
+            <div className="floating-label">
+              <input
+                type="text"
+                id="country"
+                name="country"
+                value={formData.country}
+                onChange={handleChange}
+                placeholder=" "
+                required
+              />
+              <label htmlFor="country">کشور</label>
+            </div>
+
+            <div className="floating-label">
+              <input
+                type="text"
+                id="province"
+                name="province"
+                value={formData.province}
+                onChange={handleChange}
+                placeholder=" "
+                required
+              />
+              <label htmlFor="province">استان</label>
+            </div>
+
+            <div className="floating-label">
+              <input
+                type="text"
+                id="city"
+                name="city"
+                value={formData.city}
+                onChange={handleChange}
+                placeholder=" "
+                required
+              />
+              <label htmlFor="city">شهر</label>
+            </div>
+          </div>
+
+          <div className="floating-label">
             <textarea
-            rows="3"
-            cols="40"
-            name="address"
-            value={formData.address}
-            onChange={handleChange}
-            required
+              id="address"
+              name="address"
+              value={formData.address}
+              onChange={handleChange}
+              placeholder=" "
+              rows="3"
+              required
             />
+            <label htmlFor="address" id="addsupplier-address-label">آدرس</label>
+          </div>
 
-            <button type="submit">ثبت تأمین‌کننده</button>
+          <div className="modal-buttons">
+            <button type="submit" className="admin-submit-button">
+              {initialData ? "ویرایش" : "ثبت"}
+            </button>
+          </div>
         </form>
-
+      </div>
     </div>
   );
 }

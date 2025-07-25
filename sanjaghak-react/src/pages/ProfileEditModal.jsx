@@ -73,27 +73,32 @@ const ProfileEditModal = ({ userInfo, onClose, onSave }) => {
         <hr className="hrpart" />
 
         <form className="formbox" onSubmit={handleSubmit}>
-          <p>نام</p>
-          <input
-            type="text"
-            className="profinput"
-            name="firstName"
-            value={formData.firstName}
-            onChange={handleChange}
-            placeholder="نام"
-            disabled={loading}
-          />
-
-          <p>نام خانوادگی</p>
-          <input
-            type="text"
-            className="profinput"
-            name="lastName"
-            value={formData.lastName}
-            onChange={handleChange}
-            placeholder="نام خانوادگی"
-            disabled={loading}
-          />
+          <div className="location-inputs">
+            <section style={{width: "100%"}}>
+              <p>نام</p>
+              <input
+                type="text"
+                className="profinput"
+                name="firstName"
+                value={formData.firstName}
+                onChange={handleChange}
+                placeholder="نام"
+                disabled={loading}
+              />
+            </section>
+            <section style={{width: "100%"}}>
+              <p>نام خانوادگی</p>
+              <input
+                type="text"
+                className="profinput"
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleChange}
+                placeholder="نام خانوادگی"
+                disabled={loading}
+              />
+            </section>
+          </div>
 
           <p>شماره موبایل</p>
           <input
@@ -118,15 +123,42 @@ const ProfileEditModal = ({ userInfo, onClose, onSave }) => {
           />
 
           <p>آدرس</p>
+          <div className="location-inputs">
+            <input
+              type="text"
+              className="profinput"
+              placeholder="کشور"
+              name="country"
+              value={formData.country}
+              onChange={handleChange}
+            />
+            <input
+              type="text"
+              className="profinput"
+              placeholder="استان"
+              name="province"
+              value={formData.province}
+              onChange={handleChange}
+            />
+            <input
+              type="text"
+              className="profinput"
+              placeholder="شهر"
+              name="city"
+              value={formData.city}
+              onChange={handleChange}
+            />
+          </div>
+
           <input
             type="text"
             className="profinput"
             name="address"
             value={formData.address}
             onChange={handleChange}
-            placeholder="آدرس"
-            disabled={loading}
+            placeholder="آدرس دقیق (خیابان، کوچه، پلاک...)"
           />
+
 
           {error && <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>}
 

@@ -25,7 +25,6 @@
   padding: 8px 12px;
   border: 2px solid #ccc;
   border-radius: 8px;
-  font-family: inherit;
 }
 
 .supplier-search:focus {
@@ -61,8 +60,15 @@
   background-color: #fff;
 }
 
-.supplier-image {
-  width: 20px;
+.admin-edit-button{
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.admin-edit-button img{
+  width: 25px;
   height: auto;
 }
 

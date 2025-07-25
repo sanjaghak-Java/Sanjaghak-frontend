@@ -39,7 +39,7 @@
 
 .popupbox {
   background-color: #fff;
-  width: 400px;
+  width: 500px;
   padding: 30px;
   top: 50px;
   border-radius: 12px;
@@ -77,6 +77,7 @@
   font-family: "Jalal";
   font-size: 14px;
   padding: 6px;
+  width: 100%;
 }
 
 .profinput:focus{
@@ -117,6 +118,13 @@
   background-color: #BF173E;
 
 }
+
+.location-inputs {
+  display: flex;
+  gap: 5px;
+  width: 100%;
+}
+
 /* ......ریسپانسیو..... */
 
 @media (max-width: 600px){

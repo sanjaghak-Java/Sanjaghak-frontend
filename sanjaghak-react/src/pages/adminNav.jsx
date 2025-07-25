@@ -11,7 +11,9 @@ import {
   FaTags,
   FaListUl,
   FaSignOutAlt,
-  FaHandshake
+  FaHandshake,
+  FaShieldAlt    
+
 } from "react-icons/fa";
 import "/src/styles/adminNav.css";
 import warehouseIcon from '../assets/icons8-warehouse-64.png';
@@ -33,10 +35,11 @@ function AdminNav() {
     { label: "لیست کاربران", path: "/admin/لیست کاربران", icon: <FaUsers /> },
     { label: "لیست محصولات", path: "/admin/لیست محصولات", icon: <FaWarehouse /> },
     { label: "لیست کارکنان", path: "/admin/لیست کارکنان", icon: <FaUserShield /> },
-    { label: "لیست برند ها", path: "/admin/لیست برند ها", icon: <FaTags /> },
+    { label: "لیست برند ها", path: "/admin/لیست برند ها", icon: <FaShieldAlt /> },
     { label: "لیست دسته ها", path: "/admin/لیست دسته ها", icon: <FaListUl /> },
     { label: "لیست انبار ها", path: "/admin/لیست انبار ها", icon: <img src={warehouseIcon} alt="Warehouse" className="nav-warehouse-icon" /> },
     { label: "تأمین‌کنندگان", path: "/admin/تامین‌کنندگان", icon: <FaHandshake  /> },
+    { label: "تخفیف ها", path: "/admin/تخفیف ها", icon: <FaTags   /> },
   ];
 
   return (

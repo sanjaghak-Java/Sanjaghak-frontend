@@ -6,6 +6,7 @@
   }
 
   .orderdiv{
+    width: 75%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -20,7 +21,7 @@
     border: 1px solid #D1D4D4;
     border-radius: 15px;
     padding: 15px;
-    gap: 280px;
+    gap: 140px;
     width: 100%;
   }
 
@@ -115,7 +116,7 @@
     background-color: transparent;
   }
 
-  .filter{
+  /* .filter{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -137,7 +138,7 @@
   .editimg{
     width: 22px;
     height: 22px;
-  }
+  } */
 
   .orderTableContainer {
     margin-top: 30px;
@@ -170,6 +171,18 @@
     font-family: "BYekan";
   }
 
+  .profile-more-button{
+    background-color: transparent;
+    cursor: pointer;
+    border: none;
+    outline: none;
+  }
+
+  .profile-more-button img{
+    width: 25px;
+    height: auto;
+  }
+
   .status {
     padding: 5px 12px;
     border-radius: 12px;
@@ -192,6 +205,12 @@
     background-color: #eeeeee;
     color: #5f5f5f;
   }
+
+  .status.inprogress {
+    background-color: #fff3e0;
+    color: #ff9800;
+  }
+
 
   .noOrdersMessage {
     font-family: "B Mehr Bold_0";

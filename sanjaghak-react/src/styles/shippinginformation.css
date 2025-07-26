@@ -1,0 +1,119 @@
+.shipping-modal-overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    direction: rtl;
+    z-index: 2000;
+}
+
+.shipping-modal {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    font-family: 'Vazirmatn', sans-serif;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.shipping-modal h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.shipping-modal form label {
+    display: block;
+    margin-top: 10px;
+}
+
+.shipping-modal input,
+.shipping-modal textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 4px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+}
+
+.btn-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.submit-btn1 {
+    background-color: #45b427;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.submit-btn1:hover {
+    background-color: #2dce00;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.cancel-btn1 {
+    background-color: #ccc;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.cancel-btn1:hover {
+    background-color: #ff0000d0;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.readonly-field {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.readonly-field input[readonly],
+.readonly-field textarea[readonly] {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 15px;
+    flex-grow: 1;
+    resize: none;
+    cursor: default;
+}
+
+.readonly-field textarea {
+    min-height: 60px;
+}
+
+.edit-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: 8px;
+    font-size: 18px;
+    color: #0077cc;
+    transition: color 0.3s ease;
+}
+
+.edit-btn:hover {
+    color: #004a99;
+}

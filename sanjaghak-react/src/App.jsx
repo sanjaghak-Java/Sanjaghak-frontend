@@ -40,6 +40,8 @@ import AdminBrandDetail from './pages/AdminBrandDetail.jsx';
 import SupplierList from './pages/SupplierList.jsx';
 import AddSupplier from "./pages/AddSupplier";
 import DiscountsPage from "./pages/DiscountsPage.jsx";
+import Shippinginformation from './pages/Shippinginformation.jsx';
+import ThankYouModal from './pages/ThankYouModal.jsx';
 
 const products = Array.from({ length: 50 }, (_, i) => ({
   id: i + 1,
@@ -78,6 +80,9 @@ function App() {
         <Route path="/profile-edit" element={<ProfileEdit />} />
         <Route path="/profile-favorites" element={<ProfileFavorite />} />
         <Route path="/Filter" element={<Filter />} />
+        <Route path="/shipping-info" element={<Shippinginformation />} />
+        <Route path="/thankyou" element={<ThankYouModal />} />
+
 
         <Route path="/admin" element={<AdminLayout />}>
           <Route path="داشبورد" element={<Dashboard />} />
@@ -87,9 +92,8 @@ function App() {
           <Route path="لیست دسته ها" element={<AdminCategoryList />} />
           <Route path="لیست انبار ها" element={<WarehouseList />} />
           <Route path="انبار/:id" element={<WarehouseDetail />} />
-<Route path="ویرایش-انبار/:id" element={<WarehouseEdit />} />
-<Route path="افزودن-انبار" element={<AddWarehouse />} />
-
+          <Route path="ویرایش-انبار/:id" element={<WarehouseEdit />} />
+          <Route path="افزودن-انبار" element={<AddWarehouse />} />
           <Route path="لیست کاربران" element={<UserList />} />
           <Route path="لیست محصولات" element={<ProductList products={products} />} />
           <Route path="لیست برند ها" element={<AdminBrandList />} />

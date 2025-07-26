@@ -48,3 +48,100 @@
   background-color: #c2204a;
 }
 
+/* بخش راهرو و قفسه‌ها */
+.section-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f1f1f1;
+  padding: 10px 15px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  border: 1px solid #ddd;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.07);
+}
+
+.section-row:hover {
+  background-color: #eaeaea;
+}
+
+.section-row label {
+  font-weight: bold;
+  font-size: 15px;
+  color: #333;
+  margin-right: 12px;
+  white-space: nowrap;
+  flex: 1;
+}
+
+.section-row select {
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: 1.5px solid #4caf50;
+  font-weight: 600;
+  cursor: pointer;
+  width: 150px;
+  background-color: white;
+  flex: 2;
+}
+
+/* دکمه حذف بخش */
+.remove-section-button {
+  background-color: transparent !important;
+  border: none !important;
+  color: #e74c3c !important;
+  font-size: 22px !important;
+  cursor: pointer !important;
+  margin-left: 10px !important;
+  padding: 0 !important;
+  line-height: 1 !important;
+  transition: color 0.2s ease !important;
+  margin: 0 20px 0 10px ;
+}
+
+.remove-section-button:hover {
+  color: #c0392b;
+}
+
+/* دکمه افزودن بخش */
+.add-section-button {
+  background-color: #ccc !important;
+  color: white !important;
+  padding: 10px 18px !important;
+  border: none !important;
+  border-radius: 8px !important;
+  font-size: 14px !important;
+  cursor: pointer !important;
+  transition: background-color 0.2s ease !important;
+  display: block;
+  margin: 15px auto;
+  width: 120px;
+  text-align: center;
+}
+
+.add-section-button:hover {
+  background-color: #45a049 !important;
+}
+
+.add-section-button:active {
+  transform: scale(0.96);
+  box-shadow: 0 3px 6px rgba(25, 118, 210, 0.8);
+}
+
+/* دکمه ثبت انبار */
+.submit-button1 {
+  width: 80%;
+  background-color: #000000;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer; !important
+  font-family: "Digikala ";
+  font-size: 22px;
+  padding: 5px;
+  transition: background-color 0.3s ease;
+  margin: 20px auto 0 auto;
+  display: block;
+}

@@ -1,4 +1,3 @@
-// src/pages/AddWarehouse.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "/src/styles/AddWarehouse.css";
@@ -9,13 +8,46 @@ function AddWarehouse() {
   const [province, setProvince] = useState("");
   const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
-  const [postalCode, setPostalCode] = useState("");  // کد پستی جدید
+  const [postalCode, setPostalCode] = useState("");
+  const [sections, setSections] = useState([
+    { id: 1, name: "بخش ۱", shelfCount: 1 },
+  ]);
+
   const navigate = useNavigate();
+
+  const handleAddSection = () => {
+    const newId = sections.length + 1;
+    setSections([
+      ...sections,
+      { id: newId, name: `بخش ${newId}`, shelfCount: 1 },
+    ]);
+  };
+
+  const handleShelfCountChange = (index, value) => {
+    const updatedSections = [...sections];
+    updatedSections[index].shelfCount = parseInt(value);
+    setSections(updatedSections);
+  };
+
+  const handleRemoveSection = (index) => {
+    const updatedSections = sections.filter((_, i) => i !== index);
+    setSections(updatedSections);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log("Warehouse data:", { name, country, province, city, address, postalCode });
+    const warehouseData = {
+      name,
+      country,
+      province,
+      city,
+      address,
+      postalCode,
+      sections,
+    };
+
+    console.log("Warehouse with sections:", warehouseData);
 
     navigate("/admin/لیست-انبارها");
   };
@@ -89,7 +121,45 @@ function AddWarehouse() {
           />
         </label>
 
-        <button type="submit">ثبت انبار</button>
+        <hr style={{ margin: "20px 0" }} />
+        <h3>بخش ها و تعداد قفسه‌ها:</h3>
+
+        {sections.map((section, index) => (
+          <div key={section.id} className="section-row">
+            <label style={{ flex: 1 }}>{section.name}:</label>
+            <select
+              value={section.shelfCount}
+              onChange={(e) => handleShelfCountChange(index, e.target.value)}
+              style={{ flex: 2 }}
+            >
+              {[...Array(10)].map((_, i) => (
+                <option key={i + 1} value={i + 1}>
+                  {i + 1} قفسه
+                </option>
+              ))}
+            </select>
+            <button
+              type="button"
+              className="remove-section-button"
+              onClick={() => handleRemoveSection(index)}
+              title="حذف بخش"
+            >
+              ×
+            </button>
+          </div>
+        ))}
+
+        <button
+          type="button"
+          onClick={handleAddSection}
+          className="add-section-button"
+        >
+          + افزودن بخش
+        </button>
+
+        <button type="submit" className="submit-button1">
+          ثبت انبار
+        </button>
       </form>
     </div>
   );

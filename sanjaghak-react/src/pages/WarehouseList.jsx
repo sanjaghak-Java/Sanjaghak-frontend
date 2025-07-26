@@ -41,17 +41,21 @@ const sectionsData = {
     { id: 201, name: "راهرو A" },
     { id: 202, name: "راهرو B" },
   ],
-  3: [
-    { id: 301, name: "راهرو X" },
-  ],
+  3: [{ id: 301, name: "راهرو X" }],
 };
 
 const shelvesData = {
-  101: [{ id: 1001, productName: "محصول الف" }],
-  102: [{ id: 1002, productName: "محصول ب" }],
-  201: [{ id: 2001, productName: "محصول ج" }],
-  202: [{ id: 2002, productName: "محصول د" }],
-  301: [{ id: 3001, productName: "محصول هـ" }],
+  101: [
+    { id: 1001, name: "قفسه ۱", productName: "محصول الف" },
+    { id: 1002, name: "قفسه ۲", productName: "محصول ب" },
+  ],
+  102: [{ id: 1003, name: "قفسه ۳", productName: "محصول ج" }],
+  201: [{ id: 2001, name: "قفسه A", productName: "محصول د" }],
+  202: [
+    { id: 2002, name: "قفسه B", productName: "محصول هـ" },
+    { id: 2003, name: "قفسه C", productName: "محصول و" },
+  ],
+  301: [{ id: 3001, name: "قفسه X", productName: "محصول ز" }],
 };
 
 function WarehouseList() {
@@ -121,7 +125,7 @@ function WarehouseList() {
             </div>
             <div
               className="card-buttons"
-              onClick={(e) => e.stopPropagation()} // جلوگیری از باز شدن مودال وقتی روی دکمه‌ها کلیک میشه
+              onClick={(e) => e.stopPropagation()}
             >
               <button
                 onClick={() => handleEdit(warehouse.id)}
@@ -204,22 +208,24 @@ function WarehouseList() {
                   </div>
 
                   {expandedSectionId === section.id && (
-                    <ul
-                      style={{
-                        paddingRight: "20px",
-                        marginTop: "8px",
-                        color: "#444",
-                      }}
-                    >
-                      {shelvesData[section.id]?.map((shelf) => (
-                        <li
-                          key={shelf.id}
-                          style={{ listStyleType: "disc", marginBottom: "6px" }}
-                        >
-                          {shelf.productName}
-                        </li>
-                      ))}
-                    </ul>
+                    <div style={{ paddingRight: "20px", marginTop: "8px" }}>
+                      {shelvesData[section.id]?.length ? (
+                        shelvesData[section.id].map((shelf) => (
+                          <div
+                            key={shelf.id}
+                            style={{
+                              padding: "6px 0",
+                              borderBottom: "1px dashed #ccc",
+                              marginBottom: "4px",
+                            }}
+                          >
+                            <strong>{shelf.name}:</strong> {shelf.productName}
+                          </div>
+                        ))
+                      ) : (
+                        <p style={{ color: "#999" }}>قفسه‌ای یافت نشد.</p>
+                      )}
+                    </div>
                   )}
                 </div>
               ))
@@ -250,13 +256,14 @@ function WarehouseList() {
         </>
       )}
 
-      {/* انیمیشن ساده fadeIn */}
-      <style>{`
-        @keyframes fadeIn {
-          from {opacity: 0;}
-          to {opacity: 1;}
-        }
-      `}</style>
+      <style>
+        {`
+          @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+          }
+        `}
+      </style>
     </div>
   );
 }

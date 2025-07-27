@@ -1,6 +1,8 @@
+// WarehouseList.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "/src/styles/WarehouseList.css";
+import WarehouseProductInformation from "../pages/WarehouseProductInformation";
 
 const initialWarehouses = [
   {
@@ -34,34 +36,97 @@ const initialWarehouses = [
 
 const sectionsData = {
   1: [
-    { id: 101, name: "راهرو ۱" },
-    { id: 102, name: "راهرو ۲" },
+    { id: 101, name: "بخش ۱" },
+    { id: 102, name: "بخش ۲" },
   ],
   2: [
-    { id: 201, name: "راهرو A" },
-    { id: 202, name: "راهرو B" },
+    { id: 201, name: "بخش A" },
+    { id: 202, name: "بخش B" },
   ],
-  3: [{ id: 301, name: "راهرو X" }],
+  3: [{ id: 301, name: "بخش X" }],
 };
 
 const shelvesData = {
   101: [
-    { id: 1001, name: "قفسه ۱", productName: "محصول الف" },
-    { id: 1002, name: "قفسه ۲", productName: "محصول ب" },
+    {
+      id: 1001,
+      name: "قفسه ۱",
+      productName: "محصول الف",
+      color: "قرمز",
+      stock: 150,
+      reserved: 30,
+      price: 125000,
+    },
+    {
+      id: 1002,
+      name: "قفسه ۲",
+      productName: "محصول ب",
+      color: "آبی",
+      stock: 200,
+      reserved: 50,
+      price: 98000,
+    },
   ],
-  102: [{ id: 1003, name: "قفسه ۳", productName: "محصول ج" }],
-  201: [{ id: 2001, name: "قفسه A", productName: "محصول د" }],
+  102: [
+    {
+      id: 1003,
+      name: "قفسه ۳",
+      productName: "محصول ج",
+      color: "سبز",
+      stock: 75,
+      reserved: 10,
+      price: 115000,
+    },
+  ],
+  201: [
+    {
+      id: 2001,
+      name: "قفسه A",
+      productName: "محصول د",
+      color: "زرد",
+      stock: 60,
+      reserved: 5,
+      price: 142000,
+    },
+  ],
   202: [
-    { id: 2002, name: "قفسه B", productName: "محصول هـ" },
-    { id: 2003, name: "قفسه C", productName: "محصول و" },
+    {
+      id: 2002,
+      name: "قفسه B",
+      productName: "محصول هـ",
+      color: "مشکی",
+      stock: 33,
+      reserved: 3,
+      price: 89000,
+    },
+    {
+      id: 2003,
+      name: "قفسه C",
+      productName: "محصول و",
+      color: "نقره‌ای",
+      stock: 12,
+      reserved: 0,
+      price: 199000,
+    },
   ],
-  301: [{ id: 3001, name: "قفسه X", productName: "محصول ز" }],
+  301: [
+    {
+      id: 3001,
+      name: "قفسه X",
+      productName: "محصول ز",
+      color: "طلایی",
+      stock: 9,
+      reserved: 1,
+      price: 245000,
+    },
+  ],
 };
 
 function WarehouseList() {
   const [warehouses, setWarehouses] = useState(initialWarehouses);
   const [modalWarehouse, setModalWarehouse] = useState(null);
   const [expandedSectionId, setExpandedSectionId] = useState(null);
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const navigate = useNavigate();
 
   const handleDelete = (id) => {
@@ -74,24 +139,16 @@ function WarehouseList() {
     }
   };
 
-  const handleEdit = (id) => {
-    navigate(`/admin/ویرایش-انبار/${id}`);
-  };
-
-  const handleAdd = () => {
-    navigate("/admin/افزودن-انبار");
-  };
-
+  const handleEdit = (id) => navigate(`/admin/ویرایش-انبار/${id}`);
+  const handleAdd = () => navigate("/admin/افزودن-انبار");
   const openModal = (warehouse) => {
     setModalWarehouse(warehouse);
     setExpandedSectionId(null);
   };
-
   const closeModal = () => {
     setModalWarehouse(null);
     setExpandedSectionId(null);
   };
-
   const toggleSection = (id) => {
     setExpandedSectionId((prev) => (prev === id ? null : id));
   };
@@ -123,10 +180,7 @@ function WarehouseList() {
             <div className="info-line">
               <strong>کد پستی:</strong> {warehouse.postalCode}
             </div>
-            <div
-              className="card-buttons"
-              onClick={(e) => e.stopPropagation()}
-            >
+            <div className="card-buttons" onClick={(e) => e.stopPropagation()}>
               <button
                 onClick={() => handleEdit(warehouse.id)}
                 className="edit-button"
@@ -163,7 +217,6 @@ function WarehouseList() {
               height: "100vh",
               backgroundColor: "rgba(0,0,0,0.45)",
               zIndex: 999,
-              animation: "fadeIn 0.3s ease",
             }}
           ></div>
 
@@ -180,8 +233,7 @@ function WarehouseList() {
               width: "420px",
               maxHeight: "85vh",
               overflowY: "auto",
-              boxShadow:
-                "0 8px 20px rgba(0,0,0,0.15), 0 2px 10px rgba(0,0,0,0.1)",
+              boxShadow: "0 8px 20px rgba(0,0,0,0.15), 0 2px 10px rgba(0,0,0,0.1)",
               zIndex: 1000,
               fontFamily: "Vazirmatn, sans-serif",
               direction: "rtl",
@@ -217,7 +269,18 @@ function WarehouseList() {
                               padding: "6px 0",
                               borderBottom: "1px dashed #ccc",
                               marginBottom: "4px",
+                              cursor: "pointer",
                             }}
+                            onClick={() =>
+                              setSelectedProduct({
+                                productName: shelf.productName,
+                                color: shelf.color,
+                                location: `${modalWarehouse.name} - ${section.name} - ${shelf.name}`,
+                                stock: shelf.stock,
+                                reserved: shelf.reserved,
+                                price: shelf.price,
+                              })
+                            }
                           >
                             <strong>{shelf.name}:</strong> {shelf.productName}
                           </div>
@@ -245,7 +308,6 @@ function WarehouseList() {
                 border: "none",
                 fontWeight: "600",
                 width: "100%",
-                transition: "background-color 0.3s ease",
               }}
               onMouseEnter={(e) => (e.target.style.backgroundColor = "#d32f2f")}
               onMouseLeave={(e) => (e.target.style.backgroundColor = "#f44336")}
@@ -256,14 +318,12 @@ function WarehouseList() {
         </>
       )}
 
-      <style>
-        {`
-          @keyframes fadeIn {
-            from {opacity: 0;}
-            to {opacity: 1;}
-          }
-        `}
-      </style>
+      {selectedProduct && (
+        <WarehouseProductInformation
+          product={selectedProduct}
+          onClose={() => setSelectedProduct(null)}
+        />
+      )}
     </div>
   );
 }

@@ -59,10 +59,13 @@ function EditWarehouse() {
     setSections([...sections, newSection]);
   };
 
-  const handleSectionShelfChange = (index, newShelfCount) => {
-    const updated = [...sections];
-    updated[index].shelfCount = Number(newShelfCount);
-    setSections(updated);
+  const handleShelfChange = (index, delta) => {
+    setSections((prevSections) => {
+      const updated = [...prevSections];
+      const newCount = updated[index].shelfCount + delta;
+      updated[index].shelfCount = Math.max(1, newCount); // حداقل 1
+      return updated;
+    });
   };
 
   const handleRemoveSection = (index) => {
@@ -107,7 +110,7 @@ function EditWarehouse() {
 
         <label>آدرس:</label>
         <input value={address} onChange={(e) => setAddress(e.target.value)} required />
-        
+
         <label>کد پستی:</label>
         <input
           value={postalCode}
@@ -117,18 +120,15 @@ function EditWarehouse() {
         />
 
         <div className="section-list">
-          <h3>بخش‌ها و تعداد قفسه</h3>
+          <h3>بخش‌ها و قفسه‌ها</h3>
           {sections.map((section, index) => (
-            <div key={section.id} className="section-item">
-              <label>بخش {index + 1} - تعداد قفسه:</label>
-              <select
-                value={section.shelfCount}
-                onChange={(e) => handleSectionShelfChange(index, e.target.value)}
-              >
-                {[...Array(10)].map((_, i) => (
-                  <option key={i + 1} value={i + 1}>{i + 1}</option>
-                ))}
-              </select>
+            <div key={section.id} className="section-card">
+              <span className="section-title">بخش {index + 1}</span>
+              <div className="shelf-control">
+                <button type="button" onClick={() => handleShelfChange(index, -1)}>-</button>
+                <span>{section.shelfCount} قفسه</span>
+                <button type="button" onClick={() => handleShelfChange(index, 1)}>+</button>
+              </div>
               <button
                 type="button"
                 onClick={() => handleRemoveSection(index)}
@@ -139,7 +139,7 @@ function EditWarehouse() {
             </div>
           ))}
           <button type="button" onClick={handleAddSection} className="add-section-button">
-            افزودن بخش جدید
+            + افزودن بخش جدید
           </button>
         </div>
 

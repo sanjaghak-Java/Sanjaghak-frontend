@@ -40,8 +40,12 @@ import AdminBrandDetail from './pages/AdminBrandDetail.jsx';
 import SupplierList from './pages/SupplierList.jsx';
 import AddSupplier from "./pages/AddSupplier";
 import DiscountsPage from "./pages/DiscountsPage.jsx";
+import PurchasePage from './pages/PurchasePage.jsx';
 import Shippinginformation from './pages/Shippinginformation.jsx';
 import ThankYouModal from './pages/ThankYouModal.jsx';
+import AddPurchaseOrder from './pages/AddPurchaseOrder.jsx';
+import RequestPage from './pages/RequestPage.jsx';
+
 
 const products = Array.from({ length: 50 }, (_, i) => ({
   id: i + 1,
@@ -104,7 +108,13 @@ function App() {
 
           <Route path="تامین‌کنندگان" element={<SupplierList />} />
           <Route path="افزودن تامین‌کننده" element={<AddSupplier />} />
-          <Route path="/admin/تخفیف ها" element={<DiscountsPage />}></Route>
+          <Route path="تخفیف ها" element={<DiscountsPage />} />
+          <Route path="سفارش خرید" element={<PurchasePage />} />
+          <Route path="ثبت-سفارش" element={<AddPurchaseOrder />} />
+          <Route path="درخواست ها" element={<RequestPage />} />
+
+
+
         </Route>
       </Routes>
     </div>

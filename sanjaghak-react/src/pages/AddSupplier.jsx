@@ -19,17 +19,18 @@ function AddSupplier({ onClose, onSubmit, initialData }) {
         name: initialData.name || "",
         email: initialData.email || "",
         phone: initialData.phone || "",
+        postalCode: initialData.postalCode || "",
         country: initialData.country || "",
         province: initialData.province || "",
         city: initialData.city || "",
         address: initialData.address || "",
       });
-
     } else {
       setFormData({
         name: "",
         email: "",
         phone: "",
+        postalCode: "",
         country: "",
         province: "",
         city: "",
@@ -50,8 +51,8 @@ function AddSupplier({ onClose, onSubmit, initialData }) {
   };
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
+    <div className="supplier-modal-overlay">
+      <div className="supplier-modal-content">
         <button
           onClick={onClose}
           className="modal-close-button"
@@ -62,6 +63,7 @@ function AddSupplier({ onClose, onSubmit, initialData }) {
         </button>
 
         <h2>{initialData ? "ویرایش تأمین‌کننده" : "افزودن تأمین‌کننده جدید"}</h2>
+        <br />
 
         <form onSubmit={handleSubmit} className="add-supplier-form">
 
@@ -90,18 +92,31 @@ function AddSupplier({ onClose, onSubmit, initialData }) {
             />
             <label htmlFor="email">ایمیل</label>
           </div>
-
-          <div className="floating-label">
-            <input
-              type="tel"
-              id="phone"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              placeholder=" "
-              required
-            />
-            <label htmlFor="phone">شماره تماس</label>
+          <div className="location-inputs">
+            <div className="floating-label">
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                placeholder=" "
+                required
+              />
+              <label htmlFor="phone">شماره تماس</label>
+            </div>
+            <div className="floating-label">
+              <input
+                type="tel"
+                id="postalCode"
+                name="postalCode"
+                value={formData.postalCode}
+                onChange={handleChange}
+                placeholder=" "
+                required
+              />
+              <label htmlFor="postalCode">کد پستی</label>
+            </div>
           </div>
 
           <div className="location-inputs">

@@ -22,7 +22,7 @@ function Orders() {
       id: 1,
       orderNumber: '1001',
       orderDate: '1404/04/15',
-      deliveryDate: '1404/05/01',
+      deliveryDate: '1404/05/04',
       amount: 250000,
       status: 'تحویل شده',
       product: {

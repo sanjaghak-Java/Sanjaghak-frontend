@@ -12,7 +12,9 @@ import {
   FaListUl,
   FaSignOutAlt,
   FaHandshake,
-  FaShieldAlt    
+  FaShieldAlt,
+  FaShoppingCart,
+  FaClipboardList 
 
 } from "react-icons/fa";
 import "/src/styles/adminNav.css";
@@ -40,6 +42,9 @@ function AdminNav() {
     { label: "لیست انبار ها", path: "/admin/لیست انبار ها", icon: <img src={warehouseIcon} alt="Warehouse" className="nav-warehouse-icon" /> },
     { label: "تأمین‌کنندگان", path: "/admin/تامین‌کنندگان", icon: <FaHandshake  /> },
     { label: "تخفیف ها", path: "/admin/تخفیف ها", icon: <FaTags   /> },
+    { label: "سفارش خرید", path: "/admin/سفارش خرید", icon: <FaShoppingCart  /> },
+    { label: "درخواست ها", path: "/admin/درخواست ها", icon: <FaClipboardList   /> },
+
   ];
 
   return (

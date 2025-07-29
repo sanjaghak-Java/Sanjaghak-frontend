@@ -1,0 +1,124 @@
+.modal-backdrop {
+  position: fixed;
+  z-index: 9999;
+  inset: 0;  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  background: none;
+}
+
+.admin-modal-content {
+  position: fixed;
+  background: #fff;
+  border-radius: 8px;
+  right: 600px;
+  top: 140px;
+  max-width: 700px;
+  width: 34%;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 20px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.modal-header input[type="text"],
+.modal-header select {
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  background-color: #f9f9f9;
+  transition: border-color 0.2s;
+  width: 30%;
+}
+.modal-header input[type="text"]{
+  width: 65%;
+}
+
+.modal-header input[type="text"]:focus,
+.modal-header select:focus {
+  border-color: #666;
+  background-color: #fff;
+}
+
+.modal-header {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+
+.modal-products {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.product-header{
+  padding-right: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.add-product-card {
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+}
+.add-product-card:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.add-card-info{
+  width: 100%;
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 0;
+}
+
+.color-show-box{
+  width: fit-content;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.color-back-box{
+  background-color: yellow;
+}
+
+.price {
+  display: flex;
+  direction: ltr;
+  font-weight: normal;
+}
+
+.attributes p {
+  margin: 3px 0;
+  font-size: 0.9rem;
+  color: #444;
+}
+
+.add-product-image {
+  width: 100px;
+  height: auto;
+  object-fit: contain;
+}
+
+.toggle-btn {
+  background: none;
+  border: none;
+  font-size: 1.6rem;
+  cursor: pointer;
+  padding: 0;
+  color: #333;
+  transition: transform 0.3s ease;
+}

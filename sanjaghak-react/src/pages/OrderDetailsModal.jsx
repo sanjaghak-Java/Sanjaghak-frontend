@@ -30,7 +30,6 @@ const cancelReasons = [
   'مدت زمان ارسال طولانی بود',
 ];
 
-
 function OrderDetailsModal({ order, onClose }) {
   const [step, setStep] = useState(1);
   const [reasonText, setReasonText] = useState('');
@@ -67,7 +66,7 @@ function OrderDetailsModal({ order, onClose }) {
 
   return (
     <div className="modal-overlay">
-      <div className="modal-content">
+      <div className="modal-order-content">
         <button className="modal-close" onClick={onClose}>×</button>
 
         {step === 1 && !showCancelForm && (
@@ -199,7 +198,6 @@ function OrderDetailsModal({ order, onClose }) {
               </button>
             </div>
           </>
-
         )}
       </div>
     </div>

@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import jalaali from "jalaali-js";
+import ProductSelectorModal from "./AddPurchaseModal";
 import "/src/styles/DiscountCreateModal.css";
+import phone from "../assets/images (1).jpg";
+
 
 function DiscountCreateModal({ onClose, onSubmit }) {
   const [productSearch, setProductSearch] = useState("");
@@ -80,13 +83,14 @@ function DiscountCreateModal({ onClose, onSubmit }) {
   );
 
   const handleSubmit = () => {
-    if (!discountPercent || isNaN(discountPercent)) {
-      alert("لطفا درصد تخفیف معتبر وارد کنید");
+    if (!discountPercent.trim() || isNaN(discountPercent) ||!productSearch.trim() || !title.trim() ||!startDateShamsi.trim() || !endDateShamsi.trim()) {
+      alert("لطفا همه فیلد ها را پر کنید.");
       return;
     }
+
     onSubmit({
       productName: productSearch,
-      title: productSearch,
+      title: title,
       amount: parseFloat(discountPercent),
       startDate: startDateShamsi,
       endDate: endDateShamsi,
@@ -96,26 +100,48 @@ function DiscountCreateModal({ onClose, onSubmit }) {
     onClose();
   };
 
+
+    const [isProductModalOpen, setIsProductModalOpen] = useState(false);
+
+    const products = [
+      {
+        id: 1,
+        name: "محصول X",
+        category: "موبایل",
+        colors: [
+          { name: "قرمز", hex: "#ff0000" },
+          { name: "آبی", hex: "#0000ff" },
+          { name: "سبز", hex: "#00ff00" }
+        ],
+        attributes: {},
+        price: 20000000,
+        image: phone,
+      },
+    ];
+
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
+    <div className="discount-modal-overlay">
+      <div className="discount-modal-content">
         <h3>ایجاد تخفیف جدید</h3>
 
-        <input
-          type="text"
-          placeholder="جستجوی کالا..."
-          value={productSearch}
-          onChange={(e) => setProductSearch(e.target.value)}
-          className="modal-input"
-          style={{ marginBottom: 10 }}
-        />
+        <div style={{ marginBottom: 10 }}>
+          <input
+            type="text"
+            placeholder="جستجوی کالا..."
+            value={productSearch}
+            readOnly
+            onClick={() => setIsProductModalOpen(true)}
+            className="discount-modal-input"
+            style={{ cursor: "pointer", backgroundColor: "#f9f9f9" }}
+          />
+        </div>
 
         <div className={`floating-input ${title ? "filled" : ""}`}>
           <input
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="modal-input"
+            className="discount-modal-input"
           />
           <label>عنوان</label>
         </div>
@@ -163,14 +189,24 @@ function DiscountCreateModal({ onClose, onSubmit }) {
         </div>
 
         <div className="modal-buttons">
-          <button className="confirm-button" onClick={handleSubmit}>
-            ایجاد
-          </button>
           <button className="cancel-button" onClick={onClose}>
             لغو
           </button>
+          <button className="confirm-button" onClick={handleSubmit}>
+            ایجاد
+          </button>
         </div>
       </div>
+<ProductSelectorModal
+  isOpen={isProductModalOpen}
+  onClose={() => setIsProductModalOpen(false)}
+  products={products}
+  onSelect={(selectedProduct) => {
+    setProductSearch(selectedProduct.name);
+    setIsProductModalOpen(false);
+  }}
+/>
+
     </div>
   );
 }

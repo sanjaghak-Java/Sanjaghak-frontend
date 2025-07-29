@@ -273,7 +273,7 @@
   color: #3E4344;
 }
 
-.price {
+.price-mainpage {
   padding: 5px 20px;
   width: 100%;
   font-family: "BYekan";
@@ -420,7 +420,7 @@
   z-index: 9999;
 }
 
-.modal-content {
+.images-modal-content {
   background: white;
   border-radius: 8px;
   width: fit-content;
@@ -623,7 +623,7 @@
     display: none;
   }
 
-  .price{
+  .price-mainpage{
     display: flex;
     flex-direction: column;
     align-items: center;

@@ -6,10 +6,11 @@ import AddSupplier from "./AddSupplier";
 import ModalConfirm from "./ModalConfirm";
 
 const sampleSuppliersInitial = [
-  { id: 1, name: "نام شرکت 1", email: "email1@example.com", phone: "021-12121", address: "آدرس شرکت 1" },
-  { id: 2, name: "نام شرکت 2", email: "email2@example.com", phone: "021-12122", address: "آدرس شرکت 2" },
-  { id: 3, name: "نام شرکت 3", email: "email3@example.com", phone: "021-12123", address: "آدرس شرکت 3" },
+  { id: 1, name: "نام شرکت 1", email: "email1@example.com", phone: "021-12121", address: "آدرس شرکت 1", postalCode: "1234567890" },
+  { id: 2, name: "نام شرکت 2", email: "email2@example.com", phone: "021-12122", address: "آدرس شرکت 2", postalCode: "2234567890" },
+  { id: 3, name: "نام شرکت 3", email: "email3@example.com", phone: "021-12123", address: "آدرس شرکت 3", postalCode: "3234567890" },
 ];
+
 
 function SupplierList() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -87,7 +88,21 @@ function SupplierList() {
           className="supplier-search"
         />
       </div>
-
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          width: "88%",
+          direction: "rtl",
+          padding: "10px 0px",
+          }}
+      >
+        <h2>لیست تخفیف‌ها</h2>
+        <button className="add-warehouse-button" onClick={handleAddClick}>
+            + افزودن تأمین‌کننده
+        </button>
+      </div>
       <table className="supplier-table">
         <thead>
           <tr>
@@ -96,6 +111,7 @@ function SupplierList() {
             <th>ایمیل</th>
             <th>شماره تماس</th>
             <th>آدرس</th>
+            <th>کدپستی</th>
             <th>ویرایش/حذف</th>
           </tr>
         </thead>
@@ -107,11 +123,9 @@ function SupplierList() {
               <td>{supplier.email}</td>
               <td>{supplier.phone}</td>
               <td>{supplier.address}</td>
+              <td>{supplier.postalCode}</td>
               <td>
-                <button
-                  className="admin-edit-button"
-                  onClick={() => handleEditClick(supplier)}
-                >
+                <button className="admin-edit-button" onClick={() => handleEditClick(supplier)}>
                   <img src={edit} alt="ویرایش" />
                 </button>
                 <button
@@ -126,10 +140,6 @@ function SupplierList() {
           ))}
         </tbody>
       </table>
-
-      <div className="add-button-container">
-        <button onClick={handleAddClick}>+ افزودن</button>
-      </div>
 
       <div className="pagination">
         <button onClick={() => goToPage(currentPage - 1)} disabled={currentPage === 1}>
@@ -170,7 +180,7 @@ function SupplierList() {
             setEditingSupplier(null);
           }}
           onSubmit={handleAddSupplier}
-          initialData={editingSupplier} // ارسال داده برای ویرایش
+          initialData={editingSupplier}
         />
       )}
 

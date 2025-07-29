@@ -73,8 +73,7 @@ function DiscountDetailsModal({ discount, onClose, onSave }) {
     <div className="details-modal-overlay">
       <div className="details-modal">
         <div className="discount-titlediv">
-        <h3>جزئیات تخفیف</h3>
-        <h3>{discount?.productName}</h3>
+        <h3>جزئیات تخفیف {discount?.productName}</h3>
         </div>
 
 

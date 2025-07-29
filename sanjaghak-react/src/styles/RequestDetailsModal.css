@@ -1,0 +1,86 @@
+.req-modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.req-modal-content {
+  background: white;
+  padding: 20px 30px;
+  border-radius: 8px;
+  width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+  direction: rtl;
+  font-family: Tahoma, sans-serif;
+}
+
+.req-modal-close-btn {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  border: none;
+  background: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.req-order-info p {
+  margin: 6px 0;
+  font-size: 14px;
+}
+
+.req-order-items-table, .req-order-totals-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.req-order-items-table th, .req-order-items-table td,
+.req-order-totals-table td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  text-align: center;
+}
+
+.req-order-items-table th {
+  background-color: #f5f5f5;
+}
+
+.req-order-totals-table td:first-child {
+  text-align: right;
+  font-weight: bold;
+}
+
+.order-totals-table {
+  direction: rtl;
+  text-align: center;
+  border-collapse: collapse;
+}
+
+.order-totals-table th, .order-totals-table td {
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+.req-modal-content div button{
+  background-color: transparent;
+  border-radius: 12px;
+  padding: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  font-family: "Kamran";
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  margin: 10px 2px 2px 0;
+}
+
+.req-modal-content div button:hover{
+  transform: translateY(-3px);
+}

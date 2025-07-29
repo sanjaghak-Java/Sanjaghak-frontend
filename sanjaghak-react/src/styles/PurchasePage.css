@@ -1,0 +1,128 @@
+.purchase-page {
+  direction: rtl;
+  width: 83%;
+  height: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.purchase-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.purchase-filters {
+  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.purchase-filters input,
+.purchase-filters select {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  min-width: 200px;
+}
+
+
+.add-button {
+  background-color: #dc2655;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.add-button:hover {
+  background-color: #b91e47;
+}
+
+.purchase-table {
+  width: 88%;
+  border-collapse: separate;
+  border-spacing: 0 12px;
+  text-align: center;
+  direction: rtl;
+  background: transparent;
+}
+
+.purchase-table thead th {
+  background: none;
+  font-weight: bold;
+  padding: 12px;
+}
+
+.purchase-table tbody tr {
+  background-color: transparent;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.purchase-table tbody tr:hover {
+  transform: translateY(-3px);
+}
+
+.purchase-table tbody tr:nth-child(even) td {
+  background-color: #f0f0f0;
+}
+.purchase-table tbody tr:nth-child(odd) td {
+  background-color: #fff;
+}
+
+.purchase-table tbody tr td:first-child {
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+.purchase-table tbody tr td:last-child {
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+
+.purchase-table tbody td {
+  padding: 25px 12px;
+  border: none;
+}
+
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 14px;
+  min-width: 60px;
+  text-align: center;
+}
+
+.status-badge.pending {
+  background-color: #f6ddb3;
+  color: #ff8400;
+}
+
+.status-badge.received {
+  background-color: #d7f0d8;
+  color: #2d6a2d;
+}
+
+.status-badge.cancelled {
+  background-color: #f9d7d7;
+  color: #a12727;
+}
+.status-badge.sending {
+  background-color: #c8ddff;
+  color: #3b82f6;
+}
+

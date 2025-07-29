@@ -3,11 +3,13 @@ import { Link } from "react-router-dom";
 import "/src/styles/productdetail.css";
 import warranty from "../assets/tools-wench-ruler.png";
 import box from "../assets/box.png";
+import toman from "../assets/Toman.png";
+
 
 function ImageModal({ images, currentIndex, onClose, onChangeImage, title }) {
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+      <div className="images-modal-content" onClick={(e) => e.stopPropagation()}>
         <button className="modal-close-btn" onClick={onClose}>×</button>
         <label className="model-product-name">{title}</label>
         <div className="images-containor">
@@ -177,7 +179,7 @@ function ProductDetail({ product, onAddToCart }) {
 
         <hr style={{ margin: "5px 10px" }} />
 
-        <div className="price">
+        <div className="price-mainpage">
           {discountPercent > 0 && (
             <div className="discount">
               <div className="discount-percent">
@@ -187,7 +189,7 @@ function ProductDetail({ product, onAddToCart }) {
             </div>
           )}
           <div className="final-price">
-            <img src="/assets/toman.png" alt="تومان" className="toman" />
+            <img src={toman} alt="تومان" className="toman" />
             <label className="final-price-num">{finalPrice.toLocaleString()}</label>
           </div>
         </div>

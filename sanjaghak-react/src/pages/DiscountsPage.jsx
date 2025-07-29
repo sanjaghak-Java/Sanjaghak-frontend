@@ -1,10 +1,16 @@
 import React, { useState } from "react";
 import jalaali from "jalaali-js";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import { Navigation, Pagination } from 'swiper/modules';
 import "/src/styles/DiscountsPage.css";
 import bin from "../assets/bin.png";
 import ModalConfirm from "./ModalConfirm";
 import DiscountCreateModal from "./DiscountCreateModal";
 import DiscountDetailsModal from "./DiscountDetailsModal";
+
 
 const initialDiscounts = [
   {
@@ -86,7 +92,7 @@ function DiscountsPage() {
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [selectedDiscount, setSelectedDiscount] = useState(null);
 
-  const itemsPerPage = 5;
+  const itemsPerPage = 4;
 
   const selectedTitle = discounts.find((d) => d.id === selectedId)?.title || "";
 
@@ -144,8 +150,12 @@ function DiscountsPage() {
   };
 
   const handleCreateDiscount = (newDiscount) => {
-    setDiscounts((prev) => [newDiscount, ...prev]);
-    setCurrentPage(1);
+    setDiscounts((prev) => {
+      const updated = [newDiscount, ...prev];
+      const newTotalPages = Math.ceil(updated.length / itemsPerPage);
+      setCurrentPage(1);
+      return updated;
+    });
   };
 
   const handleRowClick = (discount) => {
@@ -159,7 +169,7 @@ function DiscountsPage() {
   };
 
   return (
-    <div>
+    <div className="discount-page">
       <div className="discounts-container">
         {showModal && (
           <ModalConfirm
@@ -177,6 +187,16 @@ function DiscountsPage() {
         )}
 
         <div className="discounts-filters">
+          <input
+            type="text"
+            className="discounts-search"
+            placeholder="جستجو عنوان تخفیف..."
+            value={searchText}
+            onChange={(e) => {
+              setSearchText(e.target.value);
+              setCurrentPage(1);
+            }}
+          />
           <select
             className="discounts-select"
             value={filterStatus}
@@ -190,38 +210,50 @@ function DiscountsPage() {
             <option value="inactive">غیرفعال</option>
           </select>
 
-          <input
-            type="text"
-            className="discounts-search"
-            placeholder="جستجو عنوان تخفیف..."
-            value={searchText}
-            onChange={(e) => {
-              setSearchText(e.target.value);
-              setCurrentPage(1);
-            }}
-          />
         </div>
-
-        <div className="ongoing-discounts-cards">
-          <div className="cards-wrapper">
-            {ongoingDiscounts.map((d) => {
-              const daysRemaining = daysLeft(d.endDate, today);
-              return (
-                <div key={d.id} className="discount-card">
-                  <div className="active-badge">فعال</div>
-                  <h4 className="card-title">{d.title}</h4>
-                  <h6 className="card-title-name">{d.productName}</h6>
-                  <p className="card-amount">%{d.amount}</p>
-                  <p className="card-dates">
-                    <span>از: {d.startDate}</span>
-                    <span>تا: {d.endDate}</span>
-                  </p>
-                  <div className="days-left">{daysRemaining} روز مانده</div>
-                </div>
-              );
-            })}
+        {ongoingDiscounts.length > 0 && (
+          <div className="ongoing-discounts-cards">
+            <Swiper
+              className="swiper-slide"
+              modules={[Navigation, Pagination]}
+              navigation
+              pagination={{ clickable: true }}
+              spaceBetween={20}
+              slidesPerView={1}
+              initialSlide={0}
+              breakpoints={{
+                640: {
+                  slidesPerView: 2,
+                  spaceBetween: 20,
+                },
+                900: {
+                  slidesPerView: 3,
+                  spaceBetween: 20,
+                },
+              }}
+              dir="rtl"
+            >
+              {ongoingDiscounts.map((d) => {
+                const daysRemaining = daysLeft(d.endDate, today);
+                return (
+                  <SwiperSlide key={d.id}>
+                    <div className="discount-card">
+                      <div className="active-badge">فعال</div>
+                      <h4 className="card-title">{d.title}</h4>
+                      <h6 className="card-title-name">{d.productName}</h6>
+                      <p className="card-amount">%{d.amount}</p>
+                      <p className="card-dates">
+                        <span>از: {d.startDate}</span>
+                        <span>تا: {d.endDate}</span>
+                      </p>
+                      <div className="days-left">{daysRemaining} روز مانده</div>
+                    </div>
+                  </SwiperSlide>
+                );
+              })}
+            </Swiper>
           </div>
-        </div>
+        )}
 
         <div
           style={{
@@ -230,7 +262,6 @@ function DiscountsPage() {
             justifyContent: "space-between",
             width: "88%",
             direction: "rtl",
-            padding: "10px 0px",
           }}
         >
           <h2>لیست تخفیف‌ها</h2>

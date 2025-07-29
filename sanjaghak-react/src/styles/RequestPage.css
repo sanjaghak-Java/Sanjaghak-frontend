@@ -1,0 +1,269 @@
+.request-page {
+  direction: rtl;
+  width: 83%;
+  height: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.request-filters {
+  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.request-filters input,
+.request-main-menu-title,
+.date-filter-title {
+  background-color: #fff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 2px solid #ccc;
+  font-size: 14px;
+  min-width: 200px;
+  cursor: pointer;
+  position: relative;
+  user-select: none;
+}
+
+.request-main-menu-title::before {
+  content: "▼";
+  position: absolute;
+  left: 10px;
+  font-size: 12px;
+  color: #555;
+  user-select: none;
+}
+
+.main-menu {
+  position: absolute;
+  top: 110%;
+  right: 0;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  border-radius: 6px;
+  list-style: none;
+  padding: 8px 0;
+  margin: 0;
+  width: 200px;
+  z-index: 9999;
+}
+
+.main-menu li {
+  padding: 10px 20px;
+  cursor: pointer;
+  position: relative;
+  white-space: nowrap;
+}
+
+.main-menu li:hover {
+  background-color: #f0f0f0;
+}
+
+.sub-menu {
+  position: absolute;
+  top: 0;
+  right: 100%;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  border-radius: 6px;
+  list-style: none;
+  padding: 10px 5px;
+  margin: 0;
+  width: 160px;
+  z-index: 99999;
+}
+
+.sub-menu li {
+  padding: 8px 16px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.sub-menu li:hover {
+  background-color: #e8e8e8;
+  color: #c4204b;
+}
+
+.date-range-filter-menu{
+  position: absolute;
+  top: 110%;
+  right: 0;
+  width: 280px;
+  background-color: #fff;
+  padding: 18px 10px;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  z-index: 1000;
+}
+
+.date-range-filter-menu p{
+  color: #7e2d2d;
+  font-weight: bold;
+  margin-bottom: 5px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.date-slider {
+  width: 100%;
+  height: 8px;
+  background: #f38b8b;
+  border-radius: 10px;
+  margin-top: 5px;
+}
+
+.date-slider .thumb {
+  height: 20px;
+  width: 20px;
+  background: white;
+  border: 4px solid #e53935;
+  border-radius: 50%;
+  cursor: grab;
+  top: -6px;
+  position: relative;
+}
+
+.request-title-div{
+  direction: rtl;
+  width: 90%;
+  padding: 8px 3px;
+  display: flex;
+  align-items: center;
+}
+
+.request-title-div div{
+  width: 86%;
+  direction: rtl;
+  direction: ltr;
+  display: flex;
+  gap: 5px;
+}
+
+.request-title-div button{
+  background-color: transparent;
+  border-radius: 12px;
+  padding: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  font-family: "Kamran";
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.request-title-div button:hover{
+  transform: translateY(-3px);
+}
+
+#confirm-butt{
+  border: 2px solid #349247;
+  color: #349247;
+}
+
+#reject-butt{
+  border: 2px solid #DC2655;
+  color: #DC2655;
+}
+
+.request-table {
+  width: 88%;
+  border-collapse: separate;
+  border-spacing: 0 12px;
+  text-align: center;
+  direction: rtl;
+  background: transparent;
+  margin-top: 20px;
+}
+
+.request-table thead th {
+  background: none;
+  font-weight: bold;
+  padding: 12px;
+}
+
+.request-table tbody tr {
+  background-color: transparent;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.request-table tbody tr:hover {
+  transform: translateY(-3px);
+}
+
+.request-table tbody tr:nth-child(even) td {
+  background-color: #f0f0f0;
+}
+
+.request-table tbody tr:nth-child(odd) td {
+  background-color: #fff;
+}
+
+.request-table tbody tr td:first-child {
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+.request-table tbody tr td:last-child {
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+
+.request-table tbody td {
+  padding: 25px 12px;
+  border: none;
+}
+
+.request-type {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 14px;
+  color: white;
+  min-width: 100px;
+  text-align: center;
+}
+
+.request-type.order {
+  color: #3b82f6;
+}
+
+.request-type.return {
+  color: #424242;
+}
+
+.request-type.cancel {
+  color: #ff0000;
+}
+
+.request-status-badge {
+  font-weight: bold;
+  font-size: 14px;
+  padding: 4px 12px;
+  border-radius: 12px;
+  min-width: 60px;
+  display: inline-block;
+}
+
+.request-status-badge.rejected {
+  background-color: #f9d7d7;
+  color: #a12727;
+}
+
+.request-status-badge.approved {
+  background-color: #d7f0d8;
+  color: #2d6a2d;
+}
+
+.request-status-badge.pending {
+  background-color: #f6ddb3;
+  color: #ff8400;
+}

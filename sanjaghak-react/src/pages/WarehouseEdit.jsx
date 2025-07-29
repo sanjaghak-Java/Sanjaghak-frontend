@@ -12,8 +12,8 @@ const sampleWarehouses = [
     address: "خیابان ولیعصر",
     postalCode: "11111",
     sections: [
-      { id: 1, shelfCount: 3 },
-      { id: 2, shelfCount: 2 },
+      { id: 1, shelves: [1, 2, 3] },
+      { id: 2, shelves: [1, 2] },
     ],
   },
   {
@@ -25,16 +25,6 @@ const sampleWarehouses = [
     address: "میدان شهدا",
     postalCode: "22222",
     sections: [],
-  },
-  {
-    id: 3,
-    name: "انبار شرق",
-    country: "ایران",
-    province: "خراسان رضوی",
-    city: "مشهد",
-    address: "بلوار سجاد",
-    postalCode: "33333",
-    sections: [{ id: 1, shelfCount: 5 }],
   },
 ];
 
@@ -50,20 +40,35 @@ function EditWarehouse() {
   const [city, setCity] = useState(warehouse?.city || "");
   const [postalCode, setPostalCode] = useState(warehouse?.postalCode || "");
 
-  const [sections, setSections] = useState(warehouse?.sections || []);
+  const [sections, setSections] = useState(
+    warehouse?.sections.map((s) => ({
+      ...s,
+      shelves: s.shelves || Array(s.shelfCount || 1).fill(1).map((_, i) => i + 1),
+    })) || []
+  );
 
   if (!warehouse) return <div className="not-found">انبار مورد نظر پیدا نشد.</div>;
 
   const handleAddSection = () => {
-    const newSection = { id: Date.now(), shelfCount: 1 };
+    const newSection = {
+      id: Date.now(),
+      shelves: [1],
+    };
     setSections([...sections, newSection]);
   };
 
-  const handleShelfChange = (index, delta) => {
-    setSections((prevSections) => {
-      const updated = [...prevSections];
-      const newCount = updated[index].shelfCount + delta;
-      updated[index].shelfCount = Math.max(1, newCount); // حداقل 1
+  const handleAddShelf = (sectionIndex) => {
+    setSections((prev) => {
+      const updated = [...prev];
+      updated[sectionIndex].shelves.push(updated[sectionIndex].shelves.length + 1);
+      return updated;
+    });
+  };
+
+  const handleRemoveShelf = (sectionIndex, shelfIndex) => {
+    setSections((prev) => {
+      const updated = [...prev];
+      updated[sectionIndex].shelves.splice(shelfIndex, 1);
       return updated;
     });
   };
@@ -89,7 +94,7 @@ function EditWarehouse() {
 
     console.log("Updated warehouse:", updatedWarehouse);
     alert("تغییرات ذخیره شد!");
-    navigate("/admin");
+    navigate("/admin/لیست%20انبار%20ها");
   };
 
   return (
@@ -116,32 +121,7 @@ function EditWarehouse() {
           value={postalCode}
           onChange={(e) => setPostalCode(e.target.value)}
           required
-          placeholder="کد پستی را وارد کنید"
         />
-
-        <div className="section-list">
-          <h3>بخش‌ها و قفسه‌ها</h3>
-          {sections.map((section, index) => (
-            <div key={section.id} className="section-card">
-              <span className="section-title">بخش {index + 1}</span>
-              <div className="shelf-control">
-                <button type="button" onClick={() => handleShelfChange(index, -1)}>-</button>
-                <span>{section.shelfCount} قفسه</span>
-                <button type="button" onClick={() => handleShelfChange(index, 1)}>+</button>
-              </div>
-              <button
-                type="button"
-                onClick={() => handleRemoveSection(index)}
-                className="remove-section-button"
-              >
-                حذف بخش
-              </button>
-            </div>
-          ))}
-          <button type="button" onClick={handleAddSection} className="add-section-button">
-            + افزودن بخش جدید
-          </button>
-        </div>
 
         <div className="form-buttons">
           <button type="submit" className="save-button">ذخیره</button>

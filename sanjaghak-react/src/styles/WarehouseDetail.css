@@ -28,3 +28,61 @@
 .back-button:hover {
   background-color: #0056b3;
 }
+
+/* بخش مربوط به لیست بخش‌ها */
+.sections-container {
+  margin-top: 30px;
+}
+
+/* کارت هر بخش */
+.section-card {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 20px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+/* عنوان هر بخش */
+.section-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+/* لیست قفسه‌ها درون هر بخش */
+.shelves-container {
+  margin-top: 10px;
+  padding-right: 15px;
+}
+
+/* کارت قفسه */
+.shelf-card {
+  border: 1px dashed #aaa;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 8px;
+  background-color: #fff;
+  font-size: 15px;
+}
+
+/* دکمه افزودن بخش و قفسه */
+.add-section-button,
+.add-shelf-button {
+  margin-top: 10px;
+  padding: 6px 10px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-section-button:hover,
+.add-shelf-button:hover {
+  background-color: #218838;
+}

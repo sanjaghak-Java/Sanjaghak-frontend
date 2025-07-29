@@ -66,7 +66,6 @@ function WarehouseProductInformation({ product, onClose }) {
         <p><strong>موجودی رزرو شده:</strong> {product.reserved ?? "۰"} عدد</p>
         <p><strong>حداقل موجودی:</strong> {minStock} عدد</p>
         <p><strong>حداکثر موجودی:</strong> {maxStock} عدد</p>
-        <p><strong>قیمت:</strong> {product.price ? `${product.price.toLocaleString()} تومان` : "نامشخص"}</p>
 
         {warning && (
           <div style={{ color: "red", fontWeight: "bold", marginTop: "15px" }}>

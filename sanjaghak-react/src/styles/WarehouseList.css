@@ -1,53 +1,64 @@
-/* استایل کلی لیست انبارها */
-.warehouse-list-container {
-  margin-right: 258.4px; /* به اندازه نوبار فاصله بگیر */
-  padding: 20px;
-  font-family: "Vazirmatn", sans-serif;
-  direction: rtl;
-  background-color: #f8f8f8;
-}
-
-.warehouse-list-container h2 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
 .warehouse-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 16px;
+  display: flex;
+  flex-direction: column; /* کارت‌ها زیر هم باشند */
+  gap: 16px;              /* فاصله عمودی بین کارت‌ها */
+  /* اگر بخواهید محدودیت عرض بدهید: */
+  max-width: 1230px;       /* به دلخواه */
+  margin: 0 auto 0 0;         /* وسط چین شدن */
+  direction: rtl;
 }
 
 .warehouse-card {
   background-color: #fff;
   border-radius: 12px;
   box-shadow: 0 0 10px #ccc;
-  padding: 16px;
+  padding: 16px 24px;
   transition: 0.3s;
+  cursor: pointer;
+  
+  /* مستطیل افقی */
+  display: flex;
+  align-items: center;  /* وسط چین عمودی محتوا */
+  gap: 20px;            /* فاصله بین عناصر داخل کارت */
+  
+  /* عرض کارت */
+  width: 100%;          /* تمام عرض والد */
+  min-height: 120px;    /* ارتفاع مشخص */
+  box-sizing: border-box;
 }
 
 .warehouse-card:hover {
   transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
 }
 
+/* بخش اطلاعات در سمت چپ (چون راست به چپ هستیم، در واقع سمت راست) */
 .info-line {
   margin: 4px 0;
+  font-size: 14px;
+  color: #333;
+  flex: 1; /* بخش اطلاعات فضای بیشتری بگیرد */
 }
 
-/* دکمه‌ها */
+/* دکمه‌ها به صورت عمودی یا افقی داخل کارت */
 .card-buttons {
-  margin-top: 12px;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column; /* عمودی زیر هم */
+  gap: 8px;
+  min-width: 110px;       /* عرض ثابت برای دکمه‌ها */
 }
 
 .edit-button,
 .delete-button {
-  padding: 6px 12px;
+  padding: 8px 12px;
   border: none;
   border-radius: 6px;
   font-size: 14px;
   cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+  user-select: none;
+  width: 100%;
 }
 
 .edit-button {
@@ -55,15 +66,27 @@
   color: white;
 }
 
+.edit-button:hover {
+  background-color: #388e3c;
+}
+
 .delete-button {
   background-color: #f44336;
   color: white;
 }
-.add-warehouse-button-container {
-  margin-top: 20px;
-  text-align: center;
+
+.delete-button:hover {
+  background-color: #d32f2f;
 }
 
+/* کانتینر دکمه افزودن انبار */
+.add-warehouse-button-container {
+  margin-top: 20px;
+  /* text-align: center; */
+  margin-left: 600px;
+}
+
+/* دکمه افزودن انبار */
 .add-warehouse-button {
   padding: 10px 20px;
   font-size: 16px;
@@ -73,8 +96,13 @@
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  user-select: none;
 }
 
 .add-warehouse-button:hover {
   background-color: #800000;
+}
+.warehousetitle{
+  margin: 20px auto 20px 600px;
+ 
 }

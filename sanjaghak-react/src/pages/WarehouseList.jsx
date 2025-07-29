@@ -1,8 +1,7 @@
-// WarehouseList.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "/src/styles/WarehouseList.css";
 import WarehouseProductInformation from "../pages/WarehouseProductInformation";
+import "/src/styles/WarehouseList.css";
 
 const initialWarehouses = [
   {
@@ -34,7 +33,7 @@ const initialWarehouses = [
   },
 ];
 
-const sectionsData = {
+const initialSectionsData = {
   1: [
     { id: 101, name: "بخش ۱" },
     { id: 102, name: "بخش ۲" },
@@ -46,7 +45,7 @@ const sectionsData = {
   3: [{ id: 301, name: "بخش X" }],
 };
 
-const shelvesData = {
+const initialShelvesData = {
   101: [
     {
       id: 1001,
@@ -127,6 +126,8 @@ function WarehouseList() {
   const [modalWarehouse, setModalWarehouse] = useState(null);
   const [expandedSectionId, setExpandedSectionId] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [sectionsData, setSectionsData] = useState(initialSectionsData);
+  const [shelvesData, setShelvesData] = useState(initialShelvesData);
   const navigate = useNavigate();
 
   const handleDelete = (id) => {
@@ -141,6 +142,7 @@ function WarehouseList() {
 
   const handleEdit = (id) => navigate(`/admin/ویرایش-انبار/${id}`);
   const handleAdd = () => navigate("/admin/افزودن-انبار");
+
   const openModal = (warehouse) => {
     setModalWarehouse(warehouse);
     setExpandedSectionId(null);
@@ -153,9 +155,48 @@ function WarehouseList() {
     setExpandedSectionId((prev) => (prev === id ? null : id));
   };
 
+  const handleAddSection = () => {
+    if (!modalWarehouse) return;
+    const currentSections = sectionsData[modalWarehouse.id] || [];
+    const newId = currentSections.length
+      ? Math.max(...currentSections.map((s) => s.id)) + 1
+      : modalWarehouse.id * 100 + 1;
+    const newSectionName = prompt("نام بخش جدید را وارد کنید:");
+    if (!newSectionName) return;
+    const newSection = { id: newId, name: newSectionName };
+
+    setSectionsData((prev) => ({
+      ...prev,
+      [modalWarehouse.id]: [...currentSections, newSection],
+    }));
+  };
+
+  const handleAddShelf = (sectionId) => {
+    const currentShelves = shelvesData[sectionId] || [];
+    const newId = currentShelves.length
+      ? Math.max(...currentShelves.map((sh) => sh.id)) + 1
+      : sectionId * 10 + 1;
+    const newShelfName = prompt("نام قفسه جدید را وارد کنید:");
+    if (!newShelfName) return;
+    const newShelf = {
+      id: newId,
+      name: newShelfName,
+      productName: "محصول جدید",
+      color: "نامشخص",
+      stock: 0,
+      reserved: 0,
+      price: 0,
+    };
+
+    setShelvesData((prev) => ({
+      ...prev,
+      [sectionId]: [...currentShelves, newShelf],
+    }));
+  };
+
   return (
     <div className="warehouse-list-container">
-      <h2>لیست انبارها</h2>
+      <h2 className="warehousetitle">لیست انبارها</h2>
       <div className="warehouse-cards">
         {warehouses.map((warehouse) => (
           <div
@@ -240,7 +281,13 @@ function WarehouseList() {
               userSelect: "none",
             }}
           >
-            <h3 style={{ marginBottom: "20px", borderBottom: "1px solid #ddd", paddingBottom: "8px" }}>
+            <h3
+              style={{
+                marginBottom: "20px",
+                borderBottom: "1px solid #ddd",
+                paddingBottom: "8px",
+              }}
+            >
               {modalWarehouse.name} - بخش‌ها
             </h3>
 
@@ -288,6 +335,22 @@ function WarehouseList() {
                       ) : (
                         <p style={{ color: "#999" }}>قفسه‌ای یافت نشد.</p>
                       )}
+
+                      <button
+                        onClick={() => handleAddShelf(section.id)}
+                        style={{
+                          marginTop: 10,
+                          padding: "6px 12px",
+                          borderRadius: "6px",
+                          border: "1.5px solid #1976d2",
+                          backgroundColor: "white",
+                          color: "#1976d2",
+                          cursor: "pointer",
+                          fontWeight: "600",
+                        }}
+                      >
+                        + افزودن قفسه
+                      </button>
                     </div>
                   )}
                 </div>
@@ -295,6 +358,23 @@ function WarehouseList() {
             ) : (
               <p style={{ color: "#999" }}>این انبار بخش ندارد.</p>
             )}
+
+            <button
+              onClick={handleAddSection}
+              style={{
+                marginTop: "20px",
+                padding: "8px 14px",
+                borderRadius: "6px",
+                border: "1.5px solid #1976d2",
+                backgroundColor: "white",
+                color: "#1976d2",
+                cursor: "pointer",
+                fontWeight: "700",
+                width: "100%",
+              }}
+            >
+              + افزودن بخش
+            </button>
 
             <button
               onClick={closeModal}

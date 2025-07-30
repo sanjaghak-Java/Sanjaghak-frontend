@@ -45,6 +45,7 @@ import Shippinginformation from './pages/Shippinginformation.jsx';
 import ThankYouModal from './pages/ThankYouModal.jsx';
 import AddPurchaseOrder from './pages/AddPurchaseOrder.jsx';
 import RequestPage from './pages/RequestPage.jsx';
+import WarehouseTransfer from './pages/WarehouseTransfer.jsx';
 
 
 const products = Array.from({ length: 50 }, (_, i) => ({
@@ -112,7 +113,7 @@ function App() {
           <Route path="سفارش خرید" element={<PurchasePage />} />
           <Route path="ثبت-سفارش" element={<AddPurchaseOrder />} />
           <Route path="درخواست ها" element={<RequestPage />} />
-
+          <Route path="انتقال-بین-انبار" element={<WarehouseTransfer />} />
 
 
         </Route>

@@ -214,7 +214,7 @@ function DiscountsPage() {
         {ongoingDiscounts.length > 0 && (
           <div className="ongoing-discounts-cards">
             <Swiper
-              className="swiper-slide"
+              id="swiper-slide"
               modules={[Navigation, Pagination]}
               navigation
               pagination={{ clickable: true }}

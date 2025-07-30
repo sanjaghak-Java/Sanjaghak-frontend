@@ -133,12 +133,7 @@ body, html {
   color: #dc3545;
 }
 
-.swiper-wrapper {
-  display: flex;
-  justify-content: center !important;
-}
-
-.swiper-slide {
+#swiper-slide {
   display: flex !important;
   align-items: center;
   justify-content: center;

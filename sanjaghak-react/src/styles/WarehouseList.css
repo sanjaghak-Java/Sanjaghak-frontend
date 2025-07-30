@@ -1,10 +1,11 @@
 .warehouse-cards {
   display: flex;
-  flex-direction: column; /* کارت‌ها زیر هم باشند */
-  gap: 16px;              /* فاصله عمودی بین کارت‌ها */
-  /* اگر بخواهید محدودیت عرض بدهید: */
-  max-width: 1230px;       /* به دلخواه */
-  margin: 0 auto 0 0;         /* وسط چین شدن */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;             
+  max-width: 1230px;      
+  margin: 0 auto 0 0;        
   direction: rtl;
 }
 
@@ -12,18 +13,14 @@
   background-color: #fff;
   border-radius: 12px;
   box-shadow: 0 0 10px #ccc;
-  padding: 16px 24px;
+  padding: 16px 28px;
   transition: 0.3s;
   cursor: pointer;
-  
-  /* مستطیل افقی */
   display: flex;
-  align-items: center;  /* وسط چین عمودی محتوا */
-  gap: 20px;            /* فاصله بین عناصر داخل کارت */
-  
-  /* عرض کارت */
-  width: 100%;          /* تمام عرض والد */
-  min-height: 120px;    /* ارتفاع مشخص */
+  align-items: center;
+  justify-content: space-between;
+  width: 90%;         
+  min-height: 120px;    
   box-sizing: border-box;
 }
 
@@ -32,20 +29,36 @@
   box-shadow: 0 8px 20px rgba(0,0,0,0.12);
 }
 
-/* بخش اطلاعات در سمت چپ (چون راست به چپ هستیم، در واقع سمت راست) */
-.info-line {
-  margin: 4px 0;
-  font-size: 14px;
-  color: #333;
-  flex: 1; /* بخش اطلاعات فضای بیشتری بگیرد */
+.warehouse-titles{
+  display: flex;
+  /* align-items: center; */
+  justify-content: space-between;
+  padding: 16px 0;
+  width: 100%;         
+  gap: 20px;
 }
 
-/* دکمه‌ها به صورت عمودی یا افقی داخل کارت */
+.warehouse-titles h5{
+  display: flex;
+  flex: 1;
+  justify-content: center;
+}
+
+.info-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* margin: 4px 0; */
+  width: fit-content;
+  font-size: 14px;
+  color: #333;
+}
+
 .card-buttons {
   display: flex;
-  flex-direction: column; /* عمودی زیر هم */
+  flex-direction: column; 
   gap: 8px;
-  min-width: 110px;       /* عرض ثابت برای دکمه‌ها */
+  min-width: 110px;       
 }
 
 .edit-button,

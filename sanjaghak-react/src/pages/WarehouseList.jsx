@@ -198,6 +198,12 @@ function WarehouseList() {
     <div className="warehouse-list-container">
       <h2 className="warehousetitle">لیست انبارها</h2>
       <div className="warehouse-cards">
+        <div className="warehouse-titles"> 
+          <h5>نام انبار</h5>
+          <h5>آدرس</h5>
+          <h5>کد پستی</h5>
+          <h5>عملیات</h5>
+        </div>
         {warehouses.map((warehouse) => (
           <div
             key={warehouse.id}
@@ -207,19 +213,10 @@ function WarehouseList() {
           >
             <h3>{warehouse.name}</h3>
             <div className="info-line">
-              <strong>کشور:</strong> {warehouse.country}
+              <span>{warehouse.country} - {warehouse.province} - {warehouse.city} - {warehouse.address} </span>
             </div>
             <div className="info-line">
-              <strong>استان:</strong> {warehouse.province}
-            </div>
-            <div className="info-line">
-              <strong>شهر:</strong> {warehouse.city}
-            </div>
-            <div className="info-line">
-              <strong>آدرس:</strong> {warehouse.address}
-            </div>
-            <div className="info-line">
-              <strong>کد پستی:</strong> {warehouse.postalCode}
+              {warehouse.postalCode}
             </div>
             <div className="card-buttons" onClick={(e) => e.stopPropagation()}>
               <button
@@ -233,6 +230,15 @@ function WarehouseList() {
                 className="delete-button"
               >
                 حذف
+              </button>
+              <button
+                onClick={() => {
+                  navigate("/admin/انتقال-بین-انبار", {
+                    state: { sourceWarehouseName: warehouse.name },
+                  });
+                }}
+              >
+                ⇅
               </button>
             </div>
           </div>

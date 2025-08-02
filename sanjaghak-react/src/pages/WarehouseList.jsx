@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import WarehouseProductInformation from "../pages/WarehouseProductInformation";
+import WarehouseNotifications from "../pages/WarehouseNotifications"; // مسیر را بر اساس پروژه‌ات اصلاح کن
 import "/src/styles/WarehouseList.css";
 
 const initialWarehouses = [
@@ -128,6 +129,8 @@ function WarehouseList() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [sectionsData, setSectionsData] = useState(initialSectionsData);
   const [shelvesData, setShelvesData] = useState(initialShelvesData);
+  const [notificationsWarehouse, setNotificationsWarehouse] = useState(null);
+
   const navigate = useNavigate();
 
   const handleDelete = (id) => {
@@ -198,7 +201,7 @@ function WarehouseList() {
     <div className="warehouse-list-container">
       <h2 className="warehousetitle">لیست انبارها</h2>
       <div className="warehouse-cards">
-        <div className="warehouse-titles"> 
+        <div className="warehouse-titles">
           <h5>نام انبار</h5>
           <h5>آدرس</h5>
           <h5>کد پستی</h5>
@@ -213,11 +216,12 @@ function WarehouseList() {
           >
             <h3>{warehouse.name}</h3>
             <div className="info-line">
-              <span>{warehouse.country} - {warehouse.province} - {warehouse.city} - {warehouse.address} </span>
+              <span>
+                {warehouse.country} - {warehouse.province} - {warehouse.city} -{" "}
+                {warehouse.address}{" "}
+              </span>
             </div>
-            <div className="info-line">
-              {warehouse.postalCode}
-            </div>
+            <div className="info-line">{warehouse.postalCode}</div>
             <div className="card-buttons" onClick={(e) => e.stopPropagation()}>
               <button
                 onClick={() => handleEdit(warehouse.id)}
@@ -239,6 +243,15 @@ function WarehouseList() {
                 }}
               >
                 ⇅
+              </button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setNotificationsWarehouse(warehouse);
+                }}
+                className="notifications-button"
+              >
+                اعلانات
               </button>
             </div>
           </div>
@@ -408,6 +421,13 @@ function WarehouseList() {
         <WarehouseProductInformation
           product={selectedProduct}
           onClose={() => setSelectedProduct(null)}
+        />
+      )}
+
+      {notificationsWarehouse && (
+        <WarehouseNotifications
+          warehouseName={notificationsWarehouse.name}
+          onClose={() => setNotificationsWarehouse(null)}
         />
       )}
     </div>

@@ -79,7 +79,7 @@
 
   .filterpart{
     display: flex;
-    gap: 80px;
+    gap: 50px;
     align-items: center;
     justify-content: center;
   }
@@ -218,6 +218,9 @@
     color: #888;
     font-size: 18px;
     padding: 30px;
+  }
+
+  .custom-date-picker{
   }
 
 /* ....ریسپانسیو.... */

@@ -1,40 +1,39 @@
 import React from "react";
 import "/src/styles/RequestDetailsModal.css";
 
+function RequestDetailsModal({ isOpen, onClose, request }) {
+  if (!isOpen || !request) return null;
 
-const fakeOrderId = "RQ-1234";
-const fakeRequestType = "خرید";
-const fakeOrderDate = "1403/05/15";
-const fakeRecipient = "علی رضایی";
-const fakeAddress = "تهران، خیابان انقلاب، پلاک 123";
+  const {
+    id,
+    type,
+    date,
+    requester,
+    status,
+    address,
+    items,
+    totals,
+    returnReason,
+    description
+  } = request;
 
-const fakeItems = [
-  { id: 1, name: "گوشی موبایل", unitPrice: "1,00,000", quantity: 1, totalPrice: "1,200,000" },
-  { id: 2, name: "شارژر سریع", unitPrice: "300,000", quantity: 2, totalPrice: "100,000" },
-];
+  const shouldShowActions =
+    (type === "مرجوعی" || type === "لغو خرید") &&
+    status === "در حال بررسی";
 
-const fakeTotals = {
-  subtotal: "1,800,000",
-  tax: "180,000",
-  shipping: "50,000",
-  finalPrice: "2,030,000",
-};
-
-function RequestDetailsModal({ isOpen, onClose }) {
-  if (!isOpen) return null;
+  const shouldShowReturnDescription = type === "مرجوعی";
 
   return (
     <div className="req-modal-overlay" onClick={onClose}>
       <div className="req-modal-content" onClick={(e) => e.stopPropagation()}>
-
         <h4>جزئیات درخواست</h4>
         <br />
-        <div style={{display: "flex", flexDirection:"column", gap: "8px"}}>
-          <p>شماره سفارش: <span>{fakeOrderId}</span></p>
-          <p>توع درخواست: <span>{fakeRequestType}</span></p>
-          <p>تاریخ ثبت: <span>{fakeOrderDate}</span></p>
-          <p>تحویل گیرنده: <span>{fakeRecipient}</span></p>
-          <p> آدرس: <span>{fakeAddress}</span></p>
+        <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+          <p>شماره سفارش: <span>{id}</span></p>
+          <p>نوع درخواست: <span>{type}</span></p>
+          <p>تاریخ ثبت: <span>{date}</span></p>
+          <p>درخواست‌کننده: <span>{requester}</span></p>
+          <p>آدرس: <span>{address}</span></p>
         </div>
         <br />
         <hr />
@@ -46,47 +45,65 @@ function RequestDetailsModal({ isOpen, onClose }) {
               <th>قیمت واحد</th>
               <th>تعداد</th>
               <th>قیمت کل</th>
+              {shouldShowActions && <th>عملیات</th>}
             </tr>
           </thead>
           <tbody>
-            {fakeItems.map((item, i) => (
-              <tr key={item.id}>
-                <td>{i + 1}</td>
-                <td>{item.name}</td>
-                <td>{item.unitPrice}</td>
-                <td>{item.quantity}</td>
-                <td>{item.totalPrice}</td>
-              </tr>
+            {items.map((item, i) => (
+              <React.Fragment key={item.id}>
+                <tr>
+                  <td>{i + 1}</td>
+                  <td>{item.name}</td>
+                  <td>{item.unitPrice}</td>
+                  <td>{item.quantity}</td>
+                  <td>{item.totalPrice}</td>
+                  {shouldShowActions && (
+                    <td>
+                      <div style={{ display: "flex", gap: "4px", width: "100%", alignItems: "center", justifyContent: "center"}}>
+                        <button id="confirm-butt" style={{ fontSize: "12px" }}>✔</button>
+                        <button id="reject-butt" style={{ fontSize: "12px" }}>✖</button>
+
+                      </div>
+                    </td>
+                  )}
+                </tr>
+
+                {shouldShowReturnDescription && (
+                  <tr>
+                    <td colSpan={shouldShowActions ? 6 : 5}>
+                      <div style={{ padding: "5px", textAlign: "right"}}>
+                        <strong>علت مرجوعی:</strong> {returnReason || "—"}<br />
+                        <strong>توضیحات:</strong> {description || "—"}
+                      </div>
+                    </td>
+                  </tr>
+                )}
+              </React.Fragment>
             ))}
+          </tbody>
+
+        </table>
+
+
+        <table className="req-order-items-table" style={{ borderCollapse: "separate" }}>
+          <thead>
+            <tr>
+              <th>جمع کل</th>
+              <th>ارزش افزوده</th>
+              <th>هزینه ارسال</th>
+              <th>قیمت نهایی</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{totals.subtotal}</td>
+              <td>{totals.tax}</td>
+              <td>{totals.shipping}</td>
+              <td style={{ backgroundColor: "#f5f5f5" }}>{totals.finalPrice}</td>
+            </tr>
           </tbody>
         </table>
 
-        <table className="req-order-items-table" style={{borderCollapse: "separate"}}>
-            <thead>
-                <tr>
-                <th>جمع کل</th>
-                <th>ارزش افزوده</th>
-                <th>هزینه ارسال</th>
-                <th>قیمت نهایی</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                <td>{fakeTotals.subtotal}</td>
-                <td>{fakeTotals.tax}</td>
-                <td>{fakeTotals.shipping}</td>
-                <td style={{backgroundColor: "#f5f5f5"}}>{fakeTotals.finalPrice}</td>
-                </tr>
-            </tbody>
-        </table>
-        <div style={{direction: "ltr"}}>
-          <button id="reject-butt">
-            رد کردن ✖
-          </button>
-          <button id="confirm-butt">
-            تایید کردن ✔
-          </button>
-        </div>
       </div>
     </div>
   );

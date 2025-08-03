@@ -1,5 +1,9 @@
 import React, { useRef, useState, useEffect } from 'react';
 import OrderDetailsModal from './OrderDetailsModal';
+import DatePicker from "react-multi-date-picker";
+import persian from "react-date-object/calendars/persian";
+import persian_fa from "react-date-object/locales/persian_fa";
+import DateObject from "react-date-object";
 import "/src/styles/ProfileOrders.css";
 import Navbar from './Navbar';
 import Footer from './Footer';
@@ -90,8 +94,8 @@ function Orders() {
   const inProgressCount = orders.filter(order => order.status === 'در جریان').length;
 
   const [statusFilter, setStatusFilter] = useState('همه');
-  const [fromDate, setFromDate] = useState('');
-  const [toDate, setToDate] = useState('');
+  const [fromDate, setFromDate] = useState(null);
+  const [toDate, setToDate] = useState(null);
   const [filteredOrders, setFilteredOrders] = useState(orders);
 
   const getStatusClass = (status) => {
@@ -111,18 +115,35 @@ function Orders() {
 
   useEffect(() => {
     const filtered = orders.filter(order => {
-      const from = fromDate ? fromDate.replaceAll('-', '/') : null;
-      const to = toDate ? toDate.replaceAll('-', '/') : null;
-
       const matchStatus = statusFilter === 'همه' || order.status === statusFilter;
-      const matchFrom = from ? order.orderDate >= from : true;
-      const matchTo = to ? order.orderDate <= to : true;
 
-      return matchStatus && matchFrom && matchTo;
+      let matchDate = true;
+
+      const orderDateObj = new DateObject({
+        date: order.orderDate,
+        calendar: persian,
+        locale: persian_fa,
+        format: "YYYY/MM/DD"
+      });
+
+      const orderYMD = orderDateObj.format("YYYY/MM/DD");
+      const fromYMD = fromDate?.format("YYYY/MM/DD");
+      const toYMD = toDate?.format("YYYY/MM/DD");
+
+      if (fromDate && orderYMD < fromYMD) {
+        matchDate = false;
+      }
+
+      if (toDate && orderYMD > toYMD) {
+        matchDate = false;
+      }
+
+      return matchStatus && matchDate;
     });
 
     setFilteredOrders(filtered);
   }, [statusFilter, fromDate, toDate]);
+
 
   return (
     <>
@@ -167,7 +188,12 @@ function Orders() {
               <div className="filterpart">
                 <div>
                   <label htmlFor="selectBox" className="formlabel">وضعیت</label>
-                  <select id="selectBox" className="customselect" value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
+                  <select
+                    id="selectBox"
+                    className="customselect"
+                    value={statusFilter}
+                    onChange={(e) => setStatusFilter(e.target.value)}
+                  >
                     <option value="همه">همه موارد</option>
                     <option value="در جریان">جاری</option>
                     <option value="تحویل شده">تحویل شده</option>
@@ -177,13 +203,31 @@ function Orders() {
                 </div>
 
                 <div>
-                  <label htmlFor="fromDate" className="formlabel">از تاریخ</label>
-                  <input type="date" id="fromDate" className="customdate" value={fromDate} onChange={(e) => setFromDate(e.target.value)} />
+                  <label className="formlabel">از تاریخ</label>
+                  <DatePicker
+                    calendar={persian}
+                    locale={persian_fa}
+                    value={fromDate}
+                    onChange={setFromDate}
+                    format="YYYY/MM/DD"
+                    style={{ direction: "rtl", padding: "22px", fontFamily: "Traffic", border: "2px solid #ccc", borderRadius: "8px", width:"200px"}}
+                    className="custom-date-picker"
+                    placeholder="از تاریخ"
+                  />
                 </div>
 
                 <div>
-                  <label htmlFor="toDate" className="formlabel">تا تاریخ</label>
-                  <input type="date" id="toDate" className="customdate" value={toDate} onChange={(e) => setToDate(e.target.value)} />
+                  <label className="formlabel">تا تاریخ</label>
+                  <DatePicker
+                    calendar={persian}
+                    locale={persian_fa}
+                    value={toDate}
+                    onChange={setToDate}
+                    format="YYYY/MM/DD"
+                    style={{ direction: "rtl", padding: "22px", fontFamily: "Traffic", border: "2px solid #ccc", borderRadius: "8px", width:"200px"}}
+                    className="custom-date-picker"
+                    placeholder="تا تاریخ"
+                  />
                 </div>
               </div>
 

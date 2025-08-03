@@ -1,6 +1,6 @@
 import React from "react";
 
-function WarehouseNotifications({ warehouseName, onClose }) {
+function WarehouseNotifications({ warehouseName, onClose, onViewTransfer }) {
   const notifications = [
     {
       id: 1,
@@ -12,7 +12,7 @@ function WarehouseNotifications({ warehouseName, onClose }) {
       id: 2,
       text: `درخواست انتقال به انبار ${warehouseName}`,
       buttonText: "مشاهده",
-      onClick: () => alert("نمایش درخواست انتقال"),
+      onClick: onViewTransfer,
     },
   ];
 

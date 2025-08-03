@@ -1,6 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import '/src/styles/AddPurchaseFactor.css';
+import download from '../assets/download.png';
+
 
 function AddPurchaseFactor({ isOpen, onClose, purchase }) {
   const navigate = useNavigate();
@@ -56,12 +58,22 @@ function AddPurchaseFactor({ isOpen, onClose, purchase }) {
   navigate("/admin/ثبت-سفارش");
   };
 
+  const handleCancelClick = () => {
+    const confirmCancel = window.confirm("آیا از لغو سفارش مطمئن هستید؟");
+    if (confirmCancel) {
+      alert("سفارش با موفقیت لغو شد.");
+      onClose();
+    }
+  };
+
 
   return (
     <div className="modals-backdrop" onClick={handleBackdropClick}>
       <div className="invoice-modal" onClick={handleModalClick}>
-
-        <h2>پیش‌فاکتور خرید</h2>
+        <div style={{display: "flex", justifyContent: "space-between"}}>
+          <h2>پیش‌فاکتور خرید</h2>
+          <button className="downloadbutton" title="دانلود"> <img src={download} alt="دانلود" /></button>
+        </div>
         <br />
         <h4>{purchase ? ` شماره سفارش: ${purchase.id}` : ""}</h4>
         <br />
@@ -117,7 +129,7 @@ function AddPurchaseFactor({ isOpen, onClose, purchase }) {
           {showEditCancelButtons ? (
             <>
               <button className="edit-order-button" onClick={handleEditClick}>ویرایش</button>
-              <button className="cancel-order-button">لغو کردن</button>
+              <button className="cancel-order-button" onClick={handleCancelClick}>لغو کردن</button>
             </>
           ) : (
             <>

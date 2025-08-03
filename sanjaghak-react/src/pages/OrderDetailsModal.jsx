@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import jalaali from 'jalaali-js';
 import '/src/styles/OrderDetailsModal.css';
-import justify from '../assets/justify.png';
-import store from '../assets/store.png';
+import download from '../assets/download.png';
 
 function toGregorian(shamsiDate) {
   const [jy, jm, jd] = shamsiDate.split('/').map(Number);
@@ -10,40 +9,22 @@ function toGregorian(shamsiDate) {
   return new Date(gy, gm - 1, gd);
 }
 
-function daysSinceDelivery(deliveryDateStr) {
-  const deliveryDate = toGregorian(deliveryDateStr);
-  const now = new Date();
-  const diffTime = now.getTime() - deliveryDate.getTime();
-  return Math.floor(diffTime / (1000 * 60 * 60 * 24));
-}
-
-const returnReasons = [
-  'کالا معیوب است',
-  'کالا با توضیحات مطابقت ندارد',
-  'سفارش اشتباه بوده',
-  'دیر رسیدن کالا',
-];
-
-const cancelReasons = [
-  'تغییر نظر داده‌ام',
-  'می‌خواهم کالا دیگری سفارش دهم',
-  'مدت زمان ارسال طولانی بود',
-];
-
 function OrderDetailsModal({ order, onClose }) {
   const [step, setStep] = useState(1);
   const [reasonText, setReasonText] = useState('');
   const [selectedReturnReason, setSelectedReturnReason] = useState('');
-  const [showCancelForm, setShowCancelForm] = useState(false);
-  const [cancelReason, setCancelReason] = useState('');
 
   if (!order) return null;
 
-  const isDeliveredAndWithin3Days = order.status === 'تحویل شده' && daysSinceDelivery(order.deliveryDate) < 3;
+  const isDelivered = order.status === 'تحویل شده';
   const isInProgress = order.status === 'در جریان';
 
   const handleCancelClick = () => {
-    setShowCancelForm(true);
+    const confirmCancel = window.confirm('آیا مطمئن هستید که می‌خواهید این سفارش را لغو کنید؟');
+    if (confirmCancel) {
+      console.log('سفارش لغو شد');
+      onClose();
+    }
   };
 
   const handleReturnSubmit = () => {
@@ -55,147 +36,112 @@ function OrderDetailsModal({ order, onClose }) {
     onClose();
   };
 
-  const handleCancelSubmit = () => {
-    if (!cancelReason) {
-      alert('لطفاً دلیل لغو سفارش را وارد کنید');
-      return;
-    }
-    console.log('سفارش لغو شد با دلیل:', cancelReason);
-    onClose();
-  };
-
   return (
-    <div className="modal-overlay">
-      <div className="modal-order-content">
-        <button className="modal-close" onClick={onClose}>×</button>
+    <div className="modal-order-overlay" onClick={onClose}>
+      <div className="modal-orders-content" onClick={(e) => e.stopPropagation()}>
 
-        {step === 1 && !showCancelForm && (
+        {step === 1 && (
           <>
-            <h3 className="modal-title">جزئیات سفارش</h3>
-            <div className="modal-body">
-              <div className="profile-oreder-details">
-                <label>کد پیگیری سفارش:</label>
-                <label>{order.orderNumber}</label>
-                <br />
-                <div>
-                  <section style={{ display: "flex" }}>
-                    <label>تاریخ ثبت سفارش:</label>
-                    <label>{order.orderDate}</label>
-                  </section>
-
-                  {(order.status !== 'لغو شده' && order.status !== 'در جریان') && (
-                    <section style={{ display: "flex" }}>
-                      <label>تاریخ تحویل:</label>
-                      <label>{order.deliveryDate}</label>
-                    </section>
-                  )}
-                </div>
-              </div>
-              <br />
-              <hr />
-              <br />
-              <div style={{ display: "flex", gap: "15px" }}>
-                <img src={order.product.image} alt="عکس محصول" className="orders-image" />
-                <div className="orders-info-div">
-                  <label>نام کالا</label>
-                  <div className="warrantydiv">
-                    <img src={store} alt="فروشگاه" className="warrantyimg" />
-                    <label className="warrantylabel">سنجاقک</label>
-                  </div>
-                  <div className="warrantydiv">
-                    <img src={justify} alt="دسته‌بندی" className="warrantyimg" />
-                    <label className="warrantylabel">{order.product.category}</label>
-                  </div>
-                  <div className="itemsproductcolor">
-                    <label
-                      className="itemsproductcolorshow"
-                      style={{ backgroundColor: order.product.colorCode }}
-                    ></label>
-                    <label className="itemsproductcolorname">{order.product.color}</label>
-                  </div>
-                  <div className="orders-pricepart">
-                    <div style={{ display: 'flex', gap: '5px' }}>
-                      <label className="pricelab">تومان</label>
-                      <label className="pricelab">{order.product.price.toLocaleString()}</label>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: " 5px 10px"}}>
+              <h3 className="modal-title">جزئیات سفارش</h3>
+              <button className="downloadbutton" title='دانلود'>
+                <img src={download} alt="دانلود" />
+              </button>
             </div>
-
-            {(isDeliveredAndWithin3Days || isInProgress) && (
-              <div style={{ direction: "ltr", width: "100%", display: "flex", gap: '10px' }}>
-                {isInProgress ? (
-                  <button className="modal-button" onClick={handleCancelClick}>
-                    لغو سفارش
-                  </button>
-                ) : (
-                  <button className="modal-button" onClick={() => setStep(2)}>
-                    گزارش مرجوعی
-                  </button>
-                )}
+            <div className="modal-body">
+              <p><strong>کد پیگیری سفارش:</strong> {order.orderNumber}</p>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <p><strong>تاریخ ثبت سفارش:</strong> {order.orderDate}</p>
+                <p><strong>تاریخ تحویل:</strong> {order.deliveryDate}</p>
               </div>
-            )}
+
+              <hr style={{ margin: "1rem 0" }} />
+
+              <table className='order-modal-table'>
+                <thead>
+                  <tr>
+                    <th>ردیف</th>
+                    <th>عکس</th>
+                    <th>نام محصول</th>
+                    <th>دسته‌بندی</th>
+                    <th>رنگ</th>
+                    <th>قیمت</th>
+                    {(isDelivered || isInProgress) && <th>عملیات</th>}
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>
+                      <img
+                        src={order.product.image}
+                        alt="محصول"
+                        className='orders-image'
+                      />
+                    </td>
+                    <td>{order.product.title}</td>
+                    <td>{order.product.category}</td>
+                    <td>
+                      <span
+                        style={{
+                          display: 'inline-block',
+                          width: '15px',
+                          height: '15px',
+                          backgroundColor: order.product.colorCode,
+                          borderRadius: '50%',
+                          marginLeft: '5px',
+                        }}
+                      ></span>
+                      {order.product.color}
+                    </td>
+                    <td>{order.product.price.toLocaleString()} تومان</td>
+                    {(isDelivered || isInProgress) && (
+                      <td>
+                        {isDelivered && (
+                          <button onClick={() => setStep(2)} className='modal-button'>
+                            گزارش مرجوعی
+                          </button>
+                        )}
+                        {isInProgress && (
+                          <button onClick={handleCancelClick} className='modal-button'>
+                            لغو سفارش
+                          </button>
+                        )}
+                      </td>
+                    )}
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </>
         )}
 
-        {step === 2 && !showCancelForm && (
+        {step === 2 && (
           <>
             <h3 className="modal-title">فرم گزارش مرجوعی</h3>
             <select
-              className="modal-select"
+              className='modal-select'
+              style={{ width: '100%', padding: '0.5rem', marginBottom: '1rem' }}
               value={selectedReturnReason}
               onChange={(e) => setSelectedReturnReason(e.target.value)}
             >
-              <option value="">علت مرجوعی راانتخاب کنید</option>
-              {returnReasons.map(reason => (
-                <option key={reason} value={reason}>{reason}</option>
-              ))}
+              <option value="">علت مرجوعی را انتخاب کنید</option>
+              <option value="کالا معیوب است">کالا معیوب است</option>
+              <option value="کالا با توضیحات مطابقت ندارد">کالا با توضیحات مطابقت ندارد</option>
+              <option value="سفارش اشتباه بوده">سفارش اشتباه بوده</option>
+              <option value="دیر رسیدن کالا">دیر رسیدن کالا</option>
             </select>
 
             <textarea
-              className="modal-textarea"
+              className='modal-textarea'
               placeholder="توضیحات بیشتر..."
               value={reasonText}
               onChange={(e) => setReasonText(e.target.value)}
             />
 
-            <div className="modal-footer">
-              <button className="modal-button gray" onClick={() => setStep(1)}>بازگشت</button>
-              <button className="modal-button" onClick={handleReturnSubmit}>
-                ارسال
-              </button>
-            </div>
-          </>
-        )}
-
-        {showCancelForm && (
-          <>
-            <h3 className="modal-title">فرم لغو سفارش</h3>
-
-            <select
-              className="modal-select"
-              value={cancelReason}
-              onChange={(e) => setCancelReason(e.target.value)}
-            >
-              <option value="">علت لغو سفارش را انتخاب کنید</option>
-              {cancelReasons.map((reason) => (
-                <option key={reason} value={reason}>{reason}</option>
-              ))}
-            </select>
-
-            <textarea
-              className="modal-textarea"
-              placeholder="توضیحات بیشتر (اختیاری)..."
-              value={reasonText}
-              onChange={(e) => setReasonText(e.target.value)}
-            />
-
-            <div className="modal-footer">
-              <button className="modal-button gray" onClick={() => setShowCancelForm(false)}>بازگشت</button>
-              <button className="modal-button" onClick={handleCancelSubmit}>
-                ارسال
-              </button>
+            <div className='modal-footer'>
+              <button onClick={() => setStep(1)} className='modal-button-back'>بازگشت</button>
+              <button onClick={handleReturnSubmit} className='modal-button'>ارسال</button>
             </div>
           </>
         )}

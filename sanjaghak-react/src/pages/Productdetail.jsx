@@ -66,6 +66,8 @@ function ProductDetail({ product, onAddToCart }) {
   const basePrice = product.basePrice ?? 0;
   const finalPrice = product.finalPrice ?? 0;
 
+  const [selectedColorIndex, setSelectedColorIndex] = useState(null);
+
   return (
     <div className="head-cart">
       <div className="product">
@@ -124,8 +126,23 @@ function ProductDetail({ product, onAddToCart }) {
 
           <p className="product-information-title">رنگبندی :</p>
           {product.colors.map((color, i) => (
-            <div className="product-color" key={i}>
-              <span className="product-color-show" style={{ backgroundColor: color.hex }} />
+            <div
+              className="product-color"
+              key={i}
+              onClick={() => {
+                const matchedImageIndex = product.images.findIndex(
+                  (img) => img.colorName === color.name
+                );
+                if (matchedImageIndex !== -1) {
+                  setMainImageIndex(matchedImageIndex);
+                  setSelectedColorIndex(i);
+                }
+              }}
+            >
+              <span
+                className={`product-color-show ${i === selectedColorIndex ? 'active-border' : ''}`}
+                style={{ backgroundColor: color.hex }}
+              />
               <label className="product-color-name">{color.name}</label>
             </div>
           ))}

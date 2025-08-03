@@ -1,10 +1,7 @@
-.modal-overlay {
+.modal-order-overlay {
   position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background: rgba(0,0,0,0.4);
+  top: 0; right: 0; bottom: 0; left: 0;
+  background: rgba(0, 0, 0, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -12,75 +9,65 @@
   direction: rtl;
 }
 
-.modal-order-content {
+.modal-orders-content {
   background: #fff;
-  padding: 24px;
+  padding: 24px 15px;
   border-radius: 16px;
-  width: 90%;
-  max-width: 600px;
+  width: 90%;               
+  max-width: 900px;         
   position: relative;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-}
-
-.modal-close {
-  position: absolute;
-  left: 16px;
-  top: 12px;
-  font-size: 24px;
-  background: none;
-  border: none;
-  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
 .modal-title {
-  margin-bottom: 16px;
   font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  color: black;
+}
+
+.modal-body {
+  padding: 15px 10px;
+}
+
+.order-modal-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.order-modal-table th,
+.order-modal-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.order-modal-table th {
+  background-color: #f0f0f0;
   font-weight: bold;
 }
 
-.modal-body{
-  width: 100%;
-  border-radius: 20px;
-  gap: 20px;
-  padding: 15px 25px 30px 20px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-}
-
-.profile-oreder-details{
-  direction: rtl;
-  text-align: right;
-  padding: 5px;
-}
-
-.profile-oreder-details div{
-  display: flex;
-  gap: 100px;
-  margin-top: 8px;
-}
-
-.orders-image{
-  width: auto;
-  height: 150px;
-}
-
-.orders-info-div{
-  display: flex;
-  flex-direction: column;
-  text-align: right;
-  gap: 8px;
-  width: 100%;
-}
-
-.orders-pricepart{
-  width: 100%;
-  direction: ltr;
+.orders-image {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
 }
 
 .modal-button {
   background-color: #dc2655;
   color: #fff;
   border: none;
-  padding: 10px 20px;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.modal-button-back {
+  background-color: #999;
+  color: #fff;
+  margin-right: 8px;
+  border: none;
+  padding: 10px;
   border-radius: 8px;
   cursor: pointer;
 }
@@ -98,10 +85,11 @@
   border: 1px solid #ccc;
   resize: vertical;
   font-family: 'Traffic';
+  margin-top: 12px;
 }
 
-.modal-textarea:focus{
-  border: 1px solid #c4204b;
+.modal-textarea:focus {
+  border-color: #c4204b;
   outline: none;
 }
 
@@ -121,11 +109,8 @@
   font-family: 'Traffic';
   background-color: #fff;
   color: #333;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
   outline: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
+  margin-top: 12px;
   cursor: pointer;
 }
 

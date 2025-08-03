@@ -1,0 +1,71 @@
+.view-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.45);
+  z-index: 999;
+}
+
+.view-modal-content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px 25px;
+  border-radius: 14px;
+  max-width: 900px;
+  width: 90%;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15), 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  font-family: "Vazirmatn", sans-serif;
+  direction: rtl;
+  gap: 20px;
+}
+
+.view-table-container {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.view-modal-title {
+  color: black;
+}
+
+.view-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.view-table th,
+.view-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.view-table th{
+  background-color: #f0f0f0;
+  font-weight: bold;
+}
+
+.view-button-container {
+  width: 100%;
+  display: flex;
+  direction: ltr;
+}
+
+.view-confirm-button {
+  background-color: #DC2655;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  color: white;
+  cursor: pointer;
+}
+

@@ -3,6 +3,7 @@ import "/src/styles/RequestPage.css";
 import Slider from 'react-slider';
 import RequestDetailsModal from './RequestDetailsModal'
 import DatePicker from "react-multi-date-picker";
+import download from '../assets/download.png';
 
 const menuData = {
   "همه موارد": [],
@@ -12,13 +13,123 @@ const menuData = {
 };
 
 const sampleRequests = [
-  { id: 'RQ-2001', requester: 'کاربر الف', type: 'خرید', status: 'در حال پردازش', date: '1403/05/01', totalAmount: '1,800,000' },
-  { id: 'RQ-2002', requester: 'کاربر ب', type: 'مرجوعی', status: 'رد شده', date: '1403/05/03', totalAmount: '2,700,000' },
-  { id: 'RQ-2003', requester: 'کاربر الف', type: 'لغو خرید', status: 'تائید شده', date: '1403/05/25', totalAmount: '950,000' },
-  { id: 'RQ-2004', requester: 'کاربر ب', type: 'مرجوعی', status: 'در حال بررسی', date: '1403/05/03', totalAmount: '2,700,000' },
-  { id: 'RQ-2005', requester: 'کاربر ج', type: 'لغو خرید', status: 'رد شده', date: '1403/05/25', totalAmount: '950,000' },
-  { id: 'RQ-2006', requester: 'کاربر الف', type: 'خرید', status: 'تحویل داده شده', date: '1403/05/25', totalAmount: '50,000' },
+  {
+    id: 'RQ-2001',
+    requester: 'کاربر الف',
+    type: 'خرید',
+    status: 'در حال پردازش',
+    date: '1403/05/01',
+    totalAmount: '1,800,000',
+    address: 'تهران، خیابان آزادی، پلاک 12',
+    items: [
+      { id: 1, name: "لپ‌تاپ ایسوس", unitPrice: "1,000,000", quantity: 1, totalPrice: "1,000,000" },
+      { id: 2, name: "ماوس بی‌سیم", unitPrice: "400,000", quantity: 2, totalPrice: "800,000" }
+    ],
+    totals: {
+      subtotal: "1,800,000",
+      tax: "180,000",
+      shipping: "60,000",
+      finalPrice: "2,040,000"
+    }
+  },
+  {
+    id: 'RQ-2002',
+    requester: 'کاربر ب',
+    type: 'مرجوعی',
+    status: 'رد شده',
+    date: '1403/05/03',
+    totalAmount: '2,700,000',
+    address: 'مشهد، بلوار وکیل‌آباد، پلاک 45',
+    items: [
+      { id: 1, name: "هدفون", unitPrice: "1,350,000", quantity: 2, totalPrice: "2,700,000" }
+    ],
+    totals: {
+      subtotal: "2,700,000",
+      tax: "270,000",
+      shipping: "0",
+      finalPrice: "2,970,000"
+    },
+    returnReason: "خرابی صدا",
+    description: "یک سمت هدفون کار نمی‌کند."
+  },
+  {
+    id: 'RQ-2003',
+    requester: 'کاربر الف',
+    type: 'لغو خرید',
+    status: 'تائید شده',
+    date: '1403/05/25',
+    totalAmount: '950,000',
+    address: 'اصفهان، میدان نقش جهان، پلاک 88',
+    items: [
+      { id: 1, name: "کیبورد مکانیکی", unitPrice: "950,000", quantity: 1, totalPrice: "950,000" }
+    ],
+    totals: {
+      subtotal: "950,000",
+      tax: "95,000",
+      shipping: "20,000",
+      finalPrice: "1,065,000"
+    },
+    description: "لغو به علت تغییر نظر."
+  },
+  {
+    id: 'RQ-2004',
+    requester: 'کاربر ب',
+    type: 'مرجوعی',
+    status: 'در حال بررسی',
+    date: '1403/05/03',
+    totalAmount: '2,700,000',
+    address: 'تبریز، خیابان طالقانی، پلاک 22',
+    items: [
+      { id: 1, name: "گوشی سامسونگ", unitPrice: "2,700,000", quantity: 1, totalPrice: "2,700,000" }
+    ],
+    totals: {
+      subtotal: "2,700,000",
+      tax: "270,000",
+      shipping: "50,000",
+      finalPrice: "3,020,000"
+    },
+    returnReason: "کالا معیوب است",
+    description: "صفحه نمایش گوشی شکسته است."
+  },
+  {
+    id: 'RQ-2005',
+    requester: 'کاربر ج',
+    type: 'لغو خرید',
+    status: 'رد شده',
+    date: '1403/05/25',
+    totalAmount: '950,000',
+    address: 'شیراز، خیابان زند، پلاک 10',
+    items: [
+      { id: 1, name: "کارت گرافیک", unitPrice: "950,000", quantity: 1, totalPrice: "950,000" }
+    ],
+    totals: {
+      subtotal: "950,000",
+      tax: "95,000",
+      shipping: "20,000",
+      finalPrice: "1,065,000"
+    },
+    description: "کاربر منصرف شد."
+  },
+  {
+    id: 'RQ-2006',
+    requester: 'کاربر الف',
+    type: 'خرید',
+    status: 'تحویل داده شده',
+    date: '1403/05/25',
+    totalAmount: '50,000',
+    address: 'رشت، خیابان معلم، پلاک 55',
+    items: [
+      { id: 1, name: "کابل USB-C", unitPrice: "50,000", quantity: 1, totalPrice: "50,000" }
+    ],
+    totals: {
+      subtotal: "50,000",
+      tax: "5,000",
+      shipping: "10,000",
+      finalPrice: "65,000"
+    }
+  }
 ];
+
 
 const parsePersianDate = (dateStr) => parseInt(dateStr.replaceAll("/", ""));
 const formatPersianDate = (num) => {
@@ -46,8 +157,6 @@ function RequestPage() {
   const minDate = Math.min(...allDates);
   const maxDate = Math.max(...allDates);
   const [dateRange, setDateRange] = useState([minDate, maxDate]);
-
-  const openModal = () => setModalOpen(true);
 
   const filteredRequests = sampleRequests.filter(r => {
     const matchesSearch = r.id.includes(searchText) || r.requester.includes(searchText);
@@ -78,6 +187,14 @@ function RequestPage() {
     const num = Math.max(1, Math.min(pageNum, totalPages));
     setCurrentPage(num);
   };
+
+  const [selectedRequest, setSelectedRequest] = useState(null);
+
+  const openModal = (request) => {
+    setSelectedRequest(request);
+    setModalOpen(true);
+  };
+
 
   return (
     <div className="request-page">
@@ -182,14 +299,27 @@ function RequestPage() {
       <div className="request-title-div">
         <h2>لیست درخواست‌ها</h2>
         <div>
-          {selectedStatus?.status === "در حال بررسی" && (
+          {selectedStatus && (
             <>
-              <button id="reject-butt">
-                رد کردن همه
-              </button>
-              <button id="confirm-butt">
-                تایید کردن همه
-              </button>
+              {/* {(selectedStatus.status === "در حال بررسی" && (
+                <>
+                  <button id="reject-butt">رد کردن همه</button>
+                  <button id="confirm-butt">تایید کردن همه</button>
+                </>
+              ))} */}
+
+              {(selectedStatus.category === "خریدها" && selectedStatus.status === "در حال پردازش") && (
+                <button id="Report-butt">گزارش به انبار</button>
+              )}
+
+          {(["خریدها", "مرجوعی‌ها", "لغو شده‌ها"].includes(selectedStatus.category) &&
+            ["در حال پردازش", "تحویل داده شده", "تائید شده", "رد شده", "در حال بررسی"].includes(selectedStatus.status)
+          ) && (
+            <button className="downloadbutton" title="دانلود">
+              <img src={download} alt="دانلود" />
+            </button>
+          )}
+
             </>
           )}
         </div>
@@ -210,7 +340,7 @@ function RequestPage() {
           {paginatedData.map(req => (
             <tr
               key={req.id}
-              onClick={openModal}
+              onClick={() => openModal(req)}
               style={{ cursor: "pointer" }}
             >
               <td>{req.id}</td>
@@ -273,6 +403,7 @@ function RequestPage() {
       <RequestDetailsModal
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
+        request={selectedRequest}
       />
     </div>
   );

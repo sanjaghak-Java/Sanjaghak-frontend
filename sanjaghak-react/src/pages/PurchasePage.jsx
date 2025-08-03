@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AddPurchaseFactor from './AddPurchaseFactor';
 import "/src/styles/PurchasePage.css";
+import download from '../assets/download.png';
 
 const samplePurchases = [
   {
@@ -61,7 +62,6 @@ function PurchasePage() {
     return matchesStatus && matchesSupplier && matchesSearch;
   });
 
-  // پجینیشن
   const [currentPage, setCurrentPage] = useState(1);
   const [pageInput, setPageInput] = useState('');
   const itemsPerPage = 4;
@@ -104,7 +104,7 @@ function PurchasePage() {
           value={searchText}
           onChange={(e) => {
             setSearchText(e.target.value);
-            setCurrentPage(1);  // صفحه رو برگرد صفحه اول وقتی سرچ یا فیلتر عوض میشه
+            setCurrentPage(1);
           }}
         />
 
@@ -146,9 +146,15 @@ function PurchasePage() {
         }}
       >
         <h2>سفارش های خرید</h2>
-        <button className="add-warehouse-button" onClick={handleAddClick}>
-          + ثبت سفارش جدید
-        </button>
+        <div style={{display: "flex", alignItems: "center", gap: "10px"}}>
+          <button className="add-warehouse-button" onClick={handleAddClick}>
+            + ثبت سفارش جدید
+          </button>
+          <button className="downloadbutton" title="دانلود">
+            <img src={download} alt="دانلود" />
+          </button>
+        </div>
+
       </div>
       <br />
       <table className="purchase-table">

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import WarehouseProductInformation from "../pages/WarehouseProductInformation";
-import WarehouseNotifications from "../pages/WarehouseNotifications"; // مسیر را بر اساس پروژه‌ات اصلاح کن
+import WarehouseNotifications from "../pages/WarehouseNotifications";
+import WarehouseViewModal from "../pages/WarehouseViewModal";
 import "/src/styles/WarehouseList.css";
 
 const initialWarehouses = [
@@ -131,6 +132,9 @@ function WarehouseList() {
   const [shelvesData, setShelvesData] = useState(initialShelvesData);
   const [notificationsWarehouse, setNotificationsWarehouse] = useState(null);
 
+  const [showViewModal, setShowViewModal] = useState(false);
+  const [transferItems, setTransferItems] = useState([]);
+
   const navigate = useNavigate();
 
   const handleDelete = (id) => {
@@ -195,6 +199,24 @@ function WarehouseList() {
       ...prev,
       [sectionId]: [...currentShelves, newShelf],
     }));
+  };
+
+  const handleViewTransferFromNotifications = () => {
+    setTransferItems([
+      {
+        id: 1,
+        productName: "محصول الف",
+        fromWarehouse: "انبار مرکزی",
+        fromSection: "بخش 1",
+        fromShelf: "قفسه 1",
+        toWarehouse: "انبار جنوب",
+        toSection: "بخش 2",
+        toShelf: "قفسه 10",
+        quantity: 20,
+      },
+    ]);
+    setShowViewModal(true);
+    setNotificationsWarehouse(null);
   };
 
   return (
@@ -428,6 +450,18 @@ function WarehouseList() {
         <WarehouseNotifications
           warehouseName={notificationsWarehouse.name}
           onClose={() => setNotificationsWarehouse(null)}
+          onViewTransfer={handleViewTransferFromNotifications}
+        />
+      )}
+
+      {showViewModal && (
+        <WarehouseViewModal
+          transferItems={transferItems}
+          onClose={() => setShowViewModal(false)}
+          onConfirmTransfer={() => {
+            alert("انتقال تایید شد!");
+            setShowViewModal(false);
+          }}
         />
       )}
     </div>

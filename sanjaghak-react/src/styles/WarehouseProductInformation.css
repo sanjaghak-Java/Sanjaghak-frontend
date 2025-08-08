@@ -1,0 +1,60 @@
+/* WarehouseProductInformation.css */
+
+/* کانتینر کلی */
+.warehouse-product-info-container {
+  padding: 30px 25px;
+  font-family: 'Vazirmatn', sans-serif;
+  direction: rtl;
+  max-width: 500px;
+  margin: 40px auto;
+  /* text-align: center; وسط چین کردن متن */
+  background-color: #f9faff;
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(25, 118, 210, 0.15);
+  color: #222;
+}
+
+/* عنوان محصول */
+.warehouse-product-info-container h2 {
+  margin-bottom: 25px;
+  font-weight: 800;
+  color: #1565c0;
+  font-size: 28px;
+}
+
+/* هر خط اطلاعات */
+.warehouse-product-info-container p {
+  margin: 12px 0;
+  font-size: 17px;
+  font-weight: 600;
+  color: #444;
+}
+
+/* برچسب‌های قوی‌تر */
+.warehouse-product-info-container p strong {
+  color: #1976d2;
+  display: inline-block;
+  min-width: 90px;
+  text-align: left;
+  margin-left: 10px;
+}
+
+/* دکمه بازگشت */
+.warehouse-product-info-container button {
+  margin-top: 30px;
+  padding: 12px 20px;
+  border-radius: 10px;
+  border: none;
+  background-color: #d21919;
+  color: white;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 16px;
+  width: 100%;
+  transition: background-color 0.25s ease;
+  box-shadow: 0 4px 8px rgba(210, 99, 25, 0.4);
+}
+
+.warehouse-product-info-container button:hover {
+  background-color: #be0000;
+}

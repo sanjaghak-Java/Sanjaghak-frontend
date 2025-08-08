@@ -1,88 +1,128 @@
-/* کانتینر کلی صفحه جزئیات انبار */
 .warehouse-detail-container {
   padding: 20px;
-  font-family: Estedad, sans-serif;
+  font-family: "Vazirmatn", sans-serif;
   direction: rtl;
+  max-width: 480px;
+  margin: 40px auto 60px;
+  background-color: #fff;
+  border-radius: 14px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15), 0 2px 10px rgba(0,0,0,0.1);
+  user-select: none;
+  position: relative;
+  min-height: 400px;
+  text-align: center; /* متن وسط چین */
 }
 
-/* پیغام انبار پیدا نشد */
-.not-found {
-  padding: 20px;
-  font-family: Estedad, sans-serif;
-  direction: rtl;
-  color: red;
-}
-
-/* دکمه بازگشت */
-.back-button {
-  margin-top: 15px;
-  padding: 8px 12px;
+.warehouse-detail-back-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  margin-right: 380px;
+  padding: 8px 14px;
   cursor: pointer;
-  background-color: #007bff;
+  border-radius: 8px;
+  background-color: #f44336;
   color: white;
   border: none;
-  border-radius: 6px;
+  font-weight: 600;
   transition: background-color 0.3s ease;
 }
 
-.back-button:hover {
-  background-color: #0056b3;
+.warehouse-detail-back-button:hover {
+  background-color: #d32f2f;
 }
 
-/* بخش مربوط به لیست بخش‌ها */
-.sections-container {
-  margin-top: 30px;
-}
-
-/* کارت هر بخش */
-.section-card {
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  padding: 15px;
+.warehouse-detail-title {
+  margin-top: 60px; /* فاصله برای دکمه بازگشت */
   margin-bottom: 20px;
-  background-color: #f9f9f9;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 8px;
+  font-size: 22px;
+  font-weight: 700;
+  color: #1976d2;
+  user-select: none;
+  text-align: center; /* وسط چین */
 }
 
-/* عنوان هر بخش */
-.section-title {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 10px;
-  color: #333;
+.section-container {
+  margin-bottom: 18px;
+  text-align: center; /* وسط چین */
 }
 
-/* لیست قفسه‌ها درون هر بخش */
+.section-header {
+  cursor: pointer;
+  color: #1976d2;
+  font-weight: 700;
+  font-size: 22px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  user-select: none;
+}
+
+.expand-icon {
+  font-size: 14px;
+  line-height: 1;
+}
+
 .shelves-container {
+  padding-right: 0;
   margin-top: 10px;
-  padding-right: 15px;
+  text-align: center; /* وسط چین */
 }
 
-/* کارت قفسه */
-.shelf-card {
-  border: 1px dashed #aaa;
-  border-radius: 8px;
-  padding: 10px;
-  margin-bottom: 8px;
-  background-color: #fff;
-  font-size: 15px;
+.shelf-item {
+  padding: 8px 0;
+  border-bottom: 1px dashed #ccc;
+  margin-bottom: 6px;
+  cursor: pointer;
+  user-select: none;
+  color: #000;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+  max-width: 320px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-/* دکمه افزودن بخش و قفسه */
-.add-section-button,
+.shelf-item:hover {
+  background-color: #e3f2fd;
+  border-color: #90caf9;
+}
+
 .add-shelf-button {
   margin-top: 10px;
-  padding: 6px 10px;
-  background-color: #28a745;
-  color: white;
-  border: none;
+  padding: 8px 14px;
   border-radius: 6px;
-  font-size: 14px;
+  border: 1.5px solid #1976d2;
+  background-color: white;
+  color: #1976d2;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  font-weight: 600;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  display: inline-block;
 }
 
-.add-section-button:hover,
 .add-shelf-button:hover {
-  background-color: #218838;
+  background-color: #1976d2;
+  color: white;
+}
+
+.add-section-button {
+  margin-top: 30px;
+  padding: 12px 18px;
+  border-radius: 8px;
+  border: 1.5px solid #1976d2;
+  background-color: white;
+  color: #1976d2;
+  cursor: pointer;
+  font-weight: 700;
+  width: 100%;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.add-section-button:hover {
+  background-color: #1976d2;
+  color: white;
 }

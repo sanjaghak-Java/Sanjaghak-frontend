@@ -23,6 +23,9 @@ import AddWarehouse from "./pages/AddWarehouse.jsx";
 import WarehouseList from "./pages/WarehouseList";
 import WarehouseDetail from "./pages/WarehouseDetail";
 import WarehouseEdit from "./pages/WarehouseEdit";
+import WarehouseNotifications from "./pages/WarehouseNotifications";  
+import WarehouseProductInformation from "./pages/WarehouseProductInformation";
+
 import AdminLayout from './pages/adminLayout.jsx';
 import FinancialReport from './pages/FinancialReport.jsx';
 import AddProduct from './pages/AddProduct.jsx';
@@ -46,7 +49,6 @@ import ThankYouModal from './pages/ThankYouModal.jsx';
 import AddPurchaseOrder from './pages/AddPurchaseOrder.jsx';
 import RequestPage from './pages/RequestPage.jsx';
 import WarehouseTransfer from './pages/WarehouseTransfer.jsx';
-
 
 const products = Array.from({ length: 50 }, (_, i) => ({
   id: i + 1,
@@ -88,7 +90,6 @@ function App() {
         <Route path="/shipping-info" element={<Shippinginformation />} />
         <Route path="/thankyou" element={<ThankYouModal />} />
 
-
         <Route path="/admin" element={<AdminLayout />}>
           <Route path="داشبورد" element={<Dashboard />} />
           <Route path="گزارش مالی" element={<FinancialReport />} />
@@ -99,6 +100,9 @@ function App() {
           <Route path="انبار/:id" element={<WarehouseDetail />} />
           <Route path="ویرایش-انبار/:id" element={<WarehouseEdit />} />
           <Route path="افزودن-انبار" element={<AddWarehouse />} />
+
+          <Route path="اعلانات-انبار/:warehouseId" element={<WarehouseNotifications />} />
+
           <Route path="لیست کاربران" element={<UserList />} />
           <Route path="لیست محصولات" element={<ProductList products={products} />} />
           <Route path="لیست برند ها" element={<AdminBrandList />} />
@@ -115,7 +119,7 @@ function App() {
           <Route path="درخواست ها" element={<RequestPage />} />
           <Route path="انتقال-بین-انبار" element={<WarehouseTransfer />} />
 
-
+          <Route path="اطلاعات-محصول/:productId" element={<WarehouseProductInformation />} />
         </Route>
       </Routes>
     </div>

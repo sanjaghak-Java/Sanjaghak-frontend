@@ -1,11 +1,67 @@
+/* کانتینر کلی */
+.warehouse-list-container {
+  max-width: 1230px;
+  margin: 30px 0 0 0;
+  padding: 0 20px;
+  font-family: "Vazirmatn", sans-serif;
+  direction: rtl;
+  color: #333;
+}
+
+/* عنوان صفحه */
+.warehousetitle {
+  margin: 20px 0 20px 60px; /* مثل قبلی */
+  font-size: 24px;
+  font-weight: 800;
+  color: #1565c0;
+  text-align: center;
+}
+
+.warehouse-search-input {
+  margin: 10px auto auto 410px;      /* فاصله بالا و پایین صفر، چپ و راست خودکار */
+  display: block;      /* حتما بلوک باشه تا margin auto کار کنه */
+  width: 400px;
+  text-align: center;
+  padding: 10px 14px;
+  font-size: 15px;
+  border-radius: 12px;
+  border: 2px solid #1976d2;
+  outline: none;
+  transition: border-color 0.3s ease;
+  box-sizing: border-box;
+}
+
+
+.warehouse-search-input:focus {
+  border-color: #0d47a1;
+}
+
+/* ردیف عناوین جدول */
+.warehouse-titles {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 0;
+  width: 100%;
+  gap: 20px;
+  border-bottom: 2px solid #1976d2;
+  margin-bottom: 10px;
+}
+
+.warehouse-titles h5 {
+  flex: 1;
+  text-align: center;
+  font-weight: 700;
+  color: #1976d2;
+  margin: 0;
+}
+
+/* کارت انبار */
 .warehouse-cards {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;             
-  max-width: 1230px;      
-  margin: 0 auto 0 0;        
+  gap: 16px;
+  max-width: 1230px;
+  margin: 0 auto 0 0;
   direction: rtl;
 }
 
@@ -19,46 +75,39 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 90%;         
-  min-height: 120px;    
+  width: 98%;
+  min-height: 120px;
+  margin-right: 10px;
   box-sizing: border-box;
 }
 
 .warehouse-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
-.warehouse-titles{
-  display: flex;
-  /* align-items: center; */
-  justify-content: space-between;
-  padding: 16px 0;
-  width: 100%;         
-  gap: 20px;
-}
-
-.warehouse-titles h5{
-  display: flex;
+.warehouse-card h3 {
   flex: 1;
-  justify-content: center;
+  text-align: center;
+  margin: 0;
+  font-weight: 700;
+  font-size: 22px;
+  color: #0d47a1;
 }
 
 .info-line {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* margin: 4px 0; */
-  width: fit-content;
+  flex: 2;
   font-size: 14px;
   color: #333;
+  text-align: center;
+  word-break: break-word;
 }
 
 .card-buttons {
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   gap: 8px;
-  min-width: 110px;       
+  min-width: 110px;
 }
 
 .edit-button,
@@ -72,11 +121,12 @@
   transition: background-color 0.3s ease;
   user-select: none;
   width: 100%;
+  color: white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .edit-button {
   background-color: #4caf50;
-  color: white;
 }
 
 .edit-button:hover {
@@ -85,39 +135,10 @@
 
 .delete-button {
   background-color: #f44336;
-  color: white;
 }
 
 .delete-button:hover {
   background-color: #d32f2f;
-}
-
-/* کانتینر دکمه افزودن انبار */
-.add-warehouse-button-container {
-  margin-top: 20px;
-  /* text-align: center; */
-  margin-left: 600px;
-}
-
-/* دکمه افزودن انبار */
-.add-warehouse-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #929292;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  user-select: none;
-}
-
-.add-warehouse-button:hover {
-  background-color: #800000;
-}
-.warehousetitle{
-  margin: 20px auto 20px 600px;
- 
 }
 
 .notifications-button {
@@ -132,8 +153,131 @@
   transition: background-color 0.3s ease;
   user-select: none;
   width: 100%;
+  box-shadow: 0 2px 6px rgba(33, 150, 243, 0.4);
 }
 
 .notifications-button:hover {
   background-color: #1565c0;
+}
+
+/* دکمه انتقال بین انبارها */
+.card-buttons button:nth-child(3) {
+  background-color: #ffa726;
+  color: #222;
+  font-weight: 900;
+  font-size: 18px;
+  line-height: 1;
+  box-shadow: none;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.card-buttons button:nth-child(3):hover {
+  background-color: #fb8c00;
+}
+
+.add-warehouse-button-container {
+  text-align: center; /* والد را وسط‌چین می‌کنیم */
+  margin-top: 20px;
+}
+
+.add-warehouse-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  user-select: none;
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.5);
+
+  display: inline-block; /* اطمینان از اینکه دکمه به اندازه محتوا است */
+}
+
+
+.add-warehouse-button:hover {
+  background-color: #0d47a1;
+}
+
+/* متن وقتی آیتمی نیست */
+.no-results {
+  text-align: center;
+  font-size: 16px;
+  margin-top: 30px;
+  color: #999;
+}
+
+/* پیجینیشن */
+/* .pagination {
+  margin-top: 20px;
+  margin-left: 600px; 
+  display: flex;
+  gap: 8px;
+}
+
+.pagination button {
+  background-color: #e3e3e3;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  user-select: none;
+  min-width: 40px;
+  transition: background-color 0.3s ease;
+  color: #333;
+}
+
+.pagination button:hover:not(:disabled) {
+  background-color: #1976d2;
+  color: white;
+}
+
+.pagination button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.pagination button.active {
+  background-color: #1976d2;
+  color: white;
+} */
+.pagination {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center; /* وسط‌چین کردن دکمه‌ها */
+  gap: 8px;
+  flex-wrap: wrap; /* اگر تعداد صفحات زیاد بود، بشکنه به خط بعد */
+}
+
+.pagination button {
+  background-color: #e3e3e3;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  user-select: none;
+  min-width: 40px;
+  transition: background-color 0.3s ease;
+  color: #333;
+}
+
+.pagination button:hover:not(:disabled) {
+  background-color: #1976d2;
+  color: white;
+}
+
+.pagination button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.pagination button.active {
+  background-color: #1976d2;
+  color: white;
 }

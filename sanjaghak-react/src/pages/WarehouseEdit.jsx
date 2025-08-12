@@ -11,6 +11,7 @@ const sampleWarehouses = [
     city: "تهران",
     address: "خیابان ولیعصر",
     postalCode: "11111",
+    phone: "021-12345678",
     sections: [
       { id: 1, shelves: [1, 2, 3] },
       { id: 2, shelves: [1, 2] },
@@ -24,6 +25,7 @@ const sampleWarehouses = [
     city: "کرج",
     address: "میدان شهدا",
     postalCode: "22222",
+    phone: "026-98765432",
     sections: [],
   },
 ];
@@ -33,21 +35,22 @@ function EditWarehouse() {
   const navigate = useNavigate();
   const warehouse = sampleWarehouses.find((w) => w.id === Number(id));
 
-  const [name, setName] = useState(warehouse?.name || "");
-  const [address, setAddress] = useState(warehouse?.address || "");
-  const [country, setCountry] = useState(warehouse?.country || "");
-  const [province, setProvince] = useState(warehouse?.province || "");
-  const [city, setCity] = useState(warehouse?.city || "");
-  const [postalCode, setPostalCode] = useState(warehouse?.postalCode || "");
+  if (!warehouse) return <div className="not-found">انبار مورد نظر پیدا نشد.</div>;
+
+  const [name, setName] = useState(warehouse.name);
+  const [address, setAddress] = useState(warehouse.address);
+  const [country, setCountry] = useState(warehouse.country);
+  const [province, setProvince] = useState(warehouse.province);
+  const [city, setCity] = useState(warehouse.city);
+  const [postalCode, setPostalCode] = useState(warehouse.postalCode);
+  const [phone, setPhone] = useState(warehouse.phone);
 
   const [sections, setSections] = useState(
-    warehouse?.sections.map((s) => ({
+    warehouse.sections.map((s) => ({
       ...s,
       shelves: s.shelves || Array(s.shelfCount || 1).fill(1).map((_, i) => i + 1),
     })) || []
   );
-
-  if (!warehouse) return <div className="not-found">انبار مورد نظر پیدا نشد.</div>;
 
   const handleAddSection = () => {
     const newSection = {
@@ -89,6 +92,7 @@ function EditWarehouse() {
       province,
       city,
       postalCode,
+      phone,
       sections,
     };
 
@@ -122,6 +126,9 @@ function EditWarehouse() {
           onChange={(e) => setPostalCode(e.target.value)}
           required
         />
+
+        <label>شماره تماس:</label>
+        <input value={phone} onChange={(e) => setPhone(e.target.value)} required />
 
         <div className="form-buttons">
           <button type="submit" className="save-button">ذخیره</button>

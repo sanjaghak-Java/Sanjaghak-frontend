@@ -248,9 +248,9 @@
 .pagination {
   margin-top: 20px;
   display: flex;
-  justify-content: center; /* وسط‌چین کردن دکمه‌ها */
+  justify-content: center; 
   gap: 8px;
-  flex-wrap: wrap; /* اگر تعداد صفحات زیاد بود، بشکنه به خط بعد */
+  flex-wrap: wrap; 
 }
 
 .pagination button {

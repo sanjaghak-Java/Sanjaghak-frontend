@@ -10,6 +10,7 @@ function AddWarehouse() {
   const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
   const [postalCode, setPostalCode] = useState("");
+  const [phone, setPhone] = useState(""); // شماره تماس اضافه شد
 
   const [sections, setSections] = useState([
     { id: 1, name: "بخش ۱", shelfCount: 1 },
@@ -50,6 +51,7 @@ function AddWarehouse() {
       city,
       address,
       postalCode,
+      phone,  // شماره تماس اضافه شد
       sections,
     };
 
@@ -119,6 +121,16 @@ function AddWarehouse() {
                 type="text"
                 value={postalCode}
                 onChange={(e) => setPostalCode(e.target.value)}
+                required
+              />
+            </label>
+
+            <label>
+              شماره تماس:
+              <input
+                type="text"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
                 required
               />
             </label>

@@ -1,128 +1,151 @@
+/* کانتینر کلی صفحه */
 .warehouse-detail-container {
   padding: 20px;
-  font-family: "Vazirmatn", sans-serif;
+  font-family: "Vazir", sans-serif;
   direction: rtl;
-  max-width: 480px;
-  margin: 40px auto 60px;
-  background-color: #fff;
-  border-radius: 14px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15), 0 2px 10px rgba(0,0,0,0.1);
-  user-select: none;
-  position: relative;
-  min-height: 400px;
-  text-align: center; /* متن وسط چین */
+  background-color: #f7f8fa;
+  min-height: 100vh;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* هدر بالای صفحه */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
 }
 
 .warehouse-detail-back-button {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  margin-right: 380px;
-  padding: 8px 14px;
+  background: linear-gradient(135deg, #e90000, #5145cd);
+  color: #fff;
+  border: none;
+  padding: 7px 14px;
   cursor: pointer;
   border-radius: 8px;
-  background-color: #f44336;
-  color: white;
-  border: none;
-  font-weight: 600;
-  transition: background-color 0.3s ease;
+  font-size: 14px;
+  transition: all 0.3s ease;
 }
 
 .warehouse-detail-back-button:hover {
-  background-color: #d32f2f;
+  background: linear-gradient(135deg, #5145cd, #ff0000);
+  transform: translateY(-2px);
 }
 
-.warehouse-detail-title {
-  margin-top: 60px; /* فاصله برای دکمه بازگشت */
-  margin-bottom: 20px;
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 8px;
-  font-size: 22px;
-  font-weight: 700;
-  color: #1976d2;
-  user-select: none;
-  text-align: center; /* وسط چین */
+.header h3 {
+  font-size: 20px;
+  color: #333;
 }
 
-.section-container {
-  margin-bottom: 18px;
-  text-align: center; /* وسط چین */
+/* گرید کارت‌ها */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 18px;
+  margin-top: 20px;
 }
 
-.section-header {
+/* کارت‌ها */
+.card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+  text-align: center;
   cursor: pointer;
-  color: #1976d2;
-  font-weight: 700;
-  font-size: 22px;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  gap: 16px;
-  user-select: none;
+  transition: all 0.25s ease;
+  border: 1px solid transparent;
 }
 
-.expand-icon {
+.card:hover {
+  transform: translateY(-5px);
+  border-color: #b40000;
+  box-shadow: 0 6px 16px rgba(108,99,255,0.2);
+}
+
+/* عنوان کارت */
+.card h4 {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+  color: #333;
+}
+
+/* متن داخل کارت */
+.card p {
+  margin: 5px 0;
+  color: #666;
   font-size: 14px;
-  line-height: 1;
 }
 
-.shelves-container {
-  padding-right: 0;
-  margin-top: 10px;
-  text-align: center; /* وسط چین */
+/* استایل برچسب‌ها */
+.label {
+  color: #b40000;
+  font-weight: bold;
 }
 
-.shelf-item {
-  padding: 8px 0;
-  border-bottom: 1px dashed #ccc;
-  margin-bottom: 6px;
+/* رنگ مقدار رنگ محصول */
+.color-value {
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+/* رنگ‌های خاص برای مقادیر رنگ محصول */
+.color-قرمز {
+  color: red;
+}
+.color-آبی {
+  color: blue;
+}
+.color-سبز {
+  color: green;
+}
+.color-مشکی {
+  color: black;
+}
+.color-نقره‌ای {
+  color: silver;
+}
+.color-طلایی {
+  color: goldenrod;
+}
+.color-زرد {
+  color: goldenrod;
+}
+
+.stock-btn {
+  background-color: #727272;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 3px 9px;
+  margin: 0 6px;
+  font-weight: bold;
   cursor: pointer;
   user-select: none;
-  color: #000;
-  font-weight: 600;
-  transition: background-color 0.2s ease;
-  max-width: 320px;
-  margin-left: auto;
-  margin-right: auto;
+  transition: background-color 0.25s ease;
 }
 
-.shelf-item:hover {
-  background-color: #e3f2fd;
-  border-color: #90caf9;
+.stock-btn:hover {
+  background-color: #5145cd;
 }
 
-.add-shelf-button {
-  margin-top: 10px;
-  padding: 8px 14px;
-  border-radius: 6px;
-  border: 1.5px solid #1976d2;
-  background-color: white;
-  color: #1976d2;
-  cursor: pointer;
-  font-weight: 600;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  display: inline-block;
+.stock-btn:active {
+  transform: scale(0.95);
 }
 
-.add-shelf-button:hover {
-  background-color: #1976d2;
-  color: white;
+/* انیمیشن ورود کارت‌ها */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.add-section-button {
-  margin-top: 30px;
-  padding: 12px 18px;
-  border-radius: 8px;
-  border: 1.5px solid #1976d2;
-  background-color: white;
-  color: #1976d2;
-  cursor: pointer;
-  font-weight: 700;
-  width: 100%;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.add-section-button:hover {
-  background-color: #1976d2;
-  color: white;
+.cards-grid .card {
+  animation: fadeInUp 0.4s ease forwards;
 }

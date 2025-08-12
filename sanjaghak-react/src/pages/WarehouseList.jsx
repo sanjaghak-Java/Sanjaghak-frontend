@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import "/src/styles/WarehouseList.css";
 
 const initialWarehouses = [
-  { id: 1, name: "انبار مرکزی", country: "ایران", province: "تهران", city: "تهران", address: "خیابان انقلاب، پلاک ۱۲۳", postalCode: "12345" },
-  { id: 2, name: "انبار غرب", country: "ایران", province: "البرز", city: "کرج", address: "میدان آزادگان، نبش خیابان سوم", postalCode: "23456" },
-  { id: 3, name: "انبار جنوب", country: "ایران", province: "خوزستان", city: "اهواز", address: "خیابان کیانپارس، پلاک ۵۰", postalCode: "34567" },
+  { id: 1, name: "انبار مرکزی", country: "ایران", province: "تهران", city: "تهران", address: "خیابان انقلاب، پلاک ۱۲۳", postalCode: "12345", phone: "021-12345678" },
+  { id: 2, name: "انبار غرب", country: "ایران", province: "البرز", city: "کرج", address: "میدان آزادگان، نبش خیابان سوم", postalCode: "23456", phone: "026-87654321" },
+  { id: 3, name: "انبار جنوب", country: "ایران", province: "خوزستان", city: "اهواز", address: "خیابان کیانپارس، پلاک ۵۰", postalCode: "34567", phone: "061-33445566" },
 ];
 
 const ITEMS_PER_PAGE = 5;
@@ -21,7 +21,8 @@ function WarehouseList() {
       w.name.includes(searchTerm) ||
       w.country.includes(searchTerm) ||
       w.province.includes(searchTerm) ||
-      w.city.includes(searchTerm)
+      w.city.includes(searchTerm) ||
+      w.phone.includes(searchTerm) // اضافه کردن جستجو روی شماره تماس
     );
   }, [searchTerm, warehouses]);
 
@@ -64,6 +65,7 @@ function WarehouseList() {
           <h5>نام انبار</h5>
           <h5>آدرس</h5>
           <h5>کد پستی</h5>
+          <h5>شماره تماس</h5> 
           <h5>عملیات</h5>
         </div>
 
@@ -83,6 +85,7 @@ function WarehouseList() {
                 </span>
               </div>
               <div className="info-line">{warehouse.postalCode}</div>
+              <div className="info-line">{warehouse.phone}</div> {/* شماره تماس نمایش داده می‌شود */}
               <div className="card-buttons" onClick={(e) => e.stopPropagation()}>
                 <button onClick={() => handleEdit(warehouse.id)} className="edit-button">ویرایش</button>
                 <button onClick={() => handleDelete(warehouse.id)} className="delete-button">حذف</button>

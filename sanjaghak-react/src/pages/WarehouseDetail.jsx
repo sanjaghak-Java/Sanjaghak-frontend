@@ -139,6 +139,9 @@ export default function WarehouseDetail() {
       stock: 0,
       reserved: 0,
       price: 0,
+      isActive: newShelfIsActive,              
+      activeForReturns: newShelfActiveForReturns, 
+      managerId: newShelfManagerId.trim(),       
     };
 
     setShelvesData((prev) => {
@@ -150,6 +153,10 @@ export default function WarehouseDetail() {
     });
 
     setNewShelfName("");
+    setNewShelfIsActive(true);
+    setNewShelfActiveForReturns(false);
+    setNewShelfManagerId("");
+
     setShowAddShelfForm(false);
   };
 
@@ -157,6 +164,11 @@ export default function WarehouseDetail() {
     setNewShelfName("");
     setShowAddShelfForm(false);
   };
+
+const [newShelfIsActive, setNewShelfIsActive] = useState(true);
+const [newShelfActiveForReturns, setNewShelfActiveForReturns] = useState(false);
+const [newShelfManagerId, setNewShelfManagerId] = useState("");
+
 
   const renderSections = () => (
     <>
@@ -171,8 +183,11 @@ export default function WarehouseDetail() {
             onChange={(e) => setNewSectionName(e.target.value)}
             autoFocus
           />
-          <button type="submit">ثبت</button>
-          <button type="button" onClick={handleCancelSectionForm}>لغو</button>
+          <div className="modal-buttons">
+            <button type="submit">ثبت</button>
+            <button type="button" onClick={handleCancelSectionForm}>لغو</button>
+          </div>
+
         </form>
       )}
 
@@ -196,17 +211,45 @@ export default function WarehouseDetail() {
 
       {showAddShelfForm && (
         <form onSubmit={handleShelfFormSubmit} className="add-form">
-          <input
-            type="text"
-            placeholder="نام قفسه جدید"
-            value={newShelfName}
-            onChange={(e) => setNewShelfName(e.target.value)}
-            autoFocus
-          />
-          <button type="submit">ثبت</button>
-          <button type="button" onClick={handleCancelShelfForm}>لغو</button>
+          <label>
+            آیدی مسئول قفسه:
+            <input
+              type="text"
+              value={newShelfManagerId}
+              onChange={(e) => setNewShelfManagerId(e.target.value)}
+              placeholder="آیدی مسئول"
+            />
+          </label>
+<label className="shelvesSwitch">
+  <input
+    type="checkbox"
+    checked={newShelfIsActive}
+    onChange={(e) => setNewShelfIsActive(e.target.checked)}
+  />
+  <span className="shelvesSlider shelvesRound"></span>
+  <span className="shelvesSwitchLabel">فعال</span>
+</label>
+
+{warehouse.name === "انبار مرکزی" && (
+  <label className="shelvesSwitch">
+    <input
+      type="checkbox"
+      checked={newShelfActiveForReturns}
+      onChange={(e) => setNewShelfActiveForReturns(e.target.checked)}
+    />
+    <span className="shelvesSlider shelvesRound"></span>
+    <span className="shelvesSwitchLabel">مخصوص مرجوعی‌ها</span>
+  </label>
+)}
+
+          <div className="modal-buttons">
+
+            <button type="submit">ثبت</button>
+            <button type="button" onClick={handleCancelShelfForm}>لغو</button>
+          </div>
         </form>
       )}
+
 
       <div className="cards-grid">
         {shelvesData[selectedSection?.id]?.length ? (

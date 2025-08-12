@@ -87,6 +87,7 @@ function EditWarehouse() {
     const updatedWarehouse = {
       id: warehouse.id,
       name,
+      isCentralWarehouse,
       address,
       country,
       province,
@@ -101,12 +102,23 @@ function EditWarehouse() {
     navigate("/admin/لیست%20انبار%20ها");
   };
 
+  const [isCentralWarehouse, setIsCentralWarehouse] = useState(warehouse.name === "انبار مرکزی");
+
   return (
     <div className="edit-warehouse-container">
       <h2>ویرایش انبار: {warehouse.name}</h2>
       <form onSubmit={handleSubmit} className="edit-warehouse-form">
         <label>نام انبار:</label>
         <input value={name} onChange={(e) => setName(e.target.value)} required />
+
+        <label className="checkbox-label">
+          <input
+            type="checkbox"
+            checked={isCentralWarehouse}
+            onChange={(e) => setIsCentralWarehouse(e.target.checked)}
+          />
+          تنظیم انبار مرکزی
+        </label>
 
         <label>کشور:</label>
         <input value={country} onChange={(e) => setCountry(e.target.value)} required />

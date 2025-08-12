@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import "/src/styles/WarehouseList.css";
 
 const initialWarehouses = [
-  { id: 1, name: "انبار مرکزی", country: "ایران", province: "تهران", city: "تهران", address: "خیابان انقلاب، پلاک ۱۲۳", postalCode: "12345", phone: "021-12345678" },
-  { id: 2, name: "انبار غرب", country: "ایران", province: "البرز", city: "کرج", address: "میدان آزادگان، نبش خیابان سوم", postalCode: "23456", phone: "026-87654321" },
-  { id: 3, name: "انبار جنوب", country: "ایران", province: "خوزستان", city: "اهواز", address: "خیابان کیانپارس، پلاک ۵۰", postalCode: "34567", phone: "061-33445566" },
+  { id: 1, name: "انبار مرکزی", country: "ایران", province: "تهران", city: "تهران", address: "خیابان انقلاب، پلاک ۱۲۳", postalCode: "12345", phone: "021-12345678", active: true },
+  { id: 2, name: "انبار غرب", country: "ایران", province: "البرز", city: "کرج", address: "میدان آزادگان، نبش خیابان سوم", postalCode: "23456", phone: "026-87654321", active: true },
+  { id: 3, name: "انبار جنوب", country: "ایران", province: "خوزستان", city: "اهواز", address: "خیابان کیانپارس، پلاک ۵۰", postalCode: "34567", phone: "061-33445566", active: true },
 ];
 
 const ITEMS_PER_PAGE = 5;
@@ -33,14 +33,14 @@ function WarehouseList() {
 
   const totalPages = Math.ceil(filteredWarehouses.length / ITEMS_PER_PAGE);
 
-  const handleDelete = (id) => {
-    if (window.confirm("آیا از حذف این انبار مطمئن هستید؟")) {
-      setWarehouses((prev) => prev.filter((w) => w.id !== id));
-      if ((currentPage - 1) * ITEMS_PER_PAGE >= filteredWarehouses.length - 1) {
-        setCurrentPage(Math.max(currentPage - 1, 1));
-      }
-    }
+  const handleToggleActive = (id) => {
+    setWarehouses((prev) =>
+      prev.map((w) =>
+        w.id === id ? { ...w, active: !w.active } : w
+      )
+    );
   };
+
 
   const handleEdit = (id) => navigate(`/admin/ویرایش-انبار/${id}`);
   const handleAdd = () => navigate("/admin/افزودن-انبار");
@@ -64,6 +64,7 @@ function WarehouseList() {
         <div className="warehouse-titles">
           <h5>نام انبار</h5>
           <h5>آدرس</h5>
+          <h5>وضعیت</h5>
           <h5>کد پستی</h5>
           <h5>شماره تماس</h5> 
           <h5>عملیات</h5>
@@ -84,11 +85,27 @@ function WarehouseList() {
                   {warehouse.country} - {warehouse.province} - {warehouse.city} - {warehouse.address}
                 </span>
               </div>
+              <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                <span
+                  className={warehouse.active ? "status-active" : "status-inactive"}
+                  title={warehouse.active ? "فعال" : "غیرفعال"}
+                >
+                  {warehouse.active ? "فعال" : "غیرفعال"}
+                </span>
+              </div>
               <div className="info-line">{warehouse.postalCode}</div>
+
               <div className="info-line">{warehouse.phone}</div> {/* شماره تماس نمایش داده می‌شود */}
               <div className="card-buttons" onClick={(e) => e.stopPropagation()}>
                 <button onClick={() => handleEdit(warehouse.id)} className="edit-button">ویرایش</button>
-                <button onClick={() => handleDelete(warehouse.id)} className="delete-button">حذف</button>
+                
+                <button
+                  onClick={() => handleToggleActive(warehouse.id)}
+                  className={warehouse.active ? "deactivate-button" : "activate-button"}
+                >
+                  {warehouse.active ? "غیرفعال کردن" : "فعال کردن"}
+                </button>
+
                 <button
                   onClick={() => {
                     navigate("/admin/انتقال-بین-انبار", { state: { sourceWarehouseName: warehouse.name } });

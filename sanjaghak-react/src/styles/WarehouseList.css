@@ -281,3 +281,23 @@
   background-color: #1976d2;
   color: white;
 }
+
+.status-active {
+  background-color: #28a745;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  user-select: none;
+}
+
+.status-inactive {
+  background-color: #dc3545;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  user-select: none;
+}

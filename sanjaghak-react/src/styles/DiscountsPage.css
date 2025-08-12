@@ -29,8 +29,8 @@ body, html {
 }
 
 .discounts-select {
-  width: 150px;
-  padding: 8px 12px;
+  min-width: 180px;
+  padding: 7px 12px;
   font-size: 16px;
   border: 2px solid #ccc;
   border-radius: 8px;

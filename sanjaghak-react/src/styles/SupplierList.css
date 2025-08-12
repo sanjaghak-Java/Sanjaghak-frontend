@@ -19,8 +19,8 @@
 }
 
 .supplier-search {
-  width: 100%;
-  max-width: 300px;
+  text-align: right;
+  min-width: 250px;
   padding: 8px 12px;
   border: 2px solid #ccc;
   border-radius: 8px;
@@ -117,6 +117,10 @@
   border: none;
   cursor: pointer;
   outline: none;
+}
+
+.admin-edit-button:hover{
+  transform: scale(1.05);
 }
 
 .admin-edit-button img{

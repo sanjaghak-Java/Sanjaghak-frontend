@@ -1,19 +1,22 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "/src/styles/AddWarehouse.css";
+import AddShelvesModal from "./AddShelvesModal";
 
 function AddWarehouse() {
   const [step, setStep] = useState(1);
   const [name, setName] = useState("");
+  const [isCentralWarehouse, setIsCentralWarehouse] = useState(false); // اضافه شد
   const [country, setCountry] = useState("");
   const [province, setProvince] = useState("");
   const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
   const [postalCode, setPostalCode] = useState("");
-  const [phone, setPhone] = useState(""); // شماره تماس اضافه شد
+  const [phone, setPhone] = useState("");
 
+  const [modalOpenIndex, setModalOpenIndex] = useState(null);
   const [sections, setSections] = useState([
-    { id: 1, name: "بخش ۱", shelfCount: 1 },
+    { id: 1, name: "بخش ۱", shelves: [] },
   ]);
 
   const navigate = useNavigate();
@@ -27,14 +30,8 @@ function AddWarehouse() {
     const newId = sections.length + 1;
     setSections([
       ...sections,
-      { id: newId, name: `بخش ${newId}`, shelfCount: 1 },
+      { id: newId, name: `بخش ${newId}`, shelves: [] },
     ]);
-  };
-
-  const handleShelfCountChange = (index, value) => {
-    const updated = [...sections];
-    updated[index].shelfCount = parseInt(value);
-    setSections(updated);
   };
 
   const handleRemoveSection = (index) => {
@@ -46,12 +43,13 @@ function AddWarehouse() {
 
     const warehouseData = {
       name,
+      isCentralWarehouse, // اضافه شده
       country,
       province,
       city,
       address,
       postalCode,
-      phone,  // شماره تماس اضافه شد
+      phone,
       sections,
     };
 
@@ -74,6 +72,14 @@ function AddWarehouse() {
                 onChange={(e) => setName(e.target.value)}
                 required
               />
+            </label>
+            <label className="checkbox-label">
+              <input
+                type="checkbox"
+                checked={isCentralWarehouse}
+                onChange={(e) => setIsCentralWarehouse(e.target.checked)}
+              />
+              تنظیم انبار مرکزی
             </label>
 
             <label>
@@ -136,49 +142,66 @@ function AddWarehouse() {
             </label>
 
             <button type="submit" className="submit-button1">
-              ادامه مرحله بعد
+              ادامه
             </button>
           </>
         )}
 
-        {step === 2 && (
-          <>
-            <h3>تعریف بخش‌ها و قفسه‌ها:</h3>
-            {sections.map((section, index) => (
-              <div key={section.id} className="section-row">
-                <label style={{ flex: 1 }}>{section.name}:</label>
-                <select
-                  value={section.shelfCount}
-                  onChange={(e) => handleShelfCountChange(index, e.target.value)}
-                  style={{ flex: 2 }}
-                >
-                  {[...Array(10)].map((_, i) => (
-                    <option key={i + 1} value={i + 1}>
-                      {i + 1} قفسه
-                    </option>
-                  ))}
-                </select>
-                <button
-                  type="button"
-                  className="remove-section-button"
-                  onClick={() => handleRemoveSection(index)}
-                  title="حذف بخش"
-                >
-                  ×
-                </button>
-              </div>
-            ))}
+{step === 2 && (
+  <>
+    <h3>تعریف بخش‌ها و قفسه‌ها:</h3>
 
-            <button type="button" onClick={handleAddSection} className="add-section-button">
-              + افزودن بخش
-            </button>
+    {sections.map((section, index) => (
+      <div key={section.id} className="section-row" style={{display: "flex", gap: 10, alignItems:"center"}}>
+        <label style={{ flex: 1 }}>{section.name}:</label>
+        <button
+          type="button"
+          onClick={() => setModalOpenIndex(index)}
+        >
+          تعریف قفسه‌ها ({section.shelves.length} قفسه)
+        </button>
 
-            <button type="submit" className="submit-button1">
-              ثبت نهایی انبار
-            </button>
-          </>
-        )}
+        <button
+          type="button"
+          className="remove-section-button"
+          onClick={() => handleRemoveSection(index)}
+          title="حذف بخش"
+        >
+          ×
+        </button>
+      </div>
+    ))}
+
+    <button type="button" onClick={handleAddSection} className="add-section-button">
+      + افزودن بخش
+    </button>
+    <div className="modal-buttons">
+      <button type="button" onClick={() => setStep(1)} className="modal-button gray">
+        بازگشت
+      </button>
+      <button type="submit" className="modal-button">
+        ثبت نهایی انبار
+      </button>
+    </div>
+
+  </>
+)}
+
       </form>
+
+      {modalOpenIndex !== null && (
+        <AddShelvesModal
+          visible={true}
+          onClose={() => setModalOpenIndex(null)}
+          shelves={sections[modalOpenIndex].shelves}
+          setShelves={(newShelves) => {
+            const updatedSections = [...sections];
+            updatedSections[modalOpenIndex].shelves = newShelves;
+            setSections(updatedSections);
+          }}
+          isCentralWarehouse={isCentralWarehouse}
+        />
+      )}
     </div>
   );
 }

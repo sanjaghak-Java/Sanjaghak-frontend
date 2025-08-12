@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation } from "react-router-dom";
 import '/src/styles/WarehouseTransfer.css';
+import WarehouseProductSelectorModal from "./WarehouseProductSelectorModal"
 
 function WarehouseTransfer() {
   const location = useLocation();
@@ -88,6 +89,7 @@ function WarehouseTransfer() {
     setStep(1);
   }
 
+
   function handleFinalSubmit() {
     if (registeredItems.length === 0) {
       alert("هیچ موردی ثبت نشده است.");
@@ -116,14 +118,18 @@ function WarehouseTransfer() {
             </div>
 
             <div className="Warehouse-name-containor">
-              <input
-                type="text"
-                placeholder=" "
+              <select
                 value={destinationWarehouse}
-                readOnly
-              />
+                onChange={e => setDestinationWarehouse(e.target.value)}
+              >
+                <option value="" disabled hidden>انتخاب انبار مقصد</option>
+                {warehouses.map(w => (
+                  <option key={w.id} value={w.name}>{w.name}</option>
+                ))}
+              </select>
               <label>به انبار</label>
             </div>
+
 
             <div className="Warehouse-name-containor">
               <input
@@ -153,19 +159,6 @@ function WarehouseTransfer() {
 
         {step === 2 && (
           <>
-            <div className="Warehouse-name-containor">
-              <input
-                type="text"
-                placeholder=" "
-                readOnly
-                value={selectedDestinationProduct ? `${selectedDestinationProduct.name} - ${selectedDestinationProduct.variant}` : ""}
-                onClick={() => {
-                  setShowProductModalFor("destination");
-                  setShowProductModal(true);
-                }}
-              />
-              <label>انتخاب محصول انبار مبدا</label>
-            </div>
 
             <div className="Warehouse-name-containor">
               <input
@@ -234,12 +227,13 @@ function WarehouseTransfer() {
       )}
 
       {showProductModal && (
-        <WarehouseProductModal
+        <WarehouseProductSelectorModal
           products={productList}
           onClose={() => setShowProductModal(false)}
           onSelectProduct={handleSelectProduct}
         />
       )}
+
     </div>
   );
 }

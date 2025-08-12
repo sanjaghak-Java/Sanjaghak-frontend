@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import WarehouseViewModal from "./WarehouseViewModal";
 
 const warehouses = [
   { id: 1, name: "انبار مرکزی" },
@@ -14,6 +15,8 @@ function WarehouseNotifications() {
   const warehouse = warehouses.find((w) => w.id === Number(warehouseId));
   if (!warehouse) return <div>انبار یافت نشد.</div>;
 
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [transferItems, setTransferItems] = React.useState([]);
   const notifications = [
     {
       id: 1,
@@ -25,7 +28,23 @@ function WarehouseNotifications() {
       id: 2,
       text: `درخواست انتقال به انبار ${warehouse.name}`,
       buttonText: "مشاهده",
-      onClick: () => alert("نمایش جزئیات انتقال"),
+      onClick: () => {
+        // داده‌های نمونه برای تست
+        setTransferItems([
+          {
+            id: 1,
+            productName: "محصول تست",
+            fromWarehouse: "انبار غرب",
+            fromSection: "بخش 1",
+            fromShelf: "قفسه 3",
+            toWarehouse: warehouse.name,
+            toSection: "بخش 2",
+            toShelf: "قفسه 1",
+            quantity: 50,
+          },
+        ]);
+        setIsModalOpen(true);
+      },
     },
   ];
 
@@ -99,6 +118,17 @@ function WarehouseNotifications() {
       >
         بازگشت
       </button>
+      {isModalOpen && (
+        <WarehouseViewModal
+          transferItems={transferItems}
+          onClose={() => setIsModalOpen(false)}
+          onConfirmTransfer={() => {
+            alert("انتقال تایید شد!");
+            setIsModalOpen(false);
+          }}
+        />
+      )}
+
     </div>
   );
 }

@@ -1,5 +1,7 @@
+// WarehouseDetail.jsx
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import WarehouseProductModal from "./WarehouseProductModal"; // مسیر را در پروژه‌ات تنظیم کن
 import "/src/styles/WarehouseDetail.css";
 
 const initialWarehouses = [
@@ -47,13 +49,22 @@ export default function WarehouseDetail() {
 
   const warehouse = initialWarehouses.find((w) => w.id === warehouseId);
 
-  const [sectionsData] = useState(initialSectionsData);
-  const [shelvesData] = useState(initialShelvesData);
+  const [sectionsData, setSectionsData] = useState(initialSectionsData);
+  const [shelvesData, setShelvesData] = useState(initialShelvesData);
 
-  const [currentView, setCurrentView] = useState("sections"); // sections | shelves | products
+  const [currentView, setCurrentView] = useState("sections"); // فقط sections و shelves داریم
   const [selectedSection, setSelectedSection] = useState(null);
+
   const [selectedShelf, setSelectedShelf] = useState(null);
-  const [productStock, setProductStock] = useState(null);
+  const [showProductModal, setShowProductModal] = useState(false);
+
+  // مدیریت فرم افزودن بخش
+  const [showAddSectionForm, setShowAddSectionForm] = useState(false);
+  const [newSectionName, setNewSectionName] = useState("");
+
+  // مدیریت فرم افزودن قفسه
+  const [showAddShelfForm, setShowAddShelfForm] = useState(false);
+  const [newShelfName, setNewShelfName] = useState("");
 
   if (!warehouse) {
     return (
@@ -73,70 +84,143 @@ export default function WarehouseDetail() {
 
   const handleShelfClick = (shelf) => {
     setSelectedShelf(shelf);
-    setProductStock(shelf.stock);
-    setCurrentView("products");
+    setShowProductModal(true);
   };
 
-  const increaseStock = () => {
-    setProductStock((prev) => prev + 1);
+  // افزودن بخش جدید
+  const handleAddSection = () => {
+    setShowAddSectionForm(true);
   };
 
-  const decreaseStock = () => {
-    setProductStock((prev) => (prev > 0 ? prev - 1 : 0));
+  const handleSectionFormSubmit = (e) => {
+    e.preventDefault();
+    if (!newSectionName.trim()) return;
+
+    const newId = Math.max(...(sectionsData[warehouseId]?.map(s => s.id) || [0])) + 1;
+    const newSection = { id: newId, name: newSectionName.trim() };
+
+    setSectionsData((prev) => {
+      const prevSections = prev[warehouseId] || [];
+      return {
+        ...prev,
+        [warehouseId]: [...prevSections, newSection],
+      };
+    });
+
+    setNewSectionName("");
+    setShowAddSectionForm(false);
+  };
+
+  const handleCancelSectionForm = () => {
+    setNewSectionName("");
+    setShowAddSectionForm(false);
+  };
+
+  // افزودن قفسه جدید
+  const handleAddShelf = () => {
+    if (!selectedSection) {
+      alert("ابتدا یک بخش را انتخاب کنید.");
+      return;
+    }
+    setShowAddShelfForm(true);
+  };
+
+  const handleShelfFormSubmit = (e) => {
+    e.preventDefault();
+    if (!newShelfName.trim()) return;
+
+    const shelvesInSection = shelvesData[selectedSection.id] || [];
+    const newId = Math.max(...shelvesInSection.map(sh => sh.id), 0) + 1;
+    const newShelf = {
+      id: newId,
+      name: newShelfName.trim(),
+      productName: "بدون محصول",
+      color: "نامشخص",
+      stock: 0,
+      reserved: 0,
+      price: 0,
+    };
+
+    setShelvesData((prev) => {
+      const prevShelves = prev[selectedSection.id] || [];
+      return {
+        ...prev,
+        [selectedSection.id]: [...prevShelves, newShelf],
+      };
+    });
+
+    setNewShelfName("");
+    setShowAddShelfForm(false);
+  };
+
+  const handleCancelShelfForm = () => {
+    setNewShelfName("");
+    setShowAddShelfForm(false);
   };
 
   const renderSections = () => (
-    <div className="cards-grid">
-      {sectionsData[warehouseId]?.length ? (
-        sectionsData[warehouseId].map((section) => (
-          <div key={section.id} className="card" onClick={() => handleSectionClick(section)}>
-            <h4>{section.name}</h4>
-          </div>
-        ))
-      ) : (
-        <p>هیچ بخشی یافت نشد.</p>
+    <>
+      <button className="add-button" onClick={handleAddSection}>افزودن بخش</button>
+
+      {showAddSectionForm && (
+        <form onSubmit={handleSectionFormSubmit} className="add-form">
+          <input
+            type="text"
+            placeholder="نام بخش جدید"
+            value={newSectionName}
+            onChange={(e) => setNewSectionName(e.target.value)}
+            autoFocus
+          />
+          <button type="submit">ثبت</button>
+          <button type="button" onClick={handleCancelSectionForm}>لغو</button>
+        </form>
       )}
-    </div>
+
+      <div className="cards-grid">
+        {sectionsData[warehouseId]?.length ? (
+          sectionsData[warehouseId].map((section) => (
+            <div key={section.id} className="card" onClick={() => handleSectionClick(section)}>
+              <h4>{section.name}</h4>
+            </div>
+          ))
+        ) : (
+          <p>هیچ بخشی یافت نشد.</p>
+        )}
+      </div>
+    </>
   );
 
   const renderShelves = () => (
-    <div className="cards-grid">
-      {shelvesData[selectedSection.id]?.length ? (
-        shelvesData[selectedSection.id].map((shelf) => (
-          <div key={shelf.id} className="card" onClick={() => handleShelfClick(shelf)}>
-            <h4>{shelf.name}</h4>
-            <p>{shelf.productName}</p>
-          </div>
-        ))
-      ) : (
-        <p>هیچ قفسه‌ای یافت نشد.</p>
-      )}
-    </div>
-  );
+    <>
+      <button className="add-button" onClick={handleAddShelf}>افزودن قفسه</button>
 
-  const renderProducts = () => (
-    <div className="cards-grid">
-      <div className="card product-card">
-        <h4>{selectedShelf.productName}</h4>
-        <p>
-          <span className="label">رنگ:</span>{" "}
-          <span className={`color-value color-${selectedShelf.color.toLowerCase()}`}>
-            {selectedShelf.color}
-          </span>
-        </p>
-        <p >
-          <button onClick={increaseStock} className="stock-btn plus-btn">+</button>
-          <span className="label">موجودی:</span> {productStock}{" "}
-          <button onClick={decreaseStock} className="stock-btn minus-btn">-</button>
-        </p>
-        <p>
-          <span className="label">رزرو شده:</span> {selectedShelf.reserved}
-        </p>
-        <p>
-          <span className="label">قیمت:</span> {selectedShelf.price.toLocaleString()} تومان
-        </p>
+      {showAddShelfForm && (
+        <form onSubmit={handleShelfFormSubmit} className="add-form">
+          <input
+            type="text"
+            placeholder="نام قفسه جدید"
+            value={newShelfName}
+            onChange={(e) => setNewShelfName(e.target.value)}
+            autoFocus
+          />
+          <button type="submit">ثبت</button>
+          <button type="button" onClick={handleCancelShelfForm}>لغو</button>
+        </form>
+      )}
+
+      <div className="cards-grid">
+        {shelvesData[selectedSection?.id]?.length ? (
+          shelvesData[selectedSection.id].map((shelf) => (
+            <div key={shelf.id} className="card" onClick={() => handleShelfClick(shelf)}>
+              <h4>{shelf.name}</h4>
+              <p>{shelf.productName}</p>
+            </div>
+          ))
+        ) : (
+          <p>هیچ قفسه‌ای یافت نشد.</p>
+        )}
       </div>
-    </div>
+    </>
   );
 
   const handleBack = () => {
@@ -145,10 +229,6 @@ export default function WarehouseDetail() {
     } else if (currentView === "shelves") {
       setCurrentView("sections");
       setSelectedSection(null);
-    } else if (currentView === "products") {
-      setCurrentView("shelves");
-      setSelectedShelf(null);
-      setProductStock(null);
     }
   };
 
@@ -163,7 +243,13 @@ export default function WarehouseDetail() {
 
       {currentView === "sections" && renderSections()}
       {currentView === "shelves" && renderShelves()}
-      {currentView === "products" && renderProducts()}
+
+      {showProductModal && selectedShelf && (
+        <WarehouseProductModal 
+          shelf={selectedShelf} 
+          onClose={() => setShowProductModal(false)} 
+        />
+      )}
     </div>
   );
 }

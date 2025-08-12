@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useLocation } from "react-router-dom";
-import WarehouseProductModal from "../pages/WarehouseProductModal";
 import '/src/styles/WarehouseTransfer.css';
 
 function WarehouseTransfer() {

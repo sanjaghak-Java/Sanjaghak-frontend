@@ -85,3 +85,82 @@
 .product-table tbody tr:last-child td {
   border-bottom: none;
 }
+/* دکمه‌های کم و زیاد */
+.stock-btn {
+  background-color: #727272;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  user-select: none;
+  margin: 0 8px;
+  font-size: 20px;
+  line-height: 20px;
+  transition: background-color 0.25s ease;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.stock-btn:hover {
+  background-color: #68d600;
+}
+
+.stock-btn:active {
+  transform: scale(0.9);
+}
+
+.stock-value {
+  display: inline-block;
+  min-width: 40px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+  color: #333;
+  user-select: none;
+  vertical-align: middle;
+}
+.stock-input {
+  width: 60px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 4px 8px;
+  margin: 0 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline-color: #007bff;
+  transition: border-color 0.3s ease;
+}
+
+.stock-input:focus {
+  border-color: #007bff;
+}
+.modal-actions {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.save-btn {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 28px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  user-select: none;
+}
+
+.save-btn:disabled {
+  background-color: #9dd89d;
+  cursor: not-allowed;
+}
+
+.save-btn:hover:not(:disabled) {
+  background-color: #218838;
+}

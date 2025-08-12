@@ -1,9 +1,37 @@
-// WarehouseProductModal.jsx
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "/src/styles/WarehouseProductModal.css";
 
-export default function WarehouseProductModal({ shelf, onClose }) {
+export default function WarehouseProductModal({ shelf, onClose, onSave }) {
   if (!shelf) return null;
+
+  const [stock, setStock] = useState(shelf.stock);
+  const [hasChanges, setHasChanges] = useState(false);
+
+  useEffect(() => {
+    setHasChanges(stock !== shelf.stock);
+  }, [stock, shelf.stock]);
+
+  const increaseStock = () => {
+    setStock(prev => prev + 1);
+  };
+
+  const decreaseStock = () => {
+    setStock(prev => (prev > 0 ? prev - 1 : 0));
+  };
+
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    if (/^\d*$/.test(value)) {
+      setStock(value === "" ? 0 : parseInt(value, 10));
+    }
+  };
+
+  const handleSave = () => {
+    if (onSave) {
+      onSave(stock);
+    }
+    onClose();
+  };
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -23,7 +51,18 @@ export default function WarehouseProductModal({ shelf, onClose }) {
             </tr>
             <tr>
               <th>موجودی</th>
-              <td>{shelf.stock}</td>
+              <td>
+                <button onClick={decreaseStock} className="stock-btn minus-btn">-</button>
+                <input 
+                  type="text" 
+                  className="stock-input"
+                  value={stock}
+                  onChange={handleInputChange}
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                />
+                <button onClick={increaseStock} className="stock-btn plus-btn">+</button>
+              </td>
             </tr>
             <tr>
               <th>رزرو شده</th>
@@ -35,6 +74,16 @@ export default function WarehouseProductModal({ shelf, onClose }) {
             </tr>
           </tbody>
         </table>
+
+        <div className="modal-actions">
+          <button 
+            className="save-btn" 
+            onClick={handleSave} 
+            disabled={!hasChanges}
+          >
+            ثبت تغییرات
+          </button>
+        </div>
       </div>
     </div>
   );

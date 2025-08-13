@@ -50,6 +50,14 @@ export default function WarehouseProductModal({ shelf, onClose, onSave }) {
               <td>{shelf.color}</td>
             </tr>
             <tr>
+              <th>حداقل موجودی</th>
+              <td>{shelf.minStock ?? 0}</td>
+            </tr>
+            <tr>
+              <th>حداکثر موجودی</th>
+              <td>{shelf.maxStock ?? 0}</td>
+            </tr>
+            <tr>
               <th>موجودی</th>
               <td>
                 <button onClick={decreaseStock} className="stock-btn minus-btn">-</button>
@@ -73,6 +81,7 @@ export default function WarehouseProductModal({ shelf, onClose, onSave }) {
               <td>{shelf.price.toLocaleString()} تومان</td>
             </tr>
           </tbody>
+
         </table>
 
         <div className="modal-actions">

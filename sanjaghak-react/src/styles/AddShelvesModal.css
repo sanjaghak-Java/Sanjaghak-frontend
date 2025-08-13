@@ -1,0 +1,83 @@
+.shelves-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.shelves-modal-content {
+  background-color: white;
+  padding: 20px 25px;
+  border-radius: 10px;
+  width: 40%;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  font-family: Tahoma, sans-serif;
+  direction: rtl;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.shelves-shelf-row {
+    width: 70%;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.shelves-button {
+  cursor: pointer;
+  background-color: #dc2655;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 14px;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.shelves-button:hover {
+  background-color: #a81b3f;
+}
+
+.shelves-shelf-row .shelves-button-remove {
+  background-color: #f44336;
+  padding: 4px 8px;
+  font-weight: bold;
+}
+
+.shelves-shelf-row .shelves-button-remove:hover {
+  background-color: #b71c1c;
+}
+
+.shelves-input-text {
+  padding: 6px 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  min-width: 120px;
+}
+
+.shelves-modal-actions .shelves-button {
+  min-width: 100px;
+}
+
+.shelves-shelf-row > div {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+

@@ -45,40 +45,34 @@ function AddEmployee() {
   };
 
   return (
-    <>
-      <button
-        className="backButtonadmin"
-        onClick={() => navigate("/admin/لیست کارکنان")}
-      >
-        بازگشت
-      </button>
-
+    <div className="supplier-container">
       <h1 className="addManagerTitle">افزودن کارمند</h1>
 
       <form className="addManagerBox" onSubmit={handleSubmit}>
-        <div className="addmanager-inputWrapper">
-          <input
-            type="text"
-            required
-            className="addmanagerInput"
-            placeholder=" "
-            value={formData.firstName}
-            onChange={(e) => handleChange("firstName", e.target.value)}
-          />
-          <label className="addmanager-floatingLabel">نام</label>
-        </div>
-
-        <div className="addmanager-inputWrapper">
-          <input
-            type="text"
-            required
-            className="addmanagerInput"
-            placeholder=" "
-            value={formData.lastName}
-            onChange={(e) => handleChange("lastName", e.target.value)}
-          />
-          <label className="addmanager-floatingLabel">نام خانوادگی</label>
-        </div>
+          <div style={{display: "flex", gap: "20px"}}>
+            <div className="addmanager-inputWrapper">
+              <input
+                type="text"
+                required
+                className="addmanagerInput"
+                placeholder=" "
+                value={formData.firstName}
+                onChange={(e) => handleChange("firstName", e.target.value)}
+              />
+              <label className="addmanager-floatingLabel">نام</label>
+            </div>
+            <div className="addmanager-inputWrapper">
+              <input
+                type="text"
+                required
+                className="addmanagerInput"
+                placeholder=" "
+                value={formData.lastName}
+                onChange={(e) => handleChange("lastName", e.target.value)}
+              />
+              <label className="addmanager-floatingLabel">نام خانوادگی</label>
+            </div>
+          </div>
 
         <div className="addmanager-inputWrapper">
           <input
@@ -119,12 +113,20 @@ function AddEmployee() {
           </select>
           <label className="addmanager-floatingLabel">نقش</label>
         </div>
+        <div className="modal-buttons">
+          <button
+            className="modal-button gray"
+            onClick={() => navigate("/admin/لیست کارکنان")}
+          >
+            ➔ بازگشت
+          </button>
+          <button className="modal-button" type="submit">
+            ثبت نام
+          </button>
+        </div>
 
-        <button className="addmanagerButton" type="submit">
-          ثبت نام
-        </button>
       </form>
-    </>
+  </div>
   );
 }
 

@@ -85,11 +85,28 @@ function AdminCategoryList() {
   if (loading) return <p style={{ textAlign: "center", marginTop: 40 }}>در حال بارگذاری دسته‌بندی‌ها...</p>;
 
   return (
-    <div className="adminCategoryListContaineradmin">
-      <h1 className="adminCategoryTitleadmin">دسته‌بندی‌ها</h1>
-
+    <div className="supplier-container">
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: "space-between",
+          width: '88%',
+          direction: 'rtl',
+          padding: '10px 0px',
+          marginTop: "30px"
+        }}
+      >        
+        <h2 className="adminliststitle">دسته‌بندی‌ها</h2>
+        <button
+          onClick={handleAddCategory}
+          className="add-warehouse-button"
+        >
+          + افزودن دسته بندی
+        </button>
+      </div>
       <div className="adminCategoryGridadmin">
-        {categories.length === 0 && <p>دسته‌بندی‌ای وجود ندارد.</p>}
+        {categories.length === 0 && <p className="nocategoryp">دسته‌بندی‌ای وجود ندارد.</p>}
         {categories.map((category) => (
           <div
             key={category.categoryId}
@@ -100,14 +117,6 @@ function AdminCategoryList() {
           </div>
         ))}
 
-        <div
-          className="adminCategoryCardadmin addCategoryCardadmin"
-          onClick={handleAddCategory}
-          style={{ cursor: "pointer" }}
-        >
-          <div className="addCategoryIconadmin">+</div>
-          <h3 className="adminCategoryCard__nameadmin">افزودن دسته</h3>
-        </div>
       </div>
     </div>
   );

@@ -6,14 +6,17 @@
 }
 
 .adminBrandGridadmin {
+  direction: rtl;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
   gap: 24px;
   width: 100%;
   max-width: 1200px;
+  justify-items: center;
 }
 
-.adminBrandCardadmin {
+
+/* .adminBrandCardadmin {
   background: #ffffff;
   border: 3px solid #d54343;
   padding: 20px;
@@ -21,7 +24,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: 0 8px 16px rgba(213, 67, 67, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
   max-width: 160px;
 }
@@ -29,7 +32,7 @@
 .adminBrandCardadmin:hover {
   transform: scale(1.05);
   box-shadow: 0 12px 24px rgba(213, 67, 67, 0.3);
-}
+} */
 
 .addBrandCardadmin {
   justify-content: center;
@@ -47,4 +50,68 @@
   text-align: center;
   margin: 60px 0 20px 0;
   color: #d54343;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #d54363;
+  transition: 0.4s;
+  border-radius: 20px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: rgb(204, 204, 204);
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.DeleteButtonadmin{
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  color: #dc2655;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.DeleteButtonadmin:hover{
+  transform: scale(1.05);
 }

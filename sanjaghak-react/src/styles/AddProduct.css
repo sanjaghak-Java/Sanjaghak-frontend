@@ -1,17 +1,15 @@
 .addProductContainer {
-    margin-top: 0px;
-  max-width: 900px;
+  margin-top: 0px;
+  max-width: 700px;
   margin: auto;
   margin-right: auto;
   padding: 32px;
   background-color: #fff;
-  border: 1px solid #f1cdd0;
   border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(184, 64, 80, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   gap: 24px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   direction: rtl;
 }
 
@@ -38,23 +36,24 @@
 .inputWrapper select {
   width: 100%;
   padding: 16px 12px 8px;
-  border: 1px solid #e1aab4;
+  border: 1px solid #ccc;
   border-radius: 8px;
   outline: none;
   font-size: 14px;
+  font-family: "Traffic";
   background: none;
   transition: border-color 0.2s ease;
 }
 
-.inputWrapper textarea {
+/* .inputWrapper textarea {
   resize: vertical;
-  min-height: 100px;
-}
+  min-height: 80px;
+} */
 
 .inputWrapper input:focus,
 .inputWrapper textarea:focus,
 .inputWrapper select:focus {
-  border-color: #b84050;
+  border-color: #c4204b;
 }
 
 .adminFloatingLabel {
@@ -62,6 +61,7 @@
   top: 14px;
   right: 12px;
   font-size: 14px;
+  font-family: "Traffic";
   color: #999;
   background-color: white;
   padding: 0 4px;
@@ -78,7 +78,7 @@
   top: -10px;
   right: 10px;
   font-size: 12px;
-  color: #b84050;
+  color: #c4204b;
 }
 
 .submitButton {
@@ -97,24 +97,26 @@
   background-color: #9e2f3f;
 }
 
-.addAttributeBtn {
+.addAttributeBtns {
   display: block;
   margin: 15px auto 0 auto;
   padding: 6px 12px;
   width: 120px;
-  background-color: #e75454;
-  color: white;
+  background-color: transparent;
+  color: #ccc;
   border: none;
   border-radius: 6px;
+  /* border: 1px solid #dc2655; */
   font-weight: 600;
-  font-size: 12px;
+  font-size: 22px;
+  font-family: "Kamran";
   cursor: pointer;
   transition: background-color 0.3s ease;
-  box-shadow: 0 3px 6px rgba(231, 84, 84, 0.3);
+  /* box-shadow: 0 3px 6px rgba(231, 84, 84, 0.3); */
 }
 
-.addAttributeBtn:hover {
-  background-color: #d54343;
+.addAttributeBtns:hover {
+  color: #c4204b;
 }
 
 .attributesTitle {
@@ -123,18 +125,22 @@
   font-weight: 700;
   font-size: 22px;
   margin: 20px 0 10px 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
   text-shadow: 1px 1px 2px rgba(231, 84, 84, 0.5);
 }
 .pageTitle{
-    margin-bottom: 10px;
-      text-align: center;
-  color: #e75454;
-  font-weight: 700;
+  margin-bottom: 5px;
+  text-align: center;
+  font-weight: normal;
   font-size: 22px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  text-shadow: 1px 1px 2px rgba(231, 84, 84, 0.5);
+  font-size: 1.5rem;
+  color: #333;
+  font-weight: bold;
+  text-shadow: -6px 6px 6px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  font-family: 'Vazirmatn';
 }
+
 .imageInput {
   width: 100%;
   padding: 10px 12px;
@@ -181,7 +187,7 @@
 .stepButtonsaddproduct {
   display: flex;
   justify-content: space-between;
-  margin-top: 24px;
+  /* margin-top: 24px; */
 }
 
 .stepButtonsaddproduct.singleButtonaddproduct {
@@ -191,29 +197,30 @@
 .nextBtnaddproduct,
 .backBtnaddproduct,
 .submitBtnaddproduct {
-  padding: 12px 24px;
+  padding: 8px 24px;
   font-size: 16px;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease;
   font-weight: 600;
-  background-color: #e75454;
+  font-family: "Digikala ";
+  background-color: #dc2655;
   color: white;
 }
 
 .nextBtnaddproduct:hover,
 .backBtnaddproduct:hover,
 .submitBtnaddproduct:hover {
-  background-color: #d54343;
+  background-color: #c4204b;
 }
 .imageCardLabel {
-  font-size: 14px;
+  font-family: "Traffic";
+  font-size: 16px;
   color: #999;
-  font-weight: 600;
   text-align: center;
   margin-bottom: 6px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
   user-select: none;
 }
 

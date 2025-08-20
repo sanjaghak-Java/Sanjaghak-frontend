@@ -123,11 +123,13 @@ function SignUp() {
           <input type="email" required placeholder=" " className="signUpInput" value={email} onChange={(e) => setEmail(e.target.value)} />
           <label className="signup-floatingLabel">ایمیل</label>
         </div>
-
-        <div className="signup-inputWrapper">
-          <input type="text" required placeholder=" " className="signUpInput" value={code} onChange={(e) => setCode(e.target.value)} />
-          <label className="signup-floatingLabel">کد تایید</label>
-          <button type="button" onClick={sendCode} disabled={timer > 0} className="signUpButton" style={{ marginTop: '8px' }}>
+        
+        <div className="signup-inputWrapper" style={{display: "flex", width: "100%", gap: "8px"}}>
+          <div className="signup-inputWrapper">
+            <input type="text" required placeholder=" " className="signUpInput" value={code} onChange={(e) => setCode(e.target.value)} />
+            <label className="signup-floatingLabel">کد تایید</label>
+          </div>
+          <button type="button" onClick={sendCode} disabled={timer > 0} className="signUpcodeButton">
             {timer > 0 ? `ارسال مجدد (${timer})` : 'ارسال کد'}
           </button>
         </div>

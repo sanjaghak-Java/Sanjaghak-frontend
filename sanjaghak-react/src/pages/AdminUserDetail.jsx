@@ -80,120 +80,107 @@ function AdminUserDetail({ user, onBack, onUpdateUser }) {
   };
 
   return (
-    <div
-      className="adminProductDetailContainer"
-      style={{
-        maxWidth: 800,
-        margin: "40px auto",
-        padding: 20,
-        backgroundColor: "#fff",
-        border: "2px solid #d54343",
-        borderRadius: 16,
-        boxShadow: "0 6px 14px rgba(213, 67, 67, 0.15)",
-        direction: "rtl",
-        color: "#333",
-        position: "relative",
-        zIndex: 1000,
-      }}
-    >
-      <button
-        className="adminBackButton"
-        onClick={onBack}
-        style={{ marginBottom: 20 }}
-        disabled={loading}
-      >
-        بازگشت به لیست
-      </button>
-
+    <div className="supplier-container">
       <h1 className="adminProductDetail__name">ویرایش کاربر</h1>
 
-      <img
-        src={editedUser.profilePic}
-        alt={`${user.name} ${user.surname}`}
-        className="adminProductDetail__image"
-        style={{ width: "100%", maxWidth: 400, borderRadius: 16, marginBottom: 20 }}
-      />
-
-      <div
-        className="adminProductDetail__fields"
-        style={{ display: "flex", flexDirection: "column", gap: "12px" }}
-      >
-        <label className="adminProductDetail__info">نام:</label>
-        <input
-          type="text"
-          value={editedUser.name}
-          placeholder={user.name}
-          onChange={(e) => handleChange("name", e.target.value)}
-          className="adminProductDetail__input"
-          disabled={loading}
+      <div className="adminProductDetailContainer">
+        <div style={{ display: "flex", alignItems: "center", gap: "5px", width: "100%", direction: "ltr" }}>
+          <label className="switch">
+            <input
+              type="checkbox"
+              checked={editedUser.isActive}
+              onChange={(e) => handleChange("isActive", e.target.checked)}
+              disabled={loading}
+            />
+            <span className="slider"></span>
+          </label>
+          <span>{editedUser.isActive ? "فعال" : "غیرفعال"}</span>
+        </div>
+        <img
+          src={editedUser.profilePic}
+          alt={`${user.name} ${user.surname}`}
+          style={{ width: "100px", marginBottom: 20 }}
         />
 
-        <label className="adminProductDetail__info">نام خانوادگی:</label>
-        <input
-          type="text"
-          value={editedUser.surname}
-          placeholder={user.surname}
-          onChange={(e) => handleChange("surname", e.target.value)}
-          className="adminProductDetail__input"
-          disabled={loading}
-        />
-
-        <label className="adminProductDetail__info">شماره تلفن:</label>
-        <input
-          type="text"
-          value={editedUser.phone}
-          placeholder={user.phone}
-          onChange={(e) => handleChange("phone", e.target.value)}
-          className="adminProductDetail__input"
-          disabled={loading}
-        />
-
-        <label className="adminProductDetail__info">ایمیل:</label>
-        <input
-          type="email"
-          value={editedUser.email}
-          placeholder={user.email || ""}
-          onChange={(e) => handleChange("email", e.target.value)}
-          className="adminProductDetail__input"
-          disabled={loading}
-        />
-
-        <label className="adminProductDetail__info">وضعیت:</label>
-        <select
-          value={editedUser.isActive ? "active" : "inactive"}
-          onChange={(e) => handleChange("isActive", e.target.value === "active")}
-          className="adminProductDetail__input"
-          disabled={loading}
+        <div
+          className="adminProductDetail__fields"
+          style={{ display: "flex", flexDirection: "column", gap: "12px" }}
         >
-          <option value="active">فعال</option>
-          <option value="inactive">غیرفعال</option>
-        </select>
-      </div>
+          <div style={{display: "flex", gap: "35px"}}>
+            <div style={{width: "100%", display: "flex", flexDirection: "column", gap: "15px"}}>
+              <label className="adminProductDetail__info">نام:</label>
+              <input
+                type="text"
+                value={editedUser.name}
+                placeholder={user.name}
+                onChange={(e) => handleChange("name", e.target.value)}
+                className="adminProductDetail__input"
+                disabled={loading}
+              />
+            </div>
+            <div style={{width: "100%", display: "flex", flexDirection: "column", gap: "15px"}}>
+              <label className="adminProductDetail__info">نام خانوادگی:</label>
+              <input
+                type="text"
+                value={editedUser.surname}
+                placeholder={user.surname}
+                onChange={(e) => handleChange("surname", e.target.value)}
+                className="adminProductDetail__input"
+                disabled={loading}
+              />
+            </div>
+          </div>
 
-      {error && (
-        <p style={{ color: "red", marginTop: 10, fontWeight: "bold" }}>{error}</p>
-      )}
+          <div style={{display: "flex", gap: "35px"}}>
+            <div style={{width: "100%", display: "flex", flexDirection: "column", gap: "15px"}}>
+              <label className="adminProductDetail__info">شماره تلفن:</label>
+              <input
+                type="text"
+                value={editedUser.phone}
+                placeholder={user.phone}
+                onChange={(e) => handleChange("phone", e.target.value)}
+                className="adminProductDetail__input"
+                disabled={loading}
+              />
+            </div>
+            <div style={{width: "100%", display: "flex", flexDirection: "column", gap: "15px"}}>
+              <label className="adminProductDetail__info">ایمیل:</label>
+              <input
+                type="email"
+                value={editedUser.email}
+                placeholder={user.email || ""}
+                onChange={(e) => handleChange("email", e.target.value)}
+                className="adminProductDetail__input"
+                disabled={loading}
+              />
+            </div>
+          </div>
 
-      <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 20 }}>
-        <button
-          onClick={handleSave}
-          className="adminSaveButton"
-          style={{
-            padding: "12px 24px",
-            backgroundColor: "#d54343",
-            color: "white",
-            border: "none",
-            borderRadius: 12,
-            cursor: loading ? "not-allowed" : "pointer",
-            fontSize: "18px",
-            fontWeight: "bold",
-          }}
-          disabled={loading}
-        >
-          {loading ? "در حال ذخیره..." : "ذخیره تغییرات"}
-        </button>
+        </div>
+
+        {error && (
+          <p style={{ color: "red", marginTop: 10, fontWeight: "bold" }}>{error}</p>
+        )}
+
+        <div className="modal-buttons">
+          <button
+            className="modal-button gray"
+            onClick={onBack}
+            // style={{ marginBottom: 20 }}
+            disabled={loading}
+          >
+            ➔ بازگشت
+          </button>
+          <button
+            onClick={handleSave}
+            className="modal-button"
+            disabled={loading}
+          >
+            {loading ? "در حال ذخیره..." : "ذخیره تغییرات"}
+          </button>
+        </div>
       </div>
-    </div>
+  </div>
   );
 }
 

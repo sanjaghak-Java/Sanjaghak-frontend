@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
+import { FaCheckCircle, FaBan } from "react-icons/fa";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import "/src/styles/userList.css";
+import edit from '../assets/edit.png';
 
 import AdminUserDetail from "./AdminUserDetail";
 
@@ -196,31 +198,49 @@ function UserList() {
   }
 
   return (
-    <>
-      <h1 className="pageTitle">لیست کاربران</h1>
-
+    <div className="supplier-container">
       <div className="userListControls">
         <div className="searchInputContainer" ref={searchModeRef}>
-          <button
-            onClick={() => setSearchModeDropdownOpen((prev) => !prev)}
-            className="searchModeToggleBtn"
-            aria-label="Toggle Search Mode"
-            type="button"
-          >
-            ▼
-          </button>
+          <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
+            <input
+              type="text"
+              placeholder={
+                searchMode === "name"
+                  ? "جستجو بر اساس نام"
+                  : "جستجو بر اساس شناسه"
+              }
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              className="supplier-search"
+            />
 
-          <input
-            type="text"
-            placeholder={
-              searchMode === "name"
-                ? "جستجو بر اساس نام"
-                : "جستجو بر اساس شناسه"
-            }
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
-            className="userListSearchInput"
-          />
+            <button
+              onClick={() => setSearchModeDropdownOpen((prev) => !prev)}
+              className="searchModeToggleBtn"
+              aria-label="Toggle Search Mode"
+              type="button"
+              style={{
+                position: "absolute",
+                left: "10px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                background: "transparent",
+                border: "none",
+                padding: 0,
+                cursor: "pointer"
+              }}
+            >
+              <span style={{ display: "flex", alignItems: "center" }}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M6 9l6 6 6-6" />
+                </svg>
+              </span>
+            </button>
+          </div>
 
           {searchModeDropdownOpen && (
             <div className="searchModeDropdown">
@@ -250,6 +270,16 @@ function UserList() {
               </div>
             </div>
           )}
+          <select
+            id="activeFilter"
+            value={activeFilter}
+            onChange={(e) => setActiveFilter(e.target.value)}
+            className="discounts-select"
+          >
+            <option value="all">همه</option>
+            <option value="active">فعال</option>
+            <option value="inactive">غیرفعال</option>
+          </select>
         </div>
 
         <div className="filterContainer" ref={filterRef}>
@@ -258,12 +288,19 @@ function UserList() {
             className={`filterButton ${filterDropdownOpen ? "active" : ""}`}
             type="button"
           >
-            فیلتر
+            بازه تاریخ
+            <span style={{display: "flex", alignItems: "center"}}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M6 9l6 6 6-6" />
+              </svg>
+            </span>
+
           </button>
 
           {filterDropdownOpen && (
             <div className="filterDropdown">
-              <div>
+              {/* <div>
                 <label htmlFor="activeFilter" className="filterLabel">
                   وضعیت فعال:
                 </label>
@@ -277,7 +314,7 @@ function UserList() {
                   <option value="active">فعال</option>
                   <option value="inactive">غیرفعال</option>
                 </select>
-              </div>
+              </div> */}
 
               <div>
                 <p className="dateRangeLabel">
@@ -302,8 +339,18 @@ function UserList() {
           )}
         </div>
       </div>
-
-      <div className="userListContainer">
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          width: '88%',
+          direction: 'rtl',
+          padding: '10px 0px',
+          marginTop: "80px"
+        }}
+      >
+        <h2 className="adminliststitle">لیست کاربران</h2>
+      </div>
         <table className="userTable">
           <thead>
             <tr>
@@ -333,30 +380,34 @@ function UserList() {
                   <td>{user.name}</td>
                   <td>{user.surname}</td>
                   <td>{user.phone}</td>
-                  <td>{user.isActive ? "فعال" : "غیرفعال"}</td>
+<td>
+  <span className={user.isActive ? "Status-Badge Active" : "Status-Badge Inactive"}>
+    {user.isActive ? "فعال" : "غیرفعال"}
+  </span>
+</td>
                   <td>{timestampToPersianDate(user.isoDateJoined)}</td>
                   <td>
+                    <div style={{display: "flex", alignItems: "center", justifyContent: "center", gap: "5px"}}>
                     <button
-                      className="toggleActiveBtn"
+                      className={`toggleActiveBtn ${user.isActive ? "" : "active-mode"}`}
                       onClick={() => toggleActive(user.id)}
                     >
-                      {user.isActive ? "غیرفعال کردن" : "فعال کردن"}
+                      <span className="status-icon">
+                        {user.isActive 
+                          ? <FaBan className="icon-ban" title="غیرفعال کردن"/> 
+                          : <FaCheckCircle className="icon-check" title="فعال کردن" />
+                        }
+                      </span>
+                      {/* {user.isActive ? "غیرفعال کردن" : "فعال کردن"} */}
                     </button>
                     <button
-                      className="editUserBtn"
                       onClick={() => setSelectedUser(user)}
-                      style={{
-                        marginRight: 8,
-                        padding: "6px 12px",
-                        borderRadius: 8,
-                        backgroundColor: "#d54343",
-                        border: "none",
-                        color: "white",
-                        cursor: "pointer",
-                      }}
+                      className="editUserBtn , admin-edit-button "
                     >
-                      ویرایش
+                      <img src={edit} alt="" />
                     </button>
+                    </div>
+
                   </td>
                 </tr>
               ))
@@ -369,7 +420,6 @@ function UserList() {
             )}
           </tbody>
         </table>
-      </div>
 
       <div className="adminProductList__pagination">
         <button
@@ -424,7 +474,7 @@ function UserList() {
           برو
         </button>
       </div>
-    </>
+    </div>
   );
 }
 

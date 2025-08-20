@@ -74,14 +74,9 @@ function AddCategory() {
     }
   };
 
-  return (
-    <>
-      <div className="addCategoryHeaderadmin">
-        <button className="backButtonadmin" onClick={() => navigate("/admin/لیست دسته ها")}>
-          ← بازگشت
-        </button>
-        <h1 className="pageTitle">افزودن دسته</h1>
-      </div>
+return (
+    <div className="supplier-container">
+      <h2 className="pageTitle">افزودن دسته‌بندی جدید</h2>
 
       <form className="addProductContainer" onSubmit={handleSubmit}>
         <div className="inputWrapper">
@@ -93,33 +88,7 @@ function AddCategory() {
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
-          <label className="adminFloatingLabel">نام دسته</label>
-        </div>
-
-        <div className="inputGroup">
-          <div className="inputWrapper">
-            <input
-              type="file"
-              required
-              className="imageInput"
-              accept="image/*"
-              onChange={handleImageChange}
-            />
-            {imagePreview && (
-              <img
-                src={imagePreview}
-                alt="Preview"
-                style={{
-                  marginTop: "10px",
-                  maxWidth: "100%",
-                  maxHeight: "200px",
-                  borderRadius: "8px",
-                  objectFit: "contain",
-                  backgroundColor: "#f0f0f0",
-                }}
-              />
-            )}
-          </div>
+          <label className="adminFloatingLabel">نام دسته‌بندی</label>
         </div>
 
         <div className="inputWrapper">
@@ -129,12 +98,43 @@ function AddCategory() {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
-          <label className="adminFloatingLabel">توضیحات دسته</label>
+          <label className="adminFloatingLabel">توضیحات دسته‌بندی</label>
         </div>
 
-        <button className="submitButton" type="submit">افزودن دسته</button>
+        <div className="inputGroup" style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
+          <div className="categoryinputWrapper">
+            <label className="adminFloatingLabel" style={{top: "-12px", color: "#c4204b"}}>انتخاب عکس</label>
+            <input
+              type="file"
+              required
+              // className="imageInput"
+              accept="image/*"
+              onChange={handleImageChange}
+            />
+            {imagePreview && (
+              <img
+                src={imagePreview}
+                alt="Preview"
+                style={{
+                  maxWidth: "180px",
+                  maxHeight: "180px",
+                  borderRadius: "8px",
+                  objectFit: "contain",
+                  backgroundColor: "#f0f0f0",
+                }}
+              />
+            )}
+          </div>
+        </div>
+        <div className="modal-buttons">
+          <button className="modal-button gray" onClick={() => navigate("/admin/لیست دسته ها")}>
+            ➔ بازگشت
+          </button>
+          <button className="modal-button" type="submit">+ افزودن دسته‌بندی</button>
+        </div>
+
       </form>
-    </>
+    </div>
   );
 }
 

@@ -1,23 +1,41 @@
 .adminCategoryCard {
-  width: 160px;
-  height: 160px;
+  width: 155px;
+  height: 155px;
   border-radius: 50%;
   background: white;
-  box-shadow: 0 8px 20px rgba(213, 67, 67, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 3px solid #d54343;
+  border: 3px solid #D1D1D4;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.3s, box-shadow 0.3s;
   overflow: hidden;
   text-align: center;
 }
 
 .adminCategoryCard:hover {
-  transform: scale(1.05);
-  box-shadow: 0 12px 28px rgba(213, 67, 67, 0.25);
+  box-shadow: 0 6px 15px rgba(17, 15, 15, 0.25);
+  transform: scale(1.01);
+}
+
+.adminCategoryCardhover{
+  min-width: 170px !important;
+  min-height: 170px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  border-radius: 100%;
+  text-decoration: none;
+  color: inherit;
+  transition: transform all 0.3s ease;
+}
+
+.adminCategoryCardhover:hover{
+  outline: 3px solid #a72639;
+
 }
 .adminCategoryCard__image {
   width: 100px;   

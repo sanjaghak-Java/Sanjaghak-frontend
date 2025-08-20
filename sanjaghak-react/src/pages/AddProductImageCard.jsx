@@ -29,7 +29,7 @@ const handleClick = () => {
       className="imageCardContainer"
       onClick={handleClick}
       title={title}
-      style={{ width, height }} // size controlled inline because it can be dynamic
+      style={{ width, height}} // size controlled inline because it can be dynamic
     >
       {!image ? (
         <>

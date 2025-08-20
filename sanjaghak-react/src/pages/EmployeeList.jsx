@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
+import { FaCheckCircle, FaBan } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import AdminEmployeeDetail from "./AdminEmployeeDetail";
 import "/src/styles/employeelist.css";
+import edit from '../assets/edit.png';
 
 function timestampToPersianDate(ts) {
   if (!ts) return "نامشخص";
@@ -211,35 +213,53 @@ const mappedEmployees = filteredUsers.map((u) => ({
   }
 
   return (
-    <>
-      <h1 className="pageTitle">لیست کارمندان</h1>
-
+    <div className="supplier-container">
       <div className="userListControls">
-        <button
-          className="adminProductList__filterButton"
-          onClick={() => navigate("/admin/افزودن کارمند")}
-        >
-          افزودن کارمند
-        </button>
-
         <div className="searchInputContainer" ref={searchModeRef}>
-          <button
-            onClick={() => setSearchModeDropdownOpen((prev) => !prev)}
-            className="searchModeToggleBtn"
-            aria-label="Toggle Search Mode"
-            type="button"
-          >
-            ▼
-          </button>
-          <input
-            type="text"
-            placeholder={
-              searchMode === "name" ? "جستجو بر اساس نام" : "جستجو بر اساس شناسه"
-            }
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
-            className="userListSearchInput"
-          />
+          <div   style={{position: "relative", display: "flex", alignItems: "center",}}>
+            <button
+              onClick={() => setSearchModeDropdownOpen((prev) => !prev)}
+              className="searchModeToggleBtn"
+              aria-label="Toggle Search Mode"
+              type="button"
+              style={{
+                position: "absolute",
+                left: "10px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                background: "transparent",
+                border: "none",
+                padding: 0,
+                cursor: "pointer"
+              }}
+            >
+              <span style={{ display: "flex", alignItems: "center" }}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M6 9l6 6 6-6" />
+                </svg>
+              </span>
+            </button>
+
+            <input
+              type="text"
+              placeholder={
+                searchMode === "name"
+                  ? "جستجو بر اساس نام"
+                  : "جستجو بر اساس شناسه"
+              }
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              className="supplier-search"
+              style={{
+                paddingLeft: "30px",
+              }}
+            />
+          </div>
+
           {searchModeDropdownOpen && (
             <div className="searchModeDropdown">
               <div
@@ -268,6 +288,27 @@ const mappedEmployees = filteredUsers.map((u) => ({
               </div>
             </div>
           )}
+          <select
+            id="activeFilter"
+            value={activeFilter}
+            onChange={(e) => setActiveFilter(e.target.value)}
+            className="discounts-select"
+          >
+            <option value="all">همه وضعیت‌ها</option>
+            <option value="active">فعال</option>
+            <option value="inactive">غیرفعال</option>
+          </select>
+          <select
+            id="roleFilter"
+            value={roleFilter}
+            onChange={(e) => setRoleFilter(e.target.value)}
+            className="discounts-select"
+          >
+            <option value="all">همه نقش‌ها</option>
+            <option value="admin">ادمین</option>
+            <option value="manager">مدیر</option>
+            <option value="staff">انباردار</option>
+          </select>
         </div>
 
         <div className="filterContainer" ref={filterRef}>
@@ -276,12 +317,18 @@ const mappedEmployees = filteredUsers.map((u) => ({
             onClick={() => setFilterDropdownOpen((prev) => !prev)}
             type="button"
           >
-            فیلتر
+            بازه تاریخ
+            <span style={{display: "flex", alignItems: "center"}}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M6 9l6 6 6-6" />
+              </svg>
+            </span>
           </button>
 
           {filterDropdownOpen && (
             <div className="filterDropdown">
-              <div>
+              {/* <div>
                 <label htmlFor="activeFilter" className="filterLabel">
                   وضعیت فعال:
                 </label>
@@ -295,9 +342,9 @@ const mappedEmployees = filteredUsers.map((u) => ({
                   <option value="active">فعال</option>
                   <option value="inactive">غیرفعال</option>
                 </select>
-              </div>
+              </div> */}
 
-              <div>
+              {/* <div>
                 <label htmlFor="roleFilter" className="filterLabel">
                   نقش:
                 </label>
@@ -312,7 +359,7 @@ const mappedEmployees = filteredUsers.map((u) => ({
                   <option value="manager">مدیر</option>
                   <option value="staff">انباردار</option>
                 </select>
-              </div>
+              </div> */}
 
               <div>
                 <p className="dateRangeLabel">
@@ -337,8 +384,25 @@ const mappedEmployees = filteredUsers.map((u) => ({
           )}
         </div>
       </div>
-
-      <div className="userListContainer">
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: "space-between",
+          width: '88%',
+          direction: 'rtl',
+          padding: '10px 0px',
+          marginTop: "80px"
+        }}
+      >
+        <h2 className="adminliststitle">لیست کارمندان</h2>
+        <button
+          className="add-warehouse-button"
+          onClick={() => navigate("/admin/افزودن کارمند")}
+        >
+          + افزودن کارمند
+        </button>
+      </div>
         <table className="userTable">
           <thead>
             <tr>
@@ -372,30 +436,35 @@ const mappedEmployees = filteredUsers.map((u) => ({
                   <td>{e.surname}</td>
                   <td>{e.phone}</td>
                   <td>{getRoleLabel(e.role)}</td>
-                  <td>{e.isActive ? "فعال" : "غیرفعال"}</td>
+                  <td>
+                    <span className={e.isActive ? "Status-Badge Active" : "Status-Badge Inactive"}>
+                      {e.isActive ? "فعال" : "غیرفعال"}
+                    </span>
+                  </td>
                   <td>{timestampToPersianDate(e.dateJoinedTs)}</td>
                   <td>
-                    <button
-                      className="toggleActiveBtn"
-                      onClick={() => toggleActive(e.id)}
-                    >
-                      {e.isActive ? "غیرفعال کردن" : "فعال کردن"}
-                    </button>
-                    <button
-                      className="editUserBtn"
-                      onClick={() => setSelectedEmployee(e)}
-                      style={{
-                        marginRight: 8,
-                        padding: "6px 12px",
-                        borderRadius: 8,
-                        backgroundColor: "#d54343",
-                        border: "none",
-                        color: "white",
-                        cursor: "pointer",
-                      }}
-                    >
-                      ویرایش
-                    </button>
+                    <div style={{display: "flex", alignItems: "center", justifyContent: "center", gap: "5px"}}>
+                      <button
+                        className="toggleActiveBtn"
+                        onClick={() => toggleActive(e.id)}
+                      >
+                        <span className="status-icon">
+                          {e.isActive 
+                            ? <FaBan className="icon-ban" title="غیرفعال کردن" /> 
+                            : <FaCheckCircle className="icon-check" title="فعال کردن"/>
+                          }
+                        </span>
+                        {/* {e.isActive ? "غیرفعال کردن" : "فعال کردن"} */}
+                      </button>
+
+                      <button
+                        className="editUserBtn , admin-edit-button "
+                        onClick={() => setSelectedEmployee(e)}
+
+                      >        
+                        <img src={edit} alt="" />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))
@@ -408,7 +477,6 @@ const mappedEmployees = filteredUsers.map((u) => ({
             )}
           </tbody>
         </table>
-      </div>
 
       <div className="adminProductList__pagination">
         <button
@@ -453,7 +521,7 @@ const mappedEmployees = filteredUsers.map((u) => ({
           برو
         </button>
       </div>
-    </>
+    </div>
   );
 }
 

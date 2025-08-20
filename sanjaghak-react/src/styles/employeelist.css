@@ -42,7 +42,7 @@
   font-weight: 700;
 }
 
-.profilePic {
+/* .profilePic {
   width: 48px;
   height: 48px;
   border-radius: 50%;
@@ -54,7 +54,7 @@
 .profilePic:hover {
   transform: scale(1.1);
   box-shadow: 0 0 12px rgba(184, 64, 80, 0.5);
-}
+} */
 
 .activeEmployee {
   background-color: #fff8f8;
@@ -67,7 +67,7 @@
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.toggleActiveBtn {
+/* .toggleActiveBtn {
   padding: 6px 12px;
   background-color: #e75454;
   color: white;
@@ -96,7 +96,7 @@
   background-color: #3a9e3a;
   box-shadow: 0 6px 12px rgba(58, 158, 58, 0.5);
   transform: scale(1.05);
-}
+} */
 
 .adminemployeelisttitle {
   margin-left: 47%;
@@ -188,43 +188,37 @@
 .searchModeDropdown {
   position: absolute;
   top: 100%;
-  left: 0;
+  padding: 10px;
   background: white;
-  border: 1px solid #d54343;
   border-radius: 8px;
   margin-top: 4px;
   z-index: 1000;
-  box-shadow: 0 4px 10px rgba(213, 67, 67, 0.15);
-  min-width: 280px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  min-width: 250px;
 }
 
 .searchModeOption {
   padding: 8px 12px;
   cursor: pointer;
-  color: #d54343;
+  color: black;
 }
 
 .searchModeOption:hover,
 .searchModeOption.selected {
-  background-color: #f8dede;
-  font-weight: 700;
+  background-color: #f0f0f0;
 }
 
 .filterDropdown {
   position: absolute;
-  top: 100%;
   right: 0;
-  margin-top: 8px;
-  padding: 16px;
-  background-color: white;
-  border: 1px solid #d54343;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(213, 67, 67, 0.15);
+  padding: 26px;
   width: 320px;
+  top: 100%;
+  margin-top: 8px;
+  background-color: white;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   z-index: 1000;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
 }
 
 .filterLabel {
@@ -266,6 +260,8 @@
   min-width: 280px;
   display: flex;
   align-items: center;
+  gap: 20px;
+  direction: rtl;
 }
 
 .searchModeToggleBtn {
@@ -286,7 +282,7 @@
 .filterContainer {
   position: relative;
 }
-
+/* 
 .filterButton {
   padding: 8px 16px;
   border-radius: 8px;
@@ -302,4 +298,24 @@
 .filterButton.active {
   background-color: #d54343;
   color: white;
+} */
+
+.Status-Badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 14px;
+  min-width: 60px;
+  text-align: center;
+}
+
+.Status-Badge.Active {
+  background-color: #d7f0d8;
+  color: #2d6a2d;       
+}
+
+.Status-Badge.Inactive {
+  background-color: #f9d7d7;
+  color: #a12727;        
 }

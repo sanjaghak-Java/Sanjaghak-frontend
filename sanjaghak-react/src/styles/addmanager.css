@@ -3,36 +3,35 @@
   font-size: 30px;
   color: #d54343;
   font-weight: 800;
-  margin-top: 60px;
   margin-bottom: 24px;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   animation: slideInFade 0.6s ease forwards;
 }
 
 .addManagerBox {
-  max-width: 500px;
-  margin: 0 auto;
+  min-width: 500px;
   background: #ffffff;
   padding: 40px 32px;
   border-radius: 16px;
-  border: 1px solid #d54343;
-  box-shadow: 0 10px 30px rgba(213, 67, 67, 0.1);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  /* border: 1px solid #d54343; */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   direction: rtl;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
   animation: fadeInUp 0.7s ease-out;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .addmanager-inputWrapper {
   position: relative;
-  margin: 24px 0;
+  /* margin: 24px 0 0; */
 }
 
 .addmanagerInput {
   width: 100%;
   padding: 14px 16px;
   font-size: 15px;
-  border: 1px solid #d54343;
+  border: 1px solid #ccc;
   border-radius: 12px;
   background: transparent;
   transition: 0.3s ease;
@@ -40,8 +39,7 @@
 }
 
 .addmanagerInput:focus {
-  border-color: #d54343;
-  box-shadow: 0 0 10px rgba(213, 67, 67, 0.15);
+  border-color: #c4204b;
 }
 
 .addmanager-floatingLabel {
@@ -59,7 +57,7 @@
 
 .addmanagerInput:focus + .addmanager-floatingLabel,
 .addmanagerInput:not(:placeholder-shown) + .addmanager-floatingLabel {
-  top: -10px;
+  top: 0px;
   right: 12px;
   font-size: 13px;
   color: #d54343;

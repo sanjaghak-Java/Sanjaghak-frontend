@@ -45,14 +45,9 @@ function AddBrand() {
   };
 
   return (
-    <>
+    <div className="supplier-container">
       <div className="addCategoryHeaderadmin">
-        <button
-          className="backButtonadmin"
-          onClick={() => navigate("/admin/لیست برند ها")}
-        >
-          بازگشت
-        </button>
+
         <h1 className="pageTitleadmin">افزودن برند</h1>
       </div>
 
@@ -103,10 +98,18 @@ function AddBrand() {
           />
           <label className="adminFloatingLabel">توضیحات برند</label>
         </div>
+        <div className="modal-buttons">
+          <button
+            className="modal-button gray"
+            onClick={() => navigate("/admin/لیست برند ها")}
+          >
+            ➔ بازگشت
+          </button>
+          <button className="modal-button" type="submit">افزودن برند</button>
+        </div>
 
-        <button className="submitButton" type="submit">افزودن برند</button>
       </form>
-    </>
+  </div>
   );
 }
 

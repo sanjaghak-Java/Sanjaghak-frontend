@@ -7,7 +7,7 @@
   box-shadow: 0 8px 20px #d94f6194;
   box-sizing: border-box;
   position: fixed;
-  top: 50%;
+  top: 56%;
   left: 50%;
   transform: translate(-50%, -50%);
   direction: rtl;
@@ -24,22 +24,35 @@
 
 .signup-inputWrapper {
   position: relative;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+  width: 100%;
 }
 
 .signUpInput {
   width: 100%;
-  padding: 14px 15px;
+  padding: 11px 15px;
   border: 1.8px solid #5c5c5c75;
   border-radius: 8px;
   font-size: 16px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Traffic";
   box-sizing: border-box;
   color: #333;
   background-color: #fafafa;
   transition: border-color 0.3s ease;
   text-align: right;
   direction: rtl;
+}
+
+.signUpcodeButton{
+  background-color: transparent;
+  border: 2px solid #dc2655;
+  border-radius: 8px;
+  color: #dc2655;
+  width: 30%;
+  font-size: 14px;
+  font-family: "Digikala ";
+  margin-bottom: 15px;
+  /* padding: 14px 15px; */
 }
 
 .signUpInput:focus {
@@ -64,7 +77,7 @@
 .signUpInput:focus+.signup-floatingLabel,
 .signUpInput:not(:placeholder-shown)+.signup-floatingLabel {
   background-color: rgba(245, 245, 247, 0.85);
-  top: -10px;
+  top: -11px;
   right: 10px;
   font-size: 13px;
   color: #dc2655;
@@ -132,7 +145,6 @@
   font-family: "Traffic";
   direction: ltr;
   text-align: right;
-  margin-top: 10px;
   margin-bottom: 10px;
 }
 

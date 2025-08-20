@@ -4,10 +4,14 @@ import "/src/styles/adminBrandCard.css";
 function AdminBrandCard({ brand }) {
   return (
     <div
-      className={`adminBrandCardadmin ${brand.active ? 'brandActive' : 'brandInactive'}`}
+      className={`adminBrandCardadminhover ${brand.active ? 'brandActive' : 'brandInactive'}`}
     >
-      <img src={brand.logoUrl} className="adminBrandCardadmin__image" />
+      <div className="adminBrandCardadmin">
+        <img src={brand.logoUrl} className="adminBrandCardadmin__image" />
+        <p className="adminBrandCardadmin__name">{brand.Name}</p>
+      </div>
     </div>
+
   );
 }
 

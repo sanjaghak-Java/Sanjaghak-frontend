@@ -1,162 +1,182 @@
+@font-face {
+  font-family: 'Vazirmatn';
+  src: url('./src/fonts/Vazirmatn.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 .userListContainer {
-  max-width: 900px;
-  margin: 32px auto;
-  padding: 16px;
-  background: #fff;
-  border: 1px solid #f1cdd0;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(184, 64, 80, 0.08);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  direction: rtl;
-}
-
-.userTable {
   width: 100%;
-  border-collapse: collapse;
-  text-align: center;
-  font-size: 14px;
-  transition: color 0.3s ease;
-}
-
-.userTable th,
-.userTable td {
-  padding: 12px 8px;
-  border-bottom: 1px solid #f1cdd0;
-  vertical-align: middle;
-  color: #333;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-
-.userTable tbody tr:hover {
-  background-color: #ffeaea;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-
-.userTable tbody tr.activeUser:hover td {
-  color: #b84050;
-}
-
-.userTable th {
-  color: #b84050;
-  font-weight: 700;
-}
-
-.profilePic {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #b84050;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-
-.profilePic:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 12px rgba(184, 64, 80, 0.5);
-}
-
-.activeUser {
-  background-color: #fff8f8;
-  transition: background-color 0.3s ease;
-}
-
-.inactiveUser {
-  background-color: #f9f1f1;
-  color: #999;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.toggleActiveBtn {
-  padding: 6px 12px;
-  background-color: #e75454;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 12px;
-  box-shadow: 0 3px 6px rgba(231, 84, 84, 0.3);
-  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-  user-select: none;
-}
-
-
-.toggleActiveBtn:hover {
-  background-color: #d54343;
-  box-shadow: 0 6px 12px rgba(213, 67, 67, 0.5);
-  transform: scale(1.05);
-}
-
-.inactiveUser .toggleActiveBtn {
-  background-color: #4caf50;
-  box-shadow: 0 3px 6px rgba(76, 175, 80, 0.3);
-  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-}
-
-.inactiveUser .toggleActiveBtn:hover {
-  background-color: #3a9e3a;
-  box-shadow: 0 6px 12px rgba(58, 158, 58, 0.5);
-  transform: scale(1.05);
-}
-.adminuserlisttitle{
-      margin-left:47%;
-    margin-bottom: 10px;
-    font-size: 22px;
-    font-weight: 700;
-    color: #e75454;
-}
-.userListControlsWrapper {
+  margin: 32px auto;
+  padding: 20px;
+  direction: rtl;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
-  margin-bottom: 24px;
+  justify-content: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.adminuserlisttitle {
+  margin-bottom: 10px;
+  font-size: 22px;
+  font-weight: 700;
+  color: #e75454;
+  text-align: center;
 }
 
 .userListControls {
   display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px;
   width: 100%;
-  max-width: 700px;
-  margin: 0 auto;
 }
+
 .userListSearchInput {
-  padding: 8px 14px;
-  font-size: 16px;
+  padding: 10px 14px;
+  font-size: 14px;
   border: 2px solid #d54343;
   border-radius: 8px;
   outline: none;
-  width: 250px;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  max-width: 280px;
+  width: 100%;
+  transition: all 0.3s ease;
   color: #7a2e2e;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .userListSearchInput:focus {
-  border-color: #9e3030;
-  box-shadow: 0 0 6px rgba(213, 67, 67, 0.6);
+  border-color: #c4204b;
+  box-shadow: 0 0 6px rgba(213, 67, 67, 0.5);
 }
-.paginationButton {
-  padding: 8px 14px;
-  border: 2px solid #d54343;
-  background: white;
-  color: #d54343;
-  font-weight: 700;
-  border-radius: 8px;
+
+.userTable {
+  width: 88%;
+  border-collapse: separate;
+  border-spacing: 0 12px;
+  text-align: center;
+  direction: rtl;
+  font-family: "Vazirmatn";
+}
+
+.userTable thead th {
+  background: none;
+  font-weight: bold;
+  padding: 12px;
+}
+
+.userTable tbody tr {
+  background-color: transparent;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  transition: transform 0.3s ease;
+}
+
+.userTable tbody tr:nth-child(even) td {
+  background-color: #f0f0f0;
+}
+
+.userTable tbody tr:nth-child(odd) td {
+  background-color: #ffffff;
+}
+
+.userTable tbody tr td:first-child {
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+.userTable tbody tr td:last-child {
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+
+.userTable tbody td {
+  padding: 20px 12px;
+  border: none;
+  color: #333;
+  font-size: 14px;
+}
+
+.profilePic {
+  width: 38px;
+  height: 38px;
+  object-fit: cover;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profilePic:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 12px rgba(184, 64, 80, 0.4);
+}
+
+.toggleActiveBtn {
+  width: 60%;
+  border: none;
+  background-color: transparent;
+  font-size: 18px;
+  font-family: "kamran";
+  /* font-weight: bold; */
   cursor: pointer;
-  transition: background-color 0.25s, color 0.25s;
+  transition: all 0.3s ease;
+}
+
+.toggleActiveBtn:hover {
+  color: #c4204b;
+  transform: scale(1.05);
+}
+
+.inactiveUser .toggleActiveBtn {
+  color: #4caf50;
+}
+
+.inactiveUser .toggleActiveBtn:hover {
+  color: #3a9e3a;
+}
+
+.activeUser .toggleActiveBtn {
+  color: #eb1c1c;
+}
+
+.status-icon {
+  font-size: 17px;
+  /* padding: 5px 2px; */
+}
+
+.icon-ban {
+  color: #eb1c1c;
+}
+
+.icon-check {
+  color: #4caf50;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.paginationButton {
+  padding: 6px 14px;
+  border: 1px solid #DC2655;
+  background-color: white;
+  color: #DC2655;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s ease;
 }
 
 .paginationButton:hover:not(:disabled) {
-  background-color: #d54343;
+  background-color: #DC2655;
   color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(220, 38, 85, 0.3);
 }
 
 .paginationButton:disabled {
@@ -165,144 +185,88 @@
 }
 
 .paginationButton.active {
-  background-color: #9e3030;
+  background-color: #DC2655;
   color: white;
-  border-color: #9e3030;
-}
-.userListSearchInput,
-.userListFilterSelect {
-  padding: 8px 12px;
-  font-size: 16px;
-  border: 2px solid #d54343;
-  border-radius: 8px;
-  outline: none;
-  min-width: 180px;
-  max-width: 300px;
+  border-color: #DC2655;
 }
 
-.userListSearchInput:focus,
-.userListFilterSelect:focus {
-  border-color: #9e3030;
-}
-.searchModeDropdown {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background: white;
-  border: 1px solid #d54343;
-  border-radius: 8px;
-  margin-top: 4px;
-  z-index: 1000;
-  box-shadow: 0 4px 10px rgba(213, 67, 67, 0.15);
-  min-width: 280px;
-}
-
-.searchModeOption {
-  padding: 8px 12px;
-  cursor: pointer;
-  color: #d54343;
-}
-
-.searchModeOption:hover,
-.searchModeOption.selected {
-  background-color: #f8dede;
-  font-weight: 700;
-}
-
-/* Filter dropdown */
-.filterDropdown {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  margin-top: 8px;
-  padding: 16px;
-  background-color: white;
-  border: 1px solid #d54343;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(213, 67, 67, 0.15);
-  width: 320px;
-  z-index: 1000;
+.goto-page-box {
   display: flex;
-  flex-direction: column;
-  gap: 20px;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
 }
 
-.filterLabel {
-  margin-right: 8px;
-  font-weight: 700;
-  color: #7a2e2e;
-}
-
-.filterSelect {
-  padding: 4px 8px;
+.goto-page-box input {
+  width: 100px;
+  font-size: 13px;
+  padding: 5px;
+  border: 1px solid #ccc;
   border-radius: 6px;
-  border: 1px solid #d54343;
-  min-width: 140px;
+  text-align: center;
+}
+
+.goto-page-box input:focus {
+  outline: none;
+  border-color: #c4204b;
+}
+
+.goto-page-box button {
+  background-color: #DC2655;
+  color: white;
+  padding: 5px 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 13px;
   cursor: pointer;
+  transition: background-color 0.2s;
 }
 
-.dateRangeLabel {
-  margin: 0 0 8px 0;
+.goto-page-box button:hover {
+  background-color: #c4204b;
+}
+
+.filterButton {
+  padding: 8px 14px 8px 0;
+  border-radius: 8px;
+  border: 2px solid #ccc;
+  background-color: white;
+  color: #000000;
   font-weight: 700;
-  color: #7a2e2e;
-  user-select: none;
+  text-align: right;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  min-width: 170px;
 }
 
-/* Container for the search and filter controls */
-.userListControls {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  align-items: center;
-  margin-bottom: 24px;
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 0 16px;
-  position: relative;
+.filterButton:focus{
+  border: 2px solid #c4204b;
 }
-
-/* Search input container and toggle button */
-.searchInputContainer {
-  position: relative;
-  min-width: 280px;
-  display: flex;
-  align-items: center;
-}
+/* 
+.filterButton.active {
+  background-color: #d54343;
+  color: white;
+} */
 
 .searchModeToggleBtn {
   background: transparent;
   border: none;
   cursor: pointer;
   color: #d54343;
-  font-size: 24px;
-  margin-right: 8px;
-  user-select: none;
-  padding: 0;
+  font-size: 20px;
+  margin-right: 6px;
   display: flex;
   align-items: center;
   height: 36px;
-  line-height: 1;
 }
 
-/* Filter container and filter button */
-.filterContainer {
-  position: relative;
+.noUserFound{
+  font-family: "Vazirmatn";
 }
 
-.filterButton {
-  padding: 8px 16px;
-  border-radius: 8px;
-  border: 2px solid #d54343;
-  background-color: white;
-  color: #d54343;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
-  min-width: 120px;
-}
-
-.filterButton.active {
-  background-color: #d54343;
-  color: white;
+.adminliststitle{
+  font-family: "Vazirmatn";
+  color: #898989;
 }

@@ -23,7 +23,7 @@
   position: relative;
   background-color: transparent;
   direction: rtl;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
   overflow: hidden;
 }
 

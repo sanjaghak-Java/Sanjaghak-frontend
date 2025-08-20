@@ -1,22 +1,22 @@
 .adminProductDetailContainer {
-  max-width: 900px;
-  margin: 50px auto;
+  min-width: 650px;
+  direction: rtl;
   padding: 32px 40px;
   background-color: #fff;
-  border: 3px solid #d54343;
+  /* border: 3px solid #d54343; */
   border-radius: 24px;
-  box-shadow: 0 10px 30px rgba(213, 67, 67, 0.2);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  direction: rtl;
+  box-shadow: 0 10px 30px rgba(77, 77, 77, 0.2);
+  /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
   color: #333;
+  /* margin-top: -20px; */
   transition: all 0.3s ease;
 }
 
 .adminBackButton {
-  padding: 12px 24px;
-  background-color: #d54343;
-  color: white;
-  border: none;
+  padding: 12px 20px;
+  background-color: transparent;
+  border: 2px solid #DC2655;
+  color: #DC2655;
   border-radius: 12px;
   font-weight: 700;
   font-size: 16px;
@@ -25,8 +25,10 @@
 }
 
 .adminBackButton:hover {
-  background-color: #b23434;
-  transform: scale(1.05);
+  transform: scale(1.03);
+  border-color: #c4204b;
+  color: #DC2655;
+
 }
 
 .adminProductDetail__name {
@@ -41,8 +43,8 @@
 .adminProductDetail__image {
   display: block;
   margin: 0 auto 30px auto;
-  max-width: 100%;
-  width: 480px;
+  /* max-width: 100%; */
+  width: 100px;
   height: auto;
   border-radius: 20px;
   border: 2px solid #f3b9b9;
@@ -59,21 +61,26 @@
   flex-direction: column;
   gap: 16px;
   margin-bottom: 24px;
+  font-family: "Traffic";
+
 }
 
 .adminProductDetail__info {
   font-size: 18px;
-  font-weight: 700;
-  margin-bottom: 6px;
-  color: #b84050;
+  font-family: "Traffic";
+  /* font-weight: 700; */
+  padding-right: 5px;
+  /* margin-bottom: 6px; */
+  color: #DC2655;
 }
 
 .adminProductDetail__input,
 .adminProductDetail__textarea {
   width: 100%;
-  padding: 12px 16px;
+  padding: 8px 12px;
   font-size: 16px;
-  border: 2px solid #d54343;
+  font-family: "Traffic";
+  border: 2px solid #ccc;
   border-radius: 12px;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
@@ -81,8 +88,7 @@
 .adminProductDetail__input:focus,
 .adminProductDetail__textarea:focus {
   outline: none;
-  border-color: #b23434;
-  box-shadow: 0 0 8px rgba(213, 67, 67, 0.3);
+  border-color: #c4204b;
 }
 
 .adminProductDetail__textarea {
@@ -94,7 +100,8 @@
 .adminDeleteButton {
   flex: 1;
   font-size: 18px;
-  padding: 14px 28px;
+  font-family: "Digikala ";
+  padding: 11px 28px;
   border: none;
   border-radius: 14px;
   font-weight: 800;
@@ -103,12 +110,12 @@
 }
 
 .adminSaveButton {
-  background-color: #d54343;
+  background-color: #DC2655;
   color: #fff;
 }
 
 .adminSaveButton:hover {
-  background-color: #b23434;
+  background-color: #c4204b;
   transform: translateY(-2px);
 }
 

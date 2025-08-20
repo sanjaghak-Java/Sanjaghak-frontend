@@ -329,9 +329,8 @@ function AddProduct() {
   };
 
   return (
-    <>
-      <br /><br /><br /><br /><br />
-      <h1 className="pageTitle">افزودن محصول</h1>
+    <div className="supplier-container" style={{padding: "0"}}>
+      {/* <h1 className="pageTitle">افزودن محصول</h1> */}
       <form className="addProductContainer" onSubmit={handleSubmit}>
         {step === 1 && (
           <>
@@ -347,7 +346,7 @@ function AddProduct() {
             </div>
 
             <div className="inputWrapper">
-              <textarea className="productDescription" placeholder=" " />
+              <textarea className="productDescription" rows="2" placeholder=" " />
               <label className="adminFloatingLabel">توضیحات محصول</label>
             </div>
 
@@ -402,85 +401,95 @@ function AddProduct() {
             <div className="inputGroup">
               <div className="inputWrapper">
                 <input type="number" required className="productCost" placeholder=" " />
-                <label className="adminFloatingLabel">قیمت خرید</label>
+                <label className="adminFloatingLabel">قیمت خرید (تومان)</label>
               </div>
               <div className="inputWrapper">
                 <input type="number" required className="productPrice" placeholder=" " />
-                <label className="adminFloatingLabel">قیمت فروش</label>
+                <label className="adminFloatingLabel">قیمت فروش (تومان)</label>
               </div>
             </div>
 
             <div className="inputGroup">
               <div className="inputWrapper">
                 <input type="number" required className="productWeight" placeholder=" " />
-                <label className="adminFloatingLabel">وزن</label>
+                <label className="adminFloatingLabel">وزن (کیلوگرم)</label>
               </div>
               <div className="inputWrapper">
                 <input type="number" required className="productLength" placeholder=" " />
-                <label className="adminFloatingLabel">طول</label>
+                <label className="adminFloatingLabel">طول (میلی‌متر)</label>
               </div>
               <div className="inputWrapper">
                 <input type="number" required className="productWidth" placeholder=" " />
-                <label className="adminFloatingLabel">عرض</label>
+                <label className="adminFloatingLabel">عرض (میلی‌متر)</label>
               </div>
               <div className="inputWrapper">
                 <input type="number" required className="productHeight" placeholder=" " />
-                <label className="adminFloatingLabel">ارتفاع</label>
+                <label className="adminFloatingLabel">ارتفاع (میلی‌متر)</label>
               </div>
             </div>
 
-            {/* Main Image Input as ImageCard */}
-            <div
-              className="inputWrapper"
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                gap: "8px",
-                marginBottom: "20px",
-              }}
-            >
-              <label className="imageCardLabel">تصویر اصلی محصول (فقط 1 عکس)</label>
-              <ImageCard
-                image={mainImagePreview}
-                width={250}
-                height={180}
-                placeholderText="تصویر اصلی"
-                title="کلیک برای انتخاب تصویر اصلی"
-                onFileSelect={(file) => {
-                  setMainImage(file);
-                  setMainImagePreview(URL.createObjectURL(file));
+            <div style={{display: "flex"}}>
+              {/* Main Image Input as ImageCard */}
+              <div
+                className="inputWrapper"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  gap: "8px",
+                  marginBottom: "20px",
                 }}
-              />
-            </div>
-
-            {/* Side Images Cards */}
-            <div className="inputWrapper" style={{ marginTop: "20px" }}>
-              <label className="imageCardLabel">تصاویر جانبی محصول (چند عکس)</label>
-              <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-                {sideImagesPreview.map((src, idx) => (
-                  <ImageCard
-                    key={idx}
-                    image={src}
-                    width={100}
-                    height={80}
-                    title="کلیک برای تغییر تصویر"
-                    onFileSelect={(file) => handleSideImageChangeAtIndex(file, idx)}
-                  />
-                ))}
-
-                {/* Always show one empty add card */}
+              >
+                <label className="imageCardLabel">تصویر اصلی محصول (فقط 1 عکس)</label>
                 <ImageCard
-                  key="add-new"
-                  image={null}
-                  width={100}
-                  height={80}
-                  placeholderText="افزودن تصویر"
-                  title="کلیک برای افزودن تصویر جانبی"
-                  onFileSelect={handleAddNewSideImage}
+                  image={mainImagePreview}
+                  width={220}
+                  height={220}
+                  placeholderText="تصویر اصلی"
+                  title="کلیک برای انتخاب تصویر اصلی"
+                  onFileSelect={(file) => {
+                    setMainImage(file);
+                    setMainImagePreview(URL.createObjectURL(file));
+                  }}
                 />
               </div>
-            </div>
+
+              {/* Side Images Cards */}
+              <div className="inputWrapper">
+                <label className="imageCardLabel">تصاویر جانبی محصول (چند عکس)</label>
+                <div
+                  style={{
+                    marginTop: "6px",
+                    display: "grid",
+                    gridTemplateColumns: "repeat(3, 1fr)",
+                    gap: "10px",
+                  }}
+                >
+                  {sideImagesPreview.map((src, idx) => (
+                    <ImageCard
+                      key={idx}
+                      image={src}
+                      width={90}
+                      height={90}
+                      title="کلیک برای تغییر تصویر"
+                      onFileSelect={(file) => handleSideImageChangeAtIndex(file, idx)}
+                    />
+                  ))}
+
+                  {/* Always show one empty add card */}
+                  <ImageCard
+                    key="add-new"
+                    image={null}
+                    width={90}
+                    height={90}
+                    placeholderText="افزودن تصویر"
+                    title="کلیک برای افزودن تصویر جانبی"
+                    onFileSelect={handleAddNewSideImage}
+                  />
+                </div>
+              </div>
+            </div>   
+
           </>
         )}
 
@@ -510,7 +519,7 @@ function AddProduct() {
                 onValueChange={(val) => handleCustomAttrChange(attr.id, { value: val })}
               />
             ))}
-            <button type="button" className="addAttributeBtn" onClick={handleAddAttribute}>
+            <button type="button" className="addAttributeBtns" onClick={handleAddAttribute}>
               + افزودن ویژگی
             </button>
           </div>
@@ -518,7 +527,7 @@ function AddProduct() {
 
         <div className={`stepButtonsaddproduct ${step === 1 ? "singleButtonaddproduct" : ""}`}>
           {step > 1 && (
-            <button type="button" onClick={() => setStep(step - 1)} className="backBtnaddproduct">
+            <button type="button" onClick={() => setStep(step - 1)} className="modal-button gray">
               بازگشت
             </button>
           )}
@@ -539,7 +548,7 @@ function AddProduct() {
           )}
         </div>
       </form>
-    </>
+    </div>
   );
 }
 

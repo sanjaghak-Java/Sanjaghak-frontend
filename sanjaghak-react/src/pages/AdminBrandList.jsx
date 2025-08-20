@@ -59,9 +59,27 @@ const saveBrandChanges = (updatedBrand) => {
   }
 
   return (
-    <div className="adminBrandListContaineradmin">
-      <h1 className="adminBrandTitleadmin">لیست برندها</h1>
-
+    <div className="supplier-container">
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: "space-between",
+          width: '88%',
+          direction: 'rtl',
+          padding: '10px 0px',
+          marginTop: "30px"
+        }}
+      >
+        <h2 className="adminliststitle">لیست برندها</h2>
+        <button
+          className="add-warehouse-button"
+          onClick={handleAddBrand}
+        >
+          + افزودن برند
+        </button>
+      </div>
+      <br />
       <div className="adminBrandGridadmin">
         {brands.map((brand) => (
           <div
@@ -73,14 +91,14 @@ const saveBrandChanges = (updatedBrand) => {
           </div>
         ))}
 
-        <div
+        {/* <div
           className="adminBrandCardadmin addBrandCardadmin"
           onClick={handleAddBrand}
           style={{ cursor: "pointer" }}
         >
           <div className="addBrandIconadmin">+</div>
           <h3 className="adminBrandCard__nameadmin">افزودن برند</h3>
-        </div>
+        </div> */}
       </div>
     </div>
   );

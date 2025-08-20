@@ -66,6 +66,7 @@ function SignIn() {
           <Link to="/signup" id="signuplink">ثبت نام</Link>
           <Link to="/signinmobile" id="signinmobilelink">ورود با شماره موبایل</Link>
         </div>
+        <br />
       </form>
     </>
   );

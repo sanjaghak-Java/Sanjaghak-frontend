@@ -233,7 +233,7 @@ const enhancedCurrentProducts = currentProducts.map(product => ({
             placeholder={searchMode === 'name' ? "جستجو بر اساس نام محصول" : "جستجو بر اساس شناسه محصول"}
             value={searchText}
             onChange={e => setSearchText(e.target.value)}
-            className="adminProductList__search"
+            className="supplier-search"
             style={{ flexGrow: 1, height: '36px', fontSize: '16px' }}
           />
 

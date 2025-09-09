@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import DatePicker from "react-multi-date-picker";
+import persian from "react-date-object/calendars/persian";
+import persian_fa from "react-date-object/locales/persian_fa";
 import jalaali from "jalaali-js";
 import ProductSelectorModal from "./AddPurchaseModal";
 import "/src/styles/DiscountCreateModal.css";
@@ -197,31 +200,55 @@ const handleSubmit = async () => {
           <label>درصد تخفیف</label>
         </div>
 
-        <div style={{display: "flex", gap: "8px"}}>
-          <div className={`floating-input ${startDateShamsi ? "filled" : ""}`} style={{ marginTop: 10 }}>
-            <input
-              type="text"
-              value={startDateShamsi}
-              onChange={handleStartDateChange}
-              placeholder="yyyy/mm/dd"
-              className="modal-input"
+        <div style={{display: "flex", gap: "8px", marginTop: 10, marginBottom: 15}}>
+          <div className={`floating-input ${startDate ? "filled" : ""}`} style={{flex: 1}}>
+            <DatePicker
+              calendar={persian}
+              locale={persian_fa}
+              value={toJalaliString(startDate)}
+              onChange={(date) => {
+                const d = date.toDate(); // JS Date
+                setStartDate(d);
+                setStartDateShamsi(toJalaliString(d));
+              }}
+              format="YYYY/MM/DD"
+              style={{
+                direction: "rtl",
+                padding: "25px 10px 10px 8px",
+                border: "1px solid #ccc",
+                borderRadius: "6px",
+                fontSize: "16px",
+                width: "100%",
+                backgroundColor: "white",
+              }}
             />
             <label>از تاریخ</label>
           </div>
 
-          <div className={`floating-input ${endDateShamsi ? "filled" : ""}`} style={{ marginTop: 10, marginBottom: 15 }}>
-            <input
-              type="text"
-              value={endDateShamsi}
-              onChange={handleEndDateChange}
-              placeholder="yyyy/mm/dd"
-              className="modal-input"
+          <div className={`floating-input ${endDate ? "filled" : ""}`} style={{flex: 1}}>
+            <DatePicker
+              calendar={persian}
+              locale={persian_fa}
+              value={toJalaliString(endDate)}
+              onChange={(date) => {
+                const d = date.toDate(); // JS Date
+                setEndDate(d);
+                setEndDateShamsi(toJalaliString(d));
+              }}
+              format="YYYY/MM/DD"
+              style={{
+                direction: "rtl",
+                padding: "25px 10px 10px 8px",
+                border: "1px solid #ccc",
+                borderRadius: "6px",
+                fontSize: "16px",
+                width: "100%",
+                backgroundColor: "white",
+              }}
             />
             <label>تا تاریخ</label>
           </div>
         </div>
-
-
 
         <div style={{ marginBottom: 20, display: "flex", alignItems: "center", justifyItems: "center", gap: "5px" }}>
           <ToggleSwitch isOn={isActive} onToggle={() => setIsActive(!isActive)} />

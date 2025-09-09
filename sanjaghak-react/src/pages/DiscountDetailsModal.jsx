@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react";
+import DatePicker from "react-multi-date-picker";
+import persian from "react-date-object/calendars/persian";
+import persian_fa from "react-date-object/locales/persian_fa";
 import "/src/styles/DiscountDetailsModal.css";
 import jalaali from "jalaali-js";
 
@@ -142,7 +145,7 @@ body: JSON.stringify({
         </div>
 
         <div className="modal-date-row">
-          <div className="floating-label">
+          {/* <div className="floating-label">
             <input
               type="text"
               className="modal-input"
@@ -164,6 +167,46 @@ body: JSON.stringify({
               required
             />
             <label className={endDate ? "filled" : ""}>تاریخ پایان</label>
+          </div> */}
+          <div className={`floating-label ${startDate ? "filled" : ""}`}>
+            <DatePicker
+              calendar={persian}
+              locale={persian_fa}
+              value={startDate}
+              onChange={(date) => setStartDate(date?.format("YYYY/MM/DD"))}
+              format="YYYY/MM/DD"
+              style={{
+                direction: "rtl",
+                padding: "25px 10px 10px 8px",
+                border: "1px solid #ccc",
+                borderRadius: "6px",
+                fontSize: "16px",
+                width: "100%",
+                backgroundColor: "white",
+              }}            
+            />
+          </div>
+                
+          <span style={{ margin: "0 8px 12px" }}>تا</span>
+
+          <div className={`floating-label ${endDate ? "filled" : ""}`}>
+            <DatePicker
+              calendar={persian}
+              locale={persian_fa}
+              value={endDate}
+              onChange={(date) => setEndDate(date?.format("YYYY/MM/DD"))}
+              format="YYYY/MM/DD"
+              placeholder=""
+              style={{
+                direction: "rtl",
+                padding: "25px 10px 10px 8px",
+                border: "1px solid #ccc",
+                borderRadius: "6px",
+                fontSize: "16px",
+                width: "100%",
+                backgroundColor: "white",
+              }}
+            />
           </div>
         </div>
 

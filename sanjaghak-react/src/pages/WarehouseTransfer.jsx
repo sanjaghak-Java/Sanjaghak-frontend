@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useLocation } from "react-router-dom";
 import '/src/styles/WarehouseTransfer.css';
 import WarehouseProductSelectorModal from "./WarehouseProductSelectorModal"
+import WarehouseViewModal from "./WarehouseViewModal";
 
 function WarehouseTransfer() {
   const location = useLocation();
@@ -21,6 +22,10 @@ function WarehouseTransfer() {
 
   const [registeredItems, setRegisteredItems] = useState([]);
 
+  const [destinationSectionShelf, setDestinationSectionShelf] = useState("");
+
+  const [showViewModal, setShowViewModal] = useState(false);
+
   const productList = [
     { id: 1, name: "گوشی موبایل", variant: "قرمز", section: "بخش 1", shelf: "قفسه 2", stock: 120 },
     { id: 2, name: "لپ‌تاپ", variant: "آبی", section: "بخش A", shelf: "قفسه B", stock: 45 },
@@ -34,6 +39,13 @@ function WarehouseTransfer() {
     { id: 3, name: "انبار شماره 3" },
   ];
 
+  const destinationSectionShelves = [
+    "بخش 1 - قفسه 1",
+    "بخش 1 - قفسه 2",
+    "بخش 2 - قفسه A",
+    "بخش 2 - قفسه B",
+    "بخش 3 - قفسه X",
+  ];
 
   function handleSelectProduct(product) {
     if (showProductModalFor === "source") {
@@ -53,8 +65,8 @@ function WarehouseTransfer() {
   }
 
   function handleAddItem() {
-    if (!selectedDestinationProduct) {
-      alert("لطفاً محصول انبار مقصد را انتخاب کنید.");
+    if (!destinationSectionShelf) {
+      alert("لطفاً بخش-قفسه مقصد را انتخاب کنید.");
       return;
     }
 
@@ -68,6 +80,8 @@ function WarehouseTransfer() {
       return;
     }
 
+    const [section, shelf] = destinationSectionShelf.split(" - ");
+
     setRegisteredItems((prev) => [
       ...prev,
       {
@@ -76,27 +90,26 @@ function WarehouseTransfer() {
         fromSection: selectedSourceProduct.section,
         fromShelf: selectedSourceProduct.shelf,
         toWarehouse: destinationWarehouse,
-        toSection: selectedDestinationProduct.section,
-        toShelf: selectedDestinationProduct.shelf,
+        toSection: section,
+        toShelf: shelf,
         productName: selectedSourceProduct.name,
         productVariant: selectedSourceProduct.variant,
         quantity: qty,
       },
     ]);
 
-    setSelectedDestinationProduct(null);
     setQuantity("");
+    setDestinationSectionShelf("");
     setStep(1);
   }
 
-
-  function handleFinalSubmit() {
-    if (registeredItems.length === 0) {
-      alert("هیچ موردی ثبت نشده است.");
-      return;
-    }
-    alert("درخواست با موفقیت ثبت شد.");
+function handleFinalSubmit() {
+  if (registeredItems.length === 0) {
+    alert("هیچ موردی ثبت نشده است.");
+    return;
   }
+  setShowViewModal(true);
+}
 
   return (
     <div className="Warehouse-transfer-main-containor">
@@ -171,6 +184,18 @@ function WarehouseTransfer() {
               />
               <label>تعداد</label>
             </div>
+            <div className="Warehouse-name-containor">
+              <select
+                value={destinationSectionShelf}
+                onChange={(e) => setDestinationSectionShelf(e.target.value)}
+              >
+                <option value="" disabled hidden>انتخاب بخش-قفسه مقصد</option>
+                {destinationSectionShelves.map((item, idx) => (
+                  <option key={idx} value={item}>{item}</option>
+                ))}
+              </select>
+              <label>بخش-قفسه انبار مقصد</label>
+            </div>
 
             <div style={{ width: "100%", display: "flex", justifyContent: "center", gap: "12px", marginTop: 20 }}>
               <button
@@ -209,7 +234,7 @@ function WarehouseTransfer() {
                 <tr key={item.id} style={{ borderBottom: "1px solid #eee" }}>
                   <td>{item.productName} - {item.productVariant}</td>
                   <td>{item.fromWarehouse} - {item.fromSection} - {item.fromShelf}</td>
-                  <td>{item.toWarehouse} - {item.toSection} - {item.toShelf}</td>
+                  <td>{`${item.toWarehouse} - ${item.toSection} - ${item.toShelf}`}</td>
                   <td>{item.quantity}</td>
                 </tr>
               ))}
@@ -231,6 +256,18 @@ function WarehouseTransfer() {
           products={productList}
           onClose={() => setShowProductModal(false)}
           onSelectProduct={handleSelectProduct}
+        />
+      )}
+
+      {showViewModal && (
+        <WarehouseViewModal
+          transferItems={registeredItems}
+          onClose={() => setShowViewModal(false)}
+          onConfirmTransfer={() => {
+            alert("انتقال با موفقیت ثبت شد.");
+            setRegisteredItems([]);
+            setShowViewModal(false);
+          }}
         />
       )}
 

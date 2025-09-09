@@ -12,9 +12,10 @@ function DiscountCreateModal({ onClose, onSubmit }) {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [isActive, setIsActive] = useState(true);
-
+const [selectedVariantId, setSelectedVariantId] = useState(null);
   const [startDateShamsi, setStartDateShamsi] = useState(() => toJalaliString(new Date()));
   const [endDateShamsi, setEndDateShamsi] = useState(() => toJalaliString(new Date()));
+  const token = localStorage.getItem("token");
 
   function toJalaliString(date) {
     const { jy, jm, jd } = jalaali.toJalaali(date);
@@ -82,23 +83,62 @@ function DiscountCreateModal({ onClose, onSubmit }) {
     </div>
   );
 
-  const handleSubmit = () => {
-    if (!discountPercent.trim() || isNaN(discountPercent) ||!productSearch.trim() || !title.trim() ||!startDateShamsi.trim() || !endDateShamsi.trim()) {
-      alert("لطفا همه فیلد ها را پر کنید.");
-      return;
+function formatDateForBackend(date) {
+  // date is a JS Date object
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}T23:59:59`; // fixed time as per backend example
+}
+
+const handleSubmit = async () => {
+  if (
+    !discountPercent.trim() ||
+    isNaN(discountPercent) ||
+    !productSearch.trim() ||
+    !selectedVariantId ||
+    !title.trim() ||
+    !startDateShamsi.trim() ||
+    !endDateShamsi.trim()
+  ) {
+    alert("لطفا همه فیلد ها را پر کنید.");
+    return;
+  }
+
+  const startDateGregorian = fromJalaliString(startDateShamsi);
+  const endDateGregorian = fromJalaliString(endDateShamsi);
+
+  try {
+    const response = await fetch(
+      `http://127.0.0.1:8080/api/Sanjaghak/discount/addDiscount?variantId=${selectedVariantId}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`, 
+        },
+        body: JSON.stringify({
+          discountDescription: title,
+          startFrom: formatDateForBackend(startDateGregorian),
+          endFrom: formatDateForBackend(endDateGregorian),
+          discountPercentage: parseFloat(discountPercent),
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("خطا در ایجاد تخفیف");
     }
 
-    onSubmit({
-      productName: productSearch,
-      title: title,
-      amount: parseFloat(discountPercent),
-      startDate: startDateShamsi,
-      endDate: endDateShamsi,
-      active: isActive,
-      id: Date.now(),
-    });
+    const data = await response.json();
+    alert("تخفیف با موفقیت ایجاد شد");
+    onSubmit(data); // pass back to parent
     onClose();
-  };
+  } catch (error) {
+    console.error("Error creating discount:", error);
+    alert("ایجاد تخفیف با مشکل مواجه شد");
+  }
+};
 
 
     const [isProductModalOpen, setIsProductModalOpen] = useState(false);
@@ -201,8 +241,10 @@ function DiscountCreateModal({ onClose, onSubmit }) {
   isOpen={isProductModalOpen}
   onClose={() => setIsProductModalOpen(false)}
   products={products}
-  onSelect={(selectedProduct) => {
-    setProductSearch(selectedProduct.name);
+  onSelect={(selectedVariant) => {
+    // selectedVariant must include variantId, name, etc.
+    setProductSearch(selectedVariant.name || selectedVariant.productName || ""); // Name of product or variant
+    setSelectedVariantId(selectedVariant.variantId);
     setIsProductModalOpen(false);
   }}
 />

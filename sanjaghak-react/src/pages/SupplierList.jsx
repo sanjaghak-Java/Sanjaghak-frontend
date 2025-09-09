@@ -1,16 +1,9 @@
-import React, { useState } from "react";
 import "/src/styles/SupplierList.css";
 import edit from "../assets/edit.png";
 import bin from "../assets/bin.png";
 import AddSupplier from "./AddSupplier";
 import ModalConfirm from "./ModalConfirm";
-
-const sampleSuppliersInitial = [
-  { id: 1, name: "نام شرکت 1", email: "email1@example.com", phone: "021-12121", address: "آدرس شرکت 1", postalCode: "1234567890" },
-  { id: 2, name: "نام شرکت 2", email: "email2@example.com", phone: "021-12122", address: "آدرس شرکت 2", postalCode: "2234567890" },
-  { id: 3, name: "نام شرکت 3", email: "email3@example.com", phone: "021-12123", address: "آدرس شرکت 3", postalCode: "3234567890" },
-];
-
+import React, { useState, useEffect } from "react";
 
 function SupplierList() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -18,51 +11,147 @@ function SupplierList() {
   const [pageInput, setPageInput] = useState("");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [suppliers, setSuppliers] = useState(sampleSuppliersInitial);
+const [suppliers, setSuppliers] = useState([]);
+const [loadingSuppliers, setLoadingSuppliers] = useState(true);
   const [supplierToDelete, setSupplierToDelete] = useState(null);
   const [editingSupplier, setEditingSupplier] = useState(null);
 
   const itemsPerPage = 5;
 
-  const filteredSuppliers = suppliers.filter((supplier) =>
-    supplier.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+const filteredSuppliers = suppliers.filter((supplier) =>
+  supplier.supplierName.toLowerCase().includes(searchTerm.toLowerCase())
+);
 
   const totalPages = Math.ceil(filteredSuppliers.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedSuppliers = filteredSuppliers.slice(startIndex, startIndex + itemsPerPage);
+useEffect(() => {
+  const fetchSuppliers = async () => {
+    try {
+      const res = await fetch("http://127.0.0.1:8080/api/Sanjaghak/suppliers/getAllSuppliers");
+      if (!res.ok) throw new Error("خطا در دریافت تامین‌کننده‌ها");
+      const data = await res.json();
+      setSuppliers(data);
+    } catch (err) {
+      console.error("دریافت تامین‌کننده‌ها ناموفق بود:", err);
+    } finally {
+      setLoadingSuppliers(false);
+    }
+  };
 
+  fetchSuppliers();
+}, []);
   const handleAddClick = () => {
     setEditingSupplier(null);
     setIsAddModalOpen(true);
   };
 
-  const handleAddSupplier = (newSupplier) => {
+const handleAddSupplier = async (formData) => {
+  const token = localStorage.getItem("token");
+
+  const payload = {
+    supplierName: formData.name,
+    supplierEmail: formData.email,
+    supplierPhone: formData.phone,
+    city: formData.city,
+    state: formData.province,
+    country: formData.country,
+    postalCode: formData.postalCode,
+    supplierAddress: formData.address,
+  };
+
+  try {
+    let response;
     if (editingSupplier) {
-      setSuppliers(suppliers.map(s => s.id === editingSupplier.id ? { ...s, ...newSupplier } : s));
+      // Edit case: PUT request to update supplier by ID
+      response = await fetch(`http://127.0.0.1:8080/api/Sanjaghak/suppliers/${editingSupplier.suppliersId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || "خطا در ویرایش تأمین‌کننده");
+      }
+
+      const updatedSupplier = await response.json();
+
+      // Update supplier in local state
+setSuppliers((prev) =>
+  prev.map((s) => (s.suppliersId === editingSupplier.suppliersId ? updatedSupplier : s))
+);
     } else {
-      const newId = suppliers.length ? Math.max(...suppliers.map(s => s.id)) + 1 : 1;
-      setSuppliers([...suppliers, { id: newId, ...newSupplier }]);
+      // Add case: POST request to create supplier
+      response = await fetch("http://127.0.0.1:8080/api/Sanjaghak/suppliers/addSuppliers", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || "خطا در ذخیره تأمین‌کننده");
+      }
+
+      const savedSupplier = await response.json();
+      setSuppliers((prev) => [...prev, savedSupplier]);
     }
+
     setIsAddModalOpen(false);
     setEditingSupplier(null);
-  };
+  } catch (error) {
+    alert(error.message);
+    console.error(error);
+  }
+};
 
   const handleDeleteClick = (supplier) => {
     setSupplierToDelete(supplier);
     setIsDeleteModalOpen(true);
   };
 
-  const handleEditClick = (supplier) => {
-    setEditingSupplier(supplier);
-    setIsAddModalOpen(true);
-  };
+const handleEditClick = (supplier) => {
+  console.log("Editing supplier:", supplier);
+  setEditingSupplier(supplier);
+  setIsAddModalOpen(true);
+};
 
-  const handleConfirmDelete = () => {
-    setSuppliers(suppliers.filter(s => s.id !== supplierToDelete.id));
-    setSupplierToDelete(null);
-    setIsDeleteModalOpen(false);
-  };
+const handleConfirmDelete = () => {
+  const token = localStorage.getItem("token");
+
+  fetch(`http://127.0.0.1:8080/api/Sanjaghak/suppliers/${supplierToDelete.suppliersId}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((response) => {
+      if (!response.ok) {
+        return response.json().then((error) => {
+          throw new Error(error.message || "خطا در حذف تأمین‌کننده");
+        });
+      }
+      return response;
+    })
+    .then(() => {
+      setSuppliers((prev) =>
+        prev.filter((s) => s.suppliersId !== supplierToDelete.suppliersId)
+      );
+      setSupplierToDelete(null);
+      setIsDeleteModalOpen(false);
+    })
+    .catch((error) => {
+      alert(error.message);
+      console.error(error);
+    });
+};
 
   const handleCancelDelete = () => {
     setSupplierToDelete(null);
@@ -117,13 +206,13 @@ function SupplierList() {
         </thead>
         <tbody>
           {paginatedSuppliers.map((supplier, index) => (
-            <tr key={supplier.id}>
-              <td>{startIndex + index + 1}</td>
-              <td>{supplier.name}</td>
-              <td>{supplier.email}</td>
-              <td>{supplier.phone}</td>
-              <td>{supplier.address}</td>
-              <td>{supplier.postalCode}</td>
+  <tr key={index}>
+    <td>{startIndex + index + 1}</td>
+    <td>{supplier.supplierName}</td>
+    <td>{supplier.supplierEmail}</td>
+    <td>{supplier.supplierPhone}</td>
+    <td>{supplier.supplierAddress}</td>
+    <td>{supplier.postalCode}</td>
               <td>
                 <button className="admin-edit-button" onClick={() => handleEditClick(supplier)}>
                   <img src={edit} alt="ویرایش" />
@@ -186,7 +275,7 @@ function SupplierList() {
 
       {isDeleteModalOpen && (
         <ModalConfirm
-          message={`آیا از حذف "${supplierToDelete?.name}" اطمینان دارید؟`}
+          message={`آیا از حذف "${supplierToDelete?.supplierName}" اطمینان دارید؟`}
           onConfirm={handleConfirmDelete}
           onCancel={handleCancelDelete}
         />

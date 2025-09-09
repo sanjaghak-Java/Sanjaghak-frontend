@@ -1,108 +1,111 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "/src/styles/EditWarehouse.css";
 
-const sampleWarehouses = [
-  {
-    id: 1,
-    name: "انبار مرکزی",
-    country: "ایران",
-    province: "تهران",
-    city: "تهران",
-    address: "خیابان ولیعصر",
-    postalCode: "11111",
-    phone: "021-12345678",
-    sections: [
-      { id: 1, shelves: [1, 2, 3] },
-      { id: 2, shelves: [1, 2] },
-    ],
-  },
-  {
-    id: 2,
-    name: "انبار غرب",
-    country: "ایران",
-    province: "البرز",
-    city: "کرج",
-    address: "میدان شهدا",
-    postalCode: "22222",
-    phone: "026-98765432",
-    sections: [],
-  },
-];
-
-function EditWarehouse() {
-  const { id } = useParams();
+export default function EditWarehouse() {
+  const { warehouseId } = useParams(); // match your route param
   const navigate = useNavigate();
-  const warehouse = sampleWarehouses.find((w) => w.id === Number(id));
+  const token = localStorage.getItem("token");
 
-  if (!warehouse) return <div className="not-found">انبار مورد نظر پیدا نشد.</div>;
+  const [warehouse, setWarehouse] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const [name, setName] = useState(warehouse.name);
-  const [address, setAddress] = useState(warehouse.address);
-  const [country, setCountry] = useState(warehouse.country);
-  const [province, setProvince] = useState(warehouse.province);
-  const [city, setCity] = useState(warehouse.city);
-  const [postalCode, setPostalCode] = useState(warehouse.postalCode);
-  const [phone, setPhone] = useState(warehouse.phone);
+  const [name, setName] = useState("");
+  const [address, setAddress] = useState("");
+  const [country, setCountry] = useState("");
+  const [province, setProvince] = useState("");
+  const [city, setCity] = useState("");
+  const [postalCode, setPostalCode] = useState("");
+  const [phone, setPhone] = useState("");
+  const [isCentralWarehouse, setIsCentralWarehouse] = useState(false);
+const { id } = useParams();
+  // Fetch warehouse data on mount
+  useEffect(() => {
+    const fetchWarehouse = async () => {
+      try {
+        setLoading(true);
+        const res = await fetch(
+          `http://127.0.0.1:8080/api/Sanjaghak/warehouse/${id}`,
+          {
+            headers: {
+              "Authorization": `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
-  const [sections, setSections] = useState(
-    warehouse.sections.map((s) => ({
-      ...s,
-      shelves: s.shelves || Array(s.shelfCount || 1).fill(1).map((_, i) => i + 1),
-    })) || []
-  );
+        if (!res.ok) throw new Error("خطا در دریافت اطلاعات انبار");
 
-  const handleAddSection = () => {
-    const newSection = {
-      id: Date.now(),
-      shelves: [1],
-    };
-    setSections([...sections, newSection]);
-  };
+        const data = await res.json();
+        setWarehouse(data);
 
-  const handleAddShelf = (sectionIndex) => {
-    setSections((prev) => {
-      const updated = [...prev];
-      updated[sectionIndex].shelves.push(updated[sectionIndex].shelves.length + 1);
-      return updated;
-    });
-  };
-
-  const handleRemoveShelf = (sectionIndex, shelfIndex) => {
-    setSections((prev) => {
-      const updated = [...prev];
-      updated[sectionIndex].shelves.splice(shelfIndex, 1);
-      return updated;
-    });
-  };
-
-  const handleRemoveSection = (index) => {
-    const updated = [...sections];
-    updated.splice(index, 1);
-    setSections(updated);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const updatedWarehouse = {
-      id: warehouse.id,
-      name,
-      isCentralWarehouse,
-      address,
-      country,
-      province,
-      city,
-      postalCode,
-      phone,
-      sections,
+        // Set form fields
+setName(data.name || "");
+setAddress(data.address || "");
+setCountry(data.country || "");
+setProvince(data.state || ""); // backend uses 'state'
+setCity(data.city || "");
+setPostalCode(data.postalCode || "");
+setPhone(data.phone || "");
+setIsCentralWarehouse(data.isCentral || false);
+      } catch (err) {
+        console.error(err);
+        setError("مشکلی در دریافت اطلاعات انبار پیش آمد.");
+      } finally {
+        setLoading(false);
+      }
     };
 
-    console.log("Updated warehouse:", updatedWarehouse);
-    alert("تغییرات ذخیره شد!");
+    fetchWarehouse();
+  }, [warehouseId, token]);
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  if (!warehouse) return;
+
+  const updatedWarehouse = {
+    name,
+    address,
+    city,
+    state: province, // backend uses 'state' instead of province
+    country,
+    postalCode,
+    phone,
+    isCentral: isCentralWarehouse,
+    isActive: true, // or you can add a toggle if needed
+  };
+
+  try {
+    const res = await fetch(
+      `http://127.0.0.1:8080/api/Sanjaghak/warehouse/${warehouse.warehouseId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedWarehouse),
+      }
+    );
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.message || "خطا در بروزرسانی انبار");
+    }
+
+    alert("تغییرات با موفقیت ذخیره شد!");
     navigate("/admin/لیست%20انبار%20ها");
-  };
+  } catch (err) {
+    console.error(err);
+    alert("مشکلی در ذخیره تغییرات پیش آمد.");
+  }
+};
 
-  const [isCentralWarehouse, setIsCentralWarehouse] = useState(warehouse.name === "انبار مرکزی");
+  if (loading) return <p className="loading-text">در حال بارگذاری...</p>;
+  if (error) return <p className="error-text">{error}</p>;
+  if (!warehouse) return <p className="error-text">انبار پیدا نشد.</p>;
 
   return (
     <div className="edit-warehouse-container">
@@ -133,11 +136,7 @@ function EditWarehouse() {
         <input value={address} onChange={(e) => setAddress(e.target.value)} required />
 
         <label>کد پستی:</label>
-        <input
-          value={postalCode}
-          onChange={(e) => setPostalCode(e.target.value)}
-          required
-        />
+        <input value={postalCode} onChange={(e) => setPostalCode(e.target.value)} required />
 
         <label>شماره تماس:</label>
         <input value={phone} onChange={(e) => setPhone(e.target.value)} required />
@@ -152,5 +151,3 @@ function EditWarehouse() {
     </div>
   );
 }
-
-export default EditWarehouse;

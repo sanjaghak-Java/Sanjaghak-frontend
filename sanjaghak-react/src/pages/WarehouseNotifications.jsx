@@ -1,22 +1,50 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import WarehouseViewModal from "./WarehouseViewModal";
-
-const warehouses = [
-  { id: 1, name: "انبار مرکزی" },
-  { id: 2, name: "انبار غرب" },
-  { id: 3, name: "انبار جنوب" },
-];
 
 function WarehouseNotifications() {
   const { warehouseId } = useParams();
   const navigate = useNavigate();
 
-  const warehouse = warehouses.find((w) => w.id === Number(warehouseId));
+  const [warehouses, setWarehouses] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [transferItems, setTransferItems] = useState([]);
+
+  // Replace this with your actual token
+  const token = localStorage.getItem("token"); // or wherever you store it
+
+  useEffect(() => {
+    const fetchWarehouses = async () => {
+      try {
+        const res = await fetch(
+          "http://127.0.0.1:8080/api/Sanjaghak/warehouse/getAllWarehouse",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (!res.ok) throw new Error("خطا در دریافت انبارها");
+        const data = await res.json();
+        setWarehouses(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchWarehouses();
+  }, [token]);
+
+  if (loading) return <div>در حال بارگذاری...</div>;
+  if (error) return <div>خطا: {error}</div>;
+
+  const warehouse = warehouses.find((w) => w.warehouseId === warehouseId);
   if (!warehouse) return <div>انبار یافت نشد.</div>;
 
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
-  const [transferItems, setTransferItems] = React.useState([]);
   const notifications = [
     {
       id: 1,
@@ -29,7 +57,6 @@ function WarehouseNotifications() {
       text: `درخواست انتقال به انبار ${warehouse.name}`,
       buttonText: "مشاهده",
       onClick: () => {
-        // داده‌های نمونه برای تست
         setTransferItems([
           {
             id: 1,
@@ -118,6 +145,7 @@ function WarehouseNotifications() {
       >
         بازگشت
       </button>
+
       {isModalOpen && (
         <WarehouseViewModal
           transferItems={transferItems}
@@ -128,7 +156,6 @@ function WarehouseNotifications() {
           }}
         />
       )}
-
     </div>
   );
 }

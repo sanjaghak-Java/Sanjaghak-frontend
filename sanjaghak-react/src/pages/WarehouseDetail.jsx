@@ -1,270 +1,253 @@
-// WarehouseDetail.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import WarehouseProductModal from "./WarehouseProductModal"; // مسیر را در پروژه‌ات تنظیم کن
+import WarehouseProductModal from "./WarehouseProductModal";
+import ProductSelectorModal from "./AddPurchaseModal";
 import "/src/styles/WarehouseDetail.css";
 
-const initialWarehouses = [
-  { id: 1, name: "انبار مرکزی" },
-  { id: 2, name: "انبار غرب" },
-  { id: 3, name: "انبار جنوب" },
-];
-
-const initialSectionsData = {
-  1: [
-    { id: 101, name: "بخش ۱" },
-    { id: 102, name: "بخش ۲" },
-  ],
-  2: [
-    { id: 201, name: "بخش A" },
-    { id: 202, name: "بخش B" },
-  ],
-  3: [{ id: 301, name: "بخش X" }],
-};
-
-const initialShelvesData = {
-  101: [
-    { id: 1001, name: "قفسه ۱", productName: "محصول الف", color: "قرمز", stock: 150, reserved: 30, price: 125000 },
-    { id: 1002, name: "قفسه ۲", productName: "محصول ب", color: "آبی", stock: 200, reserved: 50, price: 98000 },
-  ],
-  102: [
-    { id: 1003, name: "قفسه ۳", productName: "محصول ج", color: "سبز", stock: 75, reserved: 10, price: 115000 },
-  ],
-  201: [
-    { id: 2001, name: "قفسه A", productName: "محصول د", color: "زرد", stock: 60, reserved: 5, price: 142000 },
-  ],
-  202: [
-    { id: 2002, name: "قفسه B", productName: "محصول هـ", color: "مشکی", stock: 33, reserved: 3, price: 89000 },
-    { id: 2003, name: "قفسه C", productName: "محصول و", color: "نقره‌ای", stock: 12, reserved: 0, price: 199000 },
-  ],
-  301: [
-    { id: 3001, name: "قفسه X", productName: "محصول ز", color: "طلایی", stock: 9, reserved: 1, price: 245000 },
-  ],
-};
-
 export default function WarehouseDetail() {
-  const { id } = useParams();
-  const warehouseId = parseInt(id);
+  const { id } = useParams(); // warehouseId comes from URL
+  const warehouseId = id; // backend uses UUID, so don't parseInt
   const navigate = useNavigate();
-
-  const warehouse = initialWarehouses.find((w) => w.id === warehouseId);
-
-  const [sectionsData, setSectionsData] = useState(initialSectionsData);
-  const [shelvesData, setShelvesData] = useState(initialShelvesData);
-
-  const [currentView, setCurrentView] = useState("sections"); // فقط sections و shelves داریم
+  const [selectedProductModalOpen, setSelectedProductModalOpen] = useState(false);
+const [showStockModal, setShowStockModal] = useState(false);
+const [stockShelf, setStockShelf] = useState(null); // which shelf we are adding stock to
+const [selectedProduct, setSelectedProduct] = useState(null);
+const [minLevel, setMinLevel] = useState("");
+const [maxLevel, setMaxLevel] = useState("");
+const [stockError, setStockError] = useState("");
+  const [warehouse, setWarehouse] = useState(null);
+  const [sections, setSections] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+const [isReturnShelf, setIsReturnShelf] = useState(false); // new
+  const [currentView, setCurrentView] = useState("sections");
   const [selectedSection, setSelectedSection] = useState(null);
-
+const [showReturnModal, setShowReturnModal] = useState(false);
+const [tempIsReturn, setTempIsReturn] = useState(false);
   const [selectedShelf, setSelectedShelf] = useState(null);
   const [showProductModal, setShowProductModal] = useState(false);
+const [shelves, setShelves] = useState([]);
+const [shelvesLoading, setShelvesLoading] = useState(false);
+const [shelvesError, setShelvesError] = useState(null);
+const [showEmptyShelfModal, setShowEmptyShelfModal] = useState(false);
+  // fetch sections from backend
+  useEffect(() => {
+const fetchWarehouse = async () => {
+  try {
+    const token = localStorage.getItem("token");
+    const res = await fetch(`http://127.0.0.1:8080/api/Sanjaghak/warehouse/${warehouseId}`, {
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
 
-  // مدیریت فرم افزودن بخش
-  const [showAddSectionForm, setShowAddSectionForm] = useState(false);
-  const [newSectionName, setNewSectionName] = useState("");
+    if (!res.ok) throw new Error("خطا در دریافت اطلاعات انبار");
+    const data = await res.json();
+    setWarehouse(data);    // backend returns single object
+  } catch (err) {
+    console.error(err);
+  }
+};
 
-  // مدیریت فرم افزودن قفسه
-  const [showAddShelfForm, setShowAddShelfForm] = useState(false);
-  const [newShelfName, setNewShelfName] = useState("");
+  fetchWarehouse();
+}, [warehouseId]);
+  useEffect(() => {
+  if (!selectedSection) return;
 
-  if (!warehouse) {
-    return (
-      <div className="warehouse-detail-container" style={{ textAlign: "center" }}>
-        <p>انبار یافت نشد.</p>
-        <button onClick={() => navigate(-1)} className="warehouse-detail-back-button">
-          بازگشت
-        </button>
-      </div>
+  const fetchShelves = async () => {
+    try {
+      setShelvesLoading(true);
+      setShelvesError(null);
+
+      const token = localStorage.getItem("token");
+
+      const res = await fetch(
+        `http://127.0.0.1:8080/api/Sanjaghak/shelves/getShelvesBySectionId/${selectedSection.id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!res.ok) throw new Error("خطا در دریافت قفسه‌ها");
+
+      const data = await res.json();
+
+      const mappedShelves = data.map((sh) => ({
+        id: sh.shelvesId,
+        code: sh.shelvesCode,
+        sectionId: sh.sectionsId.sectionsId,
+        userId: sh.userId?.id || null,
+        active: sh.active,
+        return: sh.return,
+      }));
+
+      setShelves(mappedShelves);
+    } catch (err) {
+      console.error(err);
+      setShelvesError("مشکلی در بارگذاری قفسه‌ها پیش آمد.");
+    } finally {
+      setShelvesLoading(false);
+    }
+  };
+
+  fetchShelves();
+}, [selectedSection]);
+const userId = "d34f8c7c-ddf6-4ff5-822c-b5b0c5b24145"; // later make dynamic
+
+// ✅ Add Section handler
+const handleAddSection = async () => {
+  try {
+    const token = localStorage.getItem("token");
+    const newName = `B${(sections.length + 1).toString().padStart(2, "0")}`;
+
+    const res = await fetch(
+      `http://127.0.0.1:8080/api/Sanjaghak/sections/add?warehouseId=${warehouseId}`,
+      {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name: newName }),
+      }
     );
+
+    if (!res.ok) throw new Error("خطا در افزودن بخش");
+    const data = await res.json();
+
+    // Add to local state
+    setSections([...sections, { id: data.sectionsId, name: data.name, active: data.active }]);
+  } catch (err) {
+    console.error(err);
+    alert("مشکلی در افزودن بخش پیش آمد");
+  }
+};
+
+// ✅ Add Shelf handler
+const handleAddShelf = async (isReturnParam = false) => {
+  if (!selectedSection) {
+    alert("ابتدا یک بخش را انتخاب کنید");
+    return;
   }
 
+  try {
+    const token = localStorage.getItem("token");
+
+    const res = await fetch(
+      `http://127.0.0.1:8080/api/Sanjaghak/shelves/add?sectionId=${selectedSection.id}&userId=${userId}`,
+      {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ return: isReturnParam }),
+      }
+    );
+
+    if (!res.ok) throw new Error("خطا در افزودن قفسه");
+    const data = await res.json();
+
+    const newShelf = {
+      id: data.shelvesId,
+      code: data.shelvesCode,
+      sectionId: data.sectionsId.sectionsId,
+      userId: data.userId?.id || null,
+      active: data.active,
+      return: data.return,
+    };
+    setShelves([...shelves, newShelf]);
+  } catch (err) {
+    console.error(err);
+    alert("مشکلی در افزودن قفسه پیش آمد");
+  }
+};
+useEffect(() => {
+  const fetchSections = async () => {
+    try {
+      setLoading(true);
+
+      const token = localStorage.getItem("token"); // adjust if you store token elsewhere
+
+      const res = await fetch(
+        `http://127.0.0.1:8080/api/Sanjaghak/sections/by-warehouse/${warehouseId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!res.ok) throw new Error("خطا در دریافت بخش‌ها");
+
+      const data = await res.json();
+
+      const mappedSections = data.map((s) => ({
+        id: s.sectionsId,
+        name: s.name,
+        active: s.active,
+      }));
+
+      setSections(mappedSections);
+    } catch (err) {
+      console.error(err);
+      setError("مشکلی در بارگذاری بخش‌ها پیش آمد.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchSections();
+}, [warehouseId]);
   const handleSectionClick = (section) => {
     setSelectedSection(section);
     setCurrentView("shelves");
   };
 
-  const handleShelfClick = (shelf) => {
-    setSelectedShelf(shelf);
-    setShowProductModal(true);
-  };
+const handleShelfClick = async (shelf) => {
+  setSelectedShelf(shelf);
 
-  // افزودن بخش جدید
-  const handleAddSection = () => {
-    setShowAddSectionForm(true);
-  };
+  try {
+    const token = localStorage.getItem("token");
 
-  const handleSectionFormSubmit = (e) => {
-    e.preventDefault();
-    if (!newSectionName.trim()) return;
+    const res = await fetch(
+      `http://127.0.0.1:8080/api/Sanjaghak/inventoryStock/getAllInventoryStock`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+      }
+    );
 
-    const newId = Math.max(...(sectionsData[warehouseId]?.map(s => s.id) || [0])) + 1;
-    const newSection = { id: newId, name: newSectionName.trim() };
+    if (!res.ok) throw new Error("خطا در دریافت موجودی");
 
-    setSectionsData((prev) => {
-      const prevSections = prev[warehouseId] || [];
-      return {
-        ...prev,
-        [warehouseId]: [...prevSections, newSection],
-      };
-    });
+    const data = await res.json();
 
-    setNewSectionName("");
-    setShowAddSectionForm(false);
-  };
+    const shelfStock = data.filter(
+      (stock) => stock.shelvesId.shelvesId === shelf.id
+    );
 
-  const handleCancelSectionForm = () => {
-    setNewSectionName("");
-    setShowAddSectionForm(false);
-  };
-
-  // افزودن قفسه جدید
-  const handleAddShelf = () => {
-    if (!selectedSection) {
-      alert("ابتدا یک بخش را انتخاب کنید.");
-      return;
+    if (shelfStock.length > 0) {
+      // Shelf has stock, show WarehouseProductModal
+      setShowProductModal(true);
+      setShowStockModal(false);
+    } else {
+      // Shelf is empty → show empty shelf modal first
+      setShowEmptyShelfModal(true);
     }
-    setShowAddShelfForm(true);
-  };
-
-  const handleShelfFormSubmit = (e) => {
-    e.preventDefault();
-    if (!newShelfName.trim()) return;
-
-    const shelvesInSection = shelvesData[selectedSection.id] || [];
-    const newId = Math.max(...shelvesInSection.map(sh => sh.id), 0) + 1;
-    const newShelf = {
-      id: newId,
-      name: newShelfName.trim(),
-      productName: "بدون محصول",
-      color: "نامشخص",
-      stock: 0,
-      reserved: 0,
-      price: 0,
-      isActive: newShelfIsActive,              
-      activeForReturns: newShelfActiveForReturns, 
-      managerId: newShelfManagerId.trim(),       
-    };
-
-    setShelvesData((prev) => {
-      const prevShelves = prev[selectedSection.id] || [];
-      return {
-        ...prev,
-        [selectedSection.id]: [...prevShelves, newShelf],
-      };
-    });
-
-    setNewShelfName("");
-    setNewShelfIsActive(true);
-    setNewShelfActiveForReturns(false);
-    setNewShelfManagerId("");
-
-    setShowAddShelfForm(false);
-  };
-
-  const handleCancelShelfForm = () => {
-    setNewShelfName("");
-    setShowAddShelfForm(false);
-  };
-
-const [newShelfIsActive, setNewShelfIsActive] = useState(true);
-const [newShelfActiveForReturns, setNewShelfActiveForReturns] = useState(false);
-const [newShelfManagerId, setNewShelfManagerId] = useState("");
-
-
-  const renderSections = () => (
-    <>
-      <button className="add-button" onClick={handleAddSection}>افزودن بخش</button>
-
-      {showAddSectionForm && (
-        <form onSubmit={handleSectionFormSubmit} className="add-form">
-          <input
-            type="text"
-            placeholder="نام بخش جدید"
-            value={newSectionName}
-            onChange={(e) => setNewSectionName(e.target.value)}
-            autoFocus
-          />
-          <div className="modal-buttons">
-            <button type="submit">ثبت</button>
-            <button type="button" onClick={handleCancelSectionForm}>لغو</button>
-          </div>
-
-        </form>
-      )}
-
-      <div className="cards-grid">
-        {sectionsData[warehouseId]?.length ? (
-          sectionsData[warehouseId].map((section) => (
-            <div key={section.id} className="card" onClick={() => handleSectionClick(section)}>
-              <h4>{section.name}</h4>
-            </div>
-          ))
-        ) : (
-          <p>هیچ بخشی یافت نشد.</p>
-        )}
-      </div>
-    </>
-  );
-
-  const renderShelves = () => (
-    <>
-      <button className="add-button" onClick={handleAddShelf}>افزودن قفسه</button>
-
-      {showAddShelfForm && (
-        <form onSubmit={handleShelfFormSubmit} className="add-form">
-          <label>
-            آیدی مسئول قفسه:
-            <input
-              type="text"
-              value={newShelfManagerId}
-              onChange={(e) => setNewShelfManagerId(e.target.value)}
-              placeholder="آیدی مسئول"
-            />
-          </label>
-<label className="shelvesSwitch">
-  <input
-    type="checkbox"
-    checked={newShelfIsActive}
-    onChange={(e) => setNewShelfIsActive(e.target.checked)}
-  />
-  <span className="shelvesSlider shelvesRound"></span>
-  <span className="shelvesSwitchLabel">فعال</span>
-</label>
-
-{warehouse.name === "انبار مرکزی" && (
-  <label className="shelvesSwitch">
-    <input
-      type="checkbox"
-      checked={newShelfActiveForReturns}
-      onChange={(e) => setNewShelfActiveForReturns(e.target.checked)}
-    />
-    <span className="shelvesSlider shelvesRound"></span>
-    <span className="shelvesSwitchLabel">مخصوص مرجوعی‌ها</span>
-  </label>
-)}
-
-          <div className="modal-buttons">
-
-            <button type="submit">ثبت</button>
-            <button type="button" onClick={handleCancelShelfForm}>لغو</button>
-          </div>
-        </form>
-      )}
-
-
-      <div className="cards-grid">
-        {shelvesData[selectedSection?.id]?.length ? (
-          shelvesData[selectedSection.id].map((shelf) => (
-            <div key={shelf.id} className="card" onClick={() => handleShelfClick(shelf)}>
-              <h4>{shelf.name}</h4>
-              <p>{shelf.productName}</p>
-            </div>
-          ))
-        ) : (
-          <p>هیچ قفسه‌ای یافت نشد.</p>
-        )}
-      </div>
-    </>
-  );
+  } catch (err) {
+    console.error(err);
+    alert("خطا در بررسی موجودی قفسه");
+  }
+};
 
   const handleBack = () => {
     if (currentView === "sections") {
@@ -274,6 +257,49 @@ const [newShelfManagerId, setNewShelfManagerId] = useState("");
       setSelectedSection(null);
     }
   };
+  const handleAddStock = async () => {
+  if (!selectedProduct || !stockShelf) {
+    setStockError("محصول یا قفسه انتخاب نشده است");
+    return;
+  }
+
+  if (!minLevel || !maxLevel) {
+    setStockError("حداقل و حداکثر موجودی را وارد کنید");
+    return;
+  }
+
+  try {
+    const token = localStorage.getItem("token");
+
+    const res = await fetch(
+      `http://127.0.0.1:8080/api/Sanjaghak/inventoryStock/create?variantsId=${selectedProduct.variantId}&shelvesId=${stockShelf.id}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          minimumLevel: parseInt(minLevel),
+          maximumLevel: parseInt(maxLevel),
+        }),
+      }
+    );
+
+    if (!res.ok) throw new Error("خطا در افزودن موجودی");
+
+    // Success → close modals and reset
+    setShowStockModal(false);
+    setSelectedProduct(null);
+    setStockShelf(null);
+    setMinLevel("");
+    setMaxLevel("");
+    alert("موجودی با موفقیت اضافه شد");
+  } catch (err) {
+    console.error(err);
+    setStockError("خطا در افزودن موجودی");
+  }
+};
 
   return (
     <div className="warehouse-detail-container">
@@ -281,18 +307,173 @@ const [newShelfManagerId, setNewShelfManagerId] = useState("");
         <button onClick={handleBack} className="warehouse-detail-back-button">
           بازگشت
         </button>
-        <h3>{warehouse.name}</h3>
+        <h3>جزئیات انبار</h3>
       </div>
 
-      {currentView === "sections" && renderSections()}
-      {currentView === "shelves" && renderShelves()}
+      {loading && <p>در حال بارگذاری...</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
 
-      {showProductModal && selectedShelf && (
-        <WarehouseProductModal 
-          shelf={selectedShelf} 
-          onClose={() => setShowProductModal(false)} 
-        />
+{currentView === "sections" && (
+  <div>
+    <button onClick={handleAddSection} className="add-button">
+      + افزودن بخش
+    </button>
+    <div className="cards-grid">
+      {sections.length ? (
+        sections.map((section) => (
+          <div
+            key={section.id}
+            className="card"
+            onClick={() => handleSectionClick(section)}
+          >
+            <h4>{section.name}</h4>
+            {!section.active && <small style={{ color: "red" }}>غیرفعال</small>}
+          </div>
+        ))
+      ) : (
+        !loading && <p>هیچ بخشی یافت نشد.</p>
       )}
+    </div>
+  </div>
+)}
+
+{currentView === "shelves" && (
+  <div>
+<button
+  onClick={() => {
+    if (warehouse?.isCentral) {
+      setShowReturnModal(true); // show modal only for central warehouse
+    } else {
+      handleAddShelf(false); // add immediately if not central
+    }
+  }}
+  className="add-button"
+>
+  + افزودن قفسه
+</button>
+    <div className="cards-grid">
+      {shelvesLoading && <p>در حال بارگذاری قفسه‌ها...</p>}
+      {shelvesError && <p style={{ color: "red" }}>{shelvesError}</p>}
+      {!shelvesLoading && !shelves.length && (
+<button
+  className="add-stock-button"
+      onClick={() => {
+        setSelectedShelf(shelf);
+        setShowStockModal(true);
+      }}
+>
+  + افزودن موجودی
+</button>
+)}
+
+      {shelves.map((shelf) => (
+        <div
+          key={shelf.id}
+          className="card"
+          onClick={() => handleShelfClick(shelf)}
+        >
+          <h4>{shelf.code}</h4>
+          {!shelf.active && <small style={{ color: "red" }}>غیرفعال</small>}
+          {shelf.return && <small style={{ color: "blue" }}>📦 مرجوعی</small>}
+        </div>
+      ))}
+    </div>
+  </div>
+)}
+
+{/* Only show product modal if shelf has stock */}
+{showProductModal && selectedShelf && (
+  <WarehouseProductModal
+    shelf={selectedShelf}
+    onClose={() => setShowProductModal(false)}
+  />
+)}
+
+{/* Show add stock modal if shelf has no stock */}
+{showStockModal && selectedShelf && (
+  <div className="return-modal">
+    <div className="return-modal-content">
+      <h4>افزودن موجودی به قفسه: {selectedShelf.code}</h4>
+
+      {!selectedProduct ? (
+        // STEP 1: Product selection
+        <ProductSelectorModal
+          isOpen={true} 
+          onClose={() => setShowStockModal(false)}
+          onSelect={(product) => setSelectedProduct(product)}
+        />
+      ) : (
+        // STEP 2: Enter stock levels
+        <div>
+          <p>محصول انتخاب شده: {selectedProduct.productName}</p>
+
+          <div style={{ marginTop: "10px" }}>
+            <label>
+              حداقل موجودی:
+              <input
+                type="number"
+                value={minLevel}
+                onChange={(e) => setMinLevel(e.target.value)}
+              />
+            </label>
+            <label style={{ marginLeft: "10px" }}>
+              حداکثر موجودی:
+              <input
+                type="number"
+                value={maxLevel}
+                onChange={(e) => setMaxLevel(e.target.value)}
+              />
+            </label>
+          </div>
+
+          {stockError && <p style={{ color: "red" }}>{stockError}</p>}
+
+          <div style={{ marginTop: "10px" }}>
+            <button className="ok-button" onClick={handleAddStock}>✅ ثبت</button>
+            <button
+              className="cancel-button"
+              onClick={() => {
+                setShowStockModal(false);
+                setSelectedProduct(null);
+                setMinLevel("");
+                setMaxLevel("");
+              }}
+            >
+              ❌ انصراف
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  </div>
+)}
+{showEmptyShelfModal && selectedShelf && (
+  <div className="return-modal">
+    <div className="return-modal-content">
+      <h4>قفسه {selectedShelf.code} خالی است</h4>
+      <p>می‌خواهید موجودی اضافه کنید؟</p>
+      <div style={{ marginTop: "10px" }}>
+<button
+  className="ok-button"
+  onClick={() => {
+    setShowEmptyShelfModal(false); // close empty shelf notice
+    setShowStockModal(true);       // open the add stock modal with your ProductSelectorModal
+    setStockShelf(selectedShelf);  // make sure the modal knows which shelf we’re adding to
+  }}
+>
+  افزودن موجودی
+</button>
+        <button
+          className="cancel-button"
+          onClick={() => setShowEmptyShelfModal(false)}
+        >
+          انصراف
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
     </div>
   );
 }

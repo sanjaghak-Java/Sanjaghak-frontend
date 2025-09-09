@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import Navbar from "./navbar";
+import Navbar from "./Navbar";
 import Footer from "./Footer";
 import CartItem from './CartItem';
 import CartPrice from './CartPrice';
@@ -10,37 +10,124 @@ import bill from '../assets/bill.png';
 
 function CartPage() {
   const [items, setItems] = useState([]);
+  const [shippingCost, setShippingCost] = useState(0);
   const backgroundAreaRef = useRef(null);
 
+  const customerId = "9b1e4d75-ea1f-4984-aa32-bf14e61ffea2"; // replace dynamically if needed
+  const token = localStorage.getItem("token"); // assuming token is stored
+
   useEffect(() => {
-    const sampleItems = [
-      {
-        id: 1,
-        productname: 'گوشی موبایل سامسونگ',
-        warranty: 'گارانتی 12 ماهه',
-        inventory: 'موجود در انبار',
-        color: 'قرمز',
-        hex: '#ff0000ff',
-        price: 40000000,
-        quantity: 1,
-        image: './src/assets/images (1).jpg',
-      },
-      {
-        id: 2,
-        productname: 'گوشی موبایل سامسونگ',
-        warranty: 'گارانتی 12 ماهه',
-        inventory: 'موجود در انبار',
-        color: 'سفید',
-        hex: '#ffffff',
-        price: 25000000,
-        quantity: 1,
-        image: './src/assets/images (2).jpg',
+    const fetchCartItems = async () => {
+      try {
+        // 1️⃣ Get pending orders
+        const resOrders = await fetch(
+          `http://127.0.0.1:8080/api/Sanjaghak/Orders/getOrdersByfilter?customerId=${customerId}`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        if (!resOrders.ok) throw new Error("Failed to fetch orders");
+        const ordersData = await resOrders.json();
+        const pendingOrder = ordersData.content?.[0];
+        if (!pendingOrder) return;
+
+        setShippingCost(pendingOrder.shippingCost || 0);
+
+        // 2️⃣ Get order items
+        const resItems = await fetch(
+          `http://127.0.0.1:8080/api/Sanjaghak/orderItem/getOrderItemByFilter?orderId=${pendingOrder.orderId}`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        if (!resItems.ok) throw new Error("Failed to fetch order items");
+        const itemsData = await resItems.json();
+        const orderItems = Array.isArray(itemsData.content) ? itemsData.content : [];
+
+        // 3️⃣ Fetch variant + product info + main image for each order item
+const cartItems = await Promise.all(
+  orderItems.map(async item => {
+    const variantId = item.variantId?.variantId;
+    if (!variantId) return null;
+
+    // Fetch variant info
+    const resVariant = await fetch(
+      `http://127.0.0.1:8080/api/Sanjaghak/productVariants/${variantId}`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    if (!resVariant.ok) throw new Error("Failed to fetch variant info");
+    const variantData = await resVariant.json();
+
+    let price = variantData.price || 0;
+
+    // 💰 Fetch discount for variant
+    try {
+      const resDiscount = await fetch(
+        `http://127.0.0.1:8080/api/Sanjaghak/discount/active/${variantId}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      if (resDiscount.ok) {
+        const discountData = await resDiscount.json();
+        if (discountData.discountPercentage) {
+          const discountPercent = discountData.discountPercentage;
+          price = price - (price * discountPercent / 100); // apply discount
+        }
+      } else if (resDiscount.status !== 204) {
+        console.warn(`Unexpected discount API status: ${resDiscount.status}`);
       }
-    ];
+    } catch (err) {
+      console.error(`Error fetching discount for variant ${variantId}:`, err);
+    }
 
-    setItems(sampleItems);
-  }, []);
+    const productId = variantData.productId?.productId;
+    let productData = {};
+    let mainImage = './src/assets/default-image.png'; // fallback
 
+    if (productId) {
+      // Fetch product info
+      const resProduct = await fetch(
+        `http://127.0.0.1:8080/api/Sanjaghak/product/${productId}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      if (resProduct.ok) {
+        productData = await resProduct.json();
+      }
+
+      // Fetch product images
+      const resImages = await fetch(
+        `http://127.0.0.1:8080/api/Sanjaghak/productImages/${productId}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      if (resImages.ok) {
+        const imagesData = await resImages.json();
+        const primaryImage = imagesData.find(img => img.primary);
+        if (primaryImage) mainImage = `http://127.0.0.1:8080${primaryImage.imageUrl}`;
+      }
+    }
+
+    return {
+      id: item.orderItemId,
+      productname: productData.productName || "محصول",
+      model: productData.model || "",
+      warranty: variantData.warranty || "",
+      inventory: "موجود در انبار",
+      color: variantData.color || "",
+      hex: variantData.hexadecimal || "#ffffff",
+      price: price, // ✅ now includes discount if any
+      quantity: item.quantity || 1,
+      image: mainImage,
+    };
+  })
+);
+
+        setItems(cartItems.filter(Boolean)); // remove nulls
+      } catch (error) {
+        console.error("Error fetching cart:", error);
+      }
+    };
+
+    fetchCartItems();
+  }, [customerId, token]);
+const handleDeleteItem = (orderItemId) => {
+  setItems(prevItems => prevItems.filter(item => item.id !== orderItemId));
+};
   const handleQuantityChange = (id, newQuantity) => {
     setItems(prevItems =>
       prevItems.map(item =>
@@ -49,7 +136,6 @@ function CartPage() {
     );
   };
 
-  const shippingCost = 400000;
   const totalPrice = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
@@ -67,11 +153,12 @@ function CartPage() {
             </div>
             <div className='items'>
               {items.map(item => (
-                <CartItem
-                  key={item.id}
-                  item={item}
-                  onQuantityChange={handleQuantityChange}
-                />
+<CartItem
+  key={item.id}
+  item={item}
+  onQuantityChange={handleQuantityChange}
+  onDelete={handleDeleteItem}
+/>
               ))}
             </div>
           </div>

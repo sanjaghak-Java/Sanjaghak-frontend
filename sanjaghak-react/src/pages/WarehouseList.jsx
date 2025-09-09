@@ -1,28 +1,65 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "/src/styles/WarehouseList.css";
-
-const initialWarehouses = [
-  { id: 1, name: "انبار مرکزی", country: "ایران", province: "تهران", city: "تهران", address: "خیابان انقلاب، پلاک ۱۲۳", postalCode: "12345", phone: "021-12345678", active: true },
-  { id: 2, name: "انبار غرب", country: "ایران", province: "البرز", city: "کرج", address: "میدان آزادگان، نبش خیابان سوم", postalCode: "23456", phone: "026-87654321", active: true },
-  { id: 3, name: "انبار جنوب", country: "ایران", province: "خوزستان", city: "اهواز", address: "خیابان کیانپارس، پلاک ۵۰", postalCode: "34567", phone: "061-33445566", active: true },
-];
 
 const ITEMS_PER_PAGE = 5;
 
 function WarehouseList() {
-  const [warehouses, setWarehouses] = useState(initialWarehouses);
+  const [warehouses, setWarehouses] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+
+  // Fetch warehouses from backend
+  useEffect(() => {
+    const fetchWarehouses = async () => {
+      try {
+        setLoading(true);
+        const res = await fetch("http://127.0.0.1:8080/api/Sanjaghak/warehouse/getAllWarehouse?page=0&size=20", {
+  headers: {
+    "Authorization": `Bearer ${token}`,
+    "Content-Type": "application/json",
+  },
+});
+        if (!res.ok) throw new Error("خطا در دریافت اطلاعات انبارها");
+        const data = await res.json();
+
+        // Map API fields to frontend format
+        const mapped = data.map((w) => ({
+          id: w.warehouseId,
+          name: w.name,
+          country: w.country,
+          province: w.state, // backend uses state instead of province
+          city: w.city,
+          address: w.address,
+          postalCode: w.postalCode,
+          phone: w.phone,
+          active: w.isActive, // backend uses isActive
+        }));
+
+        setWarehouses(mapped);
+      } catch (err) {
+        console.error(err);
+        setError("مشکلی در دریافت انبارها پیش آمد.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchWarehouses();
+  }, []);
 
   const filteredWarehouses = useMemo(() => {
-    return warehouses.filter((w) =>
-      w.name.includes(searchTerm) ||
-      w.country.includes(searchTerm) ||
-      w.province.includes(searchTerm) ||
-      w.city.includes(searchTerm) ||
-      w.phone.includes(searchTerm) // اضافه کردن جستجو روی شماره تماس
+    return warehouses.filter(
+      (w) =>
+        w.name.includes(searchTerm) ||
+        w.country.includes(searchTerm) ||
+        w.province.includes(searchTerm) ||
+        w.city.includes(searchTerm) ||
+        w.phone.includes(searchTerm)
     );
   }, [searchTerm, warehouses]);
 
@@ -35,15 +72,15 @@ function WarehouseList() {
 
   const handleToggleActive = (id) => {
     setWarehouses((prev) =>
-      prev.map((w) =>
-        w.id === id ? { ...w, active: !w.active } : w
-      )
+      prev.map((w) => (w.id === id ? { ...w, active: !w.active } : w))
     );
   };
 
-
   const handleEdit = (id) => navigate(`/admin/ویرایش-انبار/${id}`);
   const handleAdd = () => navigate("/admin/افزودن-انبار");
+
+  if (loading) return <p className="loading-text">در حال بارگذاری...</p>;
+  if (error) return <p className="error-text">{error}</p>;
 
   return (
     <div className="warehouse-list-container">
@@ -66,7 +103,7 @@ function WarehouseList() {
           <h5>آدرس</h5>
           <h5>وضعیت</h5>
           <h5>کد پستی</h5>
-          <h5>شماره تماس</h5> 
+          <h5>شماره تماس</h5>
           <h5>عملیات</h5>
         </div>
 
@@ -82,7 +119,8 @@ function WarehouseList() {
               <h3>{warehouse.name}</h3>
               <div className="info-line">
                 <span>
-                  {warehouse.country} - {warehouse.province} - {warehouse.city} - {warehouse.address}
+                  {warehouse.country} - {warehouse.province} - {warehouse.city} -{" "}
+                  {warehouse.address}
                 </span>
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
@@ -94,35 +132,37 @@ function WarehouseList() {
                 </span>
               </div>
               <div className="info-line">{warehouse.postalCode}</div>
+              <div className="info-line">{warehouse.phone}</div>
 
-              <div className="info-line">{warehouse.phone}</div> {/* شماره تماس نمایش داده می‌شود */}
-              <div className="card-buttons" onClick={(e) => e.stopPropagation()}>
-                <button onClick={() => handleEdit(warehouse.id)} className="edit-button">ویرایش</button>
-                
-                <button
-                  onClick={() => handleToggleActive(warehouse.id)}
-                  className={warehouse.active ? "deactivate-button" : "activate-button"}
-                >
-                  {warehouse.active ? "غیرفعال کردن" : "فعال کردن"}
-                </button>
-
-                <button
-                  onClick={() => {
-                    navigate("/admin/انتقال-بین-انبار", { state: { sourceWarehouseName: warehouse.name } });
-                  }}
-                >
-                  ⇅
-                </button>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    navigate(`/admin/اعلانات-انبار/${warehouse.id}`);
-                  }}
-                  className="notifications-button"
-                >
-                  اعلانات
-                </button>
-              </div>
+<div className="card-buttons" onClick={(e) => e.stopPropagation()}>
+  <button onClick={() => handleEdit(warehouse.id)} className="edit-button">
+    ویرایش
+  </button>
+  <button
+    onClick={() => handleToggleActive(warehouse.id)}
+    className={warehouse.active ? "deactivate-button" : "activate-button"}
+  >
+    {warehouse.active ? "غیرفعال کردن" : "فعال کردن"}
+  </button>
+  <button
+    onClick={() => {
+      navigate("/admin/انتقال-بین-انبار", {
+        state: { sourceWarehouseName: warehouse.name },
+      });
+    }}
+  >
+    ⇅
+  </button>
+  <button
+    onClick={(e) => {
+      e.stopPropagation(); // Prevent card click
+      navigate(`/admin/اعلانات-انبار/${warehouse.id}`);
+    }}
+    className="notifications-button"
+  >
+    اعلانات
+  </button>
+</div>
             </div>
           ))
         )}

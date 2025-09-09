@@ -6,11 +6,10 @@ import Footer from "./Footer";
 import Filter from "./Filter";
 import BackgroundPattern from "./BackgroundPattern";
 
-function CategoryPage() {
+function ProductSearchResult() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const categoryId = queryParams.get("category");
-  const brandId = queryParams.get("brand");
+  const productName = queryParams.get("productName");
 
   const [products, setProducts] = useState([]);
   const [loadingProducts, setLoadingProducts] = useState(true);
@@ -20,30 +19,29 @@ function CategoryPage() {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   useEffect(() => {
+    if (!productName) return;
+
     setLoadingProducts(true);
     setErrorProducts(null);
 
-    let url = `http://127.0.0.1:8080/api/Sanjaghak/product/getProductsByfilter?`;
-
-    if (categoryId) url += `categoryId=${categoryId}&`;
-    if (brandId) url += `brandId=${brandId}&`;
+    const url = `http://127.0.0.1:8080/api/Sanjaghak/product/getProductsByfilter?productName=${encodeURIComponent(productName)}`;
 
     fetch(url)
       .then((res) => {
         if (!res.ok) throw new Error("خطا در دریافت محصولات");
         return res.json();
       })
-.then((data) => {
-  console.log("Fetched products:", data);
-  setProducts(Array.isArray(data.content) ? data.content : []);
-})
+      .then((data) => {
+        console.log("Fetched products:", data);
+        setProducts(Array.isArray(data.content) ? data.content : []);
+      })
       .catch((err) => {
         setErrorProducts(err.message);
       })
       .finally(() => {
         setLoadingProducts(false);
       });
-  }, [categoryId, brandId]);
+  }, [productName]);
 
   return (
     <div>
@@ -70,4 +68,4 @@ function CategoryPage() {
   );
 }
 
-export default CategoryPage;
+export default ProductSearchResult;

@@ -18,7 +18,7 @@ import Orders from './pages/Orders.jsx';
 import ProfileEdit from './pages/ProfileEdit';
 import ProfileFavorite from './pages/ProfileFavorite.jsx';
 import Filter from './pages/Filter.jsx';
-
+import ProductSearchResult from './pages/productSearchresultPage.jsx';
 import AddWarehouse from "./pages/AddWarehouse.jsx";
 import WarehouseList from "./pages/WarehouseList";
 import WarehouseDetail from "./pages/WarehouseDetail";
@@ -30,7 +30,7 @@ import AdminLayout from './pages/adminLayout.jsx';
 import FinancialReport from './pages/FinancialReport.jsx';
 import AddProduct from './pages/AddProduct.jsx';
 import AddBrand from './pages/AddBrand.jsx';
-import AddCategory from './pages/addCategory.jsx';
+import AddCategory from './pages/AddCategory.jsx';
 import UserList from './pages/UserList.jsx';
 import ProductList from './pages/ProductList.jsx';
 import AddManager from './pages/AddManager.jsx';
@@ -76,7 +76,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signinmobile" element={<SignInMobile />} />
         <Route path="/confirmCode" element={<ConfirmCode />} />
-        <Route path="/product" element={<Product />} />
+        <Route path="/product/:productId" element={<Product />} />
         <Route path="/productCategory" element={<CategoryPage />} />
         <Route path="/mycart" element={<CartPage />} />
         <Route path="/aboutus" element={<Aboutus />} />
@@ -89,7 +89,7 @@ function App() {
         <Route path="/Filter" element={<Filter />} />
         <Route path="/shipping-info" element={<Shippinginformation />} />
         <Route path="/thankyou" element={<ThankYouModal />} />
-
+        <Route path="/productSearch" element={<ProductSearchResult />} />
         <Route path="/admin" element={<AdminLayout />}>
           <Route path="داشبورد" element={<Dashboard />} />
           <Route path="گزارش مالی" element={<FinancialReport />} />
@@ -104,7 +104,7 @@ function App() {
           <Route path="اعلانات-انبار/:warehouseId" element={<WarehouseNotifications />} />
 
           <Route path="لیست کاربران" element={<UserList />} />
-          <Route path="لیست محصولات" element={<ProductList products={products} />} />
+          <Route path="لیست محصولات" element={<ProductList/>} />
           <Route path="لیست برند ها" element={<AdminBrandList />} />
           <Route path="افزودن دسته" element={<AddCategory />} />
           <Route path="افزودن برند" element={<AddBrand />} />

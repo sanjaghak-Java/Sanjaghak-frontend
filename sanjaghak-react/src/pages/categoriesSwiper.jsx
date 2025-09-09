@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
@@ -6,18 +6,46 @@ import "swiper/css/navigation";
 import "/src/styles/categorySwiper.css";
 import { Link } from "react-router-dom";
 
-const categories = [
-  { title: "گوشی موبایل", image: "./src/assets/images (2).jpg" },
-  { title: "هدفون", image: "./src/assets/hedphone.jpg" },
-  { title: "ساعت هوشمند", image: "./src/assets/watch.jpg" },
-  { title: "لپ تاپ", image: "./src/assets/lap.jpg" },
-  { title: "گوشی موبایل", image: "./src/assets/images (2).jpg" },
-  { title: "هدفون", image: "./src/assets/hedphone.jpg" },
-  { title: "هدفون", image: "./src/assets/hedphone.jpg" },
-  { title: "هدفون", image: "./src/assets/hedphone.jpg" }
-];
-
 function CategoriesSwiper() {
+  const [categories, setCategories] = useState([]);
+useEffect(() => {
+  const fetchCategories = async () => {
+    try {
+      const res = await fetch("http://127.0.0.1:8080/api/Sanjaghak/categories/getActiveCategory");
+      const data = await res.json();
+
+      const categoriesWithImages = await Promise.all(
+        data.map(async (cat) => {
+          try {
+            const imgRes = await fetch(
+              `http://127.0.0.1:8080/api/Sanjaghak/categoryImages/${cat.categoryId}`
+            );
+            const imgData = await imgRes.json(); // <-- imgData defined here
+
+            if (imgData.length > 0) {
+              const fullUrl = `http://127.0.0.1:8080${encodeURI(imgData[0].imageUrl)}`;
+              console.log(`Category ${cat.categoryName} image URL:`, fullUrl);
+              return { ...cat, imageUrl: fullUrl, altText: imgData[0].altText || cat.categoryName };
+            } else {
+              console.log(`Category ${cat.categoryName} has no image`);
+              return { ...cat, imageUrl: null, altText: cat.categoryName };
+            }
+          } catch (err) {
+            console.error("Error fetching image for category", cat.categoryId, err);
+            return { ...cat, imageUrl: null, altText: cat.categoryName };
+          }
+        })
+      );
+
+      setCategories(categoriesWithImages);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
+
+  fetchCategories();
+}, []);
+
   return (
     <>
       <p className="categorie-title">دسته بندی محصولات</p>
@@ -42,12 +70,19 @@ function CategoriesSwiper() {
             },
           }}
         >
-          {categories.map((item, index) => (
-            <SwiperSlide className="categorySwiperSlide" key={index}>
-              <Link to={`/productCategory?category=${item.title}`} className="categorySwiperSlide">
+          {categories.map((item) => (
+            <SwiperSlide className="categorySwiperSlide" key={item.categoryId}>
+              <Link
+                to={`/productCategory?category=${item.categoryName}`}
+                className="categorySwiperSlide"
+              >
                 <div>
-                  <img className="categorySlideImg" src={item.image} alt={item.title} />
-                  <p className="categorySlidetext">{item.title}</p>
+<img 
+  className="categorySlideImg"
+  src={item.imageUrl || "/fallback-image.jpg"} 
+  alt={item.altText || item.categoryName} 
+/>
+                  <p className="categorySlidetext">{item.categoryName}</p>
                 </div>
               </Link>
             </SwiperSlide>

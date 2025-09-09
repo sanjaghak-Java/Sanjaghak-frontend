@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from "react";
 import "/src/styles/DiscountDetailsModal.css";
+import jalaali from "jalaali-js";
+
+function jalaliToISO(jalaliDate) {
+  if (!jalaliDate) return null;
+  const [jy, jm, jd] = jalaliDate.split("/").map(Number);
+  const { gy, gm, gd } = jalaali.toGregorian(jy, jm, jd);
+  // Return ISO date at 23:59:59 time as backend expects
+  return new Date(gy, gm - 1, gd, 23, 59, 59).toISOString();
+}
 
 function ToggleSwitch({ isOn, onToggle }) {
   return (
@@ -57,17 +66,49 @@ function DiscountDetailsModal({ discount, onClose, onSave }) {
     }
   }, [discount]);
 
-  const handleSave = () => {
-    onSave({
-      ...discount,
-      title,
-      amount,
-      startDate,
-      endDate,
-      active: isActive,
-    });
+const handleSave = async () => {
+const discountId = discount.id;
+const variantId = discount.variantId;
+
+
+
+const startFromISO = jalaliToISO(startDate);
+const endFromISO = jalaliToISO(endDate);
+
+  try {
+    const token = localStorage.getItem("token");
+    const response = await fetch(
+      `http://127.0.0.1:8080/api/Sanjaghak/discount/${discountId}?variantId=${variantId}`,
+      {
+        method: "PUT", // or PATCH if your backend expects that
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+body: JSON.stringify({
+  discountDescription: title,
+  startFrom: startFromISO,
+  endFrom: endFromISO,
+  discountPercentage: amount,
+  active: isActive, // Add this line
+}),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("خطا در بروزرسانی تخفیف");
+    }
+
+    const updatedDiscount = await response.json();
+
+    onSave(updatedDiscount); // update parent state if needed
     onClose();
-  };
+    window.location.reload();
+  } catch (error) {
+    console.error(error);
+    alert("خطا در بروزرسانی تخفیف");
+  }
+};
 
   return (
     <div className="details-modal-overlay">

@@ -122,6 +122,14 @@
   margin-right: 5px;
   bottom: 0;
 }
+.productOriginalPrice {
+  font-family: "BYekan";
+  font-style: normal;
+  font-size: 11px;
+  color: #888;
+  text-decoration: line-through;
+  margin-bottom: 4px;
+}
 
 .priceDetails {
   text-align: left;
@@ -131,10 +139,9 @@
 
 .productSalePrice {
   font-family: "BYekan";
-  font-style: oblique;
-  font-size: 11px;
-  color: #888;
-  text-decoration: line-through #646464;
+  font-size: 14px;
+  color: #000; /* bright red for discount */
+  font-weight: bold;
 }
 
 .ProductPrice {

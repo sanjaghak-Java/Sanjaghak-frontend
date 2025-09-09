@@ -1,4 +1,5 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import "/src/styles/product.css";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
@@ -9,65 +10,134 @@ import ProductSpecifications from "./ProductSpecifications";
 import Similarproducts from "./Similarproducts";
 import BackgroundPattern from "./BackgroundPattern";
 
-const sampleProduct = {
-  title: "سامسونگ Galaxy A53",
-  brand: {
-    name: "Samsung",
-    logo: "instagram.png",
-
-  },
-
-  discountPercent: 20,
-  basePrice: 100000000, 
-  finalPrice: 80000000,
-
-  images: [
-    { src: "images.jpg", colorName: "مشکی", hex: "#111111" },
-    { src: "images (1).jpg", colorName: "سبز", hex: "#73e1a3ff" },
-    { src: "images (2).jpg", colorName: "سفید", hex: "#ffffff" },
-    { src: "images (2).jpg", colorName: "سفید", hex: "#ffffff" },
-    { src: "images (2).jpg", colorName: "سفید", hex: "#ffffff" },
-    { src: "images (2).jpg", colorName: "سفید", hex: "#ffffff" },
-    { src: "images (2).jpg", colorName: "سفید", hex: "#ffffff" },
-    { src: "images (2).jpg", colorName: "سفید", hex: "#ffffff" },
-    { src: "images (2).jpg", colorName: "سفید", hex: "#ffffff" },
-    { src: "images (2).jpg", colorName: "سفید", hex: "#ffffff" },
-
-  ],
-  colors: [
-    { name: "سفید", hex: "#ffffff" },
-    { name: "مشکی", hex: "#000000" },
-    { name: "سبز", hex: "#73e1a3ff" },
-  ],
-  features: [
-    { label: "رم", value: "8GB" },
-    { label: "حافظه داخلی", value: "256GB" },
-    { label: "سیستم عامل", value: "Android 14" },
-    { label: "وزن", value: "189 گرم" },
-    { label: "ابعاد", value: "159.9 × 74.7 × 8.1 میلی‌متر" }
-  ],
-
-  warranty: "گارانتی 12 ماهه گلدیران",
-
-  introduction: `
-    گوشی‌ها هر روز زرق و برق بیشتری پیدا می‌کنند و ویژگی‌های جدیدتری را به لیست خود اضافه می‌کنند.
-    گوشی موبایل سامسونگ مدل Galaxy A53 یکی از گوشی‌های محبوب بازار است که با سخت‌افزار مناسب و قیمت معقول،
-    انتخاب خوبی برای کاربرانی است که به دنبال تعادل بین عملکرد و قیمت هستند.
-  `,
-    specifications: [
-    { label: "سیستم عامل", value: "Android 14" },
-    { label: "پردازنده", value: "Snapdragon 8 Gen 2" },
-    { label: "پردازنده", value: "Snapdragon 8 Gen 2" },
-    { label: "پردازنده", value: "Snapdragon 8 Gen 2" },
-  ],
-};
-
 function Product() {
+  const { productId } = useParams();
+
+  const [product, setProduct] = useState(null);
+  const [brand, setBrand] = useState({ name: "نامشخص", logo: "default-logo.png" });
+  const [variants, setVariants] = useState([]);
+  const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [showCartReport, setShowCartReport] = useState(false);
   const backgroundAreaRef = useRef(null);
+  const [productAttributes, setProductAttributes] = useState([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      setLoading(true);
+      try {
+        // 1. Fetch product
+        const resProduct = await fetch(`http://127.0.0.1:8080/api/Sanjaghak/product/${productId}`);
+        if (!resProduct.ok) throw new Error("Failed to fetch product");
+        const productData = await resProduct.json();
+        setProduct(productData);
+
+        // 2. Fetch brand info if brandId exists
+        if (productData.brands?.brandId) {
+          const resBrand = await fetch(`http://127.0.0.1:8080/api/Sanjaghak/brand/${productData.brands.brandId}`);
+          if (resBrand.ok) {
+            const brandData = await resBrand.json();
+            setBrand({
+              name: brandData.brandName || "نامشخص",
+              logo: brandData.logoUrl ? `http://127.0.0.1:8080${brandData.logoUrl}` : "default-logo.png",
+            });
+          
+          } else {
+            setBrand({ name: "نامشخص", logo: "default-logo.png" });
+          }
+        } else {
+          setBrand({ name: "نامشخص", logo: "default-logo.png" });
+        }
+
+        // 3. Fetch variants
+        const resVariants = await fetch(`http://127.0.0.1:8080/api/Sanjaghak/productVariants/getProductVariantByProductId?productId=${productId}`);
+        if (!resVariants.ok) throw new Error("Failed to fetch variants");
+        const variantsData = await resVariants.json();
+        setVariants(variantsData.filter(v => v.active));
+
+        // 4. Fetch images
+        const resImages = await fetch(`http://127.0.0.1:8080/api/Sanjaghak/productImages/${productId}`);
+        if (!resImages.ok) throw new Error("Failed to fetch images");
+        const imagesData = await resImages.json();
+        const formattedImages = imagesData.map(img => ({
+          src: `http://127.0.0.1:8080${img.imageUrl}`,
+          colorName: img.altText || "تصویر محصول",
+          hex: "#ccc", // fallback
+        }));
+        setImages(formattedImages);
+        const resAttributes = await fetch(
+  `http://127.0.0.1:8080/api/Sanjaghak/productAttributeValue/getValueByProductId/${productId}`
+);
+if (resAttributes.ok) {
+  const attrData = await resAttributes.json();
+
+  // Format attributes into a convenient shape
+  const formattedAttributes = attrData.map(item => ({
+    id: item.id,
+    value: item.value,
+    attributeId: item.attributeId.attributeId,
+    attributeName: item.attributeId.attributeName,
+    attributeType: item.attributeId.attributeType,
+  }));
+
+  setProductAttributes(formattedAttributes);
+} else {
+  setProductAttributes([]);
+}
+      } catch (error) {
+        console.error(error);
+        setProduct(null);
+        setBrand({ name: "نامشخص", logo: "default-logo.png" });
+        setVariants([]);
+        setImages([]);
+      } finally {
+        setLoading(false);
+      }
+    }
+    
+
+    if (productId) {
+      fetchData();
+    }
+    
+  }, [productId]);
 
   const handleAddToCart = () => setShowCartReport(true);
   const handleCloseCartReport = () => setShowCartReport(false);
+
+  if (loading) {
+    return <div style={{ textAlign: "center", marginTop: "2rem" }}>در حال بارگذاری...</div>;
+  }
+
+  if (!product) {
+    return <div style={{ textAlign: "center", marginTop: "2rem" }}>محصول پیدا نشد</div>;
+  }
+
+  // Prepare colors array from variants (you can customize this if you want)
+  const colors = variants.map(v => ({
+    name: v.color,
+    hex: v.hexadecimal,
+  }));
+  console.log(productAttributes)
+  // Combine fixed specs and dynamic attributes:
+const fixedSpecs = [
+  { label: "مدل", value: product.model },
+  { label: "وزن", value: product.weight ? `${product.weight} گرم` : "" },
+  { label: "طول", value: product.length ? `${product.length} میلی‌متر` : "" },
+  { label: "عرض", value: product.width ? `${product.width} میلی‌متر` : "" },
+  { label: "ارتفاع", value: product.height ? `${product.height} میلی‌متر` : "" },
+];
+
+// Map your productAttributes to same format and include attributeType
+const dynamicSpecs = productAttributes
+  .filter(attr => attr.value && attr.value.trim() !== "") // filter empty values
+  .map(attr => ({
+    label: attr.attributeName + (attr.attributeType ? ` (${attr.attributeType})` : ""),
+    value: attr.value,
+  }));
+
+const allSpecs = [...fixedSpecs, ...dynamicSpecs];
+
 
   return (
     <>
@@ -76,18 +146,37 @@ function Product() {
       <div className="background-content-wrapper" ref={backgroundAreaRef}>
         <BackgroundPattern parentRef={backgroundAreaRef} />
 
-        <ProductDetail product={sampleProduct} onAddToCart={handleAddToCart} />
+<ProductDetail
+  product={{
+    title: product.productName,
+    brand,
+    introduction: product.productDescription,
+    model: product.model,
+    weight: product.weight,
+    length: product.length,
+    width: product.width,
+    height: product.height,
+    colors,
+    images,
+    variants,
+    productId:product.productId
+  }}
+  requiredAttributes={productAttributes} // new prop
+  onAddToCart={handleAddToCart}
+/>
 
         <hr className="hr-side" />
         <p className="Information-title">
-          <span style={{color : "#dc2655"}}>●</span> معرفی
+          <span style={{ color: "#dc2655" }}>●</span> معرفی
         </p>
-        <ProductIntroduction text={sampleProduct.introduction} />
+        <ProductIntroduction text={product.productDescription} />
 
         <p className="Information-title">
-          <span style={{color : "#dc2655"}}>●</span> مشخصات
+          <span style={{ color: "#dc2655" }}>●</span> مشخصات
         </p>
-        <ProductSpecifications specifications={sampleProduct.specifications} />
+<ProductSpecifications
+  specifications={allSpecs}
+/>
 
         <div className="similar-dev">
           <hr className="hr-side" />

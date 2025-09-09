@@ -12,6 +12,7 @@ import best from "../assets/best-seller.png";
 import BackgroundPattern from "./BackgroundPattern";
 
 import "/src/styles/mainPage.css";
+import BestSellerSlider from "./bestSellerSlider";
 
 function MainPage() {
   const location = useLocation();
@@ -105,7 +106,7 @@ function MainPage() {
                 <div className="show-more-text">مشاهده بیشتر</div>
               </div>
             </div>
-            <ProductSlider />
+            <BestSellerSlider/>
           </div>
         </div>
 

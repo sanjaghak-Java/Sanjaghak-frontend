@@ -15,15 +15,19 @@ function ProductCard(props) {
     };
   }, [props.image]);
 
-  const gotoproduct = () => navigate("/product");
+  const gotoproduct = () => {
+  navigate(`/product/${props.productId}`, { state: { product: props } });
+};
 
   const hasDiscount = props.salepercent || props.salePrice;
+  const isUnavailable = props.price === "ناموجود";
 
   return (
     <div className="cardContainer" onClick={gotoproduct}>
       <div className="cardInner">
         <div className="cardFront">
-          {hasDiscount && (
+          {/* Show discount badge only if available and product is not unavailable */}
+          {hasDiscount && !isUnavailable && (
             <div className="salePercent">{props.salepercent}</div>
           )}
 
@@ -39,10 +43,16 @@ function ProductCard(props) {
           <div className="priceSection">
             <p className="price-title">قیمت:</p>
             <div className="priceDetails">
-              {props.salePrice && (
-                <h5 className="productSalePrice">{props.salePrice} تومان</h5>
+              {isUnavailable ? (
+                <h2 className="ProductPrice">ناموجود</h2>
+              ) : props.salePrice ? (
+                <>
+                  <h5 className="productOriginalPrice">{props.price} تومان</h5>
+                  <h2 className="productSalePrice">{props.salePrice} تومان</h2>
+                </>
+              ) : (
+                <h2 className="ProductPrice">{props.price} تومان</h2>
               )}
-              <h2 className="ProductPrice">{props.price} تومان</h2>
             </div>
           </div>
         </div>

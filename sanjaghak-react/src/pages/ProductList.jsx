@@ -25,50 +25,117 @@ const [refreshToggle, setRefreshToggle] = useState(false);
   const searchModeRef = useRef(null);
  const [productImages, setProductImages] = useState({});
   // Fetch products
-useEffect(() => {
-  async function fetchAllProducts() {
-    try {
-      const response = await fetch('http://127.0.0.1:8080/api/Sanjaghak/product/getProductsByfilter?page=0&size=1000');
-      if (!response.ok) throw new Error('Error fetching products');
-      const data = await response.json();
-      const allProducts = data.content || data;
-      setProducts(allProducts);
+  async function fetchMainImages(products) {
+  try {
+    const imagesMap = {};
 
-      // Now fetch images for all products
-      fetchMainImages(allProducts);
-    } catch (error) {
-      console.error('Error fetching products:', error);
-    }
-  }
-
-async function fetchMainImages(productsList) {
-  const imagesMap = {};
-  await Promise.all(
-    productsList.map(async (product) => {
+    // Fetch images for each product
+    await Promise.all(products.map(async (product) => {
       try {
-        const imgRes = await fetch(`http://127.0.0.1:8080/api/Sanjaghak/productImages/${product.productId}`);
-        if (!imgRes.ok) throw new Error('Image fetch failed');
-        const imgData = await imgRes.json();
+        const res = await fetch(`http://127.0.0.1:8080/api/Sanjaghak/productImages/${product.productId}`);
+        if (!res.ok) throw new Error("Failed to fetch images");
 
-        let mainImage = null;
-        if (Array.isArray(imgData)) {
-          const mainImgObj = imgData.find(img => img.primary === true) || imgData[0];
-          if (mainImgObj) mainImage = `http://127.0.0.1:8080${mainImgObj.imageUrl}`;
+        const images = await res.json();
+
+        // Find the primary image, or fallback to first image, or null
+        const primaryImage = images.find(img => img.required) || images[0] || null;
+
+        if (primaryImage) {
+          // Assuming your image URLs start with /uploads/filename.ext
+          // Prepend backend URL here to get full URL
+          imagesMap[product.productId] = `http://127.0.0.1:8080${primaryImage.imageUrl}`;
+          console.log("Product ID:", product.productId, "Image URL:", imagesMap[product.productId]);
+
+          // Adjust field names based on your actual response structure
         } else {
-          mainImage = `http://127.0.0.1:8080${imgData.imageUrl}`;
+          imagesMap[product.productId] = null;
         }
-
-        imagesMap[product.productId] = mainImage;
-      } catch (err) {
-        console.error(`Failed to fetch image for product ${product.productId}`, err);
+      } catch (e) {
         imagesMap[product.productId] = null;
       }
-    })
-  );
+    }));
 
-  setProductImages(imagesMap);
+    setProductImages(imagesMap);
+  } catch (error) {
+    console.error("Error fetching product images:", error);
+  }
 }
+  useEffect(() => {
+  if (products.length === 0) return;
 
+  const prices = products.map(p => Number(p.price)).filter(p => !isNaN(p));
+  if (prices.length === 0) return;
+
+  const absoluteMinPrice = Math.min(...prices);
+  const absoluteMaxPrice = Math.max(...prices);
+  const priceBuffer = 1000;
+  const adjustedMin = absoluteMinPrice;
+  const adjustedMax = absoluteMinPrice === absoluteMaxPrice ? absoluteMaxPrice + priceBuffer : absoluteMaxPrice;
+
+  // Only set priceRange if current range is invalid or default
+  if (
+    priceRange[0] === 0 && priceRange[1] === 10000 || // default initial
+    priceRange[0] > adjustedMax || 
+    priceRange[1] < adjustedMin
+  ) {
+    setPriceRange([adjustedMin, adjustedMax]);
+  }
+}, [products]);
+async function fetchAllProducts() {
+  try {
+    // Fetch all products
+    const res = await fetch('http://127.0.0.1:8080/api/Sanjaghak/product/getProductsByfilter?page=0&size=1000');
+    if (!res.ok) throw new Error('Failed to fetch products');
+    const productData = await res.json();
+    const allProducts = productData.content || productData;
+
+    // ✅ Fetch all variants once
+    const variantRes = await fetch("http://127.0.0.1:8080/api/Sanjaghak/productVariants/getAllProductVariant");
+    if (!variantRes.ok) throw new Error("Failed to fetch variants");
+    const allVariants = await variantRes.json();
+
+    // ✅ Build productId to variants map
+    const variantsMap = {};
+    allVariants.forEach(variant => {
+      if (!variantsMap[variant.productId]) {
+        variantsMap[variant.productId] = [];
+      }
+      variantsMap[variant.productId].push(variant);
+    });
+
+    // ✅ Attach variant prices to each product
+    const productsWithPrices = allProducts.map(product => {
+      const variants = variantsMap[product.productId] || [];
+
+      const variantPrices = variants.map(v => parseFloat(v.price)).filter(p => !isNaN(p));
+      const variantCosts = variants.map(v => parseFloat(v.costPrice)).filter(p => !isNaN(p));
+
+      const minPrice = variantPrices.length ? Math.min(...variantPrices) : 0;
+      const minCost = variantCosts.length ? Math.min(...variantCosts) : 0;
+
+      return {
+        ...product,
+        price: minPrice,
+        costPrice: minCost,
+        variants,
+      };
+    });
+
+    // ✅ Set products and price range
+    setProducts(productsWithPrices);
+
+    const allPrices = allVariants.map(v => parseFloat(v.price)).filter(p => !isNaN(p));
+    const min = Math.min(...allPrices);
+    const max = Math.max(...allPrices);
+    setPriceRange([min, max]);
+
+    // ✅ Fetch images
+    fetchMainImages(productsWithPrices);
+  } catch (err) {
+    console.error("Error loading products and variants:", err);
+  }
+}
+useEffect(() => {
   fetchAllProducts();
 }, [refreshToggle]);
 

@@ -2,42 +2,42 @@ import React, { useState, useEffect } from "react";
 import "/src/styles/AddSupplier.css";
 
 function AddSupplier({ onClose, onSubmit, initialData }) {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    country: "",
-    province: "",
-    city: "",
-    address: "",
-  });
+const [formData, setFormData] = useState({
+  name: "",
+  email: "",
+  phone: "",
+  postalCode: "",  
+  country: "",
+  province: "",
+  city: "",
+  address: "",
+});
 
-
-  useEffect(() => {
-    if (initialData) {
-      setFormData({
-        name: initialData.name || "",
-        email: initialData.email || "",
-        phone: initialData.phone || "",
-        postalCode: initialData.postalCode || "",
-        country: initialData.country || "",
-        province: initialData.province || "",
-        city: initialData.city || "",
-        address: initialData.address || "",
-      });
-    } else {
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        postalCode: "",
-        country: "",
-        province: "",
-        city: "",
-        address: "",
-      });
-    }
-  }, [initialData]);
+useEffect(() => {
+  if (initialData) {
+    setFormData({
+      name: initialData.supplierName || "",
+      email: initialData.supplierEmail || "",
+      phone: initialData.supplierPhone || "",
+      postalCode: initialData.postalCode || "",
+      country: initialData.country || "",
+      province: initialData.state || "",    // note backend calls this 'state'
+      city: initialData.city || "",
+      address: initialData.supplierAddress || "",
+    });
+  } else {
+    setFormData({
+      name: "",
+      email: "",
+      phone: "",
+      postalCode: "",
+      country: "",
+      province: "",
+      city: "",
+      address: "",
+    });
+  }
+}, [initialData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

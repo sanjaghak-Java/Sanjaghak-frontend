@@ -1,71 +1,90 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AddPurchaseFactor from './AddPurchaseFactor';
 import "/src/styles/PurchasePage.css";
 import download from '../assets/download.png';
-
-const samplePurchases = [
-  {
-    id: 'PO-1001',
-    supplier: 'شرکت الف',
-    warehouse: 'انبار مرکزی',
-    date: '1403/05/01',
-    status: 'در حال پردازش',
-    totalAmount: '5,400,000',
-    receivedDate: null,
-  },
-  {
-    id: 'PO-1002',
-    supplier: 'شرکت ب',
-    warehouse: 'انبار تبریز',
-    date: '1403/05/03',
-    status: 'دریافت‌شده',
-    totalAmount: '2,150,000',
-    receivedDate: '1403/05/10',
-  },
-  {
-    id: 'PO-1003',
-    supplier: 'شرکت الف',
-    warehouse: 'انبار تبریز',
-    date: '1403/05/05',
-    status: 'لغوشده',
-    totalAmount: '3,000,000',
-    receivedDate: null,
-  },
-  {
-    id: 'PO-1004',
-    supplier: 'شرکت ب',
-    warehouse: 'انبار شیراز',
-    date: '1403/05/07',
-    status: 'در حال ارسال',
-    totalAmount: '4,200,000',
-    receivedDate: null,
-  },
-];
+import PurchaseOrderFactor from './purchaseOrderFactor';
 
 function PurchasePage() {
+  const [orders, setOrders] = useState([]);
+  const [suppliers, setSuppliers] = useState([]);
+  const [warehouses, setWarehouses] = useState([]);
+
   const [statusFilter, setStatusFilter] = useState('همه موارد');
   const [supplierFilter, setSupplierFilter] = useState('همه موارد');
+  const [warehouseFilter, setWarehouseFilter] = useState('همه موارد');
   const [searchText, setSearchText] = useState('');
 
   const [selectedPurchase, setSelectedPurchase] = useState(null);
   const [isFactorOpen, setIsFactorOpen] = useState(false);
 
-  const filteredPurchases = samplePurchases.filter((p) => {
-    const matchesStatus =
-      statusFilter === 'همه موارد' || p.status === statusFilter;
-    const matchesSupplier =
-      supplierFilter === 'همه موارد' || p.supplier === supplierFilter;
-    const matchesSearch =
-      p.id.includes(searchText) || p.supplier.includes(searchText);
-
-    return matchesStatus && matchesSupplier && matchesSearch;
-  });
-
   const [currentPage, setCurrentPage] = useState(1);
   const [pageInput, setPageInput] = useState('');
   const itemsPerPage = 4;
 
+  const navigate = useNavigate();
+const statusMap = {
+  Processing: "در حال پردازش",
+  Shipping: "در حال ارسال",
+  Received: "دریافت‌شده",
+  Cancelled: "لغوشده"
+};
+
+const getSupplierName = (supplierId) => {
+  const supplier = suppliers.find(s => s.suppliersId === supplierId);
+  return supplier ? supplier.supplierName : "نامشخص";
+};
+
+const getWarehouseName = (warehouseId) => {
+  const warehouse = warehouses.find(w => w.warehouseId === warehouseId);
+  return warehouse ? warehouse.name : "نامشخص";
+};
+  // Fetch orders on mount
+  const token = localStorage.getItem("token");
+
+useEffect(() => {
+  fetch('http://127.0.0.1:8080/api/Sanjaghak/purchaseOrders/getAllPurchaseOrders', {
+    headers: token ? { Authorization: `Bearer ${token}` } : {}
+  })
+    .then(res => res.json())
+    .then(data => setOrders(data))
+    .catch(console.error);
+}, [token]);
+
+useEffect(() => {
+  fetch('http://127.0.0.1:8080/api/Sanjaghak/suppliers/getAllSuppliers', {
+    headers: token ? { Authorization: `Bearer ${token}` } : {}
+  })
+    .then(res => res.json())
+    .then(data => setSuppliers(data))
+    .catch(console.error);
+}, [token]);
+
+useEffect(() => {
+  fetch('http://127.0.0.1:8080/api/Sanjaghak/warehouse/getAllWarehouse', {
+    headers: token ? { Authorization: `Bearer ${token}` } : {}
+  })
+    .then(res => res.json())
+    .then(data => setWarehouses(data))
+    .catch(console.error);
+}, [token]);
+const filteredPurchases = orders.filter((p) => {
+  const matchesStatus =
+    statusFilter === "همه موارد" || statusMap[p.status] === statusFilter;
+
+  const matchesSupplier =
+    supplierFilter === "همه موارد" || p.suppliersId?.suppliersId === supplierFilter;
+
+  const matchesWarehouse =
+    warehouseFilter === "همه موارد" || p.warehouseId?.warehouseId === warehouseFilter;
+
+  const matchesSearch =
+    searchText === "" ||
+    p.orderNumber?.includes(searchText) ||
+    getSupplierName(p.suppliersId?.suppliersId).includes(searchText);
+
+  return matchesStatus && matchesSupplier && matchesWarehouse && matchesSearch;
+});
   const totalPages = Math.ceil(filteredPurchases.length / itemsPerPage);
 
   const paginatedPurchases = filteredPurchases.slice(
@@ -78,8 +97,6 @@ function PurchasePage() {
     const num = Math.max(1, Math.min(pageNum, totalPages));
     setCurrentPage(num);
   };
-
-  const navigate = useNavigate();
 
   const handleAddClick = () => {
     navigate('/admin/ثبت-سفارش');
@@ -122,17 +139,35 @@ function PurchasePage() {
           <option value="لغوشده">لغوشده</option>
         </select>
 
-        <select
-          value={supplierFilter}
-          onChange={(e) => {
-            setSupplierFilter(e.target.value);
-            setCurrentPage(1);
-          }}
-        >
-          <option value="همه موارد">همه تامین‌کنندگان</option>
-          <option value="شرکت الف">شرکت الف</option>
-          <option value="شرکت ب">شرکت ب</option>
-        </select>
+<select
+  value={supplierFilter}
+  onChange={(e) => {
+    setSupplierFilter(e.target.value);s
+    setCurrentPage(1);
+  }}
+>
+  <option value="همه موارد">همه تامین‌کنندگان</option>
+  {suppliers.map(s => (
+    <option key={s.suppliersId} value={s.suppliersId}>
+      {s.supplierName}
+    </option>
+  ))}
+</select>
+
+<select
+  value={warehouseFilter}
+  onChange={(e) => {
+    setWarehouseFilter(e.target.value);
+    setCurrentPage(1);
+  }}
+>
+  <option value="همه موارد">همه انبارها</option>
+  {warehouses.map(w => (
+    <option key={w.warehouseId} value={w.warehouseId}>
+      {w.name}
+    </option>
+  ))}
+</select>
       </div>
 
       <div
@@ -154,7 +189,6 @@ function PurchasePage() {
             <img src={download} alt="دانلود" />
           </button>
         </div>
-
       </div>
       <br />
       <table className="purchase-table">
@@ -169,50 +203,37 @@ function PurchasePage() {
             <th>مبلغ کل</th>
           </tr>
         </thead>
-        <tbody>
-          {paginatedPurchases.length === 0 ? (
-            <tr>
-              <td colSpan={7} style={{ textAlign: 'center', padding: 20 }}>
-                موردی یافت نشد
-              </td>
-            </tr>
-          ) : (
-            paginatedPurchases.map((purchase) => (
-              <tr
-                key={purchase.id}
-                onClick={() => handleRowClick(purchase)}
-                style={{ cursor: 'pointer' }}
-              >
-                <td>{purchase.id}</td>
-                <td>{purchase.supplier}</td>
-                <td>{purchase.warehouse}</td>
-                <td>{purchase.date}</td>
-                <td>
-                  {purchase.status === 'دریافت‌شده' && purchase.receivedDate
-                    ? purchase.receivedDate
-                    : '—'}
-                </td>
-
-                <td>
-                  <span
-                    className={`status-badge ${
-                      purchase.status === 'در حال پردازش'
-                        ? 'pending'
-                        : purchase.status === 'دریافت‌شده'
-                        ? 'received'
-                        : purchase.status === 'در حال ارسال'
-                        ? 'sending'
-                        : 'cancelled'
-                    }`}
-                  >
-                    {purchase.status}
-                  </span>
-                </td>
-                <td>{purchase.totalAmount} تومان</td>
-              </tr>
-            ))
-          )}
-        </tbody>
+<tbody>
+  {paginatedPurchases.length === 0 ? (
+    <tr>
+      <td colSpan={7} style={{ textAlign: 'center', padding: 20 }}>موردی یافت نشد</td>
+    </tr>
+  ) : (
+    paginatedPurchases.map((purchase) => (
+      <tr key={purchase.purchaseOrdersId} onClick={() => handleRowClick(purchase)} style={{ cursor: 'pointer' }}>
+        <td>{purchase.orderNumber}</td>
+        <td>{getSupplierName(purchase.suppliersId?.suppliersId)}</td>
+        <td>{getWarehouseName(purchase.warehouseId?.warehouseId)}</td>
+        <td>{new Date(purchase.orderDate).toLocaleDateString('fa-IR')}</td>
+        <td>{purchase.expectedDate || '—'}</td>
+        <td>
+          <span className={`status-badge ${
+            purchase.status === 'Processing'
+              ? 'pending'
+              : purchase.status === 'Received'
+              ? 'received'
+              : purchase.status === 'Shipping'
+              ? 'sending'
+              : 'cancelled'
+          }`}>
+            {statusMap[purchase.status] || purchase.status}
+          </span>
+        </td>
+        <td>{purchase.totalAmount.toLocaleString()} تومان</td>
+      </tr>
+    ))
+  )}
+</tbody>
       </table>
 
       <div className="pagination">
@@ -253,13 +274,6 @@ function PurchasePage() {
         </div>
       </div>
 
-      {isFactorOpen && selectedPurchase && (
-        <AddPurchaseFactor
-          isOpen={isFactorOpen}
-          onClose={closeFactorModal}
-          purchase={selectedPurchase}
-        />
-      )}
     </div>
   );
 }

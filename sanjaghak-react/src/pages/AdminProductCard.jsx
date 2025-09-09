@@ -9,7 +9,6 @@ function AdminProductCard({ product, onClick }) {
       <img src={imageSrc} alt={product.productName} className="adminProductCard__image" />
       <div className="adminProductCard__details">
         <h2 className="adminProductCard__name">{product.productName}</h2>
-        <p className="adminProductCard__info">قیمت: {product.price.toLocaleString()} تومان</p>
         <p className="adminProductCard__info">دسته: {product.categoryName || "نامشخص"}</p>
         <p className="adminProductCard__info">برند: {product.brandName || "نامشخص"}</p>
       </div>

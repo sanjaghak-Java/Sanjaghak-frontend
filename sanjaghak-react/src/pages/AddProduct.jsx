@@ -3,37 +3,85 @@ import "/src/styles/AddProduct.css";
 import AttributeField from "./AttributeField";
 import ImageCard from "./AddProductImageCard";
 import { useNavigate } from "react-router-dom";
+import VariantCircle from "./varientCircleAdmin";
+
 function AddProduct() {
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
+
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedBrand, setSelectedBrand] = useState("");
+
   const [defaultAttributes, setDefaultAttributes] = useState([]);
   const [customAttributes, setCustomAttributes] = useState([]);
+
   const [categoryOptions, setCategoryOptions] = useState([]);
   const [brandOptions, setBrandOptions] = useState([]);
+
   const [loadingCategories, setLoadingCategories] = useState(false);
   const [loadingBrands, setLoadingBrands] = useState(false);
   const [loadingAttributes, setLoadingAttributes] = useState(false);
+
   const [createdProductId, setCreatedProductId] = useState(null);
+
   const [savingAttributes, setSavingAttributes] = useState(false);
   const [attributesSaved, setAttributesSaved] = useState(false);
 
+  // Images
   const [mainImage, setMainImage] = useState(null);
   const [mainImagePreview, setMainImagePreview] = useState(null);
   const [sideImages, setSideImages] = useState([]);
   const [sideImagesPreview, setSideImagesPreview] = useState([]);
 
+  // Variant system
+  const [variants, setVariants] = useState([]);
+  const [showAddVariantPopup, setShowAddVariantPopup] = useState(false);
+
+  const [newVariantColorName, setNewVariantColorName] = useState("");
+  const [newVariantHex, setNewVariantHex] = useState("#000000");
+  const [newVariantPrice, setNewVariantPrice] = useState("");
+  const [newVariantCost, setNewVariantCost] = useState("");
+
   const baseUrl = "http://127.0.0.1:8080";
   const token = localStorage.getItem("token");
+  const addProductVariant = async (productId, variant) => {
+  const token = localStorage.getItem("token");
+
+  try {
+    const res = await fetch(
+      `http://127.0.0.1:8080/api/Sanjaghak/productVariants/addProductVariant?productId=${productId}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(variant),
+      }
+    );
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.error || "خطا در افزودن واریانت");
+    }
+
+    const data = await res.json();
+    return data; // The created variant object from backend
+  } catch (error) {
+    console.error("Error adding variant:", error);
+    alert(error.message);
+    return null;
+  }
+};
 
   useEffect(() => {
     const fetchCategories = async () => {
       setLoadingCategories(true);
       try {
-        const res = await fetch(`${baseUrl}/api/Sanjaghak/categories/getPaginationCategory?page=0&size=100`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const res = await fetch(
+          `${baseUrl}/api/Sanjaghak/categories/getPaginationCategory?page=0&size=100`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
         const data = await res.json();
         setCategoryOptions(data.content || []);
       } catch (err) {
@@ -42,7 +90,6 @@ function AddProduct() {
         setLoadingCategories(false);
       }
     };
-
     const fetchBrands = async () => {
       setLoadingBrands(true);
       try {
@@ -66,12 +113,13 @@ function AddProduct() {
     if (!categoryId) return;
     setLoadingAttributes(true);
     try {
-      const res = await fetch(`${baseUrl}/api/Sanjaghak/attributeRequirement/${categoryId}/required-attributes`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await fetch(
+        `${baseUrl}/api/Sanjaghak/attributeRequirement/${categoryId}/required-attributes`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
       const data = await res.json();
       const formattedAttributes = data.map((item) => ({
-        id: item.attribute.attributeId, // Assuming attributeId is needed to send later
+        id: item.attribute.attributeId,
         name: item.attribute.attributeName || "",
         value: "",
       }));
@@ -112,6 +160,7 @@ function AddProduct() {
     setCustomAttributes(updated);
   };
 
+  // Image handlers (unchanged)
   const handleSideImageChangeAtIndex = (file, index) => {
     if (!file) return;
     const newSideImages = [...sideImages];
@@ -135,112 +184,103 @@ function AddProduct() {
     };
   }, [mainImagePreview, sideImagesPreview]);
 
-  // Step 1: create product
+  // New: submit product WITHOUT price and cost (they will come from variants)
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (!mainImage) {
-    alert("لطفاً تصویر اصلی محصول را انتخاب کنید.");
-    return;
-  }
+    if (!mainImage) {
+      alert("لطفاً تصویر اصلی محصول را انتخاب کنید.");
+      return;
+    }
 
-  const productData = {
-    productName: document.querySelector(".productName").value,
-    productDescription: document.querySelector(".productDescription").value,
-    sku: crypto.randomUUID(),
-    model: document.querySelector(".productModel").value,
-    price: document.querySelector(".productPrice").value,
-    costPrice: document.querySelector(".productCost").value,
-    weight: document.querySelector(".productWeight").value,
-    length: document.querySelector(".productLength").value,
-    width: document.querySelector(".productWidth").value,
-    height: document.querySelector(".productHeight").value,
-  };
+    const productData = {
+      productName: document.querySelector(".productName").value,
+      productDescription: document.querySelector(".productDescription").value,
+      sku: crypto.randomUUID(),
+      model: document.querySelector(".productModel").value,
+      // price & costPrice removed here!
+      weight: document.querySelector(".productWeight").value,
+      length: document.querySelector(".productLength").value,
+      width: document.querySelector(".productWidth").value,
+      height: document.querySelector(".productHeight").value,
+    };
 
-  try {
-    const res = await fetch(
-      `${baseUrl}/api/Sanjaghak/product/addProduct?categoryId=${selectedCategory}&brandId=${selectedBrand}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(productData),
-      }
-    );
-
-    if (res.ok) {
-      const result = await res.json();
-      const productId = result.productId || null;
-      if (!productId) {
-        alert("خطا در دریافت شناسه محصول ایجاد شده");
-        return;
-      }
-
-      // Upload main image
-      const uploadImage = async (file, altText, required) => {
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("productId", productId);
-        formData.append("altText", altText);
-        formData.append("required", required);
-
-        const uploadRes = await fetch(`${baseUrl}/api/Sanjaghak/productImages/upload`, {
+    try {
+      const res = await fetch(
+        `${baseUrl}/api/Sanjaghak/product/addProduct?categoryId=${selectedCategory}&brandId=${selectedBrand}`,
+        {
           method: "POST",
           headers: {
+            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: formData,
-        });
-
-        if (!uploadRes.ok) {
-          const err = await uploadRes.json();
-          throw new Error(err.error || "خطا در آپلود تصویر");
+          body: JSON.stringify(productData),
         }
-      };
+      );
 
-      try {
-        // Upload main image with required = true
-        await uploadImage(mainImage, "تصویر اصلی محصول", true);
-
-        // Upload side images with required = false
-        for (const [index, sideImg] of sideImages.entries()) {
-          await uploadImage(sideImg, `تصویر جانبی شماره ${index + 1}`, false);
+      if (res.ok) {
+        const result = await res.json();
+        const productId = result.productId || null;
+        if (!productId) {
+          alert("خطا در دریافت شناسه محصول ایجاد شده");
+          return;
         }
 
-        alert("محصول با موفقیت ثبت و تصاویر آپلود شدند ✅");
-        setCreatedProductId(productId);
-        setStep(2);
-      } catch (uploadError) {
-        alert("خطا در آپلود تصاویر: " + uploadError.message);
+        const uploadImage = async (file, altText, required) => {
+          const formData = new FormData();
+          formData.append("file", file);
+          formData.append("productId", productId);
+          formData.append("altText", altText);
+          formData.append("required", required);
+
+          const uploadRes = await fetch(`${baseUrl}/api/Sanjaghak/productImages/upload`, {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            body: formData,
+          });
+
+          if (!uploadRes.ok) {
+            const err = await uploadRes.json();
+            throw new Error(err.error || "خطا در آپلود تصویر");
+          }
+        };
+
+        try {
+          await uploadImage(mainImage, "تصویر اصلی محصول", true);
+
+          for (const [index, sideImg] of sideImages.entries()) {
+            await uploadImage(sideImg, `تصویر جانبی شماره ${index + 1}`, false);
+          }
+
+          alert("محصول با موفقیت ثبت و تصاویر آپلود شدند ");
+          setCreatedProductId(productId);
+          setStep(2);
+        } catch (uploadError) {
+          alert("خطا در آپلود تصاویر: " + uploadError.message);
+        }
+      } else {
+        const error = await res.json();
+        alert("خطا: " + (error.error || "مشکلی رخ داده است"));
       }
-
-    } else {
-      const error = await res.json();
-      alert("خطا: " + (error.error || "مشکلی رخ داده است"));
+    } catch (error) {
+      alert("خطا در ارتباط با سرور");
     }
-  } catch (error) {
-    alert("خطا در ارتباط با سرور");
-  }
-};
+  };
 
-  // Save attributes & their values in step 2
   const handleSaveAttributes = async () => {
     if (!createdProductId) {
       alert("ابتدا محصول را ایجاد کنید.");
       return;
-
     }
 
     setSavingAttributes(true);
 
     try {
-      // 1. For each custom attribute, create it in backend, get back id
       const createdCustomAttributes = [];
 
       for (const attr of customAttributes) {
-        // Skip empty names
         if (!attr.name.trim()) continue;
 
         const res = await fetch(`${baseUrl}/api/Sanjaghak/productAttribute/addProductAttribute`, {
@@ -251,7 +291,7 @@ function AddProduct() {
           },
           body: JSON.stringify({
             attributeName: attr.name,
-            attributeType: "", // pass empty string as requested
+            attributeType: "",
           }),
         });
 
@@ -266,11 +306,6 @@ function AddProduct() {
         createdCustomAttributes.push({ ...attr, id: createdAttr.attributeId });
       }
 
-      // 2. Combine default and custom attributes with proper attributeId
-      // Default attributes already have attributeId in attr.id
-      // Custom attributes got new attributeId after creation
-      // We want to send attribute values linked to product
-
       const allAttributesToSave = [
         ...defaultAttributes.map((attr) => ({
           attributeId: attr.id,
@@ -282,9 +317,7 @@ function AddProduct() {
         })),
       ];
 
-      // 3. For each attribute value, send POST to addValue endpoint
       for (const attrVal of allAttributesToSave) {
-        // skip empty values (optional)
         if (!attrVal.value.trim()) continue;
 
         const res = await fetch(
@@ -309,31 +342,152 @@ function AddProduct() {
         }
       }
 
-      alert("ویژگی‌ها با موفقیت ذخیره شدند ✅");
+      alert("ویژگی‌ها با موفقیت ذخیره شدند ");
       setAttributesSaved(true);
       setSavingAttributes(false);
-       navigate("/admin/لیست محصولات")
+      setStep(3); // Move to step 3 (variants) after saving attributes
     } catch (err) {
       alert("خطا در ارتباط با سرور");
       setSavingAttributes(false);
     }
   };
 
-  const goToNextStep = () => {
-    const form = document.querySelector("form");
-    if (form.checkValidity()) {
-      handleSubmit(new Event("submit"));
-    } else {
-      form.reportValidity();
-    }
+  // Variant popup handlers
+  const handleAddVariantClick = () => {
+    setShowAddVariantPopup(true);
+    setNewVariantColorName("");
+    setNewVariantHex("#000000");
+    setNewVariantPrice("");
+    setNewVariantCost("");
   };
 
+  const handleVariantPopupCancel = () => {
+    setShowAddVariantPopup(false);
+  };
+
+  const handleVariantPopupOk = () => {
+    if (!newVariantColorName.trim()) {
+      alert("نام رنگ را وارد کنید.");
+      return;
+    }
+    if (!newVariantPrice || isNaN(newVariantPrice)) {
+      alert("قیمت صحیح را وارد کنید.");
+      return;
+    }
+    if (!newVariantCost || isNaN(newVariantCost)) {
+      alert("قیمت تمام شده صحیح را وارد کنید.");
+      return;
+    }
+    // Add new variant object to variants
+    setVariants((prev) => [
+      ...prev,
+      {
+        id: Date.now(),
+        color: newVariantColorName,
+        hexadecimal: newVariantHex,
+        price: Number(newVariantPrice),
+        costPrice: Number(newVariantCost),
+      },
+    ]);
+    setShowAddVariantPopup(false);
+  };
+
+  const [selectedVariantIndex, setSelectedVariantIndex] = useState(null);
+
+  // When a variant circle is clicked, you can handle accordingly
+  const handleVariantSelect = (index) => {
+    setSelectedVariantIndex(index);
+  };
+
+  // Because price & cost inputs are removed from step 1,
+  // you may want to display selected variant price/cost info in step 3 or elsewhere.
+
+  const goToNextStep = () => {
+    if (step === 1) {
+      const form = document.querySelector("form");
+      if (form.checkValidity()) {
+        handleSubmit(new Event("submit"));
+      } else {
+        form.reportValidity();
+      }
+    } else if (step === 2) {
+      handleSaveAttributes();
+    } else if (step === 3) {
+      if (variants.length === 0) {
+        alert("لطفاً حداقل یک واریانت اضافه کنید.");
+        return;
+      }
+      // Finalize product creation or navigate away
+      alert("محصول با موفقیت ثبت شد.");
+      navigate("/admin/لیست محصولات");
+    }
+  };
+const handleAddVariant = async () => {
+  if (!createdProductId) {
+    alert("ابتدا محصول را ایجاد کنید");
+    return;
+  }
+
+  const newVariant = {
+    sku: crypto.randomUUID(), // generate unique SKU
+    costPrice: newVariantCost,
+    price: newVariantPrice,
+    color: newVariantColorName,
+    hexadecimal: newVariantHex,
+  };
+
+  try {
+    const added = await addProductVariant(createdProductId, newVariant);
+    if (added) {
+      setVariants((prev) => [...prev, added]);
+      setShowAddVariantPopup(false);
+    }
+  } catch (error) {
+    alert(error.message || "خطا در افزودن واریانت");
+  }
+};
+
+  const goToPrevStep = () => {
+    if (step > 1) setStep(step - 1);
+  };
+
+  // Variant Circle Component (inline for simplicity, can be split)
+  const VariantCircle = ({ variant, isSelected, onClick }) => (
+    <div
+      onClick={onClick}
+      style={{
+        cursor: "pointer",
+        textAlign: "center",
+        margin: "0 8px 12px 0",
+      }}
+    >
+      <div
+        style={{
+          width: 40,
+          height: 40,
+          borderRadius: "50%",
+          backgroundColor: variant.hexadecimal,
+          border: isSelected ? "3px solid #007bff" : "1px solid #ccc",
+          margin: "0 auto",
+        }}
+      />
+      <div style={{ fontSize: "12px", marginTop: "4px" }}>{variant.color}</div>
+    </div>
+  );
+
   return (
-    <div className="supplier-container" style={{padding: "0"}}>
-      {/* <h1 className="pageTitle">افزودن محصول</h1> */}
-      <form className="addProductContainer" onSubmit={handleSubmit}>
+    <>
+    <div>
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <h1 className="pageTitle">افزودن محصول</h1>
+      <form className="addProductContainer" onSubmit={(e) => e.preventDefault()}>
         {step === 1 && (
           <>
+            {/* Step 1 without price and cost inputs */}
             <div className="inputGroup">
               <div className="inputWrapper">
                 <input type="text" required className="productName" placeholder=" " />
@@ -398,16 +552,7 @@ function AddProduct() {
               </div>
             </div>
 
-            <div className="inputGroup">
-              <div className="inputWrapper">
-                <input type="number" required className="productCost" placeholder=" " />
-                <label className="adminFloatingLabel">قیمت خرید (تومان)</label>
-              </div>
-              <div className="inputWrapper">
-                <input type="number" required className="productPrice" placeholder=" " />
-                <label className="adminFloatingLabel">قیمت فروش (تومان)</label>
-              </div>
-            </div>
+            {/* No price/cost inputs here */}
 
             <div className="inputGroup">
               <div className="inputWrapper">
@@ -428,68 +573,55 @@ function AddProduct() {
               </div>
             </div>
 
-            <div style={{display: "flex"}}>
-              {/* Main Image Input as ImageCard */}
-              <div
-                className="inputWrapper"
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  gap: "8px",
-                  marginBottom: "20px",
+            <div
+              className="inputWrapper"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: "8px",
+                marginBottom: "20px",
+              }}
+            >
+              <label className="imageCardLabel">تصویر اصلی محصول (فقط 1 عکس)</label>
+              <ImageCard
+                image={mainImagePreview}
+                width={250}
+                height={180}
+                placeholderText="تصویر اصلی"
+                title="کلیک برای انتخاب تصویر اصلی"
+                onFileSelect={(file) => {
+                  setMainImage(file);
+                  setMainImagePreview(URL.createObjectURL(file));
                 }}
-              >
-                <label className="imageCardLabel">تصویر اصلی محصول (فقط 1 عکس)</label>
+              />
+            </div>
+
+            <div className="inputWrapper" style={{ marginTop: "20px" }}>
+              <label className="imageCardLabel">تصاویر جانبی محصول (چند عکس)</label>
+              <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+                {sideImagesPreview.map((src, idx) => (
+                  <ImageCard
+                    key={idx}
+                    image={src}
+                    width={100}
+                    height={80}
+                    title="کلیک برای تغییر تصویر"
+                    onFileSelect={(file) => handleSideImageChangeAtIndex(file, idx)}
+                  />
+                ))}
+
                 <ImageCard
-                  image={mainImagePreview}
-                  width={220}
-                  height={220}
-                  placeholderText="تصویر اصلی"
-                  title="کلیک برای انتخاب تصویر اصلی"
-                  onFileSelect={(file) => {
-                    setMainImage(file);
-                    setMainImagePreview(URL.createObjectURL(file));
-                  }}
+                  key="add-new"
+                  image={null}
+                  width={100}
+                  height={80}
+                  placeholderText="افزودن تصویر"
+                  title="کلیک برای افزودن تصویر جانبی"
+                  onFileSelect={handleAddNewSideImage}
                 />
               </div>
-
-              {/* Side Images Cards */}
-              <div className="inputWrapper">
-                <label className="imageCardLabel">تصاویر جانبی محصول (چند عکس)</label>
-                <div
-                  style={{
-                    marginTop: "6px",
-                    display: "grid",
-                    gridTemplateColumns: "repeat(3, 1fr)",
-                    gap: "10px",
-                  }}
-                >
-                  {sideImagesPreview.map((src, idx) => (
-                    <ImageCard
-                      key={idx}
-                      image={src}
-                      width={90}
-                      height={90}
-                      title="کلیک برای تغییر تصویر"
-                      onFileSelect={(file) => handleSideImageChangeAtIndex(file, idx)}
-                    />
-                  ))}
-
-                  {/* Always show one empty add card */}
-                  <ImageCard
-                    key="add-new"
-                    image={null}
-                    width={90}
-                    height={90}
-                    placeholderText="افزودن تصویر"
-                    title="کلیک برای افزودن تصویر جانبی"
-                    onFileSelect={handleAddNewSideImage}
-                  />
-                </div>
-              </div>
-            </div>   
-
+            </div>
           </>
         )}
 
@@ -525,30 +657,155 @@ function AddProduct() {
           </div>
         )}
 
-        <div className={`stepButtonsaddproduct ${step === 1 ? "singleButtonaddproduct" : ""}`}>
+        {step === 3 && (
+          <>
+            <h2 className="attributesTitle">واریانت‌ها</h2>
+<div style={{ display: "flex", alignItems: "center", flexWrap: "wrap" }}>
+  {variants.map((variant, i) => (
+    <VariantCircle
+      key={variant.id}
+      variant={variant}
+      isSelected={selectedVariantIndex === i}
+      onClick={() => setSelectedVariantIndex(i)}
+    />
+  ))}
+              {/* Add Variant Circle */}
+              <div
+                onClick={handleAddVariantClick}
+                style={{
+                  cursor: "pointer",
+                  textAlign: "center",
+                  margin: "0 8px 12px 0",
+                }}
+                title="افزودن واریانت جدید"
+              >
+                <div
+                  style={{
+                    width: 40,
+                    height: 40,
+                    borderRadius: "50%",
+                    border: "1px solid #ccc",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    fontSize: "24px",
+                    fontWeight: "bold",
+                    color: "#555",
+                    margin: "0 auto",
+                    userSelect: "none",
+                  }}
+                >
+                  +
+                </div>
+                <div style={{ fontSize: "12px", marginTop: "4px" }}>افزودن</div>
+              </div>
+            </div>
+
+            {/* Show selected variant price/cost */}
+            {selectedVariantIndex !== null && variants[selectedVariantIndex] && (
+              <div style={{ marginTop: 20 }}>
+                <strong>قیمت فروش: </strong> {variants[selectedVariantIndex].price} <br />
+                <strong>قیمت خرید: </strong> {variants[selectedVariantIndex].costPrice}
+              </div>
+            )}
+          </>
+        )}
+
+        {/* Variant popup */}
+        {showAddVariantPopup && (
+          <div
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              width: "100vw",
+              height: "100vh",
+              backgroundColor: "rgba(0,0,0,0.5)",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              zIndex: 9999,
+            }}
+          >
+            <div
+              style={{
+                backgroundColor: "white",
+                borderRadius: 8,
+                padding: 20,
+                width: 320,
+                boxShadow: "0 2px 10px rgba(0,0,0,0.3)",
+              }}
+            >
+              <h3>افزودن واریانت جدید</h3>
+
+              <label>
+                رنگ (نام):
+                <input
+                  type="text"
+                  value={newVariantColorName}
+                  onChange={(e) => setNewVariantColorName(e.target.value)}
+                  style={{ width: "100%", marginBottom: 10 }}
+                />
+              </label>
+
+              <label>
+                رنگ (کد هگزادسیمال):
+                <input
+                  type="color"
+                  value={newVariantHex}
+                  onChange={(e) => setNewVariantHex(e.target.value)}
+                  style={{ width: "100%", marginBottom: 10, height: 30 }}
+                />
+              </label>
+
+              <label>
+                قیمت فروش:
+                <input
+                  type="number"
+                  value={newVariantPrice}
+                  onChange={(e) => setNewVariantPrice(e.target.value)}
+                  style={{ width: "100%", marginBottom: 10 }}
+                />
+              </label>
+
+              <label>
+                قیمت خرید:
+                <input
+                  type="number"
+                  value={newVariantCost}
+                  onChange={(e) => setNewVariantCost(e.target.value)}
+                  style={{ width: "100%", marginBottom: 10 }}
+                />
+              </label>
+
+              <div style={{ display: "flex", justifyContent: "flex-end", gap: 10 }}>
+                <button type="button" onClick={handleVariantPopupCancel}>
+                  لغو
+                </button>
+                <button type="button" onClick={handleAddVariant}>
+                  تایید
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div
+          className={`stepButtonsaddproduct ${step === 1 ? "singleButtonaddproduct" : ""}`}
+          style={{ marginTop: 20 }}
+        >
           {step > 1 && (
-            <button type="button" onClick={() => setStep(step - 1)} className="modal-button gray">
+            <button type="button" onClick={goToPrevStep} className="backBtnaddproduct">
               بازگشت
             </button>
           )}
-          {step < 2 ? (
-            <button type="button" onClick={goToNextStep} className="nextBtnaddproduct">
-              ادامه
-            </button>
-          ) : (
-            <button
-              type="button"
-              onClick={handleSaveAttributes}
-              disabled={savingAttributes || attributesSaved}
-              className="submitBtnaddproduct"
-              title={attributesSaved ? "ویژگی‌ها قبلاً ذخیره شده‌اند" : ""}
-            >
-              {savingAttributes ? "در حال ذخیره ..." : attributesSaved ? "ثبت شد ✅" : "ثبت ویژگی‌ها"}
-            </button>
-          )}
+          <button type="button" onClick={goToNextStep} className="nextBtnaddproduct">
+            {step === 3 ? "پایان" : "ادامه"}
+          </button>
         </div>
       </form>
     </div>
+    </>
   );
 }
 

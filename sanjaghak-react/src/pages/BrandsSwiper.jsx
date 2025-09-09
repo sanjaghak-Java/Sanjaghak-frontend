@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
@@ -6,17 +6,24 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "/src/styles/brandsSwiper.css";
 
-const brands = [
-  { name: "Huawei", image: "/src/assets/huawei.png" },
-  { name: "JBL", image: "/src/assets/asus.png" },
-  { name: "Nokia", image: "/src/assets/huawei.png" },
-  { name: "Asus", image: "/src/assets/asus.png" },
-  { name: "Apple", image: "/src/assets/huawei.png" },
-  { name: "Xiaomi", image: "/src/assets/asus.png" },
-  { name: "Samsung", image: "/src/assets/huawei.png" },
-];
-
 function BrandsSwiper() {
+  const [brands, setBrands] = useState([]);
+
+  useEffect(() => {
+    const fetchBrands = async () => {
+      try {
+        const res = await fetch("http://127.0.0.1:8080/api/Sanjaghak/brand/getActiveBrands");
+        if (!res.ok) throw new Error("Failed to fetch brands");
+        const data = await res.json();
+        setBrands(data);
+      } catch (err) {
+        console.error("Error fetching brands:", err);
+      }
+    };
+
+    fetchBrands();
+  }, []);
+
   return (
     <>
       <p className="brandsTitle">برندهای محبوب</p>
@@ -48,14 +55,18 @@ function BrandsSwiper() {
           }}
           modules={[Navigation, Autoplay]}
         >
-          {brands.map((brand, index) => (
-            <SwiperSlide key={index} className="brandSlide">
-              <Link to={`/productCategory?brand=${brand.name}`}>
+          {brands.map((brand) => (
+            <SwiperSlide key={brand.brandId} className="brandSlide">
+              <Link to={`/productCategory?brand=${brand.brandId}`}>
                 <div className="brandWrapper">
                   <img
                     className="brandLogo"
-                    src={brand.image}
-                    alt={brand.name}
+                    src={
+                      brand.logoUrl
+                        ? brand.logoUrl
+                        : "/src/assets/default-brand-logo.png" // fallback image if no logoUrl
+                    }
+                    alt={brand.brandName}
                   />
                   <div className="brandDivider" />
                 </div>

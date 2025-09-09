@@ -6,16 +6,69 @@ import bin from '../assets/bin.png';
 import store from '../assets/store.png';
 import "../styles/CartItem.css";
 
-function CartItem({ item, onQuantityChange, showQuantityControls = true, showDeleteButton = true }) {
+function CartItem({ item, onQuantityChange, onDelete, showQuantityControls = true, showDeleteButton = true }) {
+
+  const updateOrderQuantity = async (newQuantity) => {
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:8080/api/Sanjaghak/orderItem/${item.id}`, // orderItemId
+        {
+          method: "PUT",
+          headers: { 
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem("token")}`
+          },
+          body: JSON.stringify({ quantity: Number(newQuantity) })
+        }
+      );
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`HTTP error! status: ${response.status}, ${errorText}`);
+      }
+
+      onQuantityChange(item.id, newQuantity);
+
+    } catch (error) {
+      console.error("Error updating order quantity:", error);
+    }
+  };
+
+  const deleteOrderItem = async () => {
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:8080/api/Sanjaghak/orderItem/${item.id}`,
+        {
+          method: "DELETE",
+          headers: { 
+            "Authorization": `Bearer ${localStorage.getItem("token")}`
+          }
+        }
+      );
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`HTTP error! status: ${response.status}, ${errorText}`);
+      }
+
+      // Call the parent handler to remove the item from state
+      onDelete(item.id);
+      window.location.reload()
+
+    } catch (error) {
+      console.error("Error deleting order item:", error);
+    }
+  };
+
   const increase = (e) => {
     e.preventDefault();
-    onQuantityChange(item.id, item.quantity + 1);
+    updateOrderQuantity(item.quantity + 1);
   };
 
   const decrease = (e) => {
     e.preventDefault();
     if (item.quantity > 1) {
-      onQuantityChange(item.id, item.quantity - 1);
+      updateOrderQuantity(item.quantity - 1);
     }
   };
 
@@ -23,11 +76,10 @@ function CartItem({ item, onQuantityChange, showQuantityControls = true, showDel
     <div className='cartitem'>
       {showDeleteButton && (
         <div className="bincontainor">
-          <button className="binbutton">
+          <button className="binbutton" onClick={deleteOrderItem}>
             <img src={bin} alt="حذف" className='binimg' />
           </button>      
         </div>
-
       )}
 
       <Link to="/Product" className="cartitemlink">
@@ -68,7 +120,6 @@ function CartItem({ item, onQuantityChange, showQuantityControls = true, showDel
                   <button className="numberbtn" onClick={decrease}>−</button>
                   <span className="numbercount">{item.quantity}</span>
                   <button className="numberbtn" onClick={increase}>+</button>
-
                 </div>
               )}
               <div className="pricepart">

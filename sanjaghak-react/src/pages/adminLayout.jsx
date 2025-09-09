@@ -11,7 +11,7 @@ function AdminLayout() {
       <div className="adminMainContent" style={{ position: "relative", zIndex: 1, display: "flex" }}>
         <AdminNav />
         <div className="adminContent" style={{ flexGrow: 1, padding: "20px" }}>
-          <Outlet /> {/* this is where child routes will be rendered */}
+          <Outlet />
         </div>
       </div>
     </div>

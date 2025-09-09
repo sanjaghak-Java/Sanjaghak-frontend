@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import AttributeField from "./AttributeField";
 import ImageCard from "./AddProductImageCard";
 import "/src/styles/adminproductdetail.css";
-
+import VariantCircle from "./varientCircleAdmin";
 const defaultAttributesByCategory = {
   1: [{ name: "رنگ", value: "" }],
   2: [{ name: "ظرفیت", value: "" }],
@@ -15,10 +15,7 @@ function AdminProductDetail({ product, onBack, categories, brands }) {
   const [editedProduct, setEditedProduct] = useState({
     productName: product.productName || "",
     productDescription: product.productDescription || "",
-    sku: product.sku || "",
     model: product.model || "",
-    price: product.price || 0,
-    costPrice: product.costPrice || 0,
     weight: product.weight || 0,
     length: product.length || 0,
     width: product.width || 0,
@@ -37,6 +34,106 @@ function AdminProductDetail({ product, onBack, categories, brands }) {
    const [deletedUnusedAttributes, setDeletedUnusedAttributes] = useState([]);
    const [editedUnusedAttributes, setEditedUnusedAttributes] = useState([]);
    const [imagesToDelete, setImagesToDelete] = useState([]);
+   const [variants, setVariants] = useState([]);
+const [selectedVariantId, setSelectedVariantId] = useState(null);
+  const [showAddVariantModal, setShowAddVariantModal] = useState(false);
+  const [newVariantData, setNewVariantData] = useState({
+    sku: "",
+    color: "",
+    hexadecimal: "#000000",
+    costPrice: "",
+    price: "",
+  });
+  const [editingVariant, setEditingVariant] = useState(null); 
+const [variantForm, setVariantForm] = useState({
+  sku: "",
+  costPrice: "",
+  price: "",
+  color: "",
+  hexadecimal: "#000000",
+});
+const [isSavingVariant, setIsSavingVariant] = useState(false);
+const [isDeletingVariant, setIsDeletingVariant] = useState(false);
+
+
+
+  const openAddVariantModal = () => {
+    setNewVariantData({
+      sku: "",
+      color: "",
+      hexadecimal: "#000000",
+      costPrice: "",
+      price: "",
+    });
+    setShowAddVariantModal(true);
+  };
+
+  const closeAddVariantModal = () => {
+    setShowAddVariantModal(false);
+  };
+
+  const handleNewVariantChange = (e) => {
+    const { name, value } = e.target;
+    setNewVariantData(prev => ({ ...prev, [name]: value }));
+  };
+
+const generateUUID = () => {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+    const r = (Math.random() * 16) | 0;
+    const v = c === 'x' ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+};
+
+const submitNewVariant = async () => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const skuToUse = newVariantData.sku.trim() || generateUUID();
+
+    const response = await fetch(
+      `http://127.0.0.1:8080/api/Sanjaghak/productVariants/addProductVariant?productId=${product.productId}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          sku: skuToUse,
+          color: newVariantData.color,
+          hexadecimal: newVariantData.hexadecimal,
+          costPrice: newVariantData.costPrice,
+          price: newVariantData.price,
+        }),
+      }
+    );
+    if (!response.ok) {
+      const err = await response.json();
+      throw new Error(err.error || "خطا در افزودن واریانت");
+    }
+    const createdVariant = await response.json();
+    setVariants((prev) => [...prev, createdVariant]);
+    setSelectedVariantId(createdVariant.variantId);
+    closeAddVariantModal();
+  } catch (err) {
+    alert("Error: " + err.message);
+  }
+};
+useEffect(() => {
+  if (!product.productId) return;
+  fetch(`http://127.0.0.1:8080/api/Sanjaghak/productVariants/getProductVariantByProductId?productId=${product.productId}`)
+    .then(res => res.json())
+    .then(data => {
+      setVariants(data);
+      if(data.length > 0) setSelectedVariantId(data[0].variantId);
+    })
+    .catch(e => {
+      console.error(e);
+      setVariants([]);
+      setSelectedVariantId(null);
+    });
+}, [product.productId]);
    useEffect(() => {
   if (!product.productId) {
     setImages([]);
@@ -154,7 +251,7 @@ const [images, setImages] = useState(() => {
   if (product.image && product.image.trim() !== "") {
     return [{ id: 1, src: product.image }];
   }
-  return []; // No images at all
+  return []; 
 });
   const [mainImageIndex, setMainImageIndex] = useState(0);
 
@@ -198,7 +295,7 @@ const [images, setImages] = useState(() => {
   };
 
 const handleAddNewImage = (file) => {
-  const id = Date.now(); // unique local id
+  const id = Date.now(); 
   const reader = new FileReader();
 
   reader.onloadend = () => {
@@ -213,7 +310,6 @@ const handleSave = async () => {
   const token = localStorage.getItem("token");
 
   try {
-    // 1. Delete marked images first
     for (const imageId of imagesToDelete) {
       const deleteRes = await fetch(
         `http://127.0.0.1:8080/api/Sanjaghak/productImages/${imageId}`,
@@ -233,7 +329,6 @@ const handleSave = async () => {
     setImages((prev) => prev.filter((img) => !imagesToDelete.includes(img.id)));
     setImagesToDelete([]);
 
-    // 2. Upload new images
     for (const { file, id } of newImageFiles) {
       const formData = new FormData();
       formData.append("file", file);
@@ -260,7 +355,6 @@ const handleSave = async () => {
     }
     setNewImageFiles([]);
 
-    // 3. Update attributes and product info
     for (const attr of editedUnusedAttributes) {
       const updateNameRes = await fetch(
         `http://127.0.0.1:8080/api/Sanjaghak/productAttribute/${attr.attributeId}`,
@@ -408,10 +502,7 @@ const handleSave = async () => {
     const productPayload = {
       productName: editedProduct.productName,
       productDescription: editedProduct.productDescription,
-      sku: editedProduct.sku,
       model: editedProduct.model,
-      price: editedProduct.price,
-      costPrice: editedProduct.costPrice,
       weight: editedProduct.weight,
       length: editedProduct.length,
       width: editedProduct.width,
@@ -443,6 +534,32 @@ const handleSave = async () => {
     console.error(err);
     alert("Error: " + err.message);
   }
+  for (const variant of variants) {
+  const variantPayload = {
+    sku: variant.sku,
+    costPrice: variant.costPrice.toString(),
+    price: variant.price.toString(),
+    color: variant.color,
+    hexadecimal: variant.hexadecimal,
+  };
+
+  const variantRes = await fetch(
+    `http://127.0.0.1:8080/api/Sanjaghak/productVariants/${variant.variantId}?productId=${product.productId}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(variantPayload),
+    }
+  );
+
+  if (!variantRes.ok) {
+    const error = await variantRes.json();
+    throw new Error(`Error updating variant ${variant.variantId}: ${error.error || variantRes.statusText}`);
+  }
+}
 };
 
 const handleDelete = async () => {
@@ -481,7 +598,7 @@ const handleDeleteUnusedAttr = (attributeId) => {
       },
     ]);
     setUnusedAttributes((prev) => prev.filter((attr) => attr.attributeId !== attributeId));
-    setEditedUnusedAttributes((prev) => prev.filter((attr) => attr.attributeId !== attributeId)); // ✅ added this line
+    setEditedUnusedAttributes((prev) => prev.filter((attr) => attr.attributeId !== attributeId)); 
   }
 };
 const handleUnusedAttrNameChange = (attributeId, newName) => {
@@ -498,6 +615,11 @@ const handleUnusedAttrValueChange = (attributeId, newValue) => {
       attr.attributeId === attributeId ? { ...attr, value: newValue } : attr
     )
   );
+};
+const selectedVariant = variants.find(v => v.variantId === selectedVariantId) || {
+  sku: "",
+  price: 0,
+  costPrice: 0,
 };
   return (
     <div
@@ -699,6 +821,145 @@ const handleUnusedAttrValueChange = (attributeId, newValue) => {
 >
   {editedProduct.active ? "فعال است (کلیک برای غیرفعال کردن)" : "غیرفعال است (کلیک برای فعال کردن)"}
 </button>
+<div style={{ marginBottom: 20, display: "flex", gap: 16, alignItems: "center" }}>
+ {variants.map((variant) => (
+  <VariantCircle
+    key={variant.variantId}
+    variant={variant}
+    isSelected={variant.variantId === selectedVariantId}
+    onClick={() => {
+      if (variant.variantId === selectedVariantId) {
+        setEditingVariant(variant);
+        setVariantForm({
+          color: variant.color,
+          hexadecimal: variant.hexadecimal || "#ffffff",
+        });
+      } else {
+
+        setSelectedVariantId(variant.variantId);
+      }
+    }}
+  />
+))}
+
+    <div
+        onClick={openAddVariantModal}
+        style={{
+          width: 40,
+          height: 40,
+          borderRadius: "50%",
+          backgroundColor: "#4CAF50",
+          color: "white",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          fontWeight: "700",
+          fontSize: 28,
+          cursor: "pointer",
+          userSelect: "none",
+        }}
+        title="افزودن واریانت جدید"
+      >
+        +
+      </div>
+
+      {showAddVariantModal && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0, left: 0, right: 0, bottom: 0,
+            backgroundColor: "rgba(0,0,0,0.4)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 1000,
+          }}
+          onClick={closeAddVariantModal} 
+        >
+          <div
+            onClick={(e) => e.stopPropagation()} 
+            style={{
+              backgroundColor: "white",
+              borderRadius: 8,
+              padding: 24,
+              width: 320,
+              boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
+              display: "flex",
+              flexDirection: "column",
+              gap: 12,
+            }}
+          >
+            <h3>افزودن واریانت جدید</h3>
+
+            <label>نام رنگ:</label>
+            <input
+              type="text"
+              name="color"
+              value={newVariantData.color}
+              onChange={handleNewVariantChange}
+            />
+
+            <label>کد رنگ (Hexadecimal):</label>
+            <input
+              type="color"
+              name="hexadecimal"
+              value={newVariantData.hexadecimal}
+              onChange={handleNewVariantChange}
+              style={{ width: "100%", height: 30, padding: 0, border: "none" }}
+            />
+
+            <label>قیمت تمام شده (تومان):</label>
+            <input
+              type="number"
+              name="costPrice"
+              value={newVariantData.costPrice}
+              onChange={handleNewVariantChange}
+              min={0}
+            />
+
+            <label>قیمت فروش (تومان):</label>
+            <input
+              type="number"
+              name="price"
+              value={newVariantData.price}
+              onChange={handleNewVariantChange}
+              min={0}
+            />
+
+            <label>SKU (اختیاری):</label>
+            <input
+              type="text"
+              name="sku"
+              value={newVariantData.sku}
+              onChange={handleNewVariantChange}
+            />
+
+            <div style={{ display: "flex", justifyContent: "flex-end", gap: 12, marginTop: 16 }}>
+              <button
+                onClick={closeAddVariantModal}
+                style={{ padding: "6px 12px", cursor: "pointer" }}
+                type="button"
+              >
+                لغو
+              </button>
+              <button
+                onClick={submitNewVariant}
+                style={{
+                  padding: "6px 12px",
+                  backgroundColor: "#4CAF50",
+                  color: "white",
+                  border: "none",
+                  cursor: "pointer",
+                }}
+                type="button"
+              >
+                تایید
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+</div>
       <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
         <label className="adminProductDetail__info">نام محصول:</label>
         <input
@@ -718,16 +979,19 @@ const handleUnusedAttrValueChange = (attributeId, newValue) => {
           rows={4}
           style={{ resize: "vertical" }}
         />
-
-        <label className="adminProductDetail__info">SKU:</label>
-        <input
-          type="text"
-          name="sku"
-          value={editedProduct.sku}
-          onChange={handleInputChange}
-          className="adminProductDetail__input"
-        />
-
+<label className="adminProductDetail__info">SKU:</label>
+<input
+  type="text"
+  name="sku"
+  value={selectedVariant.sku}
+  onChange={(e) => {
+    const val = e.target.value;
+    setVariants((prev) =>
+      prev.map((v) => (v.variantId === selectedVariantId ? { ...v, sku: val } : v))
+    );
+  }}
+  className="adminProductDetail__input"
+/>
         <label className="adminProductDetail__info">مدل:</label>
         <input
           type="text"
@@ -737,23 +1001,33 @@ const handleUnusedAttrValueChange = (attributeId, newValue) => {
           className="adminProductDetail__input"
         />
 
-        <label className="adminProductDetail__info">قیمت (تومان):</label>
-        <input
-          type="number"
-          name="price"
-          value={editedProduct.price}
-          onChange={handleNumberChange}
-          className="adminProductDetail__input"
-        />
+<label className="adminProductDetail__info">قیمت (تومان):</label>
+<input
+  type="number"
+  name="price"
+  value={selectedVariant.price}
+  onChange={(e) => {
+    const val = Number(e.target.value);
+    setVariants((prev) =>
+      prev.map((v) => (v.variantId === selectedVariantId ? { ...v, price: val } : v))
+    );
+  }}
+  className="adminProductDetail__input"
+/>
 
-        <label className="adminProductDetail__info">قیمت تمام شده (تومان):</label>
-        <input
-          type="number"
-          name="costPrice"
-          value={editedProduct.costPrice}
-          onChange={handleNumberChange}
-          className="adminProductDetail__input"
-        />
+<label className="adminProductDetail__info">قیمت تمام شده (تومان):</label>
+<input
+  type="number"
+  name="costPrice"
+  value={selectedVariant.costPrice}
+  onChange={(e) => {
+    const val = Number(e.target.value);
+    setVariants((prev) =>
+      prev.map((v) => (v.variantId === selectedVariantId ? { ...v, costPrice: val } : v))
+    );
+  }}
+  className="adminProductDetail__input"
+/>
 
         <label className="adminProductDetail__info">وزن (کیلوگرم):</label>
         <input
@@ -921,6 +1195,163 @@ const handleUnusedAttrValueChange = (attributeId, newValue) => {
           ذخیره تغییرات
         </button>
       </div>
+{editingVariant && (
+  <div
+    style={{
+      position: "fixed",
+      top: 0, left: 0, right: 0, bottom: 0,
+      backgroundColor: "rgba(0,0,0,0.5)",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      zIndex: 10000,
+    }}
+    onClick={() => !isSavingVariant && !isDeletingVariant && setEditingVariant(null)}
+  >
+    <div
+      onClick={(e) => e.stopPropagation()}
+      style={{
+        backgroundColor: "#fff",
+        borderRadius: 8,
+        padding: 24,
+        width: 320,
+        display: "flex",
+        flexDirection: "column",
+        gap: 12,
+        boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
+      }}
+    >
+      <h3>ویرایش رنگ واریانت</h3>
+
+      <label>نام رنگ:</label>
+      <input
+        type="text"
+        value={variantForm.color}
+        onChange={(e) =>
+          setVariantForm((prev) => ({ ...prev, color: e.target.value }))
+        }
+      />
+
+      <label>کد رنگ (Hexadecimal):</label>
+      <input
+        type="color"
+        value={variantForm.hexadecimal}
+        onChange={(e) =>
+          setVariantForm((prev) => ({ ...prev, hexadecimal: e.target.value }))
+        }
+        style={{ width: "100%", height: 30, border: "none", padding: 0 }}
+      />
+
+      <div style={{ display: "flex", justifyContent: "flex-end", gap: 12, marginTop: 16 }}>
+        <button
+          type="button"
+          onClick={() => {
+            if (isSavingVariant || isDeletingVariant) return;
+            setEditingVariant(null);
+          }}
+          style={{ padding: "6px 12px", cursor: "pointer" }}
+        >
+          انصراف
+        </button>
+
+        <button
+          type="button"
+          onClick={async () => {
+            if (isSavingVariant || isDeletingVariant) return;
+            setIsSavingVariant(true);
+            try {
+              const token = localStorage.getItem("token");
+              const response = await fetch(
+                `http://127.0.0.1:8080/api/Sanjaghak/productVariants/${editingVariant.variantId}?productId=${product.productId}`,
+                {
+                  method: "PUT",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                  },
+                  body: JSON.stringify({
+                    sku: editingVariant.sku,           
+                    costPrice: editingVariant.costPrice, 
+                    price: editingVariant.price,       
+                    color: variantForm.color,
+                    hexadecimal: variantForm.hexadecimal,
+                  }),
+                }
+              );
+              if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.error || "خطا در به‌روزرسانی رنگ واریانت");
+              }
+              setVariants((prev) =>
+                prev.map((v) =>
+                  v.variantId === editingVariant.variantId
+                    ? { ...v, color: variantForm.color, hexadecimal: variantForm.hexadecimal }
+                    : v
+                )
+              );
+              alert("رنگ واریانت با موفقیت به‌روزرسانی شد");
+              setEditingVariant(null);
+            } catch (err) {
+              alert("خطا: " + err.message);
+            } finally {
+              setIsSavingVariant(false);
+            }
+          }}
+          style={{
+            padding: "6px 12px",
+            backgroundColor: "#4CAF50",
+            color: "white",
+            border: "none",
+            cursor: "pointer",
+          }}
+        >
+          تأیید
+        </button>
+
+        <button
+          type="button"
+          onClick={async () => {
+            if (isSavingVariant || isDeletingVariant) return;
+            if (!window.confirm("آیا مطمئنید که می‌خواهید این واریانت را حذف کنید؟")) return;
+            setIsDeletingVariant(true);
+            try {
+              const token = localStorage.getItem("token");
+              const response = await fetch(
+                `http://127.0.0.1:8080/api/Sanjaghak/productVariants/${editingVariant.variantId}`,
+                {
+                  method: "DELETE",
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                  },
+                }
+              );
+              if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.error || "خطا در حذف واریانت");
+              }
+              setVariants((prev) => prev.filter((v) => v.variantId !== editingVariant.variantId));
+              alert("واریانت با موفقیت حذف شد");
+              setEditingVariant(null);
+            } catch (err) {
+              alert("خطا: " + err.message);
+            } finally {
+              setIsDeletingVariant(false);
+            }
+          }}
+          style={{
+            padding: "6px 12px",
+            backgroundColor: "#d54343",
+            color: "white",
+            border: "none",
+            cursor: "pointer",
+          }}
+        >
+          حذف
+        </button>
+      </div>
+    </div>
+  </div>
+)}
     </div>
   );
 }

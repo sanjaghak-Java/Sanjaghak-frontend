@@ -14,6 +14,95 @@ function Navbar() {
   const [isFocused, setIsFocused] = useState(false);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+const [hoveredCategoryId, setHoveredCategoryId] = useState(null);
+const [brandsByCategory, setBrandsByCategory] = useState({});
+const [loadingBrandsFor, setLoadingBrandsFor] = useState(null);
+const [categories, setCategories] = useState([]);
+const [categoryLoading, setCategoryLoading] = useState(true);
+const [searchTerm, setSearchTerm] = useState("");
+const [cartItemCount, setCartItemCount] = useState(0); // NEW
+const customerId = localStorage.getItem("customerId")// replace dynamically if needed
+const token = localStorage.getItem("token")
+  const fetchCartCount = async () => {
+    if (!token) return;
+    try {
+      const resOrders = await fetch(
+        `http://127.0.0.1:8080/api/Sanjaghak/Orders/getOrdersByfilter?customerId=${customerId}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      if (!resOrders.ok) throw new Error("Failed to fetch orders");
+      const ordersData = await resOrders.json();
+      const pendingOrder = ordersData.content?.[0];
+      if (!pendingOrder) {
+        setCartItemCount(0);
+        return;
+      }
+
+      // fetch order items
+      const resItems = await fetch(
+        `http://127.0.0.1:8080/api/Sanjaghak/orderItem/getOrderItemByFilter?orderId=${pendingOrder.orderId}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      if (!resItems.ok) throw new Error("Failed to fetch order items");
+      const itemsData = await resItems.json();
+      const orderItems = Array.isArray(itemsData.content) ? itemsData.content : [];
+      setCartItemCount(orderItems.length); // number of different items
+    } catch (error) {
+      console.error("Error fetching cart count:", error);
+    }
+  };
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    setIsLoggedIn(!!token);
+
+    if (token) fetchCartCount(); // fetch cart count on mount
+  }, [token]);
+const handleSearch = () => {
+  if (searchTerm.trim()) {
+    navigate(`/productSearch?productName=${encodeURIComponent(searchTerm.trim())}`);
+    setMobileMenuOpen(false);
+  }
+};
+const fetchBrandsForCategory = (categoryId) => {
+  if (brandsByCategory[categoryId]) return; // Already fetched
+
+  setLoadingBrandsFor(categoryId);
+
+  fetch(`http://127.0.0.1:8080/api/Sanjaghak/product/brands-by-category/${categoryId}`)
+    .then((res) => {
+      if (!res.ok) throw new Error("خطا در دریافت برندها");
+      return res.json();
+    })
+    .then((data) => {
+      setBrandsByCategory((prev) => ({
+        ...prev,
+        [categoryId]: data,
+      }));
+    })
+    .catch((err) => {
+      console.error("دریافت برندها ناموفق بود:", err);
+    })
+    .finally(() => {
+      setLoadingBrandsFor(null);
+    });
+};
+useEffect(() => {
+  const fetchCategories = async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:8080/api/Sanjaghak/categories/getActiveCategory");
+      if (!response.ok) throw new Error("خطا در دریافت دسته‌بندی‌ها");
+      const data = await response.json();
+      setCategories(data);
+    } catch (error) {
+      console.error("دریافت دسته‌بندی‌ها ناموفق بود:", error);
+    } finally {
+      setCategoryLoading(false);
+    }
+  };
+
+  fetchCategories();
+}, []);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -52,15 +141,18 @@ function Navbar() {
 
         <div className={`searchContainer ${isFocused ? 'focused' : ''}`}>
           <input
-            type="text"
-            className="searchBar"
-            placeholder="جستجوی محصول"
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
-          />
-          <button className="searchBtn">
-            <img src={searchIcon} alt="search" />
-          </button>
+  type="text"
+  className="searchBar"
+  placeholder="جستجوی محصول"
+  value={searchTerm}
+  onChange={(e) => setSearchTerm(e.target.value)}
+  onFocus={() => setIsFocused(true)}
+  onBlur={() => setIsFocused(false)}
+  onKeyDown={(e) => e.key === "Enter" && handleSearch()} // Enter to search
+/>
+<button className="searchBtn" onClick={handleSearch}>
+  <img src={searchIcon} alt="search" />
+</button>
         </div>
 
         <div className='userActions'>
@@ -72,12 +164,12 @@ function Navbar() {
             <UserMenu />
           )}
 
-          <div className='cart-navbar'>
-            <button className='cartbutton' onClick={goTomycart}>
-              <label className='cart-num'>1</label>
-              <img src={cartIcon} alt="cart" className='cartIcon' />
-            </button>
-          </div>
+<div className='cart-navbar'>
+  <button className='cartbutton' onClick={goTomycart}>
+    <label className='cart-num'>{cartItemCount}</label> {/* <-- updated */}
+    <img src={cartIcon} alt="cart" className='cartIcon' />
+  </button>
+</div>
         </div>
       </div>
 
@@ -90,18 +182,40 @@ function Navbar() {
             </div>
           </div>
 
-          <div className="dropDown">
-            {/* Example Category */}
-            <div className="dropDownItem">
-              <Link to="/productCategory" className='dropDownItem-title'>لپتاپ</Link>
-              <div className="subDropDown">
-                <Link to="/productCategory">همه لپتاپ ها</Link>
-                <Link to="/productCategory">ایسوس</Link>
-                <Link to="/productCategory">لنوو</Link>
-              </div>
-            </div>
-            {/* Add other categories similar to above */}
-          </div>
+<div className="dropDown">
+{categories.map((category) => (
+  <div
+    className="dropDownItem"
+    key={category.categoryId}
+    onMouseEnter={() => {
+      setHoveredCategoryId(category.categoryId);
+      fetchBrandsForCategory(category.categoryId);
+    }}
+  >
+    <Link
+      to={`/productCategory?category=${category.categoryId}`}
+      className="dropDownItem-title"
+    >
+      {category.categoryName}
+    </Link>
+
+    <div className="subDropDown">
+      {loadingBrandsFor === category.categoryId ? (
+        <p>در حال بارگذاری برندها...</p>
+      ) : (
+        (brandsByCategory[category.categoryId] || []).map((brand) => (
+          <Link
+            key={brand.brandId}
+            to={`/productCategory?category=${category.categoryId}&brand=${brand.brandId}`}
+          >
+            {brand.brandName}
+          </Link>
+        ))
+      )}
+    </div>
+  </div>
+))}
+</div>
         </div>
 
         <div className='navItem'>

@@ -1,66 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import jalaali from "jalaali-js";
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import { Navigation, Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Navigation, Pagination } from "swiper/modules";
 import "/src/styles/DiscountsPage.css";
 import bin from "../assets/bin.png";
 import ModalConfirm from "./ModalConfirm";
 import DiscountCreateModal from "./DiscountCreateModal";
 import DiscountDetailsModal from "./DiscountDetailsModal";
 
-
-const initialDiscounts = [
-  {
-    id: 1,
-    productName: "گوشی موبایل سامسونگ مدل A54",
-    title: "تخفیف تابستانی",
-    active: true,
-    startDate: "1404/04/01",
-    endDate: "1404/05/31",
-    amount: 20,
-  },
-  {
-    id: 2,
-    productName: "گوشی موبایل سامسونگ مدل A54",
-    title: "حراج پاییز",
-    active: false,
-    startDate: "1404/07/01",
-    endDate: "1404/08/30",
-    amount: 5,
-  },
-  {
-    id: 3,
-    productName: "گوشی موبایل سامسونگ مدل A54",
-    title: "ویژه تعطیلات",
-    active: false,
-    startDate: "1404/01/15",
-    endDate: "1404/02/15",
-    amount: 15,
-  },
-  {
-    id: 4,
-    productName: "گوشی موبایل سامسونگ مدل A54",
-    title: "تخفیف کاربران جدید",
-    active: false,
-    startDate: "1403/12/01",
-    endDate: "1404/01/01",
-    amount: 10,
-  },
-  {
-    id: 5,
-    productName: "گوشی موبایل سامسونگ مدل A54",
-    title: "تخفیف تابستانی",
-    active: true,
-    startDate: "1404/04/01",
-    endDate: "1404/05/31",
-    amount: 20,
-  },
-];
-
 function toComparableNumber(shamsiDate) {
+  if (!shamsiDate || typeof shamsiDate !== "string") return 0; // or a suitable fallback
   return Number(shamsiDate.replace(/\//g, ""));
 }
 
@@ -75,28 +27,153 @@ function daysLeft(endDate, todayDate) {
   return Math.max(0, Math.ceil(diffTime / (1000 * 60 * 60 * 24)));
 }
 
-const today = "1404/05/03";
+function getTodayShamsi() {
+  const now = new Date();
+  const { jy, jm, jd } = jalaali.toJalaali(
+    now.getFullYear(),
+    now.getMonth() + 1,
+    now.getDate()
+  );
+  return `${jy}/${jm.toString().padStart(2, "0")}/${jd.toString().padStart(2, "0")}`;
+}
+
+const today = getTodayShamsi();
+function isoFromJalali(shamsiDate) {
+  if (!shamsiDate) return "";
+  const [jy, jm, jd] = shamsiDate.split("/").map(Number);
+  const g = jalaali.toGregorian(jy, jm, jd);
+  const isoString = new Date(g.gy, g.gm - 1, g.gd, 23, 59, 59).toISOString(); // set to 23:59:59 as API example
+  return isoString;
+}
 
 function DiscountsPage() {
-  const [discounts, setDiscounts] = useState(initialDiscounts);
+  console.log(localStorage.getItem("token"));
+  const [discounts, setDiscounts] = useState([]);
   const [filterStatus, setFilterStatus] = useState("all");
   const [searchText, setSearchText] = useState("");
-
   const [currentPage, setCurrentPage] = useState(1);
   const [pageInput, setPageInput] = useState("");
-
   const [showModal, setShowModal] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
-
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [selectedDiscount, setSelectedDiscount] = useState(null);
-
   const itemsPerPage = 4;
+  function jalaliFromISO(isoDate) {
+  if (!isoDate) return "";
+  const d = new Date(isoDate);
+  const { jy, jm, jd } = jalaali.toJalaali(d.getFullYear(), d.getMonth() + 1, d.getDate());
+  return `${jy}/${jm.toString().padStart(2, "0")}/${jd.toString().padStart(2, "0")}`;
+}
+const handleSaveDiscount = async (updatedDiscount) => {
+  try {
+    const token = localStorage.getItem("token");
+    const discountId = updatedDiscount.id;
+    const variantId = updatedDiscount.variantId;
+
+
+
+    // Prepare body with API expected fields
+    const body = {
+      discountDescription: updatedDiscount.title,
+      startFrom: isoFromJalali(updatedDiscount.startDate),
+      endFrom: isoFromJalali(updatedDiscount.endDate),
+      discountPercentage: updatedDiscount.amount,
+    };
+
+    const response = await fetch(
+      `http://127.0.0.1:8080/api/Sanjaghak/discount/${discountId}?variantId=${variantId}`,
+      {
+        method: "PUT", // or POST depending on your API
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(body),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("خطا در ذخیره تخفیف");
+    }
+
+    // Update discount in the list after successful save
+    setDiscounts((prev) =>
+      prev.map((d) => (d.id === updatedDiscount.id ? updatedDiscount : d))
+    );
+    alert("تخفیف با موفقیت به‌روزرسانی شد");
+  } catch (error) {
+    console.error(error);
+
+  }
+};
+  // Fetch discounts from backend on mount
+  useEffect(() => {
+    const fetchDiscounts = async () => {
+      try {
+        const token = localStorage.getItem("token"); // Your auth token
+        const response = await fetch(
+          "http://127.0.0.1:8080/api/Sanjaghak/discount/getAllDiscount",
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`, // add token header
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("خطا در دریافت تخفیف‌ها");
+        }
+
+        const data = await response.json();
+
+        // Assume the backend returns discounts in this structure:
+        // [{
+        //    id, discountDescription (title), active, startFrom, endFrom, discountPercentage, productName
+        // }]
+        // You might need to map to your frontend structure:
+
+        const mappedDiscounts = data.map((d) => ({
+          id: d.discountId,
+          variantId: d.variantsId?.variantId, // add this
+          productName: d.productName || "نامشخص", // fallback if missing
+          title: d.discountDescription || "",
+          active: d.active,
+          startDate: jalaliFromISO(d.startFrom), // convert ISO string to Shamsi yyyy/mm/dd
+          endDate: jalaliFromISO(d.endFrom),
+          amount: d.discountPercentage,
+        }));
+
+        setDiscounts(mappedDiscounts);
+      } catch (error) {
+        console.error(error);
+        alert("خطا در بارگذاری تخفیف‌ها");
+      }
+    };
+
+    fetchDiscounts();
+  }, []);
+
+  // Utility: Convert ISO date string to Jalali yyyy/mm/dd
+  function jalaliFromISO(isoDate) {
+    if (!isoDate) return "";
+    const d = new Date(isoDate);
+    const { jy, jm, jd } = jalaali.toJalaali(d.getFullYear(), d.getMonth() + 1, d.getDate());
+    return `${jy}/${jm.toString().padStart(2, "0")}/${jd.toString().padStart(2, "0")}`;
+  }
 
   const selectedTitle = discounts.find((d) => d.id === selectedId)?.title || "";
 
+  // Only active discounts that are currently ongoing (today is between start and end)
   const ongoingDiscounts = discounts.filter((d) => {
+    console.log("Discounts loaded:", discounts);
+discounts.forEach((d) => {
+  console.log(
+    `Discount: ${d.title} active=${d.active} startDate=${d.startDate} endDate=${d.endDate}`
+  );
+});
+console.log("Today (comparable number):", toComparableNumber(today));
     if (!d.active) return false;
     const todayNum = toComparableNumber(today);
     const startNum = toComparableNumber(d.startDate);
@@ -104,13 +181,12 @@ function DiscountsPage() {
     return todayNum >= startNum && todayNum <= endNum;
   });
 
-  const filteredDiscounts = discounts.filter((d) => {
-    if (filterStatus === "active" && !d.active) return false;
-    if (filterStatus === "inactive" && d.active) return false;
-    if (!d.title.includes(searchText)) return false;
-    return true;
-  });
-
+const filteredDiscounts = discounts.filter((d) => {
+  if (filterStatus === "active" && !d.active) return false;
+  if (filterStatus === "inactive" && d.active) return false;
+  if (!d.title || !d.title.includes(searchText)) return false;
+  return true;
+});
   const totalPages = Math.ceil(filteredDiscounts.length / itemsPerPage);
 
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -152,7 +228,6 @@ function DiscountsPage() {
   const handleCreateDiscount = (newDiscount) => {
     setDiscounts((prev) => {
       const updated = [newDiscount, ...prev];
-      const newTotalPages = Math.ceil(updated.length / itemsPerPage);
       setCurrentPage(1);
       return updated;
     });
@@ -180,10 +255,7 @@ function DiscountsPage() {
         )}
 
         {showCreateModal && (
-          <DiscountCreateModal
-            onClose={handleCloseCreateModal}
-            onSubmit={handleCreateDiscount}
-          />
+          <DiscountCreateModal onClose={handleCloseCreateModal} onSubmit={handleCreateDiscount} />
         )}
 
         <div className="discounts-filters">
@@ -209,8 +281,8 @@ function DiscountsPage() {
             <option value="active">فعال</option>
             <option value="inactive">غیرفعال</option>
           </select>
-
         </div>
+
         {ongoingDiscounts.length > 0 && (
           <div className="ongoing-discounts-cards">
             <Swiper
@@ -352,12 +424,15 @@ function DiscountsPage() {
           </div>
         </div>
 
-        {showDetailsModal && (
-          <DiscountDetailsModal discount={selectedDiscount} onClose={handleCloseDetailsModal} />
-        )}
+{showDetailsModal && (
+  <DiscountDetailsModal
+    discount={selectedDiscount}
+    onClose={handleCloseDetailsModal}
+    onSave={handleSaveDiscount}
+  />
+)}
       </div>
     </div>
-
   );
 }
 

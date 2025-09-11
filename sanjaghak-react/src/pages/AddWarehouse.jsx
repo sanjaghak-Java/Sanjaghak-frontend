@@ -5,7 +5,7 @@ import AddShelvesModal from "./AddShelvesModal";
 
 function AddWarehouse() {
   const [step, setStep] = useState(1);
-  const [warehouseId, setWarehouseId] = useState(null); // store created warehouse ID
+  const [warehouseId, setWarehouseId] = useState(null); 
   const [name, setName] = useState("");
   const [isCentralWarehouse, setIsCentralWarehouse] = useState(false);
   const [country, setCountry] = useState("");
@@ -19,7 +19,7 @@ function AddWarehouse() {
 
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-  const userId = "d34f8c7c-ddf6-4ff5-822c-b5b0c5b24145"; // <-- replace dynamically if needed
+  const userId = "d34f8c7c-ddf6-4ff5-822c-b5b0c5b24145"; 
 
   const handleNextStep = async (e) => {
     e.preventDefault();
@@ -48,7 +48,7 @@ function AddWarehouse() {
       if (!res.ok) throw new Error("خطا در ایجاد انبار");
 
       const data = await res.json();
-      setWarehouseId(data.warehouseId); // backend should return ID
+      setWarehouseId(data.warehouseId); 
       setStep(2);
     } catch (err) {
       console.error(err);
@@ -65,12 +65,11 @@ function AddWarehouse() {
     }
 
     try {
-      // 🔹 Save sections
 for (const [index, section] of sections.entries()) {
   const sectionName = `B${(index + 1).toString().padStart(2, '0')}`;
 
 const res = await fetch(
-  `http://127.0.0.1:8080/api/Sanjaghak/sections/add?warehouseId=${warehouseId}`, // removed trailing slash
+  `http://127.0.0.1:8080/api/Sanjaghak/sections/add?warehouseId=${warehouseId}`, 
   {
     method: "POST",
     headers: {
@@ -84,7 +83,6 @@ const res = await fetch(
   if (!res.ok) throw new Error("خطا در افزودن بخش");
   const sectionData = await res.json();
 
-  // 🔹 Save shelves for this section
   for (const shelf of section.shelves) {
     const shelfRes = await fetch(
       `http://127.0.0.1:8080/api/Sanjaghak/shelves/add?sectionId=${sectionData.sectionsId}&userId=${userId}`,
@@ -175,10 +173,10 @@ const res = await fetch(
   type="button"
   onClick={() => {
     const nextIndex = sections.length + 1;
-    const paddedIndex = nextIndex.toString().padStart(2, '0'); // 01, 02, ...
+    const paddedIndex = nextIndex.toString().padStart(2, '0'); 
     setSections([
       ...sections,
-      { id: nextIndex, name: `S${paddedIndex}`, shelves: [] } // always 3 characters
+      { id: nextIndex, name: `S${paddedIndex}`, shelves: [] } 
     ]);
   }}
 >

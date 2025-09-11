@@ -41,13 +41,11 @@ function ImageModal({ images, currentIndex, onClose, onChangeImage, title ,}) {
 }
 
 function ProductDetail({ product, onAddToCart, requiredAttributes = [] }) {
-  // --- state declarations ---
 const [selectedColorIndex, setSelectedColorIndex] = useState(0);
 const [qty, setQty] = useState(1);
 const token = localStorage.getItem("token");
 console.log(token)
 
-// --- derived values (declare before handlers) ---
 const selectedVariant =
   product.variants && product.variants.length > 0
     ? product.variants[selectedColorIndex]
@@ -56,7 +54,6 @@ const selectedVariant =
   const [loadingFavorite, setLoadingFavorite] = useState(false);
 const navigate = useNavigate();
 
-  // Check favorite status on mount or when product changes
   useEffect(() => {
     if (!token || !product?.productId) return;
 
@@ -81,9 +78,8 @@ const navigate = useNavigate();
 
     checkFavorite();
   }, [product, token]);
-    const customerId = localStorage.getItem("customerId"); // get customerId
+    const customerId = localStorage.getItem("customerId"); 
     console.log(customerId)
-  // Check favorite status
   useEffect(() => {
     if (!token || !product?.productId) return;
 
@@ -106,7 +102,6 @@ const navigate = useNavigate();
     checkFavorite();
   }, [product, token]);
 
-  // Fetch cart info on mount to know if this product is already in cart
 useEffect(() => {
   if (!token || !customerId || !product?.variants) return;
 
@@ -118,7 +113,7 @@ useEffect(() => {
       );
       if (!res.ok) throw new Error("Failed to fetch cart");
       const data = await res.json();
-      console.log("Cart data:", data); // will show your paginated object
+      console.log("Cart data:", data); 
 
       const cartItems = Array.isArray(data.content) ? data.content : [];
 const existingItem = cartItems.find(item => 
@@ -138,7 +133,7 @@ const existingItem = cartItems.find(item =>
 }, [token, customerId, product]);
   const toggleFavorite = async () => {
   if (!token || !product?.productId) {
-    alert("لطفا وارد شوید"); // Or redirect to login
+    alert("لطفا وارد شوید"); 
     return;
   }
 
@@ -152,7 +147,7 @@ const existingItem = cartItems.find(item =>
       }
     );
     if (!res.ok) throw new Error("Failed to toggle favorite");
-    const result = await res.text(); // your backend returns string result
+    const result = await res.text(); 
 
     setIsFavorite((prev) => !prev);
   } catch (error) {
@@ -170,10 +165,10 @@ const [finalPrice, setFinalPrice] = useState(
 );
 const [basePrice, setBasePrice] = useState(
   product.variants && product.variants.length > 0
-    ? product.variants[0].price ?? 0  // IMPORTANT: basePrice should be variant.price
+    ? product.variants[0].price ?? 0  
     : 0
 );
-  const [stock, setStock] = useState(null); // current stock number or null if not fetched yet
+  const [stock, setStock] = useState(null); 
 const [loadingStock, setLoadingStock] = useState(false);
 useEffect(() => {
   if (product.variants && product.variants.length > 0) {
@@ -231,12 +226,10 @@ if (resDiscount.status === 204) {
     fetchInitialStockAndDiscount();
   }
 }, [product.variants]);
-// Utility: check if selected variant is already in cart
 const checkVariantInCart = async (variant) => {
   if (!token || !customerId || !variant) return;
 
   try {
-    // Step 1: fetch pending orders
     const resOrders = await fetch(
       `http://127.0.0.1:8080/api/Sanjaghak/Orders/getOrdersByfilter?customerId=${customerId}`,
       { headers: { Authorization: `Bearer ${token}` } }
@@ -244,14 +237,13 @@ const checkVariantInCart = async (variant) => {
     if (!resOrders.ok) throw new Error("Failed to fetch orders");
     const ordersData = await resOrders.json();
     
-    const pendingOrder = ordersData.content?.[0]; // take first order
+    const pendingOrder = ordersData.content?.[0]; 
     if (!pendingOrder) {
       setOrderItemId(null);
       setQty(0);
       return;
     }
 
-    // Step 2: fetch order items
     const resItems = await fetch(
       `http://127.0.0.1:8080/api/Sanjaghak/orderItem/getOrderItemByFilter?orderId=${pendingOrder.orderId}`,
       { headers: { Authorization: `Bearer ${token}` } }
@@ -260,7 +252,6 @@ const checkVariantInCart = async (variant) => {
     const itemsData = await resItems.json();
     const orderItems = Array.isArray(itemsData.content) ? itemsData.content : [];
 
-    // Step 3: check if the selected variant is in the order items
     const existingItem = orderItems.find(
       item => item.variantId.variantId === variant.variantId
     );
@@ -279,13 +270,10 @@ const checkVariantInCart = async (variant) => {
   }
 };
 
-// useEffect to check whenever selected variant changes
 useEffect(() => {
   if (selectedVariant) checkVariantInCart(selectedVariant);
 }, [selectedVariant]);
-// Run whenever selected variant changes
 
-  // safe defaults for images, colors, features
   const images = product.images && product.images.length > 0
     ? product.images
     : [{ src: "default.jpg", colorName: "default", hex: "#ccc" }];
@@ -339,8 +327,8 @@ const handleAddToCart = async () => {
       }
     );
     if (!res.ok) throw new Error("Failed to add item to cart");
-    const data = await res.json(); // assuming backend returns orderItemId in response
-    setOrderItemId(data.id || data.orderItemId); // adjust based on response
+    const data = await res.json(); 
+    setOrderItemId(data.id || data.orderItemId); 
     setQty(1);
   } catch (err) {
     console.error(err);
@@ -349,13 +337,13 @@ const handleAddToCart = async () => {
 };
 
 const inc = async () => {
-  if (!orderItemId) return; // safety
+  if (!orderItemId) return; 
   try {
     const newQty = qty + 1;
     const res = await fetch(
       `http://127.0.0.1:8080/api/Sanjaghak/orderItem/${orderItemId}`,
       {
-        method: "PUT", // or POST depending on your backend
+        method: "PUT", 
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -377,7 +365,6 @@ const dec = async () => {
   if (!orderItemId) return;
 
   if (qty <= 1) {
-    // Quantity will go to zero → delete item
     try {
       const res = await fetch(
         `http://127.0.0.1:8080/api/Sanjaghak/orderItem/${orderItemId}`,
@@ -396,7 +383,6 @@ const dec = async () => {
       alert("خطا در حذف محصول از سبد خرید");
     }
   } else {
-    // Reduce quantity normally
     try {
       const newQty = qty - 1;
       const res = await fetch(
@@ -419,29 +405,22 @@ const dec = async () => {
   }
 };
 
-  // Get the currently selected variant based on selectedColorIndex
 
 
-  // If no variant, fallback prices:
 function cleanLogoUrl(logo) {
   if (!logo) return "/src/assets/default-logo.png";
 
-  // If logo starts with 'http' or 'https', great.
   if (logo.startsWith("http://") || logo.startsWith("https://")) {
-    // But if it starts with 'http://127.0.0.1:8080http' (concatenated wrong), fix it:
-    // Remove 'http://127.0.0.1:8080' if it appears before 'http'
-    const idx = logo.indexOf("http", 1); // find second occurrence of http
+    const idx = logo.indexOf("http", 1); 
     if (idx > 0) {
       return logo.slice(idx);
     }
     return logo;
   }
 
-  // If not starting with http(s), assume relative URL:
   return `http://127.0.0.1:8080${logo}`;
 }
 
-  // currentImage updates when mainImageIndex changes:
   const currentImage = images[mainImageIndex];
   return (
     <div className="head-cart">
@@ -516,14 +495,12 @@ colors.map((color, i) => (
 onClick={async () => {
   setSelectedColorIndex(i);
   try {
-    // fetch stock
     const resStock = await fetch(
       `http://127.0.0.1:8080/api/Sanjaghak/inventoryStock/variant/${product.variants[i].variantId}/stock`
     );
     const stockCount = resStock.ok ? await resStock.json() : 0;
     setStock(stockCount);
 
-    // fetch discount
     const resDiscount = await fetch(
       `http://127.0.0.1:8080/api/Sanjaghak/discount/active/${product.variants[i].variantId}`
     );
@@ -544,7 +521,6 @@ onClick={async () => {
       setBasePrice(product.variants[i].price ?? 0);
     }
 
-    // ✅ check cart for this variant
     checkVariantInCart(product.variants[i]);
   } catch (err) {
     console.error(err);
@@ -683,7 +659,7 @@ onClick={async () => {
       </div>
     )
   ) : (
-    <></> // hide buy button if out of stock
+    <></> 
   )}
 </div>
       </div>

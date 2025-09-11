@@ -6,6 +6,7 @@ import WarehousePurchaseModal from "./WarehousePurchaseModal";
 function WarehouseNotifications() {
   const { warehouseId } = useParams();
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
 
   const [warehouses, setWarehouses] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -13,22 +14,127 @@ function WarehouseNotifications() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [transferItems, setTransferItems] = useState([]);
-  //برای نوتیف جدید سفارشات
   const [isPurchaseModalOpen, setIsPurchaseModalOpen] = useState(false);
+  const [currentRequestId, setCurrentRequestId] = useState("");
 
-  // Replace this with your actual token
-  const token = localStorage.getItem("token"); // or wherever you store it
+  const [products, setProducts] = useState([]);
+  const [transferRequests, setTransferRequests] = useState([]);
+  const [shippingRequests, setShippingRequests] = useState([]); 
+  const [transferProductsMap, setTransferProductsMap] = useState({});
+  const [shelvesMap, setShelvesMap] = useState({});
+  const [shippingProductsMap, setShippingProductsMap] = useState({});
+  useEffect(() => {
+    if (!warehouseId) return;
+
+const fetchShippingRequests = async () => {
+  try {
+    const res = await fetch(
+      `http://127.0.0.1:8080/api/Sanjaghak/inventoryMovement/getAllShippingRequestByToWarehouseId?toWarehouseId=${warehouseId}`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    if (!res.ok) throw new Error("خطا در دریافت درخواست‌های ارسال");
+    const data = await res.json();
+    setShippingRequests(data);
+
+    const uniqueVariantIds = [...new Set(data.map(r => r.variantsId.variantId))];
+    const productsMap = {};
+
+    await Promise.all(
+      uniqueVariantIds.map(async (variantId) => {
+        try {
+          const res = await fetch(
+            `http://127.0.0.1:8080/api/Sanjaghak/productVariants/${variantId}`,
+            { headers: { Authorization: `Bearer ${token}` } }
+          );
+          if (!res.ok) return;
+          const variantData = await res.json();
+          productsMap[variantId] = variantData.productId.productName;
+        } catch (err) {
+          console.error("خطا در دریافت محصول:", err);
+        }
+      })
+    );
+
+    setShippingProductsMap(productsMap);
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+    fetchShippingRequests();
+  }, [warehouseId, token]);
+
+  useEffect(() => {
+    if (!warehouseId) return;
+
+    const fetchTransferRequests = async () => {
+      try {
+        const res = await fetch(
+          `http://127.0.0.1:8080/api/Sanjaghak/inventoryMovement/getAllTransferRequestByWarehouseId?fromWarehouseId=${warehouseId}`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        if (!res.ok) throw new Error("خطا در دریافت درخواست‌های انتقال");
+
+        const data = await res.json();
+        const requests = data.filter(r => r.movementType === "REQUEST_TRANSFER");
+        setTransferRequests(requests);
+
+        const uniqueVariantIds = [...new Set(requests.map(r => r.variantsId.variantId))];
+        const productsMap = {};
+        await Promise.all(
+          uniqueVariantIds.map(async (variantId) => {
+            try {
+              const res = await fetch(
+                `http://127.0.0.1:8080/api/Sanjaghak/productVariants/${variantId}`,
+                { headers: { Authorization: `Bearer ${token}` } }
+              );
+              if (!res.ok) return;
+              const data = await res.json();
+              productsMap[variantId] = data.productId.productName;
+            } catch (err) {
+              console.error(err);
+            }
+          })
+        );
+        setTransferProductsMap(productsMap);
+
+        const uniqueShelfIds = [
+          ...new Set([
+            ...requests.map(r => r.fromShelvesId.shelvesId),
+            ...requests.map(r => r.toShelvesId.shelvesId),
+          ]),
+        ];
+        const shelfCodesMap = {};
+        await Promise.all(
+          uniqueShelfIds.map(async (shelfId) => {
+            try {
+              const res = await fetch(
+                `http://127.0.0.1:8080/api/Sanjaghak/shelves/${shelfId}`,
+                { headers: { Authorization: `Bearer ${token}` } }
+              );
+              if (!res.ok) return;
+              const data = await res.json();
+              shelfCodesMap[shelfId] = data.shelvesCode;
+            } catch (err) {
+              console.error(err);
+            }
+          })
+        );
+        setShelvesMap(shelfCodesMap);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchTransferRequests();
+  }, [warehouseId, token]);
 
   useEffect(() => {
     const fetchWarehouses = async () => {
       try {
         const res = await fetch(
           "http://127.0.0.1:8080/api/Sanjaghak/warehouse/getAllWarehouse",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+          { headers: { Authorization: `Bearer ${token}` } }
         );
         if (!res.ok) throw new Error("خطا در دریافت انبارها");
         const data = await res.json();
@@ -39,8 +145,35 @@ function WarehouseNotifications() {
         setLoading(false);
       }
     };
+
     fetchWarehouses();
   }, [token]);
+
+  const warehouseNamesMap = {};
+  warehouses.forEach((w) => {
+    warehouseNamesMap[w.warehouseId] = w.name;
+  });
+
+  const approveShipping = async (inventoryMovementId) => {
+    try {
+      const res = await fetch(
+        `http://127.0.0.1:8080/api/Sanjaghak/inventoryMovement/transferOut/${inventoryMovementId}`,
+        {
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      if (!res.ok) throw new Error("خطا در تایید انتقال");
+
+      alert("انتقال تایید شد!");
+      setShippingRequests((prev) =>
+        prev.filter((s) => s.inventoryMovementId !== inventoryMovementId)
+      );
+    } catch (err) {
+      console.error(err);
+      alert("خطا در تایید انتقال");
+    }
+  };
 
   if (loading) return <div>در حال بارگذاری...</div>;
   if (error) return <div>خطا: {error}</div>;
@@ -49,42 +182,49 @@ function WarehouseNotifications() {
   if (!warehouse) return <div>انبار یافت نشد.</div>;
 
   const notifications = [
-    {
-      id: 1,
-      text: "با درخواست انتقال موافقت شد",
-      buttonText: "تایید",
-      onClick: () => alert("تایید شد!"),
-    },
-    {
-      id: 2,
-      text: `درخواست انتقال به انبار ${warehouse.name}`,
+...shippingRequests.map((sr) => ({
+  id: sr.inventoryMovementId,
+  text: `درخواست ارسال محصول ${
+    shippingProductsMap[sr.variantsId.variantId] || sr.variantsId.variantId
+  } از انبار ${
+    warehouseNamesMap[sr.fromWarehouseId.warehouseId] || sr.fromWarehouseId.warehouseId
+  }`,
+  buttonText: "تایید",
+  onClick: () => approveShipping(sr.inventoryMovementId),
+})),
+    ...transferRequests.map((tr) => ({
+      id: tr.inventoryMovementId,
+      text: `درخواست انتقال محصول ${transferProductsMap[tr.variantsId.variantId] || tr.variantsId.variantId} از انبار ${warehouseNamesMap[tr.fromWarehouseId.warehouseId] || tr.fromWarehouseId.warehouseId} به انبار ${warehouseNamesMap[tr.toWarehouseId.warehouseId] || tr.toWarehouseId.warehouseId}`,
       buttonText: "مشاهده",
       onClick: () => {
         setTransferItems([
           {
-            id: 1,
-            productName: "محصول تست",
-            fromWarehouse: "انبار غرب",
-            fromSection: "بخش 1",
-            fromShelf: "قفسه 3",
-            toWarehouse: warehouse.name,
-            toSection: "بخش 2",
-            toShelf: "قفسه 1",
-            quantity: 50,
+            id: tr.inventoryMovementId,
+            productName: transferProductsMap[tr.variantsId.variantId] || tr.variantsId.variantId,
+            fromWarehouse: warehouseNamesMap[tr.fromWarehouseId.warehouseId] || tr.fromWarehouseId.warehouseId,
+            fromShelf: shelvesMap[tr.fromShelvesId.shelvesId] || tr.fromShelvesId.shelvesId,
+            toWarehouse: warehouseNamesMap[tr.toWarehouseId.warehouseId] || tr.toWarehouseId.warehouseId,
+            toShelf: shelvesMap[tr.toShelvesId.shelvesId] || tr.toShelvesId.shelvesId,
+            quantity: tr.quantity,
+            fromSection: shelvesMap[tr.fromShelvesId.shelvesId]?.slice(0, 3) || "نامعلوم",
+            toSection: shelvesMap[tr.toShelvesId.shelvesId]?.slice(0, 3) || "نامعلوم",
           },
         ]);
         setIsModalOpen(true);
+        setCurrentRequestId(tr.inventoryMovementId);
       },
-    },
-    {
-      id: 3,
-      text: "محموله جدید رسید",
-      buttonText: "مشاهده",
-      onClick: () => {
-        setIsPurchaseModalOpen(true); // استیت جدید برای مودال محموله
-      },
-    },
+    })),
 
+    ...(products.length > 0
+      ? [
+          {
+            id: "purchase",
+            text: "محموله جدید رسید",
+            buttonText: "مشاهده",
+            onClick: () => setIsPurchaseModalOpen(true),
+          },
+        ]
+      : []),
   ];
 
   return (
@@ -97,13 +237,7 @@ function WarehouseNotifications() {
         margin: "auto",
       }}
     >
-      <h3
-        style={{
-          marginBottom: 20,
-          borderBottom: "1px solid #ddd",
-          paddingBottom: 10,
-        }}
-      >
+      <h3 style={{ marginBottom: 20, borderBottom: "1px solid #ddd", paddingBottom: 10 }}>
         اعلانات {warehouse.name}
       </h3>
 
@@ -161,6 +295,7 @@ function WarehouseNotifications() {
       {isModalOpen && (
         <WarehouseViewModal
           transferItems={transferItems}
+          id={currentRequestId}
           onClose={() => setIsModalOpen(false)}
           onConfirmTransfer={() => {
             alert("انتقال تایید شد!");
@@ -173,15 +308,11 @@ function WarehouseNotifications() {
         <WarehousePurchaseModal
           isOpen={isPurchaseModalOpen}
           onClose={() => setIsPurchaseModalOpen(false)}
-          warehouse={warehouse.name}
+          warehouse={warehouse}
           supplier="شرکت تأمین‌کننده تستی"
-          products={[
-            { id: 1, name: "لپ‌تاپ ایسوس", quantity: 50 },
-            { id: 2, name: "ماوس بی‌سیم", quantity: 200 },
-          ]}
+          products={products}
         />
       )}
-
     </div>
   );
 }

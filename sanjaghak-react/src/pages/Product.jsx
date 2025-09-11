@@ -26,13 +26,11 @@ function Product() {
     async function fetchData() {
       setLoading(true);
       try {
-        // 1. Fetch product
         const resProduct = await fetch(`http://127.0.0.1:8080/api/Sanjaghak/product/${productId}`);
         if (!resProduct.ok) throw new Error("Failed to fetch product");
         const productData = await resProduct.json();
         setProduct(productData);
 
-        // 2. Fetch brand info if brandId exists
         if (productData.brands?.brandId) {
           const resBrand = await fetch(`http://127.0.0.1:8080/api/Sanjaghak/brand/${productData.brands.brandId}`);
           if (resBrand.ok) {
@@ -49,20 +47,18 @@ function Product() {
           setBrand({ name: "نامشخص", logo: "default-logo.png" });
         }
 
-        // 3. Fetch variants
         const resVariants = await fetch(`http://127.0.0.1:8080/api/Sanjaghak/productVariants/getProductVariantByProductId?productId=${productId}`);
         if (!resVariants.ok) throw new Error("Failed to fetch variants");
         const variantsData = await resVariants.json();
         setVariants(variantsData.filter(v => v.active));
 
-        // 4. Fetch images
         const resImages = await fetch(`http://127.0.0.1:8080/api/Sanjaghak/productImages/${productId}`);
         if (!resImages.ok) throw new Error("Failed to fetch images");
         const imagesData = await resImages.json();
         const formattedImages = imagesData.map(img => ({
           src: `http://127.0.0.1:8080${img.imageUrl}`,
           colorName: img.altText || "تصویر محصول",
-          hex: "#ccc", // fallback
+          hex: "#ccc", 
         }));
         setImages(formattedImages);
         const resAttributes = await fetch(
@@ -71,7 +67,6 @@ function Product() {
 if (resAttributes.ok) {
   const attrData = await resAttributes.json();
 
-  // Format attributes into a convenient shape
   const formattedAttributes = attrData.map(item => ({
     id: item.id,
     value: item.value,
@@ -113,13 +108,11 @@ if (resAttributes.ok) {
     return <div style={{ textAlign: "center", marginTop: "2rem" }}>محصول پیدا نشد</div>;
   }
 
-  // Prepare colors array from variants (you can customize this if you want)
   const colors = variants.map(v => ({
     name: v.color,
     hex: v.hexadecimal,
   }));
   console.log(productAttributes)
-  // Combine fixed specs and dynamic attributes:
 const fixedSpecs = [
   { label: "مدل", value: product.model },
   { label: "وزن", value: product.weight ? `${product.weight} گرم` : "" },
@@ -128,9 +121,8 @@ const fixedSpecs = [
   { label: "ارتفاع", value: product.height ? `${product.height} میلی‌متر` : "" },
 ];
 
-// Map your productAttributes to same format and include attributeType
 const dynamicSpecs = productAttributes
-  .filter(attr => attr.value && attr.value.trim() !== "") // filter empty values
+  .filter(attr => attr.value && attr.value.trim() !== "") 
   .map(attr => ({
     label: attr.attributeName + (attr.attributeType ? ` (${attr.attributeType})` : ""),
     value: attr.value,
@@ -161,7 +153,7 @@ const allSpecs = [...fixedSpecs, ...dynamicSpecs];
     variants,
     productId:product.productId
   }}
-  requiredAttributes={productAttributes} // new prop
+  requiredAttributes={productAttributes} 
   onAddToCart={handleAddToCart}
 />
 

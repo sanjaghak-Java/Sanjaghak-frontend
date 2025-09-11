@@ -26,7 +26,6 @@ function ProductCard(props) {
     <div className="cardContainer" onClick={gotoproduct}>
       <div className="cardInner">
         <div className="cardFront">
-          {/* Show discount badge only if available and product is not unavailable */}
           {hasDiscount && !isUnavailable && (
             <div className="salePercent">{props.salepercent}</div>
           )}

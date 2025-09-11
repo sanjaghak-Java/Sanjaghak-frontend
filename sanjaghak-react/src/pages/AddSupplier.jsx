@@ -21,7 +21,7 @@ useEffect(() => {
       phone: initialData.supplierPhone || "",
       postalCode: initialData.postalCode || "",
       country: initialData.country || "",
-      province: initialData.state || "",    // note backend calls this 'state'
+      province: initialData.state || "",    
       city: initialData.city || "",
       address: initialData.supplierAddress || "",
     });

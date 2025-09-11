@@ -5,12 +5,12 @@ import ProductSelectorModal from "./AddPurchaseModal";
 import "/src/styles/WarehouseDetail.css";
 
 export default function WarehouseDetail() {
-  const { id } = useParams(); // warehouseId comes from URL
-  const warehouseId = id; // backend uses UUID, so don't parseInt
+  const { id } = useParams(); 
+  const warehouseId = id; 
   const navigate = useNavigate();
   const [selectedProductModalOpen, setSelectedProductModalOpen] = useState(false);
 const [showStockModal, setShowStockModal] = useState(false);
-const [stockShelf, setStockShelf] = useState(null); // which shelf we are adding stock to
+const [stockShelf, setStockShelf] = useState(null); 
 const [selectedProduct, setSelectedProduct] = useState(null);
 const [minLevel, setMinLevel] = useState("");
 const [maxLevel, setMaxLevel] = useState("");
@@ -19,7 +19,7 @@ const [stockError, setStockError] = useState("");
   const [sections, setSections] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-const [isReturnShelf, setIsReturnShelf] = useState(false); // new
+const [isReturnShelf, setIsReturnShelf] = useState(false); 
   const [currentView, setCurrentView] = useState("sections");
   const [selectedSection, setSelectedSection] = useState(null);
 const [showReturnModal, setShowReturnModal] = useState(false);
@@ -30,7 +30,6 @@ const [shelves, setShelves] = useState([]);
 const [shelvesLoading, setShelvesLoading] = useState(false);
 const [shelvesError, setShelvesError] = useState(null);
 const [showEmptyShelfModal, setShowEmptyShelfModal] = useState(false);
-  // fetch sections from backend
   useEffect(() => {
 const fetchWarehouse = async () => {
   try {
@@ -44,7 +43,7 @@ const fetchWarehouse = async () => {
 
     if (!res.ok) throw new Error("خطا در دریافت اطلاعات انبار");
     const data = await res.json();
-    setWarehouse(data);    // backend returns single object
+    setWarehouse(data);    
   } catch (err) {
     console.error(err);
   }
@@ -97,9 +96,8 @@ const fetchWarehouse = async () => {
 
   fetchShelves();
 }, [selectedSection]);
-const userId = "d34f8c7c-ddf6-4ff5-822c-b5b0c5b24145"; // later make dynamic
+const userId = "d34f8c7c-ddf6-4ff5-822c-b5b0c5b24145"; 
 
-// ✅ Add Section handler
 const handleAddSection = async () => {
   try {
     const token = localStorage.getItem("token");
@@ -120,7 +118,6 @@ const handleAddSection = async () => {
     if (!res.ok) throw new Error("خطا در افزودن بخش");
     const data = await res.json();
 
-    // Add to local state
     setSections([...sections, { id: data.sectionsId, name: data.name, active: data.active }]);
   } catch (err) {
     console.error(err);
@@ -128,7 +125,6 @@ const handleAddSection = async () => {
   }
 };
 
-// ✅ Add Shelf handler
 const handleAddShelf = async (isReturnParam = false) => {
   if (!selectedSection) {
     alert("ابتدا یک بخش را انتخاب کنید");
@@ -172,7 +168,7 @@ useEffect(() => {
     try {
       setLoading(true);
 
-      const token = localStorage.getItem("token"); // adjust if you store token elsewhere
+      const token = localStorage.getItem("token"); 
 
       const res = await fetch(
         `http://127.0.0.1:8080/api/Sanjaghak/sections/by-warehouse/${warehouseId}`,
@@ -236,11 +232,9 @@ const handleShelfClick = async (shelf) => {
     );
 
     if (shelfStock.length > 0) {
-      // Shelf has stock, show WarehouseProductModal
       setShowProductModal(true);
       setShowStockModal(false);
     } else {
-      // Shelf is empty → show empty shelf modal first
       setShowEmptyShelfModal(true);
     }
   } catch (err) {
@@ -288,7 +282,6 @@ const handleShelfClick = async (shelf) => {
 
     if (!res.ok) throw new Error("خطا در افزودن موجودی");
 
-    // Success → close modals and reset
     setShowStockModal(false);
     setSelectedProduct(null);
     setStockShelf(null);
@@ -342,9 +335,9 @@ const handleShelfClick = async (shelf) => {
 <button
   onClick={() => {
     if (warehouse?.isCentral) {
-      setShowReturnModal(true); // show modal only for central warehouse
+      setShowReturnModal(true); 
     } else {
-      handleAddShelf(false); // add immediately if not central
+      handleAddShelf(false); 
     }
   }}
   className="add-button"
@@ -381,7 +374,6 @@ const handleShelfClick = async (shelf) => {
   </div>
 )}
 
-{/* Only show product modal if shelf has stock */}
 {showProductModal && selectedShelf && (
   <WarehouseProductModal
     shelf={selectedShelf}
@@ -389,21 +381,18 @@ const handleShelfClick = async (shelf) => {
   />
 )}
 
-{/* Show add stock modal if shelf has no stock */}
 {showStockModal && selectedShelf && (
   <div className="return-modal">
     <div className="return-modal-content">
       <h4>افزودن موجودی به قفسه: {selectedShelf.code}</h4>
 
       {!selectedProduct ? (
-        // STEP 1: Product selection
         <ProductSelectorModal
           isOpen={true} 
           onClose={() => setShowStockModal(false)}
           onSelect={(product) => setSelectedProduct(product)}
         />
       ) : (
-        // STEP 2: Enter stock levels
         <div>
           <p>محصول انتخاب شده: {selectedProduct.productName}</p>
 
@@ -439,7 +428,7 @@ const handleShelfClick = async (shelf) => {
                 setMaxLevel("");
               }}
             >
-              ❌ انصراف
+               انصراف
             </button>
           </div>
         </div>
@@ -456,9 +445,9 @@ const handleShelfClick = async (shelf) => {
 <button
   className="ok-button"
   onClick={() => {
-    setShowEmptyShelfModal(false); // close empty shelf notice
-    setShowStockModal(true);       // open the add stock modal with your ProductSelectorModal
-    setStockShelf(selectedShelf);  // make sure the modal knows which shelf we’re adding to
+    setShowEmptyShelfModal(false); 
+    setShowStockModal(true);       
+    setStockShelf(selectedShelf);  
   }}
 >
   افزودن موجودی

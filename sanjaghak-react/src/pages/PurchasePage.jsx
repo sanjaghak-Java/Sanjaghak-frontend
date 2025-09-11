@@ -39,7 +39,6 @@ const getWarehouseName = (warehouseId) => {
   const warehouse = warehouses.find(w => w.warehouseId === warehouseId);
   return warehouse ? warehouse.name : "نامشخص";
 };
-  // Fetch orders on mount
   const token = localStorage.getItem("token");
 
 useEffect(() => {

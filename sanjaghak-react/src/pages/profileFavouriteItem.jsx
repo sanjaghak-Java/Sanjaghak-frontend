@@ -26,7 +26,7 @@ const handleRemoveFavorite = async (e) => {
 
   try {
     const res = await fetch(`http://127.0.0.1:8080/api/Sanjaghak/favoritesList/toggle?productId=${item.id}`, {
-      method: "POST", // or PUT depending on your backend
+      method: "POST", 
       headers: {
         "Authorization": `Bearer ${token}`
       }
@@ -34,14 +34,14 @@ const handleRemoveFavorite = async (e) => {
 
     if (!res.ok) throw new Error("Failed to toggle favorite");
 
-    // Refresh the page to reflect changes
+  
     window.location.reload();
   } catch (err) {
     console.error("Error toggling favorite:", err);
   }
 };
 
-  // Compute original and discounted prices
+
   const discountPercentage = Number(item.discountPercentage) || 0;
   const hasDiscount = discountPercentage > 0;
   const originalPrice = hasDiscount ? item.price / (1 - discountPercentage / 100) : item.price;
@@ -64,7 +64,6 @@ const handleRemoveFavorite = async (e) => {
           <div className='itemsinfo'>
             <label className="itemsname">{item.productname}</label>
 
-            {/* Multiple colors */}
             <div className="itemsproductcolor">
               {Array.isArray(item.hexadecimal) && Array.isArray(item.color)
                 ? item.hexadecimal.map((hex, idx) => (

@@ -22,7 +22,7 @@ function signInMobile() {
     })
       .then(response => {
         if (response.ok) {
-          navigate('/confirmCode')
+          navigate('/confirmCode', { state: { phoneNumber } });
         } else {
           return response.text().then(errorMessage => {
             throw new Error(errorMessage);

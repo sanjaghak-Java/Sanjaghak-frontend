@@ -13,13 +13,13 @@ function CartPage() {
   const [shippingCost, setShippingCost] = useState(0);
   const backgroundAreaRef = useRef(null);
 
-  const customerId = "9b1e4d75-ea1f-4984-aa32-bf14e61ffea2"; // replace dynamically if needed
-  const token = localStorage.getItem("token"); // assuming token is stored
+  const customerId = "9b1e4d75-ea1f-4984-aa32-bf14e61ffea2"; 
+  const token = localStorage.getItem("token"); 
 
   useEffect(() => {
     const fetchCartItems = async () => {
       try {
-        // 1️⃣ Get pending orders
+
         const resOrders = await fetch(
           `http://127.0.0.1:8080/api/Sanjaghak/Orders/getOrdersByfilter?customerId=${customerId}`,
           { headers: { Authorization: `Bearer ${token}` } }
@@ -31,7 +31,7 @@ function CartPage() {
 
         setShippingCost(pendingOrder.shippingCost || 0);
 
-        // 2️⃣ Get order items
+  
         const resItems = await fetch(
           `http://127.0.0.1:8080/api/Sanjaghak/orderItem/getOrderItemByFilter?orderId=${pendingOrder.orderId}`,
           { headers: { Authorization: `Bearer ${token}` } }
@@ -40,13 +40,12 @@ function CartPage() {
         const itemsData = await resItems.json();
         const orderItems = Array.isArray(itemsData.content) ? itemsData.content : [];
 
-        // 3️⃣ Fetch variant + product info + main image for each order item
+
 const cartItems = await Promise.all(
   orderItems.map(async item => {
     const variantId = item.variantId?.variantId;
     if (!variantId) return null;
 
-    // Fetch variant info
     const resVariant = await fetch(
       `http://127.0.0.1:8080/api/Sanjaghak/productVariants/${variantId}`,
       { headers: { Authorization: `Bearer ${token}` } }
@@ -56,7 +55,6 @@ const cartItems = await Promise.all(
 
     let price = variantData.price || 0;
 
-    // 💰 Fetch discount for variant
     try {
       const resDiscount = await fetch(
         `http://127.0.0.1:8080/api/Sanjaghak/discount/active/${variantId}`,
@@ -67,7 +65,7 @@ const cartItems = await Promise.all(
         const discountData = await resDiscount.json();
         if (discountData.discountPercentage) {
           const discountPercent = discountData.discountPercentage;
-          price = price - (price * discountPercent / 100); // apply discount
+          price = price - (price * discountPercent / 100); 
         }
       } else if (resDiscount.status !== 204) {
         console.warn(`Unexpected discount API status: ${resDiscount.status}`);
@@ -78,10 +76,9 @@ const cartItems = await Promise.all(
 
     const productId = variantData.productId?.productId;
     let productData = {};
-    let mainImage = './src/assets/default-image.png'; // fallback
+    let mainImage = './src/assets/default-image.png'; 
 
     if (productId) {
-      // Fetch product info
       const resProduct = await fetch(
         `http://127.0.0.1:8080/api/Sanjaghak/product/${productId}`,
         { headers: { Authorization: `Bearer ${token}` } }
@@ -90,7 +87,6 @@ const cartItems = await Promise.all(
         productData = await resProduct.json();
       }
 
-      // Fetch product images
       const resImages = await fetch(
         `http://127.0.0.1:8080/api/Sanjaghak/productImages/${productId}`,
         { headers: { Authorization: `Bearer ${token}` } }
@@ -110,14 +106,14 @@ const cartItems = await Promise.all(
       inventory: "موجود در انبار",
       color: variantData.color || "",
       hex: variantData.hexadecimal || "#ffffff",
-      price: price, // ✅ now includes discount if any
+      price: price, 
       quantity: item.quantity || 1,
       image: mainImage,
     };
   })
 );
 
-        setItems(cartItems.filter(Boolean)); // remove nulls
+        setItems(cartItems.filter(Boolean)); 
       } catch (error) {
         console.error("Error fetching cart:", error);
       }

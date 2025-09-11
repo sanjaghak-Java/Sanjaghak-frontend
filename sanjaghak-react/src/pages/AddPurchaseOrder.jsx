@@ -240,7 +240,7 @@ function AddPurchaseOrder() {
       <th>تعداد</th>
       <th>قیمت واحد</th>
       <th>قیمت کل</th>
-      <th>تاریخ رسید</th> {/* new header */}
+      <th>تاریخ رسید</th> 
     </tr>
   </thead>
   <tbody>
@@ -253,7 +253,7 @@ function AddPurchaseOrder() {
         <td>{item.quantity}</td>
         <td>{item.product.costPrice.toLocaleString()} تومان</td>
         <td>{(item.product.costPrice * item.quantity).toLocaleString()} تومان</td>
-        <td>{item.arrivalDate ? item.arrivalDate.format("YYYY/MM/DD") : "-"}</td> {/* format with date-object */}
+        <td>{item.arrivalDate ? item.arrivalDate.format("YYYY/MM/DD") : "-"}</td> 
       </tr>
     ))}
   </tbody>

@@ -164,12 +164,12 @@ const handleToggleActive = () => {
             <label className="switch">
               <input
                 type="checkbox"
-                checked={active}
+                checked={!active}
                 onChange={handleToggleActive}
               />
               <span className="slider round"></span>
             </label>
-            {active ? "فعال کردن برند" : "غیرفعال کردن برند"}
+            {active ? "غیر فعال کردن برند" : "فعال کردن برند"}
           </div>
 
         </div>

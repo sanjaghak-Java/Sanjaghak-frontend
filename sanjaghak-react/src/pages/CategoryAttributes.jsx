@@ -47,11 +47,9 @@ useEffect(() => {
         }
       );
 
-      // ⛔️ Bad status code, but might not be an actual error
       if (!res.ok) {
         const errData = await res.json();
 
-        // ✅ If it's "no attributes defined", treat it as valid
         if (
           errData.error &&
           errData.error.includes("هیچ ویژگی ضروری‌ای برای این دسته‌بندی تعریف نشده است")
@@ -169,7 +167,6 @@ const handleDeleteAttribute = (id) => {
     if (!res.ok) throw new Error("خطا در ذخیره تصویر دسته‌بندی");
   };
 
-  // *** FIXED deleteRequirementsFromBackend to use actual IDs ***
   const deleteRequirementsFromBackend = async () => {
  for (const requirementId of deletedRequirementIds) {
   const res = await fetch(`${baseUrl}/api/Sanjaghak/attributeRequirement/${requirementId}`, {

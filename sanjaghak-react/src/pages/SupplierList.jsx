@@ -63,7 +63,6 @@ const handleAddSupplier = async (formData) => {
   try {
     let response;
     if (editingSupplier) {
-      // Edit case: PUT request to update supplier by ID
       response = await fetch(`http://127.0.0.1:8080/api/Sanjaghak/suppliers/${editingSupplier.suppliersId}`, {
         method: "PUT",
         headers: {
@@ -80,12 +79,10 @@ const handleAddSupplier = async (formData) => {
 
       const updatedSupplier = await response.json();
 
-      // Update supplier in local state
 setSuppliers((prev) =>
   prev.map((s) => (s.suppliersId === editingSupplier.suppliersId ? updatedSupplier : s))
 );
     } else {
-      // Add case: POST request to create supplier
       response = await fetch("http://127.0.0.1:8080/api/Sanjaghak/suppliers/addSuppliers", {
         method: "POST",
         headers: {

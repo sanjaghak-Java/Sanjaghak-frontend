@@ -20,7 +20,7 @@ useEffect(() => {
             const imgRes = await fetch(
               `http://127.0.0.1:8080/api/Sanjaghak/categoryImages/${cat.categoryId}`
             );
-            const imgData = await imgRes.json(); // <-- imgData defined here
+            const imgData = await imgRes.json(); 
 
             if (imgData.length > 0) {
               const fullUrl = `http://127.0.0.1:8080${encodeURI(imgData[0].imageUrl)}`;

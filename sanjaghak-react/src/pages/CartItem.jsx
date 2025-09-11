@@ -11,7 +11,7 @@ function CartItem({ item, onQuantityChange, onDelete, showQuantityControls = tru
   const updateOrderQuantity = async (newQuantity) => {
     try {
       const response = await fetch(
-        `http://127.0.0.1:8080/api/Sanjaghak/orderItem/${item.id}`, // orderItemId
+        `http://127.0.0.1:8080/api/Sanjaghak/orderItem/${item.id}`, 
         {
           method: "PUT",
           headers: { 
@@ -51,7 +51,6 @@ function CartItem({ item, onQuantityChange, onDelete, showQuantityControls = tru
         throw new Error(`HTTP error! status: ${response.status}, ${errorText}`);
       }
 
-      // Call the parent handler to remove the item from state
       onDelete(item.id);
       window.location.reload()
 

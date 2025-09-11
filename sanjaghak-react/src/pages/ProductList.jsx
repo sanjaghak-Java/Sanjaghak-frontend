@@ -24,12 +24,10 @@ const [refreshToggle, setRefreshToggle] = useState(false);
   const [searchModeDropdownOpen, setSearchModeDropdownOpen] = useState(false);
   const searchModeRef = useRef(null);
  const [productImages, setProductImages] = useState({});
-  // Fetch products
   async function fetchMainImages(products) {
   try {
     const imagesMap = {};
 
-    // Fetch images for each product
     await Promise.all(products.map(async (product) => {
       try {
         const res = await fetch(`http://127.0.0.1:8080/api/Sanjaghak/productImages/${product.productId}`);
@@ -37,16 +35,13 @@ const [refreshToggle, setRefreshToggle] = useState(false);
 
         const images = await res.json();
 
-        // Find the primary image, or fallback to first image, or null
         const primaryImage = images.find(img => img.required) || images[0] || null;
 
         if (primaryImage) {
-          // Assuming your image URLs start with /uploads/filename.ext
-          // Prepend backend URL here to get full URL
+
           imagesMap[product.productId] = `http://127.0.0.1:8080${primaryImage.imageUrl}`;
           console.log("Product ID:", product.productId, "Image URL:", imagesMap[product.productId]);
 
-          // Adjust field names based on your actual response structure
         } else {
           imagesMap[product.productId] = null;
         }
@@ -72,9 +67,8 @@ const [refreshToggle, setRefreshToggle] = useState(false);
   const adjustedMin = absoluteMinPrice;
   const adjustedMax = absoluteMinPrice === absoluteMaxPrice ? absoluteMaxPrice + priceBuffer : absoluteMaxPrice;
 
-  // Only set priceRange if current range is invalid or default
   if (
-    priceRange[0] === 0 && priceRange[1] === 10000 || // default initial
+    priceRange[0] === 0 && priceRange[1] === 10000 || 
     priceRange[0] > adjustedMax || 
     priceRange[1] < adjustedMin
   ) {
@@ -83,18 +77,15 @@ const [refreshToggle, setRefreshToggle] = useState(false);
 }, [products]);
 async function fetchAllProducts() {
   try {
-    // Fetch all products
     const res = await fetch('http://127.0.0.1:8080/api/Sanjaghak/product/getProductsByfilter?page=0&size=1000');
     if (!res.ok) throw new Error('Failed to fetch products');
     const productData = await res.json();
     const allProducts = productData.content || productData;
 
-    // ✅ Fetch all variants once
     const variantRes = await fetch("http://127.0.0.1:8080/api/Sanjaghak/productVariants/getAllProductVariant");
     if (!variantRes.ok) throw new Error("Failed to fetch variants");
     const allVariants = await variantRes.json();
 
-    // ✅ Build productId to variants map
     const variantsMap = {};
     allVariants.forEach(variant => {
       if (!variantsMap[variant.productId]) {
@@ -103,7 +94,6 @@ async function fetchAllProducts() {
       variantsMap[variant.productId].push(variant);
     });
 
-    // ✅ Attach variant prices to each product
     const productsWithPrices = allProducts.map(product => {
       const variants = variantsMap[product.productId] || [];
 
@@ -121,7 +111,6 @@ async function fetchAllProducts() {
       };
     });
 
-    // ✅ Set products and price range
     setProducts(productsWithPrices);
 
     const allPrices = allVariants.map(v => parseFloat(v.price)).filter(p => !isNaN(p));
@@ -129,7 +118,6 @@ async function fetchAllProducts() {
     const max = Math.max(...allPrices);
     setPriceRange([min, max]);
 
-    // ✅ Fetch images
     fetchMainImages(productsWithPrices);
   } catch (err) {
     console.error("Error loading products and variants:", err);

@@ -31,7 +31,6 @@ function ProductSlider() {
 const productsWithDetails = await Promise.all(
   sorted.map(async (product) => {
     try {
-      // Fetch images
       const imgRes = await fetch(
         `http://127.0.0.1:8080/api/Sanjaghak/productImages/${product.productId}`,
         { headers: token ? { Authorization: `Bearer ${token}` } : {} }
@@ -43,7 +42,6 @@ const productsWithDetails = await Promise.all(
         ? `http://127.0.0.1:8080${primaryImage.imageUrl}`
         : "/path/to/default-image.jpg";
 
-      // Fetch variants
       const variantRes = await fetch(
         `http://127.0.0.1:8080/api/Sanjaghak/productVariants/getProductVariantByProductId?productId=${product.productId}`,
         { headers: token ? { Authorization: `Bearer ${token}` } : {} }
@@ -61,7 +59,6 @@ const productsWithDetails = await Promise.all(
         };
       }
 
-      // Fetch discount
       const discountRes = await fetch(
         `http://127.0.0.1:8080/api/Sanjaghak/discount/max-discount/${product.productId}`,
         { headers: token ? { Authorization: `Bearer ${token}` } : {} }
@@ -72,22 +69,20 @@ const productsWithDetails = await Promise.all(
         discountData = await discountRes.json();
       }
 
-      // ✅ Check stock for all variants
       let availableVariant = null;
       for (const variant of variants) {
         const stockRes = await fetch(
           `http://127.0.0.1:8080/api/Sanjaghak/inventoryStock/variant/${variant.variantId}/stock`,
           { headers: token ? { Authorization: `Bearer ${token}` } : {} }
         );
-        if (!stockRes.ok) continue; // skip if failed
+        if (!stockRes.ok) continue; 
         const stockAmount = await stockRes.json();
         if (stockAmount > 0) {
-          availableVariant = variant; // pick first available variant
+          availableVariant = variant; 
           break;
         }
       }
 
-      // If no stock for any variant
       if (!availableVariant) {
         return {
           ...product,
@@ -100,7 +95,6 @@ const productsWithDetails = await Promise.all(
 
       const originalPrice = availableVariant.price;
 
-      // Apply discount if applicable
       if (
         discountData &&
         discountData.active &&

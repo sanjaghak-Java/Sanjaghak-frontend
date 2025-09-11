@@ -27,13 +27,11 @@ function AddProduct() {
   const [savingAttributes, setSavingAttributes] = useState(false);
   const [attributesSaved, setAttributesSaved] = useState(false);
 
-  // Images
   const [mainImage, setMainImage] = useState(null);
   const [mainImagePreview, setMainImagePreview] = useState(null);
   const [sideImages, setSideImages] = useState([]);
   const [sideImagesPreview, setSideImagesPreview] = useState([]);
 
-  // Variant system
   const [variants, setVariants] = useState([]);
   const [showAddVariantPopup, setShowAddVariantPopup] = useState(false);
 
@@ -66,7 +64,7 @@ function AddProduct() {
     }
 
     const data = await res.json();
-    return data; // The created variant object from backend
+    return data; 
   } catch (error) {
     console.error("Error adding variant:", error);
     alert(error.message);
@@ -160,7 +158,6 @@ function AddProduct() {
     setCustomAttributes(updated);
   };
 
-  // Image handlers (unchanged)
   const handleSideImageChangeAtIndex = (file, index) => {
     if (!file) return;
     const newSideImages = [...sideImages];
@@ -184,7 +181,6 @@ function AddProduct() {
     };
   }, [mainImagePreview, sideImagesPreview]);
 
-  // New: submit product WITHOUT price and cost (they will come from variants)
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -198,7 +194,6 @@ function AddProduct() {
       productDescription: document.querySelector(".productDescription").value,
       sku: crypto.randomUUID(),
       model: document.querySelector(".productModel").value,
-      // price & costPrice removed here!
       weight: document.querySelector(".productWeight").value,
       length: document.querySelector(".productLength").value,
       width: document.querySelector(".productWidth").value,
@@ -345,14 +340,13 @@ function AddProduct() {
       alert("ویژگی‌ها با موفقیت ذخیره شدند ");
       setAttributesSaved(true);
       setSavingAttributes(false);
-      setStep(3); // Move to step 3 (variants) after saving attributes
+      setStep(3); 
     } catch (err) {
       alert("خطا در ارتباط با سرور");
       setSavingAttributes(false);
     }
   };
 
-  // Variant popup handlers
   const handleAddVariantClick = () => {
     setShowAddVariantPopup(true);
     setNewVariantColorName("");
@@ -378,7 +372,6 @@ function AddProduct() {
       alert("قیمت تمام شده صحیح را وارد کنید.");
       return;
     }
-    // Add new variant object to variants
     setVariants((prev) => [
       ...prev,
       {
@@ -394,13 +387,10 @@ function AddProduct() {
 
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(null);
 
-  // When a variant circle is clicked, you can handle accordingly
   const handleVariantSelect = (index) => {
     setSelectedVariantIndex(index);
   };
 
-  // Because price & cost inputs are removed from step 1,
-  // you may want to display selected variant price/cost info in step 3 or elsewhere.
 
   const goToNextStep = () => {
     if (step === 1) {
@@ -417,7 +407,6 @@ function AddProduct() {
         alert("لطفاً حداقل یک واریانت اضافه کنید.");
         return;
       }
-      // Finalize product creation or navigate away
       alert("محصول با موفقیت ثبت شد.");
       navigate("/admin/لیست محصولات");
     }
@@ -429,7 +418,7 @@ const handleAddVariant = async () => {
   }
 
   const newVariant = {
-    sku: crypto.randomUUID(), // generate unique SKU
+    sku: crypto.randomUUID(), 
     costPrice: newVariantCost,
     price: newVariantPrice,
     color: newVariantColorName,
@@ -451,7 +440,6 @@ const handleAddVariant = async () => {
     if (step > 1) setStep(step - 1);
   };
 
-  // Variant Circle Component (inline for simplicity, can be split)
   const VariantCircle = ({ variant, isSelected, onClick }) => (
     <div
       onClick={onClick}
@@ -487,7 +475,6 @@ const handleAddVariant = async () => {
       <form className="addProductContainer" onSubmit={(e) => e.preventDefault()}>
         {step === 1 && (
           <>
-            {/* Step 1 without price and cost inputs */}
             <div className="inputGroup">
               <div className="inputWrapper">
                 <input type="text" required className="productName" placeholder=" " />
@@ -552,7 +539,6 @@ const handleAddVariant = async () => {
               </div>
             </div>
 
-            {/* No price/cost inputs here */}
 
             <div className="inputGroup">
               <div className="inputWrapper">
@@ -669,7 +655,6 @@ const handleAddVariant = async () => {
       onClick={() => setSelectedVariantIndex(i)}
     />
   ))}
-              {/* Add Variant Circle */}
               <div
                 onClick={handleAddVariantClick}
                 style={{
@@ -701,7 +686,6 @@ const handleAddVariant = async () => {
               </div>
             </div>
 
-            {/* Show selected variant price/cost */}
             {selectedVariantIndex !== null && variants[selectedVariantIndex] && (
               <div style={{ marginTop: 20 }}>
                 <strong>قیمت فروش: </strong> {variants[selectedVariantIndex].price} <br />
@@ -711,7 +695,6 @@ const handleAddVariant = async () => {
           </>
         )}
 
-        {/* Variant popup */}
         {showAddVariantPopup && (
           <div
             style={{

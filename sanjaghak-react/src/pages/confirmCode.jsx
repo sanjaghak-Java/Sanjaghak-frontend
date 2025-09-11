@@ -10,13 +10,13 @@ function ConfirmCode() {
   const navigate = useNavigate();
   const location = useLocation();
   const email = location.state?.email;
-
-  useEffect(() => {
-    if (!email) {
-      alert("ایمیل یافت نشد");
-      navigate('/signin');
-    }
-  }, [email, navigate]);
+const phoneNumber = location.state?.phoneNumber;
+useEffect(() => {
+  if (!email && !phoneNumber) {
+    alert("ایمیل یا شماره موبایل یافت نشد");
+    navigate('/signin');
+  }
+}, [email, phoneNumber, navigate]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -38,11 +38,14 @@ const handleSubmit = async () => {
     return;
   }
   try {
-    // Step 1: Verify code
     const response = await fetch('http://127.0.0.1:8080/api/Sanjaghak/UserAccount/login/verifyCode', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: email, phoneNumber: null, code: code })
+      body: JSON.stringify({ 
+  email: email || null, 
+  phoneNumber: phoneNumber || null, 
+  code: code 
+})
     });
 
     if (!response.ok) {
@@ -53,9 +56,8 @@ const handleSubmit = async () => {
 
     const data = await response.json();
     localStorage.setItem('token', data.token);
-    localStorage.setItem('id', data.id); // userId
+    localStorage.setItem('id', data.id); 
 
-    // Step 2: Get user role
     const roleResponse = await fetch('http://127.0.0.1:8080/api/Sanjaghak/UserAccount/getUserRole', {
       method: 'GET',
       headers: {
@@ -71,7 +73,6 @@ const handleSubmit = async () => {
 
     const role = await roleResponse.text();
 
-    // Step 3: If not admin, fetch customer info
 if (role !== "admin") {
   const customerResponse = await fetch(
     `http://127.0.0.1:8080/api/Sanjaghak/Customer/getCustomerByfilter?userId=${data.id}`,
@@ -91,7 +92,6 @@ if (role !== "admin") {
 
   const customerData = await customerResponse.json();
 
-  // Extract the customerId from paginated response
   const customerId = customerData.content && customerData.content.length > 0
     ? customerData.content[0].customerId
     : null;
@@ -103,7 +103,6 @@ if (role !== "admin") {
   }
 }
 
-    // Step 4: Navigate based on role
     if (role === "admin") {
       navigate('/admin/داشبورد');
     } else {

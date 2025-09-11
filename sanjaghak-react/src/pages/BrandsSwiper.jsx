@@ -64,7 +64,7 @@ function BrandsSwiper() {
                     src={
                       brand.logoUrl
                         ? brand.logoUrl
-                        : "/src/assets/default-brand-logo.png" // fallback image if no logoUrl
+                        : "/src/assets/default-brand-logo.png" 
                     }
                     alt={brand.brandName}
                   />

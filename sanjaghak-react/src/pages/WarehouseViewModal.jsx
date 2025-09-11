@@ -1,8 +1,44 @@
-import React from "react";
-import "/src/styles/WarehouseViewModal.css";
+import React, { useState, useEffect } from 'react';import "/src/styles/WarehouseViewModal.css";
 import download from '../assets/download.png';
 
-function WarehouseViewModal({ transferItems, onClose, onConfirmTransfer }) {
+function WarehouseViewModal({ transferItems,id, onClose, onConfirmTransfer }) {
+    const token = localStorage.getItem("token");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+    const handleConfirmTransfer = async () => {
+    if (!transferItems.length) return;
+    const inventoryMovementId = id 
+    setLoading(true);
+    setError(null);
+
+    try {
+      const res = await fetch(
+        `http://127.0.0.1:8080/api/Sanjaghak/inventoryMovement/shippingTransfer/${inventoryMovementId}`,
+        {
+          method: "POST", 
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({}) 
+        }
+      );
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.message || "خطا در تایید انتقال");
+      }
+
+      alert("انتقال با موفقیت تایید شد!");
+      onConfirmTransfer(); 
+    } catch (err) {
+      console.error(err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       <div className="view-modal-overlay" onClick={onClose}></div>
@@ -16,6 +52,7 @@ function WarehouseViewModal({ transferItems, onClose, onConfirmTransfer }) {
             </button>
           </div>
           <br />
+          {error && <div style={{color: "red", marginBottom: 10}}>{error}</div>}
           <table className="view-table">
             <thead>
               <tr>
@@ -49,14 +86,16 @@ function WarehouseViewModal({ transferItems, onClose, onConfirmTransfer }) {
         <div className="view-button-container">
           <button
             className="view-confirm-button"
-            onClick={onConfirmTransfer}
+            onClick={handleConfirmTransfer}
+            disabled={loading}
           >
-            تایید انتقال
+            {loading ? "در حال ارسال..." : "تایید انتقال"}
           </button>
         </div>
       </div>
     </>
   );
 }
+
 
 export default WarehouseViewModal;

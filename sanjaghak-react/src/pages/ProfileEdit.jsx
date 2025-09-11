@@ -57,7 +57,6 @@ function EditProfile() {
       });
   }, []);
 
-  // Combine first and last name for display
   const fullName = `${userInfo.firstName} ${userInfo.lastName}`.trim();
 
   const handleSave = (updatedInfo) => {

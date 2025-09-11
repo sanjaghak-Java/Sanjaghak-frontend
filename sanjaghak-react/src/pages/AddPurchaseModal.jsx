@@ -35,11 +35,9 @@ const fetchProducts = async () => {
 const enriched = await Promise.all(
   data.map(async (product) => {
     try {
-      // Fetch colors/variants for this product
       const variantRes = await fetch(`http://127.0.0.1:8080/api/Sanjaghak/productVariants/getProductVariantByProductId?productId=${product.productId}`);
       const variants = variantRes.ok ? await variantRes.json() : [];
 
-      // Transform variant data into color objects
       const colors = variants.map(v => ({
         name: v.color,          
         hex: v.hexadecimal,     
@@ -48,11 +46,9 @@ const enriched = await Promise.all(
         price: v.price
       }));
 
-      // Fetch images for this product
       const imageRes = await fetch(`http://127.0.0.1:8080/api/Sanjaghak/productImages/${product.productId}`);
       const images = imageRes.ok ? await imageRes.json() : [];
 
-      // Find primary image (where required === true), or fallback to first image or null
       const primaryImage = images.find(img => img.required) || images[0] || null;
 
       return { ...product, colors, primaryImage };

@@ -18,11 +18,9 @@ function ProductGrid({ products = [], loading, error }) {
 
       for (const product of products) {
         try {
-          // 1. Check discount for product
           const discountRes = await fetch(`http://127.0.0.1:8080/api/Sanjaghak/discount/max-discount/${product.productId}`);
 
           if (discountRes.status === 204) {
-            // No discount - fetch variants, use first variant price
             const variantsRes = await fetch(`http://127.0.0.1:8080/api/Sanjaghak/productVariants/getProductVariantByProductId?productId=${product.productId}`);
 
             if (variantsRes.ok) {
@@ -36,11 +34,9 @@ function ProductGrid({ products = [], loading, error }) {
               }
             }
           } else if (discountRes.ok) {
-            // Discount exists
             const discount = await discountRes.json();
             const variantId = discount.variantsId.variantId;
 
-            // Fetch the discounted variant price
             const variantPriceRes = await fetch(`http://127.0.0.1:8080/api/Sanjaghak/productVariants/${variantId}`);
             if (variantPriceRes.ok) {
               const variant = await variantPriceRes.json();

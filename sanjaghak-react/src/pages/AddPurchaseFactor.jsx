@@ -19,7 +19,6 @@ function toEnglishDigits(str) {
   }
   return result;
 }
-  // Memoize shipping costs per item so they are stable per render
   const shippingCostsMap = useMemo(() => {
     const map = {};
     items.forEach(item => {
@@ -33,12 +32,10 @@ function toEnglishDigits(str) {
   const shipping = Object.values(shippingCostsMap).reduce((sum, cost) => sum + cost, 0);
   if (!isOpen) return null;
 
-  // Generate random shipping cost for each item (between 10,000 and 60,000 per unit)
 
 
-  // Calculate totals
   const total = items.reduce((sum, item) => sum + (item.product.costPrice * item.quantity), 0);
-  const tax = Math.floor(total * 0.09); // 9% VAT example
+  const tax = Math.floor(total * 0.09); // 
   const finalTotal = total + tax + shipping;
 const getResponseData = async (res) => {
   const contentType = res.headers.get("content-type");
@@ -63,7 +60,6 @@ const getResponseData = async (res) => {
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
     };
 
-    // Map each item to a promise that: (1) creates an order, (2) attaches item to that order
 const promises = items.map(async (item) => {
   const shippingCostForItem = shippingCostsMap[item.id] || 0;
   const expectedDate = item.arrivalDate
@@ -76,7 +72,6 @@ const promises = items.map(async (item) => {
     taxAmount: 0
   };
 
-  // 1) Create purchase order
   const orderRes = await fetch(
     `http://127.0.0.1:8080/api/Sanjaghak/purchaseOrders/purchaseOrdersRegistration?warehouseId=${warehouse.warehouseId}&supplierId=${supplier.suppliersId}`,
     {
@@ -95,7 +90,6 @@ const promises = items.map(async (item) => {
   const purchaseOrderId = orderData.purchaseOrdersId;
   if (!purchaseOrderId) throw new Error("No purchaseOrdersId returned from server");
 
-  // 2) Attach item
   const variantId =
     item.product.variantId ||
     item.product.variantsId ||
@@ -125,11 +119,10 @@ const promises = items.map(async (item) => {
 
   const itemData = await itemRes.json();
 
-  // 3) Register order
   const registerRes = await fetch(
     `http://127.0.0.1:8080/api/Sanjaghak/purchaseOrders/registr/${purchaseOrderId}`,
     {
-      method: "PUT", // change if needed
+      method: "PUT", 
       headers
     }
   );
@@ -144,14 +137,13 @@ const registerData = await getResponseData(registerRes);
   return { order: orderData, item: itemData, register: registerData };
 });
 
-    // wait for all items orders+attachments
     const results = await Promise.all(promises);
 
     setSuccess(true);
     alert("تمام سفارش‌ها و آیتم‌ها با موفقیت ثبت شدند.");
     onClose();
     navigate("/admin/سفارش خرید");
-    return results; // optional, for debugging
+    return results; 
   } catch (err) {
     setError(err.message || "خطا در ثبت سفارش‌ها");
     alert(err.message || "خطا در ثبت سفارش‌ها");
@@ -174,13 +166,12 @@ const registerData = await getResponseData(registerRes);
               <th>تعداد</th>
               <th>قیمت واحد (تومان)</th>
               <th>قیمت کل</th>
-              <th>تاریخ رسید</th> {/* New column for arrival date */}
-              <th>هزینه ارسال</th> {/* Shipping cost per item */}
+              <th>تاریخ رسید</th> 
+              <th>هزینه ارسال</th> 
             </tr>
           </thead>
           <tbody>
   {items.map((item, index) => {
-    // Use memoized shipping cost here:
     const shippingCostForItem = shippingCostsMap[item.id] || 0;
     return (
       <tr key={item.id}>

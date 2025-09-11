@@ -8,7 +8,7 @@ function AddBrand() {
   const [brandName, setBrandName] = useState("");
   const [webUrl, setWebUrl] = useState("");
   const [logoUrl, setLogoUrl] = useState("");
-  const [description, setDescription] = useState("");
+  const [brandDescription, setDescription] = useState("");
 
   const token = localStorage.getItem("token");
 
@@ -18,8 +18,8 @@ function AddBrand() {
     const brandData = {
       brandName,
       websiteUrl: webUrl,
-      brandLogoUrl: logoUrl,
-      description,
+      logoUrl: logoUrl,
+      brandDescription,
     };
 
     try {
@@ -93,7 +93,7 @@ function AddBrand() {
           <textarea
             className="productDescription"
             placeholder=" "
-            value={description}
+            value={brandDescription}
             onChange={(e) => setDescription(e.target.value)}
           />
           <label className="adminFloatingLabel">توضیحات برند</label>

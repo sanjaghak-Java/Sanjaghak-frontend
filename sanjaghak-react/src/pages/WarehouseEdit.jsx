@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import "/src/styles/EditWarehouse.css";
 
 export default function EditWarehouse() {
-  const { warehouseId } = useParams(); // match your route param
+  const { warehouseId } = useParams(); 
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
@@ -20,7 +20,7 @@ export default function EditWarehouse() {
   const [phone, setPhone] = useState("");
   const [isCentralWarehouse, setIsCentralWarehouse] = useState(false);
 const { id } = useParams();
-  // Fetch warehouse data on mount
+
   useEffect(() => {
     const fetchWarehouse = async () => {
       try {
@@ -40,11 +40,11 @@ const { id } = useParams();
         const data = await res.json();
         setWarehouse(data);
 
-        // Set form fields
+
 setName(data.name || "");
 setAddress(data.address || "");
 setCountry(data.country || "");
-setProvince(data.state || ""); // backend uses 'state'
+setProvince(data.state || ""); 
 setCity(data.city || "");
 setPostalCode(data.postalCode || "");
 setPhone(data.phone || "");
@@ -69,12 +69,12 @@ const handleSubmit = async (e) => {
     name,
     address,
     city,
-    state: province, // backend uses 'state' instead of province
+    state: province, 
     country,
     postalCode,
     phone,
     isCentral: isCentralWarehouse,
-    isActive: true, // or you can add a toggle if needed
+    isActive: true, 
   };
 
   try {

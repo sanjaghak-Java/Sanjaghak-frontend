@@ -29,7 +29,6 @@ const PRODUCT_IMAGES_URL = (productId) =>
           return;
         }
 
-        // 1️⃣ Get the list of favorite products
         const res = await fetch(FAVORITES_URL, {
           headers: { "Authorization": `Bearer ${token}` }
         });
@@ -38,18 +37,16 @@ const PRODUCT_IMAGES_URL = (productId) =>
 
         const favoritesData = await res.json();
 
-        // 2️⃣ For each product, get variant (price, color) and image
 const itemsWithDetails = await Promise.all(
   favoritesData.map(async (product) => {
     let price = 0;
     let color = [];
     let hex = [];
     let imageUrl = "";
-    let inventory = "ناموجود"; // default
+    let inventory = "ناموجود"; 
     let discountPercentage = 0;
 
     try {
-      // 1️⃣ Get variant data
       const variantRes = await fetch(VARIANT_URL(product.productId), {
         headers: { "Authorization": `Bearer ${token}` }
       });
@@ -58,15 +55,12 @@ const itemsWithDetails = await Promise.all(
         const variantData = await variantRes.json();
         if (Array.isArray(variantData) && variantData.length > 0) {
 
-          // Extract colors, hex codes, and ids
           color = variantData.map(v => v.color).filter(Boolean);
           hex = variantData.map(v => v.hexadecimal).filter(Boolean);
 
-          // Check stock for all variants
 const stockChecks = await Promise.all(
   variantData.map(async (v) => {
     try {
-      // 1️⃣ Check stock
       const stockRes = await fetch(
         `http://127.0.0.1:8080/api/Sanjaghak/inventoryStock/variant/${v.variantId}/stock`,
         { headers: { "Authorization": `Bearer ${token}` } }
@@ -80,7 +74,6 @@ const stockChecks = await Promise.all(
 let finalPrice = v.price;
 let discountPercentage = 0;
 
-// 2️⃣ Check discount only if in stock
 if (stock > 0) {
   try {
     const discountRes = await fetch(
@@ -91,7 +84,7 @@ if (stock > 0) {
     if (discountRes.ok && discountRes.status !== 204) {
       const discountData = await discountRes.json();
       if (discountData && discountData.discountPercentage) {
-        discountPercentage = discountData.discountPercentage; // store it
+        discountPercentage = discountData.discountPercentage; 
         finalPrice = Math.round(v.price * (1 - discountPercentage / 100));
       }
     }
@@ -106,16 +99,14 @@ return { id: v.variantId, price: finalPrice, stock, discountApplied: discountPer
 
     } catch (err) {
       console.error("Error checking stock for variant", v.variantId, err);
-      return { id: v.variantId, price: finalPrice, stock, discountApplied: finalPrice < v.price };// fallback
+      return { id: v.variantId, price: finalPrice, stock, discountApplied: finalPrice < v.price };
     }
   })
 );
 
-// Choose first in-stock variant for display
 const inStockVariants = stockChecks.filter(v => v.stock > 0);
 
 if (inStockVariants.length > 0) {
-  // prioritize discounted variant
 const discountedVariant = inStockVariants.find(v => v.discountApplied);
 const selectedVariant = discountedVariant || inStockVariants[0];
 
@@ -133,14 +124,12 @@ console.log(product.productName, "Variants:", variantData, "Stock checks:", stoc
       console.error(`Error fetching variants for product ${product.productId}:`, err);
     }
 
-    // 2️⃣ Get product image
 try {
   const imgRes = await fetch(PRODUCT_IMAGES_URL(product.productId), {
     headers: { "Authorization": `Bearer ${token}` }
   });
   if (imgRes.ok) {
-    const imgData = await imgRes.json(); // this returns an array
-    // pick the primary image
+    const imgData = await imgRes.json(); 
     const mainImage = Array.isArray(imgData) ? imgData.find(img => img.primary) : null;
     imageUrl = mainImage ? `http://127.0.0.1:8080${mainImage.imageUrl}` : "";
   }

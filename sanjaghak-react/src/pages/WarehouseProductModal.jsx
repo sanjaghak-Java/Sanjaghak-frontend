@@ -22,7 +22,6 @@ export default function WarehouseProductModal({ shelf, onClose, onSave }) {
         setLoading(true);
         setError(null);
 
-        // Fetch inventory stock
         const stockRes = await fetch(
           "http://127.0.0.1:8080/api/Sanjaghak/inventoryStock/getAllInventoryStock",
           {
@@ -52,7 +51,6 @@ export default function WarehouseProductModal({ shelf, onClose, onSave }) {
         });
         setStock(shelfStock.quantityOnHand);
 
-        // Fetch variant
         const variantRes = await fetch(
           `http://127.0.0.1:8080/api/Sanjaghak/productVariants/${shelfStock.variantsId.variantId}`,
           {
@@ -67,7 +65,6 @@ export default function WarehouseProductModal({ shelf, onClose, onSave }) {
         const variant = await variantRes.json();
         setVariantData(variant);
 
-        // Fetch product
         const productRes = await fetch(
           `http://127.0.0.1:8080/api/Sanjaghak/product/${variant.productId.productId}`,
           {
@@ -96,7 +93,6 @@ export default function WarehouseProductModal({ shelf, onClose, onSave }) {
     if (stockData) setHasChanges(stock !== stockData.quantityOnHand);
   }, [stock, stockData]);
 
-  // Local stock adjustments
   const increaseStock = () => {
     if (stockData && stock < stockData.maxStock) setStock(prev => prev + 1);
   };
@@ -138,7 +134,6 @@ export default function WarehouseProductModal({ shelf, onClose, onSave }) {
       );
       if (!res.ok) throw new Error("خطا در بروزرسانی موجودی");
 
-      // Update local state
       setStockData(prev => ({
         ...prev,
         quantityOnHand: stock,

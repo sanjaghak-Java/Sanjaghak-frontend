@@ -23,14 +23,12 @@ function BestSellerSlider() {
       return res.json();
     })
     .then(async (data) => {
-      // If the API returns product objects or just IDs, adjust accordingly
-      // Assuming it returns an array of product objects or at least with productId
+
       const topSelling = data.slice(0, 15);
 
       const productsWithDetails = await Promise.all(
         topSelling.map(async (product) => {
           try {
-            // Fetch images
             const imgRes = await fetch(
               `http://127.0.0.1:8080/api/Sanjaghak/productImages/${product.productId}`,
               { headers: token ? { Authorization: `Bearer ${token}` } : {} }
@@ -42,7 +40,6 @@ function BestSellerSlider() {
               ? `http://127.0.0.1:8080${primaryImage.imageUrl}`
               : "/path/to/default-image.jpg";
 
-            // Fetch variants
             const variantRes = await fetch(
               `http://127.0.0.1:8080/api/Sanjaghak/productVariants/getProductVariantByProductId?productId=${product.productId}`,
               { headers: token ? { Authorization: `Bearer ${token}` } : {} }
@@ -50,7 +47,6 @@ function BestSellerSlider() {
             if (!variantRes.ok) throw new Error("Failed to fetch variants");
             const variants = await variantRes.json();
 
-            // Fetch discount
             const discountRes = await fetch(
               `http://127.0.0.1:8080/api/Sanjaghak/discount/max-discount/${product.productId}`,
               { headers: token ? { Authorization: `Bearer ${token}` } : {} }

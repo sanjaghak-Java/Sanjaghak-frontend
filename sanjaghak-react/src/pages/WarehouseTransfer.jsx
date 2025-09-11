@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from "react-router-dom";
 import '/src/styles/WarehouseTransfer.css';
-import WarehouseProductSelectorModal from "./WarehouseProductSelectorModal"
+import WarehouseProductSelectorModal from "./WarehouseProductSelectorModal";
 import WarehouseViewModal from "./WarehouseViewModal";
 
 function WarehouseTransfer() {
   const location = useLocation();
   const incomingDestinationWarehouse = location.state?.sourceWarehouseName || "";
-
+  const token = localStorage.getItem("token");
   const [showProductModal, setShowProductModal] = useState(false);
   const [showProductModalFor, setShowProductModalFor] = useState(null);
   const [step, setStep] = useState(1);
@@ -17,27 +17,16 @@ function WarehouseTransfer() {
   const [quantity, setQuantity] = useState("");
 
   const [sourceWarehouse, setSourceWarehouse] = useState("");
-
-  const destinationWarehouse = incomingDestinationWarehouse;
+  const [destinationWarehouse, setDestinationWarehouse] = useState(incomingDestinationWarehouse);
 
   const [registeredItems, setRegisteredItems] = useState([]);
-
   const [destinationSectionShelf, setDestinationSectionShelf] = useState("");
-
   const [showViewModal, setShowViewModal] = useState(false);
 
-  const productList = [
-    { id: 1, name: "گوشی موبایل", variant: "قرمز", section: "بخش 1", shelf: "قفسه 2", stock: 120 },
-    { id: 2, name: "لپ‌تاپ", variant: "آبی", section: "بخش A", shelf: "قفسه B", stock: 45 },
-    { id: 3, name: "هدفون", variant: "مشکی", section: "بخش C", shelf: "قفسه D", stock: 75 },
-    { id: 4, name: "تبلت", variant: "سفید", section: "بخش E", shelf: "قفسه F", stock: 30 },
-  ];
+  const [warehouses, setWarehouses] = useState([]); 
 
-  const warehouses = [
-    { id: 1, name: "انبار مرکزی" },
-    { id: 2, name: "انبار فرعی" },
-    { id: 3, name: "انبار شماره 3" },
-  ];
+const [destinationSections, setDestinationSections] = useState([]); 
+const [destinationShelves, setDestinationShelves] = useState([]);
 
   const destinationSectionShelves = [
     "بخش 1 - قفسه 1",
@@ -46,6 +35,131 @@ function WarehouseTransfer() {
     "بخش 2 - قفسه B",
     "بخش 3 - قفسه X",
   ];
+  useEffect(() => {
+  if (!destinationWarehouse || !token) return;
+
+  const warehouseObj = warehouses.find(w => w.name === destinationWarehouse);
+  if (!warehouseObj) return;
+
+  const warehouseId = warehouseObj.warehouseId;
+
+  fetch(`http://127.0.0.1:8080/api/Sanjaghak/sections/by-warehouse/${warehouseId}`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then(async res => {
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return res.json();
+    })
+    .then(async sections => {
+      const activeSections = sections.filter(s => s.active);
+      setDestinationSections(activeSections);
+
+      
+const allShelves = await Promise.all(
+  activeSections.map(async section => {
+    const res = await fetch(
+      `http://127.0.0.1:8080/api/Sanjaghak/shelves/getShelvesBySectionId/${section.sectionsId}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (!res.ok) throw new Error(`Failed to fetch shelves for section ${section.name}`);
+    const shelves = await res.json();
+
+    return shelves
+      .filter(sh => sh.active)
+      .map(sh => ({ ...sh, sectionName: section.name }));
+  })
+);
+      setDestinationShelves(allShelves.flat());
+    })
+    .catch(err => console.error("Error fetching destination shelves:", err));
+}, [destinationWarehouse, warehouses, token]);
+  const [productList, setProductList] = useState([]); 
+
+useEffect(() => {
+  if (!token || !sourceWarehouse) return;
+
+  const warehouseObj = warehouses.find(w => w.name === sourceWarehouse);
+  if (!warehouseObj) return;
+
+  const warehouseId = warehouseObj.warehouseId;
+
+  fetch(`http://127.0.0.1:8080/api/Sanjaghak/inventoryStock/getInventoryStocksByWarehouse/${warehouseId}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then(async res => {
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(`HTTP ${res.status}: ${text}`);
+      }
+      return res.json();
+    })
+    .then(async stocks => {
+      const activeStocks = stocks.filter(stock => stock.active);
+
+      const productsWithVariants = await Promise.all(
+        activeStocks.map(async stock => {
+          const variantId = stock.variantsId.variantId;
+          const variantRes = await fetch(`http://127.0.0.1:8080/api/Sanjaghak/productVariants/${variantId}`, {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          if (!variantRes.ok) throw new Error(`Failed to fetch variant ${variantId}`);
+          const variantData = await variantRes.json();
+
+          return {
+            id: variantData.variantId,
+            name: variantData.productId.productName,
+            variant: variantData.color,
+            section: stock.shelvesId?.shelvesId || "نامشخص",
+            stock: stock.quantityOnHand,
+          };
+        })
+      );
+
+      setProductList(productsWithVariants);
+    })
+    .catch(err => console.error("Error fetching products for source warehouse:", err));
+}, [sourceWarehouse, warehouses, token]);
+
+useEffect(() => {
+  fetch("http://127.0.0.1:8080/api/Sanjaghak/warehouse/getAllWarehouse", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+       Authorization: `Bearer ${token}`, 
+    },
+  })
+    .then(async res => {
+      if (!res.ok) {
+        const text = await res.text(); 
+        throw new Error(`HTTP ${res.status}: ${text}`);
+      }
+      return res.json();
+    })
+    .then(data => {
+      if (Array.isArray(data)) {
+        const activeWarehouses = data.filter(w => w.isActive);
+        setWarehouses(activeWarehouses);
+      } else {
+        console.error("Expected array but got:", data);
+      }
+    })
+    .catch(err => console.error("Error fetching warehouses:", err));
+}, []);
 
   function handleSelectProduct(product) {
     if (showProductModalFor === "source") {
@@ -80,35 +194,73 @@ function WarehouseTransfer() {
       return;
     }
 
-    const [section, shelf] = destinationSectionShelf.split(" - ");
+const [section, shelf] = destinationSectionShelf.split(" - ");
 
-    setRegisteredItems((prev) => [
-      ...prev,
-      {
-        id: Date.now(),
-        fromWarehouse: sourceWarehouse,
-        fromSection: selectedSourceProduct.section,
-        fromShelf: selectedSourceProduct.shelf,
-        toWarehouse: destinationWarehouse,
-        toSection: section,
-        toShelf: shelf,
-        productName: selectedSourceProduct.name,
-        productVariant: selectedSourceProduct.variant,
-        quantity: qty,
-      },
-    ]);
+setRegisteredItems(prev => [
+  ...prev,
+  {
+    id: Date.now(),
+    fromWarehouse: sourceWarehouse,
+    fromSection: selectedSourceProduct.section,
+    fromShelf: selectedSourceProduct.shelf,
+    toWarehouse: destinationWarehouse,
+    toSection: section,
+    toShelf: shelf,
+    productName: selectedSourceProduct.name,
+    productVariant: selectedSourceProduct.variant,
+    quantity: qty,
+  }
+]);
 
     setQuantity("");
     setDestinationSectionShelf("");
     setStep(1);
   }
 
-function handleFinalSubmit() {
+async function handleFinalSubmit() {
   if (registeredItems.length === 0) {
     alert("هیچ موردی ثبت نشده است.");
     return;
   }
-  setShowViewModal(true);
+
+  try {
+    for (const item of registeredItems) {
+      const fromWarehouseObj = warehouses.find(w => w.name === item.fromWarehouse);
+      if (!fromWarehouseObj) throw new Error(`انبار مبدا ${item.fromWarehouse} پیدا نشد`);
+
+      const toShelfObj = destinationShelves.find(
+        sh => sh.sectionName === item.toSection && sh.shelvesCode === item.toShelf
+      );
+      if (!toShelfObj) throw new Error(`قفسه مقصد ${item.toSection} - ${item.toShelf} پیدا نشد`);
+
+      const productVariantObj = productList.find(
+        p => p.name === item.productName && p.variant === item.productVariant
+      );
+      if (!productVariantObj) throw new Error(`محصول ${item.productName} پیدا نشد`);
+
+      const url = `http://127.0.0.1:8080/api/Sanjaghak/inventoryMovement/requestTransfer?quantity=${item.quantity}&variantId=${productVariantObj.id}&fromWarehouseId=${fromWarehouseObj.warehouseId}&toShelvesId=${toShelfObj.shelvesId}`;
+
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(`خطا در انتقال ${item.productName}: ${text}`);
+      }
+    }
+
+    alert("انتقال با موفقیت ثبت شد.");
+    setRegisteredItems([]);
+    setShowViewModal(false);
+  } catch (err) {
+    console.error(err);
+    alert(err.message);
+  }
 }
 
   return (
@@ -124,7 +276,7 @@ function handleFinalSubmit() {
               >
                 <option value="" disabled hidden>انتخاب انبار مبدا</option>
                 {warehouses.map(w => (
-                  <option key={w.id} value={w.name}>{w.name}</option>
+                  <option key={w.warehouseId} value={w.name}>{w.name}</option>
                 ))}
               </select>
               <label>از انبار</label>
@@ -137,12 +289,11 @@ function handleFinalSubmit() {
               >
                 <option value="" disabled hidden>انتخاب انبار مقصد</option>
                 {warehouses.map(w => (
-                  <option key={w.id} value={w.name}>{w.name}</option>
+                  <option key={w.warehouseId} value={w.name}>{w.name}</option>
                 ))}
               </select>
               <label>به انبار</label>
             </div>
-
 
             <div className="Warehouse-name-containor">
               <input
@@ -172,7 +323,6 @@ function handleFinalSubmit() {
 
         {step === 2 && (
           <>
-
             <div className="Warehouse-name-containor">
               <input
                 type="number"
@@ -185,15 +335,17 @@ function handleFinalSubmit() {
               <label>تعداد</label>
             </div>
             <div className="Warehouse-name-containor">
-              <select
-                value={destinationSectionShelf}
-                onChange={(e) => setDestinationSectionShelf(e.target.value)}
-              >
-                <option value="" disabled hidden>انتخاب بخش-قفسه مقصد</option>
-                {destinationSectionShelves.map((item, idx) => (
-                  <option key={idx} value={item}>{item}</option>
-                ))}
-              </select>
+<select
+  value={destinationSectionShelf}
+  onChange={e => setDestinationSectionShelf(e.target.value)}
+>
+  <option value="" disabled hidden>انتخاب بخش-قفسه مقصد</option>
+  {destinationShelves.map(sh => (
+    <option key={sh.shelvesId} value={`${sh.sectionName} - ${sh.shelvesCode}`}>
+      {`${sh.sectionName} - ${sh.shelvesCode}`}
+    </option>
+  ))}
+</select>
               <label>بخش-قفسه انبار مقصد</label>
             </div>
 

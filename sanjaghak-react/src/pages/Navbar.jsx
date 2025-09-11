@@ -20,8 +20,8 @@ const [loadingBrandsFor, setLoadingBrandsFor] = useState(null);
 const [categories, setCategories] = useState([]);
 const [categoryLoading, setCategoryLoading] = useState(true);
 const [searchTerm, setSearchTerm] = useState("");
-const [cartItemCount, setCartItemCount] = useState(0); // NEW
-const customerId = localStorage.getItem("customerId")// replace dynamically if needed
+const [cartItemCount, setCartItemCount] = useState(0); 
+const customerId = localStorage.getItem("customerId")
 const token = localStorage.getItem("token")
   const fetchCartCount = async () => {
     if (!token) return;
@@ -38,7 +38,6 @@ const token = localStorage.getItem("token")
         return;
       }
 
-      // fetch order items
       const resItems = await fetch(
         `http://127.0.0.1:8080/api/Sanjaghak/orderItem/getOrderItemByFilter?orderId=${pendingOrder.orderId}`,
         { headers: { Authorization: `Bearer ${token}` } }
@@ -46,7 +45,7 @@ const token = localStorage.getItem("token")
       if (!resItems.ok) throw new Error("Failed to fetch order items");
       const itemsData = await resItems.json();
       const orderItems = Array.isArray(itemsData.content) ? itemsData.content : [];
-      setCartItemCount(orderItems.length); // number of different items
+      setCartItemCount(orderItems.length); 
     } catch (error) {
       console.error("Error fetching cart count:", error);
     }
@@ -56,7 +55,7 @@ const token = localStorage.getItem("token")
     const token = localStorage.getItem('token');
     setIsLoggedIn(!!token);
 
-    if (token) fetchCartCount(); // fetch cart count on mount
+    if (token) fetchCartCount(); 
   }, [token]);
 const handleSearch = () => {
   if (searchTerm.trim()) {
@@ -65,7 +64,7 @@ const handleSearch = () => {
   }
 };
 const fetchBrandsForCategory = (categoryId) => {
-  if (brandsByCategory[categoryId]) return; // Already fetched
+  if (brandsByCategory[categoryId]) return; 
 
   setLoadingBrandsFor(categoryId);
 
@@ -148,7 +147,7 @@ useEffect(() => {
   onChange={(e) => setSearchTerm(e.target.value)}
   onFocus={() => setIsFocused(true)}
   onBlur={() => setIsFocused(false)}
-  onKeyDown={(e) => e.key === "Enter" && handleSearch()} // Enter to search
+  onKeyDown={(e) => e.key === "Enter" && handleSearch()} 
 />
 <button className="searchBtn" onClick={handleSearch}>
   <img src={searchIcon} alt="search" />
@@ -166,7 +165,7 @@ useEffect(() => {
 
 <div className='cart-navbar'>
   <button className='cartbutton' onClick={goTomycart}>
-    <label className='cart-num'>{cartItemCount}</label> {/* <-- updated */}
+    <label className='cart-num'>{cartItemCount}</label> 
     <img src={cartIcon} alt="cart" className='cartIcon' />
   </button>
 </div>

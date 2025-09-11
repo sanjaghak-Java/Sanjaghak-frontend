@@ -6,15 +6,12 @@ function PurchaseOrderFactor({ isOpen, onClose, purchase }) {
     console.log('Purchase received in factor:', purchase);
   if (!isOpen || !purchase) return null;
 
-  // Extract needed data from purchase
-  const items = purchase.items || []; // or whatever your data structure is
+  const items = purchase.items || []; 
   const supplier = purchase.suppliersId || { supplierName: "نامشخص" };
   const warehouse = purchase.warehouseId || { name: "نامشخص" };
 
-  // Helper: round to thousand
   const roundToThousand = (num) => Math.round(num / 1000) * 1000;
 
-  // Memoize shipping costs per item so they are stable per render
   const shippingCostsMap = useMemo(() => {
     const map = {};
     items.forEach(item => {
@@ -25,10 +22,9 @@ function PurchaseOrderFactor({ isOpen, onClose, purchase }) {
     return map;
   }, [items]);
 
-  // Totals
   const shipping = Object.values(shippingCostsMap).reduce((sum, cost) => sum + cost, 0);
   const total = items.reduce((sum, item) => sum + (item.product?.costPrice || 0) * item.quantity, 0);
-  const tax = Math.floor(total * 0.09); // example 9% VAT
+  const tax = Math.floor(total * 0.09); 
   const finalTotal = total + tax + shipping;
 
   const handleBackdropClick = () => onClose();
@@ -92,7 +88,6 @@ function PurchaseOrderFactor({ isOpen, onClose, purchase }) {
           </tbody>
         </table>
 
-        {/* No buttons here */}
 
       </div>
     </div>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Navbar from './navbar';    
+import Navbar from './Navbar';    
 import Footer from './Footer';    
 import '/src/styles/FAQPage.css';
 import more from  "../assets/arrow-up.png"; 

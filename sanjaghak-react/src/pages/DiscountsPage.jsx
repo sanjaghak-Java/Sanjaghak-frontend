@@ -12,7 +12,7 @@ import DiscountCreateModal from "./DiscountCreateModal";
 import DiscountDetailsModal from "./DiscountDetailsModal";
 
 function toComparableNumber(shamsiDate) {
-  if (!shamsiDate || typeof shamsiDate !== "string") return 0; // or a suitable fallback
+  if (!shamsiDate || typeof shamsiDate !== "string") return 0; 
   return Number(shamsiDate.replace(/\//g, ""));
 }
 
@@ -42,7 +42,7 @@ function isoFromJalali(shamsiDate) {
   if (!shamsiDate) return "";
   const [jy, jm, jd] = shamsiDate.split("/").map(Number);
   const g = jalaali.toGregorian(jy, jm, jd);
-  const isoString = new Date(g.gy, g.gm - 1, g.gd, 23, 59, 59).toISOString(); // set to 23:59:59 as API example
+  const isoString = new Date(g.gy, g.gm - 1, g.gd, 23, 59, 59).toISOString(); 
   return isoString;
 }
 
@@ -73,7 +73,6 @@ const handleSaveDiscount = async (updatedDiscount) => {
 
 
 
-    // Prepare body with API expected fields
     const body = {
       discountDescription: updatedDiscount.title,
       startFrom: isoFromJalali(updatedDiscount.startDate),
@@ -84,7 +83,7 @@ const handleSaveDiscount = async (updatedDiscount) => {
     const response = await fetch(
       `http://127.0.0.1:8080/api/Sanjaghak/discount/${discountId}?variantId=${variantId}`,
       {
-        method: "PUT", // or POST depending on your API
+        method: "PUT", 
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -97,7 +96,6 @@ const handleSaveDiscount = async (updatedDiscount) => {
       throw new Error("خطا در ذخیره تخفیف");
     }
 
-    // Update discount in the list after successful save
     setDiscounts((prev) =>
       prev.map((d) => (d.id === updatedDiscount.id ? updatedDiscount : d))
     );
@@ -107,17 +105,16 @@ const handleSaveDiscount = async (updatedDiscount) => {
 
   }
 };
-  // Fetch discounts from backend on mount
   useEffect(() => {
     const fetchDiscounts = async () => {
       try {
-        const token = localStorage.getItem("token"); // Your auth token
+        const token = localStorage.getItem("token"); 
         const response = await fetch(
           "http://127.0.0.1:8080/api/Sanjaghak/discount/getAllDiscount",
           {
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`, // add token header
+              Authorization: `Bearer ${token}`, 
             },
           }
         );
@@ -127,20 +124,13 @@ const handleSaveDiscount = async (updatedDiscount) => {
         }
 
         const data = await response.json();
-
-        // Assume the backend returns discounts in this structure:
-        // [{
-        //    id, discountDescription (title), active, startFrom, endFrom, discountPercentage, productName
-        // }]
-        // You might need to map to your frontend structure:
-
         const mappedDiscounts = data.map((d) => ({
           id: d.discountId,
-          variantId: d.variantsId?.variantId, // add this
-          productName: d.productName || "نامشخص", // fallback if missing
+          variantId: d.variantsId?.variantId, 
+          productName: d.productName || "نامشخص", 
           title: d.discountDescription || "",
           active: d.active,
-          startDate: jalaliFromISO(d.startFrom), // convert ISO string to Shamsi yyyy/mm/dd
+          startDate: jalaliFromISO(d.startFrom), 
           endDate: jalaliFromISO(d.endFrom),
           amount: d.discountPercentage,
         }));
@@ -155,7 +145,7 @@ const handleSaveDiscount = async (updatedDiscount) => {
     fetchDiscounts();
   }, []);
 
-  // Utility: Convert ISO date string to Jalali yyyy/mm/dd
+
   function jalaliFromISO(isoDate) {
     if (!isoDate) return "";
     const d = new Date(isoDate);
@@ -165,7 +155,7 @@ const handleSaveDiscount = async (updatedDiscount) => {
 
   const selectedTitle = discounts.find((d) => d.id === selectedId)?.title || "";
 
-  // Only active discounts that are currently ongoing (today is between start and end)
+
   const ongoingDiscounts = discounts.filter((d) => {
     console.log("Discounts loaded:", discounts);
 discounts.forEach((d) => {

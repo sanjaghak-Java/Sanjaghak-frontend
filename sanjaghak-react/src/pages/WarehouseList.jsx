@@ -13,7 +13,6 @@ function WarehouseList() {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
-  // Fetch warehouses from backend
   useEffect(() => {
     const fetchWarehouses = async () => {
       try {
@@ -27,17 +26,16 @@ function WarehouseList() {
         if (!res.ok) throw new Error("خطا در دریافت اطلاعات انبارها");
         const data = await res.json();
 
-        // Map API fields to frontend format
         const mapped = data.map((w) => ({
           id: w.warehouseId,
           name: w.name,
           country: w.country,
-          province: w.state, // backend uses state instead of province
+          province: w.state, 
           city: w.city,
           address: w.address,
           postalCode: w.postalCode,
           phone: w.phone,
-          active: w.isActive, // backend uses isActive
+          active: w.isActive, 
         }));
 
         setWarehouses(mapped);
@@ -155,7 +153,7 @@ function WarehouseList() {
   </button>
   <button
     onClick={(e) => {
-      e.stopPropagation(); // Prevent card click
+      e.stopPropagation(); 
       navigate(`/admin/اعلانات-انبار/${warehouse.id}`);
     }}
     className="notifications-button"

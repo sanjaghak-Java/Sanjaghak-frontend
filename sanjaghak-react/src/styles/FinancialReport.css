@@ -1,0 +1,156 @@
+.financial-report-container {
+  width: 83%;
+  height: 100%;
+  padding: 20px;
+  direction: rtl;
+  display: flex;
+  flex-direction: column;
+}
+
+.financial-report-container h1 {
+  text-align: center;
+  margin-bottom: 40px;
+  font-size: 32px;
+}
+
+.report-boxes {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.report-box {
+  background: linear-gradient(145deg, #ffffff, #dedede);
+  border-radius: 20px;
+  padding: 25px 20px;
+  min-width: 280px;
+  flex: 1;
+  max-width: 450px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  position: relative;
+}
+
+.box-header {
+  display: flex;
+  direction: rtl;
+  justify-content: space-between;
+}
+
+.filter-btn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: #c8c8c7;
+  font-size: 18px;
+}
+
+.report-h3,
+.secound-report-h3{
+  font-size: 20px;
+  margin: 0;
+  color: #dc2655;
+  font-family: "tabriz";
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.secound-report-h3{
+  color: #888;
+}
+
+.report-value {
+  text-align: center;
+  font-size: 24px;
+  font-family: "BYekan";
+  font-weight: bold;
+  color: #424242;
+  padding: 12px 0;
+  border-radius: 12px;
+  margin-top: 15px;
+}
+
+.filter-floating-panel {
+  position: absolute;
+  top: -10px;
+  left: 0;
+  background-color: #fff;
+  padding: 15px 20px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  z-index: 999;
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.filter-floating-panel div {
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-floating-panel label {
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+.filter-floating-panel input {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #999;
+  font-size: 14px;
+}
+
+.first-report,
+.secound-report{
+  padding: 10px 10px;
+  margin: 20px 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.first-report-box{
+  background: radial-gradient(circle at 30% 40%, #ffd6e0 0%, #fff0f5 40%, #ffffff 100%);
+  padding: 10px 15px 20px;
+  border-top-right-radius: 30px;
+  border-bottom-left-radius: 30px;
+  box-shadow: 0 10px 25px rgba(255, 182, 193, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  position: relative;
+}
+
+.secound-report-box{
+  background: radial-gradient(circle at 30% 40%, #ffffff 0%, #fff0f5 40%, #ffd6e0 100%);
+  padding: 10px 15px 20px;
+  border-top-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+  box-shadow: 0 10px 25px rgba(255, 182, 193, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  position: relative;
+}
+
+.finalreport-order-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.finalreport-order-table th {
+  text-align: center;
+  padding: 8px 0;
+  font-size: 17px;
+  font-family: "B Mehr";
+  font-weight: 800;
+  font-weight: bold;
+  color: #333;
+}
+
+.finalreport-order-table td {
+  text-align: center;
+  padding: 6px 0;
+  font-size: 16px;
+  font-family: "BYekan";
+  color: #555;
+}

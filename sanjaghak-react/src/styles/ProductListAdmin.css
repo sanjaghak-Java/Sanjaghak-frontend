@@ -1,7 +1,7 @@
 .adminProductListContainer {
   width: 100vw;
-  max-width: 1200px; /* 4 cols * 220px + gaps, adjust if needed */
-  margin: 0 auto; /* center container horizontally */
+  max-width: 1200px; 
+  margin: 0 auto; 
   box-sizing: border-box;
   padding: 0 16px;
 }

@@ -73,7 +73,7 @@ useEffect(() => {
           {categories.map((item) => (
             <SwiperSlide className="categorySwiperSlide" key={item.categoryId}>
               <Link
-                to={`/productCategory?category=${item.categoryName}`}
+                to={`/productCategory?category=${item.categoryId}`}
                 className="categorySwiperSlide"
               >
                 <div>

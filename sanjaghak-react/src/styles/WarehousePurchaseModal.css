@@ -1,0 +1,195 @@
+.purchase-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 50;
+  font-family: Vazirmatn, sans-serif;
+  direction: rtl;
+}
+
+.purchase-modal-box {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.purchase-modal-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  text-align: right;
+}
+
+.purchase-info-box {
+  display: flex;
+  align-items: center;
+  gap: 180px;
+  margin: 10px;
+  text-align: right;
+}
+
+.purchase-product-table{
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 16px;
+}
+
+.purchase-product-table th,
+.purchase-product-table td{
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.purchase-product-table th{
+  background: #f5f5f5;
+}
+
+.purchase-btn-box {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.purchase-btn {
+    padding: 8px 15px;
+    border-radius: 6px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 0 5px;
+    width: fit-content;
+}
+
+.btn-choose{
+  background-color: transparent;
+}
+
+.delete-btn{
+  border: none;
+  outline: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.btn-choose img,
+.delete-btn img{
+  height: 25px;
+}
+
+.btn-back {
+  background: #999;
+  color: white;
+}
+
+.btn-save{
+ background-color: #dc2655;
+ color: white;
+}
+
+.purchase-new-btn{
+  background-color: transparent;
+  border: none;
+  outline: none;
+  padding: 5px 15px;
+  cursor: pointer;
+  color: #888;
+  transition: transform 0.2s ease;
+  font-size: 18px;
+  font-family: "Kamran";
+}
+
+.purchase-new-btn:hover{
+  color: #c4204b;
+  transform: scale(1.05);
+}
+
+.assign-row {
+  display: flex;
+  align-items: center;
+  padding: 5px 18px;
+  margin: 0 15px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.field {  
+  position: relative;
+  margin: 15px 0;
+  direction: rtl;
+}
+
+.floating{
+  width: 100%;
+}
+
+.field input{
+  width: 60%;
+  padding: 9px 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  font-size: 14px;
+  background: transparent;
+}
+
+.purchase-selector {
+  width: 75%;
+  padding: 9px 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  font-size: 14px;
+  background: transparent;
+}
+
+.field input:focus,
+.purchase-selector:focus{
+    border-color: #c4204b;
+}
+
+.field label {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  width: fit-content;
+  transform: translateY(-50%);
+  color: #888;
+  font-size: 16px;
+  pointer-events: none;
+  transition: 0.2s ease all;
+  background: #fff;
+}
+
+.field input:focus + label,
+.field input:not(:placeholder-shown) + label,
+.field select:focus + label,
+.field select:not([value=""]) + label {
+  top: 0px;
+  left: 8px;
+  font-size: 14px;
+  color: #dc2655;
+}
+
+.purchase-btn.btn-confirm {
+  background-color: #dc2655;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 9px 8px;
+  cursor: pointer;
+}
+
+.purchase-btn.btn-confirm:disabled {
+  background-color: #d6d6d6;
+  color: #888;
+  cursor: not-allowed;
+  opacity: 0.7;
+}

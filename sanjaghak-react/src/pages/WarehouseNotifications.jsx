@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import WarehouseViewModal from "./WarehouseViewModal";
+import WarehousePurchaseModal from "./WarehousePurchaseModal";
 
 function WarehouseNotifications() {
   const { warehouseId } = useParams();
@@ -12,6 +13,8 @@ function WarehouseNotifications() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [transferItems, setTransferItems] = useState([]);
+  //برای نوتیف جدید سفارشات
+  const [isPurchaseModalOpen, setIsPurchaseModalOpen] = useState(false);
 
   // Replace this with your actual token
   const token = localStorage.getItem("token"); // or wherever you store it
@@ -73,6 +76,15 @@ function WarehouseNotifications() {
         setIsModalOpen(true);
       },
     },
+    {
+      id: 3,
+      text: "محموله جدید رسید",
+      buttonText: "مشاهده",
+      onClick: () => {
+        setIsPurchaseModalOpen(true); // استیت جدید برای مودال محموله
+      },
+    },
+
   ];
 
   return (
@@ -156,6 +168,20 @@ function WarehouseNotifications() {
           }}
         />
       )}
+
+      {isPurchaseModalOpen && (
+        <WarehousePurchaseModal
+          isOpen={isPurchaseModalOpen}
+          onClose={() => setIsPurchaseModalOpen(false)}
+          warehouse={warehouse.name}
+          supplier="شرکت تأمین‌کننده تستی"
+          products={[
+            { id: 1, name: "لپ‌تاپ ایسوس", quantity: 50 },
+            { id: 2, name: "ماوس بی‌سیم", quantity: 200 },
+          ]}
+        />
+      )}
+
     </div>
   );
 }

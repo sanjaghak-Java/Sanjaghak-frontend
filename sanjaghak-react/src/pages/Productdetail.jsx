@@ -330,6 +330,7 @@ const handleAddToCart = async () => {
     const data = await res.json(); 
     setOrderItemId(data.id || data.orderItemId); 
     setQty(1);
+    window.location.reload();
   } catch (err) {
     console.error(err);
     alert("خطا در افزودن به سبد خرید");
@@ -377,6 +378,7 @@ const dec = async () => {
       );
       if (!res.ok) throw new Error("Failed to delete item");
       setQty(0);
+      window.location.reload();
       setOrderItemId(null);
     } catch (err) {
       console.error(err);

@@ -78,6 +78,7 @@ const [modalProducts, setModalProducts] = useState([]);
         body: JSON.stringify({
           shippingCost: order.shippingCost,
           expectedDate: isoExpectedDate, 
+          status: "received"
         }),
       }
     );

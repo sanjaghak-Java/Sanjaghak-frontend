@@ -20,142 +20,178 @@ import phone from "../assets/images (1).jpg";
 function Orders() {
   const backgroundAreaRef = useRef(null);
   const [selectedOrder, setSelectedOrder] = useState(null);
-
-  const orders = [
-    {
-      id: 1,
-      orderNumber: '1001',
-      orderDate: '1404/04/15',
-      deliveryDate: '1404/05/04',
-      amount: 250000,
-      status: 'تحویل شده',
-      product: {
-        title: 'گوشی موبایل سامسونگ مدل A14',
-        image: phone,
-        color: 'آبی',
-        colorCode: 'blue',
-        category: 'موبایل',
-        price: 1200000
-      }
-    },
-    {
-      id: 2,
-      orderNumber: '1002',
-      orderDate: '1404/04/16',
-      deliveryDate: '1404/04/21',
-      amount: 120000,
-      status: 'لغو شده',
-      product: {
-        title: 'هدفون بی‌سیم شیائومی',
-        image: phone,
-        color: 'قرمز',
-        colorCode: 'red',
-        category: 'هدفون',
-        price: 800000
-      }
-    },
-    {
-      id: 3,
-      orderNumber: '1003',
-      orderDate: '1404/04/17',
-      deliveryDate: '1404/04/22',
-      amount: 300000,
-      status: 'مرجوع شده',
-      product: {
-        title: 'ساعت هوشمند هواوی',
-        image: phone,
-        color: 'مشکی',
-        colorCode: 'black',
-        category: 'ساعت هوشمند',
-        price: 1500000
-      }
-    },
-    {
-      id: 4,
-      orderNumber: '1004',
-      orderDate: '1404/04/25',
-      deliveryDate: '1404/05/01',
-      amount: 180000,
-      status: 'در جریان',
-      product: {
-        title: 'لپ تاپ ایسوس مدل X515',
-        image: phone,
-        color: 'نقره‌ای',
-        colorCode: 'silver',
-        category: 'لپ‌تاپ',
-        price: 22000000
-      }
-    },
-  ];
-
-  const deliveredCount = orders.filter(order => order.status === 'تحویل شده').length;
-  const returnedCount = orders.filter(order => order.status === 'مرجوع شده').length;
-  const canceledCount = orders.filter(order => order.status === 'لغو شده').length;
-  const inProgressCount = orders.filter(order => order.status === 'در جریان').length;
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const [statusFilter, setStatusFilter] = useState('همه');
-  const [fromDate, setFromDate] = useState(null);
-  const [toDate, setToDate] = useState(null);
-  const [filteredOrders, setFilteredOrders] = useState(orders);
+  const [fromDate, setFromDate] = useState(null); // DateObject (persian)
+  const [toDate, setToDate] = useState(null);     // DateObject (persian)
+  const [filteredOrders, setFilteredOrders] = useState([]);
 
-  const getStatusClass = (status) => {
-    switch (status) {
-      case 'لغو شده':
-        return 'status canceled';
-      case 'تحویل شده':
-        return 'status delivered';
-      case 'مرجوع شده':
-        return 'status returned';
-      case 'در جریان':
-        return 'status inprogress';
-      default:
-        return 'status';
-    }
+  const customerId = "4e50c879-baec-4cdb-820f-01192dca08d9";
+
+  // Robust, case-insensitive status mapping
+  const mapStatus = (status) => {
+    if (!status && status !== "") return status;
+    const s = String(status).toLowerCase();
+    if (s === "processing") return "در جریان";
+    if (s === "delivered") return "تحویل شده";
+    if (s === "cancel" || s === "canceled" || s === "cancelled") return "لغو شده";
+    if (s === "pending") return null; // hide pending
+    return status;
   };
 
   useEffect(() => {
-    const filtered = orders.filter(order => {
-      const matchStatus = statusFilter === 'همه' || order.status === statusFilter;
+    const fetchOrders = async () => {
+      try {
+        // 1) Fetch orders
+        const response = await fetch(
+          `http://127.0.0.1:8080/api/Sanjaghak/Orders/getOrdersByfilter?customerId=${customerId}`
+        );
+        const data = await response.json();
 
-      let matchDate = true;
+        const mappedOrders = (data.content || [])
+          .map((order) => {
+            const status = mapStatus(order.orderStatus);
+            if (!status) return null; // skip pending
 
-      const orderDateObj = new DateObject({
-        date: order.orderDate,
-        calendar: persian,
-        locale: persian_fa,
-        format: "YYYY/MM/DD"
-      });
+            const orderDateObj = order.createdAt ? new Date(order.createdAt) : null;
+            const deliveryDateObj = order.updatedAt ? new Date(order.updatedAt) : null;
 
-      const orderYMD = orderDateObj.format("YYYY/MM/DD");
-      const fromYMD = fromDate?.format("YYYY/MM/DD");
-      const toYMD = toDate?.format("YYYY/MM/DD");
+            return {
+              id: order.orderId,
+              orderNumber: order.orderNumber,
+              // Persian strings for UI
+orderDate: orderDateObj
+  ? new DateObject({ date: orderDateObj, calendar: persian, locale: persian_fa }).format("YYYY/MM/DD")
+  : "",
+deliveryDate: deliveryDateObj
+  ? new DateObject({ date: deliveryDateObj, calendar: persian, locale: persian_fa }).format("YYYY/MM/DD")
+  : "",
+              // JS Date objects for filtering/comparison
+              orderDateObj,
+              deliveryDateObj,
+              amount: Number(order.totalAmount) || 0,
+              status,
+              product: {
+                title: "محصول خریداری شده", // placeholder; modal fetches real product
+                image: phone,
+                color: "مشکی",
+                colorCode: "black",
+                category: "نامشخص",
+                price: Number(order.totalAmount) || 0
+              }
+            };
+          })
+          .filter(Boolean);
 
-      if (fromDate && orderYMD < fromYMD) {
-        matchDate = false;
+        // 2) Fetch returns for user (requires auth token)
+        const token = localStorage.getItem("token");
+        const returnRes = await fetch(
+          "http://127.0.0.1:8080/api/Sanjaghak/return/getAllReturnByUserId",
+          {
+            headers: token ? { Authorization: `Bearer ${token}` } : {}
+          }
+        );
+
+        let returnOrders = [];
+        if (returnRes.ok) {
+          const returnData = await returnRes.json();
+          returnOrders = (returnData || [])
+            .filter(r => String(r.returnStatus).toUpperCase() !== "PENDING") // skip pending returns
+            .map(r => {
+              const rDateObj = r.createdAt ? new Date(r.createdAt) : null;
+              return {
+                id: r.orderId?.orderId || `ret-${r.returnId}`,
+                orderNumber: r.returnNumber || `RET-${r.returnId}`,
+                orderDate: rDateObj ? new DateObject(rDateObj).format("YYYY/MM/DD", persian, persian_fa) : "",
+                orderDateObj: rDateObj,
+                deliveryDate: "",
+                deliveryDateObj: null,
+                amount: 0,
+                status: "مرجوع شده",
+                product: {
+                  title: "محصول مرجوعی",
+                  image: phone,
+                  color: "-",
+                  colorCode: "black",
+                  category: "-",
+                  price: 0
+                }
+              };
+            });
+        }
+
+        const allOrders = [...mappedOrders, ...returnOrders];
+        setOrders(allOrders);
+        setFilteredOrders(allOrders);
+        setLoading(false);
+      } catch (err) {
+        console.error("Failed to fetch orders/returns:", err);
+        setLoading(false);
       }
+    };
 
-      if (toDate && orderYMD > toYMD) {
-        matchDate = false;
-      }
+    fetchOrders();
+  }, []);
 
-      return matchStatus && matchDate;
-    });
+  // Filter using JS Date objects (convert Persian DateObject to JS Date)
+useEffect(() => {
+  const filtered = orders.filter(order => {
+    const matchStatus = statusFilter === 'همه' || order.status === statusFilter;
+    if (!matchStatus) return false;
 
-    setFilteredOrders(filtered);
-  }, [statusFilter, fromDate, toDate]);
+    // If no date filters, accept it
+    if (!fromDate && !toDate) return true;
 
+    // Ensure we’re comparing Gregorian dates
+    const orderDt = order.orderDateObj; // plain JS Date (Gregorian)
+    if (!orderDt) return false;
+
+    const fromGregorian = fromDate
+      ? fromDate.toDate() // convert Persian DateObject -> JS Date (Gregorian)
+      : null;
+    const toGregorian = toDate
+      ? toDate.toDate()
+      : null;
+
+    // Make to-date inclusive (end of day)
+    if (toGregorian) toGregorian.setHours(23, 59, 59, 999);
+
+    if (fromGregorian && orderDt < fromGregorian) return false;
+    if (toGregorian && orderDt > toGregorian) return false;
+
+    return true;
+  });
+
+  setFilteredOrders(filtered);
+}, [statusFilter, fromDate, toDate, orders]);
+
+  // Status counts (based on merged list)
+  const deliveredCount = orders.filter(o => o.status === 'تحویل شده').length;
+  const returnedCount = orders.filter(o => o.status === 'مرجوع شده').length;
+  const canceledCount = orders.filter(o => o.status === 'لغو شده').length;
+  const inProgressCount = orders.filter(o => o.status === 'در جریان').length;
+
+  const getStatusClass = (status) => {
+    switch (status) {
+      case 'لغو شده': return 'status canceled';
+      case 'تحویل شده': return 'status delivered';
+      case 'مرجوع شده': return 'status returned';
+      case 'در جریان': return 'status inprogress';
+      default: return 'status';
+    }
+  };
 
   return (
     <>
       <Navbar />
-
       <div className="background-content-wrapper" ref={backgroundAreaRef}>
         <BackgroundPattern parentRef={backgroundAreaRef} />
 
         <div className="profilecontent">
           <ProfileMenu />
           <div className="orderdiv">
-
             <div className="border">
               {[
                 { icon: delivered, label: 'تحویل شده', count: deliveredCount },
@@ -232,7 +268,9 @@ function Orders() {
               </div>
 
               <div className="orderTableContainer">
-                {filteredOrders.length === 0 ? (
+                {loading ? (
+                  <p>در حال بارگذاری سفارشات...</p>
+                ) : filteredOrders.length === 0 ? (
                   <p className="noOrdersMessage">لیست سفارش های شما خالی است.</p>
                 ) : (
                   <table className="orderTable">
@@ -249,12 +287,13 @@ function Orders() {
                     </thead>
                     <tbody>
                       {filteredOrders.map((order, index) => (
-                        <tr key={order.id}>
+                        <tr key={`${order.id}_${index}`}>
                           <td>{index + 1}</td>
                           <td>{order.orderNumber}</td>
+                          {/* display Persian strings */}
                           <td>{order.orderDate}</td>
                           <td>{(order.status === 'لغو شده' || order.status === 'در جریان') ? '' : order.deliveryDate}</td>
-                          <td>{order.amount.toLocaleString()} تومان</td>
+                          <td>{(order.amount || 0).toLocaleString()} تومان</td>
                           <td><span className={getStatusClass(order.status)}>{order.status}</span></td>
                           <td>
                             <button className="profile-more-button" onClick={() => setSelectedOrder(order)}>
@@ -270,6 +309,7 @@ function Orders() {
             </div>
           </div>
         </div>
+
         {selectedOrder && (
           <OrderDetailsModal
             order={selectedOrder}

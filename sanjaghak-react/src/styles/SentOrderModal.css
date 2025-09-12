@@ -1,0 +1,91 @@
+/* SentOrderModal.css */
+
+.sent-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.sent-modal-content {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  width: 80%;
+  max-width: 900px;
+  text-align: center;
+}
+
+.sent-supplier-table {
+  width: 100%;
+  margin-bottom: 20px;
+  border-spacing: 0 10px;
+}
+
+.sent-supplier-table th {
+  border: none;
+  padding: 22px 8px;
+  background-color: white;
+}
+
+.sent-supplier-table td {
+  border: none;
+  padding: 22px 8px;
+  text-align: center;
+  background-color: #f9f9f9;
+  transition: background-color 0.3s;
+  cursor: pointer;
+}
+
+
+
+.sent-detail-table, .sent-cost-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+.sent-detail-table th, .sent-cost-table th {
+  border: 1px solid #ccc;
+  padding: 10px;
+  background-color: #f8f8f8;
+  text-align: center;
+}
+
+.sent-detail-table td, .sent-cost-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+}
+
+.sent-cost-table td {
+  background-color: white;
+}
+
+.sent-modal-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.sent-modal-button.close {
+  background-color: #DC2655;
+  margin-top: 10px;
+}
+
+.sent-operation-btn {
+  border: none;
+  background-color: transparent;
+  color: green;
+  cursor: pointer;
+}

@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import WarehouseViewModal from "./WarehouseViewModal";
 import WarehousePurchaseModal from "./WarehousePurchaseModal";
+import SentOrderModal from "./SentOrderModal";
+import OrderOutModal from "./OrderOutModal";
+
 
 function WarehouseNotifications() {
   const { warehouseId } = useParams();
@@ -23,6 +26,18 @@ function WarehouseNotifications() {
   const [transferProductsMap, setTransferProductsMap] = useState({});
   const [shelvesMap, setShelvesMap] = useState({});
   const [shippingProductsMap, setShippingProductsMap] = useState({});
+
+//خروج از انبار
+  const [isOrderOutModalOpen, setIsOrderOutModalOpen] = useState(false);
+  const [orderOutItems, setOrderOutItems] = useState([
+    { id: 1, productName: "محصول A",quantity: 20, price: 120000 },
+    { id: 2, productName: "محصول B",quantity: 20, price: 85000 },
+    { id: 3, productName: "محصول C",quantity: 20, price: 43000 },
+  ]);
+  //ارسال سفارشات
+  const [isSentOrderModalOpen, setIsSentOrderModalOpen] = useState(false);
+
+
   useEffect(() => {
     if (!warehouseId) return;
 
@@ -277,6 +292,21 @@ const fetchShippingRequests = async () => {
           },
         ]
       : []),
+
+//خروج از انبار
+    {
+      id: "new_order_out",
+      text: "خروج سفارشات جدید از انبار",
+      buttonText: "مشاهده",
+      onClick: () => setIsOrderOutModalOpen(true),
+    },
+    //ارسال سفارشات
+    {
+      id: "sent_order",
+      text: "ارسال سفارشات",
+      buttonText: "مشاهده",
+      onClick: () => setIsSentOrderModalOpen(true),
+    }
   ];
 
   return (
@@ -365,6 +395,24 @@ const fetchShippingRequests = async () => {
           products={products}
         />
       )}
+
+{/* خروج از انبار */}
+      <OrderOutModal
+        isOpen={isOrderOutModalOpen}
+        onConfirm={() => {
+          alert("خروج سفارش تایید شد!");
+          setIsOrderOutModalOpen(false);
+        }}
+        items={orderOutItems}
+        sourceWarehouse={warehouse.name}
+        destinationWarehouse="مرکزی"
+      />
+
+    {/* ارسال سفارشات */}
+      <SentOrderModal
+        isOpen={isSentOrderModalOpen}
+        onClose={() => setIsSentOrderModalOpen(false)}
+      />
     </div>
   );
 }

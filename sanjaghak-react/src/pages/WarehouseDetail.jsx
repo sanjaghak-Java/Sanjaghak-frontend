@@ -332,32 +332,23 @@ const handleShelfClick = async (shelf) => {
 
 {currentView === "shelves" && (
   <div>
-<button
-  onClick={() => {
-    if (warehouse?.isCentral) {
-      setShowReturnModal(true); 
-    } else {
-      handleAddShelf(false); 
-    }
-  }}
-  className="add-button"
->
-  + افزودن قفسه
-</button>
+    <button
+      onClick={() => {
+        if (warehouse?.isCentral) {
+          setShowReturnModal(true);
+        } else {
+          handleAddShelf(false);
+        }
+      }}
+      className="add-button"
+    >
+      + افزودن قفسه
+    </button>
+
     <div className="cards-grid">
       {shelvesLoading && <p>در حال بارگذاری قفسه‌ها...</p>}
       {shelvesError && <p style={{ color: "red" }}>{shelvesError}</p>}
-      {!shelvesLoading && !shelves.length && (
-<button
-  className="add-stock-button"
-      onClick={() => {
-        setSelectedShelf(shelf);
-        setShowStockModal(true);
-      }}
->
-  + افزودن موجودی
-</button>
-)}
+      {!shelvesLoading && !shelves.length && <p>هیچ قفسه‌ای یافت نشد.</p>}
 
       {shelves.map((shelf) => (
         <div
@@ -373,6 +364,7 @@ const handleShelfClick = async (shelf) => {
     </div>
   </div>
 )}
+
 
 {showProductModal && selectedShelf && (
   <WarehouseProductModal
@@ -459,6 +451,30 @@ const handleShelfClick = async (shelf) => {
           انصراف
         </button>
       </div>
+    </div>
+  </div>
+)}
+{showReturnModal && (
+  <div className="modal">
+    <div className="modal-content">
+      <h3>نوع قفسه را انتخاب کنید</h3>
+      <button
+        onClick={() => {
+          handleAddShelf(false); // normal shelf
+          setShowReturnModal(false);
+        }}
+      >
+        قفسه عادی
+      </button>
+      <button
+        onClick={() => {
+          handleAddShelf(true); // return shelf
+          setShowReturnModal(false);
+        }}
+      >
+        قفسه مرجوعی
+      </button>
+      <button onClick={() => setShowReturnModal(false)}>لغو</button>
     </div>
   </div>
 )}

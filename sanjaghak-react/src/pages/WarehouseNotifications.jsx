@@ -63,6 +63,58 @@ const fetchShippingRequests = async () => {
 
     fetchShippingRequests();
   }, [warehouseId, token]);
+  useEffect(() => {
+    if (!warehouseId) return;
+
+    const fetchProducts = async () => {
+      try {
+        const resOrders = await fetch(
+          "http://127.0.0.1:8080/api/Sanjaghak/purchaseOrders/getAllPurchaseOrders",
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        if (!resOrders.ok) throw new Error("خطا در دریافت سفارش‌ها");
+        const allOrders = await resOrders.json();
+
+        const warehouseOrders = allOrders.filter(
+          (o) =>
+            o.warehouseId.warehouseId === warehouseId && o.status === "Shipping"
+        );
+
+        const productList = [];
+
+        for (const order of warehouseOrders) {
+          const resItems = await fetch(
+            `http://127.0.0.1:8080/api/Sanjaghak/purchaseOrderItems/by-order/${order.purchaseOrdersId}`,
+            { headers: { Authorization: `Bearer ${token}` } }
+          );
+          if (!resItems.ok) continue;
+          const items = await resItems.json();
+
+          for (const item of items) {
+            const variantId = item.variantsId.variantId;
+            const resVariant = await fetch(
+              `http://127.0.0.1:8080/api/Sanjaghak/productVariants/${variantId}`,
+              { headers: { Authorization: `Bearer ${token}` } }
+            );
+            if (!resVariant.ok) continue;
+            const variantData = await resVariant.json();
+
+            productList.push({
+              id: variantData.variantId,
+              name: variantData.productId.productName,
+              quantity: item.quantityOrdered - item.recivedQuantity,
+            });
+          }
+        }
+
+        setProducts(productList);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchProducts();
+  }, [warehouseId, token]);
 
   useEffect(() => {
     if (!warehouseId) return;

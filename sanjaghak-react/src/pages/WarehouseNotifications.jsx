@@ -4,6 +4,8 @@ import WarehouseViewModal from "./WarehouseViewModal";
 import WarehousePurchaseModal from "./WarehousePurchaseModal";
 import SentOrderModal from "./SentOrderModal";
 import OrderOutModal from "./OrderOutModal";
+import jalaali from 'jalaali-js';
+
 
 
 function WarehouseNotifications() {
@@ -37,12 +39,11 @@ const [modalProducts, setModalProducts] = useState([]);
       return;
     }
   
-    // Convert Jalali date to Gregorian ISO string
     let isoExpectedDate = order.expectedDate;
     if (order.expectedDate.includes("-")) {
       const [jy, jm, jd] = order.expectedDate.split("-").map(Number);
       const { gy, gm, gd } = jalaali.toGregorian(jy, jm, jd);
-      isoExpectedDate = new Date(gy, gm - 1, gd).toISOString().split("T")[0]; // "YYYY-MM-DD"
+      isoExpectedDate = new Date(gy, gm - 1, gd).toISOString().split("T")[0]; 
     }
   
     await fetch(
@@ -55,8 +56,7 @@ const [modalProducts, setModalProducts] = useState([]);
         },
         body: JSON.stringify({
           shippingCost: order.shippingCost,
-          expectedDate: isoExpectedDate, // ✅ send Gregorian ISO
-          status: "received",
+          expectedDate: isoExpectedDate, 
         }),
       }
     );
@@ -149,7 +149,6 @@ for (const item of items) {
   if (!resVariant.ok) continue;
   const variantData = await resVariant.json();
 
-  // Push product info
   productList.push({
     id: variantData.variantId,
     name: variantData.productId.productName,
@@ -163,7 +162,6 @@ for (const item of items) {
   });
 }
 
-// ✅ After collecting all items for the order, check if all quantities are zero
 const allZero = items.every(
   item => item.quantityOrdered - item.recivedQuantity === 0
 );
@@ -173,7 +171,7 @@ if (allZero) {
     shippingCost: order.shippingCost,
     expectedDate: order.expectedDate,
     warehouseId: order.warehouseId,
-    supplierId: order.suppliersId?.suppliersId || order.supplierId, // ✅ match actual field
+    supplierId: order.suppliersId?.suppliersId || order.supplierId, 
   });
 }
         }
@@ -188,7 +186,7 @@ if (allZero) {
   }, [warehouseId, token]);
   const purchaseOrdersMap = {};
 products
-  .filter(p => p.quantity > 0) // <--- ignore zero-quantity items
+  .filter(p => p.quantity > 0) 
   .forEach((p) => {
     if (!purchaseOrdersMap[p.purchaseOrdersId]) purchaseOrdersMap[p.purchaseOrdersId] = [];
     purchaseOrdersMap[p.purchaseOrdersId].push(p);
@@ -198,7 +196,7 @@ products
   text: `محموله جدید از تأمین‌کننده ${supplierMap[orderProducts[0].supplierId] || "نامشخص"}`,
   buttonText: "مشاهده",
   onClick: () => {
-    setModalProducts(orderProducts); // pass all products with quantity > 0
+    setModalProducts(orderProducts); 
     setIsPurchaseModalOpen(true);
   },
 }));
@@ -455,7 +453,7 @@ products
   onClose={() => setIsPurchaseModalOpen(false)}
   warehouse={warehouse}
   supplier={supplierMap[modalProducts[0]?.supplierId] || "نامشخص"}
-  products={modalProducts} // pass only modalProducts
+  products={modalProducts} 
 />
       )}
 

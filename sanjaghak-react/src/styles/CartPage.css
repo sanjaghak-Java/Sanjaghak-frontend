@@ -85,6 +85,25 @@ overflow-y: auto;
   z-index: 10;
   height: 100%;
 }
+.empty-cart {
+  margin-right: 500px;
+  text-align: center;
+  padding: 50px 20px;
+  font-size: 1.2rem;
+    justify-content: center; /* vertical centering */
+  align-items: center;     /* horizontal centering */
+  color: #555;
+  background: #f9f9f9;
+  border-radius: 12px;
+  margin-top: 20px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.empty-cart p:first-child {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
 
 .pricenumber{
   font-size: 30px;

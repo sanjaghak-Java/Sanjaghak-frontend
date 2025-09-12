@@ -11,6 +11,7 @@ import bill from '../assets/bill.png';
 function CartPage() {
   const [items, setItems] = useState([]);
   const [shippingCost, setShippingCost] = useState(0);
+  const [orderId, setOrderId] = useState(null); 
   const backgroundAreaRef = useRef(null);
 
   const customerId = localStorage.getItem("customerId");
@@ -19,19 +20,18 @@ function CartPage() {
   useEffect(() => {
     const fetchCartItems = async () => {
       try {
-
         const resOrders = await fetch(
           `http://127.0.0.1:8080/api/Sanjaghak/Orders/getOrdersByfilter?customerId=${customerId}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         if (!resOrders.ok) throw new Error("Failed to fetch orders");
         const ordersData = await resOrders.json();
-        const pendingOrder = ordersData.content?.[0];
+        const pendingOrder = ordersData.content?.[0]; 
         if (!pendingOrder) return;
 
         setShippingCost(pendingOrder.shippingCost || 0);
+        setOrderId(pendingOrder.orderId); 
 
-  
         const resItems = await fetch(
           `http://127.0.0.1:8080/api/Sanjaghak/orderItem/getOrderItemByFilter?orderId=${pendingOrder.orderId}`,
           { headers: { Authorization: `Bearer ${token}` } }
@@ -40,80 +40,74 @@ function CartPage() {
         const itemsData = await resItems.json();
         const orderItems = Array.isArray(itemsData.content) ? itemsData.content : [];
 
+        const cartItems = await Promise.all(
+          orderItems.map(async item => {
+            const variantId = item.variantId?.variantId;
+            if (!variantId) return null;
 
-const cartItems = await Promise.all(
-  orderItems.map(async item => {
-    const variantId = item.variantId?.variantId;
-    if (!variantId) return null;
+            const resVariant = await fetch(
+              `http://127.0.0.1:8080/api/Sanjaghak/productVariants/${variantId}`,
+              { headers: { Authorization: `Bearer ${token}` } }
+            );
+            if (!resVariant.ok) throw new Error("Failed to fetch variant info");
+            const variantData = await resVariant.json();
 
-    const resVariant = await fetch(
-      `http://127.0.0.1:8080/api/Sanjaghak/productVariants/${variantId}`,
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
-    if (!resVariant.ok) throw new Error("Failed to fetch variant info");
-    const variantData = await resVariant.json();
+            let price = variantData.price || 0;
 
-    let price = variantData.price || 0;
+            try {
+              const resDiscount = await fetch(
+                `http://127.0.0.1:8080/api/Sanjaghak/discount/active/${variantId}`,
+                { headers: { Authorization: `Bearer ${token}` } }
+              );
 
-    try {
-      const resDiscount = await fetch(
-        `http://127.0.0.1:8080/api/Sanjaghak/discount/active/${variantId}`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+              if (resDiscount.ok) {
+                const discountData = await resDiscount.json();
+                if (discountData.discountPercentage) {
+                  price = price - (price * discountData.discountPercentage / 100);
+                }
+              }
+            } catch (err) {
+              console.error(err);
+            }
 
-      if (resDiscount.ok) {
-        const discountData = await resDiscount.json();
-        if (discountData.discountPercentage) {
-          const discountPercent = discountData.discountPercentage;
-          price = price - (price * discountPercent / 100); 
-        }
-      } else if (resDiscount.status !== 204) {
-        console.warn(`Unexpected discount API status: ${resDiscount.status}`);
-      }
-    } catch (err) {
-      console.error(`Error fetching discount for variant ${variantId}:`, err);
-    }
+            const productId = variantData.productId?.productId;
+            let productData = {};
+            let mainImage = './src/assets/default-image.png';
 
-    const productId = variantData.productId?.productId;
-    let productData = {};
-    let mainImage = './src/assets/default-image.png'; 
+            if (productId) {
+              const resProduct = await fetch(
+                `http://127.0.0.1:8080/api/Sanjaghak/product/${productId}`,
+                { headers: { Authorization: `Bearer ${token}` } }
+              );
+              if (resProduct.ok) productData = await resProduct.json();
 
-    if (productId) {
-      const resProduct = await fetch(
-        `http://127.0.0.1:8080/api/Sanjaghak/product/${productId}`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      if (resProduct.ok) {
-        productData = await resProduct.json();
-      }
+              const resImages = await fetch(
+                `http://127.0.0.1:8080/api/Sanjaghak/productImages/${productId}`,
+                { headers: { Authorization: `Bearer ${token}` } }
+              );
+              if (resImages.ok) {
+                const imagesData = await resImages.json();
+                const primaryImage = imagesData.find(img => img.primary);
+                if (primaryImage) mainImage = `http://127.0.0.1:8080${primaryImage.imageUrl}`;
+              }
+            }
 
-      const resImages = await fetch(
-        `http://127.0.0.1:8080/api/Sanjaghak/productImages/${productId}`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      if (resImages.ok) {
-        const imagesData = await resImages.json();
-        const primaryImage = imagesData.find(img => img.primary);
-        if (primaryImage) mainImage = `http://127.0.0.1:8080${primaryImage.imageUrl}`;
-      }
-    }
+            return {
+              id: item.orderItemId,
+              productname: productData.productName || "محصول",
+              model: productData.model || "",
+              warranty: variantData.warranty || "",
+              inventory: "موجود در انبار",
+              color: variantData.color || "",
+              hex: variantData.hexadecimal || "#ffffff",
+              price: price,
+              quantity: item.quantity || 1,
+              image: mainImage,
+            };
+          })
+        );
 
-    return {
-      id: item.orderItemId,
-      productname: productData.productName || "محصول",
-      model: productData.model || "",
-      warranty: variantData.warranty || "",
-      inventory: "موجود در انبار",
-      color: variantData.color || "",
-      hex: variantData.hexadecimal || "#ffffff",
-      price: price, 
-      quantity: item.quantity || 1,
-      image: mainImage,
-    };
-  })
-);
-
-        setItems(cartItems.filter(Boolean)); 
+        setItems(cartItems.filter(Boolean));
       } catch (error) {
         console.error("Error fetching cart:", error);
       }
@@ -121,51 +115,59 @@ const cartItems = await Promise.all(
 
     fetchCartItems();
   }, [customerId, token]);
-const handleDeleteItem = (orderItemId) => {
-  setItems(prevItems => prevItems.filter(item => item.id !== orderItemId));
-};
-  const handleQuantityChange = (id, newQuantity) => {
-    setItems(prevItems =>
-      prevItems.map(item =>
-        item.id === id ? { ...item, quantity: newQuantity } : item
-      )
-    );
-  };
 
   const totalPrice = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
     <>
       <Navbar />
-
       <div className="background-content-wrapper" ref={backgroundAreaRef}>
         <BackgroundPattern parentRef={backgroundAreaRef} />
-
         <div className="cartpagecontainer" id="main-scroll-container">
-          <div className="itemcontainor">
-            <div className="title">
-              <img src={Cart} alt="cart" className='titleimg' />
-              <h3 className="carttitle">سبد خرید من</h3>
-            </div>
-            <div className='items'>
-              {items.map(item => (
-<CartItem
-  key={item.id}
-  item={item}
-  onQuantityChange={handleQuantityChange}
-  onDelete={handleDeleteItem}
-/>
-              ))}
-            </div>
-          </div>
+<div className="itemcontainor">
+  <div className="title">
+    <img src={Cart} alt="cart" className='titleimg' />
+    <h3 className="carttitle">سبد خرید من</h3>
+  </div>
 
-          <div className="pricediv">
-            <div className="title" id='carttitle1'>
-              <img src={bill} alt="bill" className='titleimg' />
-              <h3 className="carttitle">صورت حساب</h3>
-            </div>
-            <CartPrice totalPrice={totalPrice} shippingCost={shippingCost} />
-          </div>
+  {items.length === 0 ? (
+    <div className="empty-cart">
+      <p>🛒 سبد خرید شما خالی است!</p>
+      <p>برای شروع خرید، محصولات مورد علاقه‌تان را اضافه کنید.</p>
+    </div>
+  ) : (
+    <div className='items'>
+      {items.map(item => (
+        <CartItem
+          key={item.id}
+          item={item}
+          onQuantityChange={(id, qty) => {
+            setItems(prev =>
+              prev.map(it => (it.id === id ? { ...it, quantity: qty } : it))
+            );
+          }}
+          onDelete={id => setItems(prev => prev.filter(it => it.id !== id))}
+        />
+      ))}
+    </div>
+  )}
+</div>
+
+<div className="pricediv">
+  {items.length > 0 && (
+    <>
+      <div className="title" id='carttitle1'>
+        <img src={bill} alt="bill" className='titleimg' />
+        <h3 className="carttitle">صورت حساب</h3>
+      </div>
+      <CartPrice
+        totalPrice={totalPrice}
+        shippingCost={shippingCost}
+        orderId={orderId} 
+      />
+    </>
+  )}
+</div>
         </div>
 
         <Footer />

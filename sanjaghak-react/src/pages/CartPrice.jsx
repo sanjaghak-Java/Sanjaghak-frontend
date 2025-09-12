@@ -3,7 +3,7 @@ import tomanIcon from '../assets/toman.png';
 import "../styles/CartPrice.css";
 import Shippinginformation from './Shippinginformation'; 
 
-const CartPrice = ({ totalPrice, shippingCost }) => {
+const CartPrice = ({ totalPrice, shippingCost, orderId }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const payable = totalPrice + shippingCost;
 
@@ -45,7 +45,11 @@ const CartPrice = ({ totalPrice, shippingCost }) => {
         </button>
       </div>
 
-      <Shippinginformation isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <Shippinginformation
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        orderId={orderId}  // Pass orderId here
+      />
     </>
   );
 };

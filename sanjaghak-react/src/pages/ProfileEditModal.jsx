@@ -1,24 +1,59 @@
 import React, { useState, useEffect } from 'react';
 import "/src/styles/EditInfo.css";
 
-const ProfileEditModal = ({ userInfo, onClose, onSave }) => {
+const ProfileEditModal = ({ userInfo, addressInfo, onClose, onSave }) => {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
     phoneNumber: '',
-    email: '',
-    address: ''
+    email: ''
   });
+
+  const [addressData, setAddressData] = useState({
+    addressLine1: '',
+    addressLine2: '',
+    city: '',
+    state: '',
+    country: '',
+    postalCode: '',
+    phone: ''
+  });
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    setFormData(userInfo);
-  }, [userInfo]);
+useEffect(() => {
+  if (!addressInfo) return;
 
-  const handleChange = (e) => {
+  setFormData({
+    firstName: userInfo.firstName || '',
+    lastName: userInfo.lastName || '',
+    phoneNumber: userInfo.phoneNumber || '',
+    email: userInfo.email || ''
+  });
+
+  setAddressData({
+    addressLine1: addressInfo.addressLine1 || '',
+    addressLine2: addressInfo.addressLine2 || '',
+    city: addressInfo.city || '',
+    state: addressInfo.state || '',
+    country: addressInfo.country || '',
+    postalCode: addressInfo.postalCode || '',
+    phone: addressInfo.phone || ''
+  });
+}, [userInfo, addressInfo]);
+
+  const handleUserChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleAddressChange = (e) => {
+    const { name, value } = e.target;
+    setAddressData(prev => ({
       ...prev,
       [name]: value,
     }));
@@ -29,36 +64,12 @@ const ProfileEditModal = ({ userInfo, onClose, onSave }) => {
     setLoading(true);
     setError(null);
 
-    const token = localStorage.getItem('token');
-    const userId = localStorage.getItem('id');
-    if (!token || !userId) {
-      setError('لطفا ابتدا وارد شوید');
-      setLoading(false);
-      return;
-    }
-
     try {
-      const response = await fetch(`http://127.0.0.1:8080/api/Sanjaghak/UserAccount/updateUsers/${userId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) {
-        const errData = await response.json();
-        setError(errData.error || 'خطا در بروزرسانی اطلاعات');
-        setLoading(false);
-        return;
-      }
-
-      const updatedUser = await response.json();
-      onSave(updatedUser);
+      // here we only build objects and let parent (EditProfile) handle API calls
+      onSave(formData, addressData);
       onClose();
     } catch (err) {
-      setError('خطا در ارتباط با سرور');
+      setError('خطا در ذخیره اطلاعات');
       console.error(err);
     } finally {
       setLoading(false);
@@ -81,7 +92,7 @@ const ProfileEditModal = ({ userInfo, onClose, onSave }) => {
                 className="profinput"
                 name="firstName"
                 value={formData.firstName}
-                onChange={handleChange}
+                onChange={handleUserChange}
                 placeholder="نام"
                 disabled={loading}
               />
@@ -93,7 +104,7 @@ const ProfileEditModal = ({ userInfo, onClose, onSave }) => {
                 className="profinput"
                 name="lastName"
                 value={formData.lastName}
-                onChange={handleChange}
+                onChange={handleUserChange}
                 placeholder="نام خانوادگی"
                 disabled={loading}
               />
@@ -106,7 +117,7 @@ const ProfileEditModal = ({ userInfo, onClose, onSave }) => {
             className="profinput"
             name="phoneNumber"
             value={formData.phoneNumber}
-            onChange={handleChange}
+            onChange={handleUserChange}
             placeholder="شماره موبایل"
             disabled={loading}
           />
@@ -117,48 +128,77 @@ const ProfileEditModal = ({ userInfo, onClose, onSave }) => {
             className="profinput"
             name="email"
             value={formData.email}
-            onChange={handleChange}
+            onChange={handleUserChange}
             placeholder="ایمیل"
             disabled={loading}
           />
 
-          <p>آدرس</p>
-          <div className="location-inputs">
-            <input
-              type="text"
-              className="profinput"
-              placeholder="کشور"
-              name="country"
-              value={formData.country}
-              onChange={handleChange}
-            />
-            <input
-              type="text"
-              className="profinput"
-              placeholder="استان"
-              name="province"
-              value={formData.province}
-              onChange={handleChange}
-            />
-            <input
-              type="text"
-              className="profinput"
-              placeholder="شهر"
-              name="city"
-              value={formData.city}
-              onChange={handleChange}
-            />
-          </div>
+          <p>آدرس ۱</p>
+<input
+  type="text"
+  className="profinput"
+  name="addressLine1"
+  value={addressData.addressLine1}
+  onChange={handleAddressChange}
+  placeholder="خیابان اصلی، کوچه..."
+/>
 
-          <input
-            type="text"
-            className="profinput"
-            name="address"
-            value={formData.address}
-            onChange={handleChange}
-            placeholder="آدرس دقیق (خیابان، کوچه، پلاک...)"
-          />
+<p>آدرس ۲</p>
+<input
+  type="text"
+  className="profinput"
+  name="addressLine2"
+  value={addressData.addressLine2}
+  onChange={handleAddressChange}
+  placeholder="واحد، طبقه..."
+/>
 
+<div className="location-inputs">
+  <input
+    type="text"
+    className="profinput"
+    name="city"
+    value={addressData.city}
+    onChange={handleAddressChange}
+    placeholder="شهر"
+  />
+  <input
+    type="text"
+    className="profinput"
+    name="state"
+    value={addressData.state}
+    onChange={handleAddressChange}
+    placeholder="استان"
+  />
+  <input
+    type="text"
+    className="profinput"
+    name="country"
+    value={addressData.country}
+    onChange={handleAddressChange}
+    placeholder="کشور"
+  />
+</div>
+
+<p>کد پستی</p>
+<input
+  type="text"
+  className="profinput"
+  name="postalCode"
+  value={addressData.postalCode}
+  onChange={handleAddressChange}
+  placeholder="کد پستی"
+/>
+
+<p>شماره تماس</p>
+<input
+  type="text"
+  className="profinput"
+  name="phone"
+  value={addressData.phone}
+  onChange={handleAddressChange}
+  placeholder="شماره تماس"
+/>
 
           {error && <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>}
 

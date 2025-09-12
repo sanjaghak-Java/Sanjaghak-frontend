@@ -14,11 +14,12 @@ function EditProfile() {
     lastName: '',
     phoneNumber: '',
     email: '',
-    address: ''
   });
+  const [addressInfo, setAddressInfo] = useState(null); 
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const backgroundAreaRef = useRef(null);
+  const customerId = localStorage.getItem("customerId");
 
   useEffect(() => {
     const userId = localStorage.getItem('id');
@@ -46,23 +47,101 @@ function EditProfile() {
           lastName: data.lastName || '',
           phoneNumber: data.phoneNumber || '',
           email: data.email || '',
-          address: data.address || ''
+          address: '' 
         });
-        setLoading(false);
+
+        return fetch(`http://127.0.0.1:8080/api/Sanjaghak/customerAddress/getAddressByfilter?customerId=${customerId}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
       })
+      .then(res => {
+        if (!res.ok) throw new Error('خطا در دریافت آدرس کاربر');
+        return res.json();
+      })
+.then(data => {
+  console.log("Address response:", data); 
+  if (data && data.content && data.content.length > 0) {
+    setAddressInfo(data.content[0]); 
+  }
+  setLoading(false);
+})
       .catch(err => {
         console.error(err);
-        alert('خطا در دریافت اطلاعات کاربری. لطفا دوباره وارد شوید.');
         setLoading(false);
       });
   }, []);
 
   const fullName = `${userInfo.firstName} ${userInfo.lastName}`.trim();
 
-  const handleSave = (updatedInfo) => {
+const handleSave = async (updatedInfo, updatedAddress) => {
+  const userId = localStorage.getItem('id');
+  const token = localStorage.getItem('token');
+
+  try {
     setUserInfo(updatedInfo);
+    const addressBody = {
+      addressLine1: updatedAddress.addressLine1 || "",
+      addressLine2: updatedAddress.addressLine2 || "",
+      city: updatedAddress.city || "",
+      state: updatedAddress.state || "",
+      country: updatedAddress.country || "",
+      postalCode: updatedAddress.postalCode || "",
+      phone: updatedAddress.phone || ""
+    };
+
+    if (addressInfo) {
+      const res = await fetch(
+        `http://127.0.0.1:8080/api/Sanjaghak/customerAddress/${addressInfo.addressId}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(addressBody)
+        }
+      );
+      if (!res.ok) throw new Error('خطا در بروزرسانی آدرس');
+      const newAddress = await res.json();
+      setAddressInfo(newAddress);
+      setUserInfo(prev => ({
+        ...prev,
+        address: `${newAddress.addressLine1} ${newAddress.addressLine2}, ${newAddress.city}, ${newAddress.state}, ${newAddress.country}, ${newAddress.postalCode}`
+      }));
+    } else {
+      const res = await fetch(
+        `http://127.0.0.1:8080/api/Sanjaghak/customerAddress/addCustomerAddress?customerId=${userId}`,
+        {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(addressBody)
+        }
+      );
+      if (!res.ok) {
+        const errText = await res.text();
+        console.error("Server error body:", errText);
+        throw new Error('خطا در افزودن آدرس');
+      }
+      const newAddress = await res.json();
+      setAddressInfo(newAddress);
+      setUserInfo(prev => ({
+        ...prev,
+        address: `${newAddress.addressLine1} ${newAddress.addressLine2}, ${newAddress.city}, ${newAddress.state}, ${newAddress.country}, ${newAddress.postalCode}`
+      }));
+    }
+
     setShowModal(false);
-  };
+  } catch (err) {
+    console.error(err);
+    alert('خطا در ذخیره تغییرات');
+  }
+};
 
   if (loading) {
     return <div>در حال بارگذاری اطلاعات...</div>;
@@ -111,22 +190,29 @@ function EditProfile() {
                 <label>{userInfo.email}</label>
                 <hr className="profhr" />
               </div>
-              <div className="profdiv">
-                <p className="proftext">آدرس</p>
-                <label>{userInfo.address}</label>
-              </div>
+<div className="profdiv">
+  <p className="proftext">آدرس</p>
+  {addressInfo ? (
+    <label>
+      {`${addressInfo.addressLine1} ${addressInfo.addressLine2}, ${addressInfo.city}, ${addressInfo.state}, ${addressInfo.country}, ${addressInfo.postalCode}`}
+    </label>
+  ) : (
+    <label>آدرسی ثبت نشده است</label>
+  )}
+</div>
             </div>
           </div>
         </div>
 
-        {showModal && (
-          <ProfileEditModal
-            userInfo={userInfo}
-            onClose={() => setShowModal(false)}
-            onSave={handleSave}
-          />
-        )}
-
+{showModal && (
+  <ProfileEditModal
+    key={addressInfo ? addressInfo.addressId : 'new'} 
+    userInfo={userInfo}
+    addressInfo={addressInfo || {}} 
+    onClose={() => setShowModal(false)}
+    onSave={handleSave}
+  />
+)}
         <Footer />
       </div>
     </>

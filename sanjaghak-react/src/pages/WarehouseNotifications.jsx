@@ -12,7 +12,7 @@ function WarehouseNotifications() {
   const { warehouseId } = useParams();
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-
+const [warehouseOrders, setWarehouseOrders] = useState([]);
   const [warehouses, setWarehouses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -29,6 +29,27 @@ const [modalProducts, setModalProducts] = useState([]);
   const [shelvesMap, setShelvesMap] = useState({});
   const [shippingProductsMap, setShippingProductsMap] = useState({});
   const [supplierMap, setSupplierMap] = useState({});
+  const [sentOrders, setSentOrders] = useState([]);
+
+  useEffect(() => {
+  if (!warehouseId) return;
+
+  const fetchWarehouseOrders = async () => {
+    try {
+      const res = await fetch(
+        `http://127.0.0.1:8080/api/Sanjaghak/Orders/by-warehouse/${warehouseId}/order-requests`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      if (!res.ok) throw new Error("خطا در دریافت سفارشات انبار");
+      const data = await res.json();
+      setWarehouseOrders(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  fetchWarehouseOrders();
+}, [warehouseId, token]);
   
   const markOrderAsReceived = async (order) => {
     const warehouseIdParam = order.warehouseId?.warehouseId;
@@ -318,57 +339,79 @@ products
   const warehouse = warehouses.find((w) => w.warehouseId === warehouseId);
   if (!warehouse) return <div>انبار یافت نشد.</div>;
 
-  const notifications = [
-...shippingRequests.map((sr) => ({
-  id: sr.inventoryMovementId,
-  text: `درخواست ارسال محصول ${
-    shippingProductsMap[sr.variantsId.variantId] || sr.variantsId.variantId
-  } از انبار ${
-    warehouseNamesMap[sr.fromWarehouseId.warehouseId] || sr.fromWarehouseId.warehouseId
-  }`,
-  buttonText: "تایید",
-  onClick: () => approveShipping(sr.inventoryMovementId),
-})),
-    ...transferRequests.map((tr) => ({
-      id: tr.inventoryMovementId,
-      text: `درخواست انتقال محصول ${transferProductsMap[tr.variantsId.variantId] || tr.variantsId.variantId} از انبار ${warehouseNamesMap[tr.fromWarehouseId.warehouseId] || tr.fromWarehouseId.warehouseId} به انبار ${warehouseNamesMap[tr.toWarehouseId.warehouseId] || tr.toWarehouseId.warehouseId}`,
-      buttonText: "مشاهده",
-      onClick: () => {
-        setTransferItems([
-          {
-            id: tr.inventoryMovementId,
-            productName: transferProductsMap[tr.variantsId.variantId] || tr.variantsId.variantId,
-            fromWarehouse: warehouseNamesMap[tr.fromWarehouseId.warehouseId] || tr.fromWarehouseId.warehouseId,
-            fromShelf: shelvesMap[tr.fromShelvesId.shelvesId] || tr.fromShelvesId.shelvesId,
-            toWarehouse: warehouseNamesMap[tr.toWarehouseId.warehouseId] || tr.toWarehouseId.warehouseId,
-            toShelf: shelvesMap[tr.toShelvesId.shelvesId] || tr.toShelvesId.shelvesId,
-            quantity: tr.quantity,
-            fromSection: shelvesMap[tr.fromShelvesId.shelvesId]?.slice(0, 3) || "نامعلوم",
-            toSection: shelvesMap[tr.toShelvesId.shelvesId]?.slice(0, 3) || "نامعلوم",
-          },
-        ]);
-        setIsModalOpen(true);
-        setCurrentRequestId(tr.inventoryMovementId);
-      },
-    })),
-
-...purchaseNotifications,
-
-//خروج از انبار
-    {
-      id: "new_order_out",
-      text: "خروج سفارشات جدید از انبار",
-      buttonText: "مشاهده",
-      onClick: () => setIsOrderOutModalOpen(true),
+const notifications = [
+  ...shippingRequests.map((sr) => ({
+    id: sr.inventoryMovementId,
+    text: `درخواست ارسال محصول ${
+      shippingProductsMap[sr.variantsId.variantId] || sr.variantsId.variantId
+    } از انبار ${
+      warehouseNamesMap[sr.fromWarehouseId.warehouseId] || sr.fromWarehouseId.warehouseId
+    }`,
+    buttonText: "تایید",
+    onClick: () => approveShipping(sr.inventoryMovementId),
+  })),
+  ...transferRequests.map((tr) => ({
+    id: tr.inventoryMovementId,
+    text: `درخواست انتقال محصول ${transferProductsMap[tr.variantsId.variantId] || tr.variantsId.variantId} از انبار ${
+      warehouseNamesMap[tr.fromWarehouseId.warehouseId] || tr.fromWarehouseId.warehouseId
+    } به انبار ${
+      warehouseNamesMap[tr.toWarehouseId.warehouseId] || tr.toWarehouseId.warehouseId
+    }`,
+    buttonText: "مشاهده",
+    onClick: () => {
+      setTransferItems([
+        {
+          id: tr.inventoryMovementId,
+          productName: transferProductsMap[tr.variantsId.variantId] || tr.variantsId.variantId,
+          fromWarehouse: warehouseNamesMap[tr.fromWarehouseId.warehouseId] || tr.fromWarehouseId.warehouseId,
+          fromShelf: shelvesMap[tr.fromShelvesId.shelvesId] || tr.fromShelvesId.shelvesId,
+          toWarehouse: warehouseNamesMap[tr.toWarehouseId.warehouseId] || tr.toWarehouseId.warehouseId,
+          toShelf: shelvesMap[tr.toShelvesId.shelvesId] || tr.toShelvesId.shelvesId,
+          quantity: tr.quantity,
+          fromSection: shelvesMap[tr.fromShelvesId.shelvesId]?.slice(0, 3) || "نامعلوم",
+          toSection: shelvesMap[tr.toShelvesId.shelvesId]?.slice(0, 3) || "نامعلوم",
+        },
+      ]);
+      setIsModalOpen(true);
+      setCurrentRequestId(tr.inventoryMovementId);
     },
-    //ارسال سفارشات
-    {
-      id: "sent_order",
-      text: "ارسال سفارشات",
-      buttonText: "مشاهده",
-      onClick: () => setIsSentOrderModalOpen(true),
-    }
-  ];
+  })),
+  ...purchaseNotifications,
+  // خروج از انبار
+  ...(
+    warehouseOrders.length > 0
+      ? [{
+          id: "new_order_out",
+          text: `خروج ${warehouseOrders.length} سفارش جدید از انبار`,
+          buttonText: "مشاهده",
+          onClick: () => setIsOrderOutModalOpen(true),
+        }]
+      : []
+  ),
+  ...(warehouse.isCentral && sentOrders.length > 0
+    ? [{
+        id: "sent_order",
+        text: "ارسال سفارشات",
+        buttonText: "مشاهده",
+        onClick: async () => {
+          try {
+            const res = await fetch(
+              "http://127.0.0.1:8080/api/Sanjaghak/Orders/processing-with-inventory",
+              { headers: { Authorization: `Bearer ${token}` } }
+            );
+            if (!res.ok) throw new Error("خطا در دریافت سفارشات آماده ارسال");
+            const data = await res.json();
+            setSentOrders(data);
+            setIsSentOrderModalOpen(true);
+          } catch (err) {
+            console.error(err);
+            alert("خطا در دریافت سفارشات آماده ارسال");
+          }
+        },
+      }]
+    : []
+  )
+];
 
   return (
     <div
@@ -458,22 +501,24 @@ products
       )}
 
 {/* خروج از انبار */}
-      <OrderOutModal
-        isOpen={isOrderOutModalOpen}
-        onConfirm={() => {
-          alert("خروج سفارش تایید شد!");
-          setIsOrderOutModalOpen(false);
-        }}
-        items={orderOutItems}
-        sourceWarehouse={warehouse.name}
-        destinationWarehouse="مرکزی"
-      />
-
+<OrderOutModal
+  isOpen={isOrderOutModalOpen}
+  onConfirm={() => {
+    alert("خروج سفارش تایید شد!");
+    setIsOrderOutModalOpen(false);
+  }}
+  items={warehouseOrders} 
+  sourceWarehouse={warehouse.name}
+  destinationWarehouse="مرکزی"
+  token={token}
+/>
     {/* ارسال سفارشات */}
-      <SentOrderModal
-        isOpen={isSentOrderModalOpen}
-        onClose={() => setIsSentOrderModalOpen(false)}
-      />
+<SentOrderModal
+  isOpen={isSentOrderModalOpen}
+  onClose={() => setIsSentOrderModalOpen(false)}
+  orders={sentOrders}
+  token={token}
+/>
     </div>
   );
 }

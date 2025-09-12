@@ -1,48 +1,140 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "/src/styles/SentOrderModal.css";
 
-function SentOrderModal({ isOpen, onClose }) {
+function SentOrderModal({ isOpen, onClose, orders, token }) {
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [orderList, setOrderList] = useState([]);
+
+  // Fetch enriched order info
+  useEffect(() => {
+    if (!isOpen || !orders || orders.length === 0) return;
+
+    const fetchOrderDetails = async () => {
+      const enrichedOrders = await Promise.all(
+        orders.map(async (order) => {
+          let customerName = "نامشخص";
+          let customerAddress = "نامشخص";
+
+          // 1️⃣ Get customer name
+          if (order.customerId?.customerId) {
+            try {
+              const resCustomer = await fetch(
+                `http://127.0.0.1:8080/api/Sanjaghak/Customer/${order.customerId.customerId}`,
+                { headers: { Authorization: `Bearer ${token}` } }
+              );
+              if (resCustomer.ok) {
+                const customerData = await resCustomer.json();
+                customerName = `${customerData.userId.firstName} ${customerData.userId.lastName}`;
+              }
+            } catch (err) {
+              console.error("Error fetching customer:", err);
+            }
+          }
+
+          // 2️⃣ Get billing address line1
+          if (order.billingAddressId?.addressId) {
+            try {
+              const resAddress = await fetch(
+                `http://127.0.0.1:8080/api/Sanjaghak/customerAddress/${order.billingAddressId.addressId}`,
+                { headers: { Authorization: `Bearer ${token}` } }
+              );
+              if (resAddress.ok) {
+                const addressData = await resAddress.json();
+                customerAddress = `${addressData.addressLine1} ${addressData.addressLine2}`;
+              }
+            } catch (err) {
+              console.error("Error fetching address:", err);
+            }
+          }
+
+          // 3️⃣ Get order items with product names
+          let items = [];
+          try {
+            const resItems = await fetch(
+              `http://127.0.0.1:8080/api/Sanjaghak/orderItem/getOrderItemByFilter?orderId=${order.orderId}`,
+              { headers: { Authorization: `Bearer ${token}` } }
+            );
+            if (resItems.ok) {
+              const itemsData = await resItems.json();
+              items = await Promise.all(
+                itemsData.content.map(async (item) => {
+                  let productName = "نامشخص";
+                  try {
+                    const resVariant = await fetch(
+                      `http://127.0.0.1:8080/api/Sanjaghak/productVariants/${item.variantId.variantId}`,
+                      { headers: { Authorization: `Bearer ${token}` } }
+                    );
+                    if (resVariant.ok) {
+                      const variantData = await resVariant.json();
+                      productName = variantData.productId.productName;
+                    }
+                  } catch (err) {
+                    console.error("Error fetching product variant:", err);
+                  }
+                  return {
+                    ...item,
+                    productName,
+                  };
+                })
+              );
+            }
+          } catch (err) {
+            console.error("Error fetching order items:", err);
+          }
+
+          return {
+            ...order,
+            customerName,
+            customerAddress,
+            items,
+          };
+        })
+      );
+
+      setOrderList(enrichedOrders);
+    };
+
+    fetchOrderDetails();
+  }, [isOpen, orders, token]);
+
+  // ✅ Confirm order API call
+  const confirmOrder = async (orderId) => {
+    try {
+      const res = await fetch(
+        `http://127.0.0.1:8080/api/Sanjaghak/Orders/${orderId}/confirm-sale`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (res.ok) {
+        alert("سفارش با موفقیت تایید شد!");
+        // Optionally, update the order status in the UI
+        setOrderList((prev) =>
+          prev.map((order) =>
+            order.orderId === orderId
+              ? { ...order, orderStatus: "confirmed" }
+              : order
+          )
+        );
+      } else {
+        alert("خطا در تایید سفارش!");
+      }
+    } catch (err) {
+      console.error("Error confirming order:", err);
+      alert("خطا در تایید سفارش!");
+    }
+  };
 
   if (!isOpen) return null;
 
-  const orders = [
-    {
-      id: 1,
-      customer: "زهرا احمدی",
-      address: "تهران - خیابان ولیعصر",
-      status: "در حال پردازش",
-      note: "ارسال فوری",
-      items: [
-        { id: 1, productName: "گوشی موبایل", quantity: 1, discount: "10000", total: 8000000 },
-        { id: 2, productName: "هندزفری", quantity: 2, discount: "0", total: 600000 },
-      ],
-      shippingCost: 50000,
-      vat: 800000,
-    },
-    {
-      id: 2,
-      customer: "علی رضایی",
-      address: "اصفهان - میدان نقش جهان",
-      status: "ارسال شده",
-      note: "پرداخت در محل",
-      items: [
-        { id: 1, productName: "لپ‌تاپ", quantity: 1, discount: "10%", total: 25000000 },
-      ],
-      shippingCost: 70000,
-      vat: 2500000,
-    },
-  ];
-
   return (
-    <div
-      className="sent-modal-overlay"
-      onClick={onClose} // کلیک روی پس‌زمینه مودال رو می‌بنده
-    >
-      <div
-        className="sent-modal-content"
-        onClick={(e) => e.stopPropagation()} // جلوگیری از بسته شدن با کلیک داخل باکس
-      >
+    <div className="sent-modal-overlay" onClick={onClose}>
+      <div className="sent-modal-content" onClick={(e) => e.stopPropagation()}>
         {!selectedOrder ? (
           <>
             <h2 style={{ marginBottom: "20px" }}>ارسال سفارشات</h2>
@@ -58,15 +150,22 @@ function SentOrderModal({ isOpen, onClose }) {
                 </tr>
               </thead>
               <tbody>
-                {orders.map((order) => (
-                  <tr key={order.id} onClick={() => setSelectedOrder(order)}>
-                    <td>{order.id}</td>
-                    <td>{order.customer}</td>
-                    <td>{order.address}</td>
-                    <td>{order.status}</td>
-                    <td>{order.note}</td>
+                {orderList.map((order) => (
+                  <tr key={order.orderId} onClick={() => setSelectedOrder(order)}>
+                    <td>{order.orderNumber}</td>
+                    <td>{order.customerName}</td>
+                    <td>{order.customerAddress}</td>
+                    <td>{order.orderStatus}</td>
+                    <td>{order.notes || "-"}</td>
                     <td>
-                      <button className="sent-operation-btn" title="تایید و ارسال">
+                      <button
+                        className="sent-operation-btn"
+                        title="تایید و ارسال"
+                        onClick={(e) => {
+                          e.stopPropagation(); // Prevent row click
+                          confirmOrder(order.orderId);
+                        }}
+                      >
                         ✔
                       </button>
                     </td>
@@ -77,7 +176,9 @@ function SentOrderModal({ isOpen, onClose }) {
           </>
         ) : (
           <>
-            <h3 style={{ marginBottom: "20px" }}>جزئیات سفارش شماره {selectedOrder.id}</h3>
+            <h3 style={{ marginBottom: "20px" }}>
+              جزئیات سفارش شماره {selectedOrder.orderNumber}
+            </h3>
 
             <table className="sent-detail-table">
               <thead>
@@ -85,18 +186,18 @@ function SentOrderModal({ isOpen, onClose }) {
                   <th>ردیف</th>
                   <th>نام محصول</th>
                   <th>تعداد</th>
-                  <th>تخفیف</th>
-                  <th>مبلغ کل</th>
+                  <th>قیمت واحد</th>
+                  <th>جمع</th>
                 </tr>
               </thead>
               <tbody>
                 {selectedOrder.items.map((item, index) => (
-                  <tr key={item.id}>
+                  <tr key={item.orderItemId}>
                     <td>{index + 1}</td>
                     <td>{item.productName}</td>
                     <td>{item.quantity}</td>
-                    <td>{item.discount}</td>
-                    <td>{item.total.toLocaleString()} تومان</td>
+                    <td>{item.unitPrice.toLocaleString()}</td>
+                    <td>{item.totalAmount.toLocaleString()}</td>
                   </tr>
                 ))}
               </tbody>
@@ -115,18 +216,12 @@ function SentOrderModal({ isOpen, onClose }) {
                 <tr>
                   <td>
                     {selectedOrder.items
-                      .reduce((sum, i) => sum + i.total, 0)
+                      .reduce((sum, i) => sum + i.totalAmount, 0)
                       .toLocaleString()}
                   </td>
-                  <td>{selectedOrder.vat.toLocaleString()}</td>
+                  <td>{selectedOrder.taxAmount.toLocaleString()}</td>
                   <td>{selectedOrder.shippingCost.toLocaleString()}</td>
-                  <td>
-                    {(
-                      selectedOrder.items.reduce((sum, i) => sum + i.total, 0) +
-                      selectedOrder.vat +
-                      selectedOrder.shippingCost
-                    ).toLocaleString()}
-                  </td>
+                  <td>{selectedOrder.totalAmount.toLocaleString()}</td>
                 </tr>
               </tbody>
             </table>

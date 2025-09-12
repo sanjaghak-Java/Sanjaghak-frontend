@@ -1,6 +1,88 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-function OrderOutModal({ isOpen, onClose, onConfirm, items, sourceWarehouse, destinationWarehouse }) {
+function OrderOutModal({ isOpen, onClose, items, sourceWarehouse, destinationWarehouse, token }) {
+  const [displayItems, setDisplayItems] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!isOpen || !items?.length) return;
+
+    const fetchProductNamesAndShelfCodes = async () => {
+      const newItems = await Promise.all(
+        items.map(async (item) => {
+          // Fetch product name
+          const variantId = item.variantsId?.variantId;
+          let productName = "نامشخص";
+          if (variantId) {
+            try {
+              const res = await fetch(
+                `http://127.0.0.1:8080/api/Sanjaghak/productVariants/${variantId}`,
+                { headers: { Authorization: `Bearer ${token}` } }
+              );
+              if (res.ok) {
+                const data = await res.json();
+                productName = data.productId?.productName || "نامشخص";
+              }
+            } catch (err) {
+              console.error(err);
+            }
+          }
+
+          // Fetch source shelf code
+          let sourceShelf = "نامشخص";
+          const sourceShelfId = item.fromShelvesId?.shelvesId;
+          if (sourceShelfId) {
+            try {
+              const res = await fetch(
+                `http://127.0.0.1:8080/api/Sanjaghak/shelves/${sourceShelfId}`,
+                { headers: { Authorization: `Bearer ${token}` } }
+              );
+              if (res.ok) {
+                const shelfData = await res.json();
+                sourceShelf = shelfData.shelvesCode || "نامشخص";
+              }
+            } catch (err) {
+              console.error("خطا در دریافت قفسه:", err);
+            }
+          }
+
+          return {
+            ...item,
+            productName,
+            sourceShelf,
+            destinationShelf: item.toShelvesId?.shelvesId || "نامشخص", // keep as-is
+          };
+        })
+      );
+      setDisplayItems(newItems);
+    };
+
+    fetchProductNamesAndShelfCodes();
+  }, [isOpen, items, token]);
+
+  const handleConfirm = async () => {
+    if (!items?.length) return;
+    setLoading(true);
+
+    try {
+      // Call process-order-request for each inventoryMovementId
+      await Promise.all(
+        items.map((item) =>
+          fetch(`http://127.0.0.1:8080/api/Sanjaghak/Orders/${item.inventoryMovementId}/process-order-request`, {
+            method: "POST",
+            headers: { Authorization: `Bearer ${token}` },
+          })
+        )
+      );
+      alert("سفارشات با موفقیت انتقال یافت!");
+      onClose(); // close modal after success
+    } catch (err) {
+      console.error("خطا در تایید سفارش:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -46,8 +128,8 @@ function OrderOutModal({ isOpen, onClose, onConfirm, items, sourceWarehouse, des
             </tr>
           </thead>
           <tbody>
-            {items.map((item, index) => (
-              <tr key={item.id}>
+            {displayItems.map((item, index) => (
+              <tr key={item.inventoryMovementId || index}>
                 <td style={{ border: "1px solid #ddd", padding: 8, textAlign: "center" }}>{index + 1}</td>
                 <td style={{ border: "1px solid #ddd", padding: 8, textAlign: "center" }}>{item.productName}</td>
                 <td style={{ border: "1px solid #ddd", padding: 8, textAlign: "center" }}>{item.quantity}</td>
@@ -60,7 +142,8 @@ function OrderOutModal({ isOpen, onClose, onConfirm, items, sourceWarehouse, des
 
         <div style={{ width: "100%", direction: "ltr" }}>
           <button
-            onClick={onConfirm}
+            onClick={handleConfirm}
+            disabled={loading}
             style={{
               marginTop: 15,
               padding: "8px 12px",
@@ -68,10 +151,10 @@ function OrderOutModal({ isOpen, onClose, onConfirm, items, sourceWarehouse, des
               borderRadius: 6,
               backgroundColor: "#dc2655",
               color: "white",
-              cursor: "pointer",
+              cursor: loading ? "not-allowed" : "pointer",
             }}
           >
-            انتقال به انبار مرکزی
+            {loading ? "در حال انتقال..." : "انتقال به انبار مرکزی"}
           </button>
         </div>
       </div>

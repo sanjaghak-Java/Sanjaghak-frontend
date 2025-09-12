@@ -14,7 +14,7 @@ function WarehouseNotifications() {
   const [warehouses, setWarehouses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+const [modalProducts, setModalProducts] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [transferItems, setTransferItems] = useState([]);
   const [isPurchaseModalOpen, setIsPurchaseModalOpen] = useState(false);
@@ -26,6 +26,41 @@ function WarehouseNotifications() {
   const [transferProductsMap, setTransferProductsMap] = useState({});
   const [shelvesMap, setShelvesMap] = useState({});
   const [shippingProductsMap, setShippingProductsMap] = useState({});
+  const [supplierMap, setSupplierMap] = useState({});
+  
+  const markOrderAsReceived = async (order) => {
+    const warehouseIdParam = order.warehouseId?.warehouseId;
+    const supplierIdParam = order.suppliersId?.suppliersId || order.supplierId;
+  
+    if (!warehouseIdParam || !supplierIdParam) {
+      console.warn("Missing warehouseId or suppliersId for order:", order);
+      return;
+    }
+  
+    // Convert Jalali date to Gregorian ISO string
+    let isoExpectedDate = order.expectedDate;
+    if (order.expectedDate.includes("-")) {
+      const [jy, jm, jd] = order.expectedDate.split("-").map(Number);
+      const { gy, gm, gd } = jalaali.toGregorian(jy, jm, jd);
+      isoExpectedDate = new Date(gy, gm - 1, gd).toISOString().split("T")[0]; // "YYYY-MM-DD"
+    }
+  
+    await fetch(
+      `http://127.0.0.1:8080/api/Sanjaghak/purchaseOrders/${order.purchaseOrdersId}?warehouseId=${warehouseIdParam}&supplierId=${supplierIdParam}`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          shippingCost: order.shippingCost,
+          expectedDate: isoExpectedDate, // ✅ send Gregorian ISO
+          status: "received",
+        }),
+      }
+    );
+  };
 
 //خروج از انبار
   const [isOrderOutModalOpen, setIsOrderOutModalOpen] = useState(false);
@@ -105,21 +140,42 @@ const fetchShippingRequests = async () => {
           if (!resItems.ok) continue;
           const items = await resItems.json();
 
-          for (const item of items) {
-            const variantId = item.variantsId.variantId;
-            const resVariant = await fetch(
-              `http://127.0.0.1:8080/api/Sanjaghak/productVariants/${variantId}`,
-              { headers: { Authorization: `Bearer ${token}` } }
-            );
-            if (!resVariant.ok) continue;
-            const variantData = await resVariant.json();
+for (const item of items) {
+  const variantId = item.variantsId.variantId;
+  const resVariant = await fetch(
+    `http://127.0.0.1:8080/api/Sanjaghak/productVariants/${variantId}`,
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
+  if (!resVariant.ok) continue;
+  const variantData = await resVariant.json();
 
-            productList.push({
-              id: variantData.variantId,
-              name: variantData.productId.productName,
-              quantity: item.quantityOrdered - item.recivedQuantity,
-            });
-          }
+  // Push product info
+  productList.push({
+    id: variantData.variantId,
+    name: variantData.productId.productName,
+    quantity: item.quantityOrdered - item.recivedQuantity,
+    purchaseOrderItemId: item.purchaseOrderItemsId,
+    supplierId: order.supplierId,
+    purchaseOrdersId: order.purchaseOrdersId,
+    shippingCost: order.shippingCost,
+    expectedDate: order.expectedDate,
+    warehouseId: order.warehouseId,
+  });
+}
+
+// ✅ After collecting all items for the order, check if all quantities are zero
+const allZero = items.every(
+  item => item.quantityOrdered - item.recivedQuantity === 0
+);
+if (allZero) {
+  markOrderAsReceived({
+    purchaseOrdersId: order.purchaseOrdersId,
+    shippingCost: order.shippingCost,
+    expectedDate: order.expectedDate,
+    warehouseId: order.warehouseId,
+    supplierId: order.suppliersId?.suppliersId || order.supplierId, // ✅ match actual field
+  });
+}
         }
 
         setProducts(productList);
@@ -130,6 +186,22 @@ const fetchShippingRequests = async () => {
 
     fetchProducts();
   }, [warehouseId, token]);
+  const purchaseOrdersMap = {};
+products
+  .filter(p => p.quantity > 0) // <--- ignore zero-quantity items
+  .forEach((p) => {
+    if (!purchaseOrdersMap[p.purchaseOrdersId]) purchaseOrdersMap[p.purchaseOrdersId] = [];
+    purchaseOrdersMap[p.purchaseOrdersId].push(p);
+  });
+  const purchaseNotifications = Object.entries(purchaseOrdersMap).map(([orderId, orderProducts]) => ({
+  id: orderId,
+  text: `محموله جدید از تأمین‌کننده ${supplierMap[orderProducts[0].supplierId] || "نامشخص"}`,
+  buttonText: "مشاهده",
+  onClick: () => {
+    setModalProducts(orderProducts); // pass all products with quantity > 0
+    setIsPurchaseModalOpen(true);
+  },
+}));
 
   useEffect(() => {
     if (!warehouseId) return;
@@ -282,16 +354,7 @@ const fetchShippingRequests = async () => {
       },
     })),
 
-    ...(products.length > 0
-      ? [
-          {
-            id: "purchase",
-            text: "محموله جدید رسید",
-            buttonText: "مشاهده",
-            onClick: () => setIsPurchaseModalOpen(true),
-          },
-        ]
-      : []),
+...purchaseNotifications,
 
 //خروج از انبار
     {
@@ -387,13 +450,13 @@ const fetchShippingRequests = async () => {
       )}
 
       {isPurchaseModalOpen && (
-        <WarehousePurchaseModal
-          isOpen={isPurchaseModalOpen}
-          onClose={() => setIsPurchaseModalOpen(false)}
-          warehouse={warehouse}
-          supplier="شرکت تأمین‌کننده تستی"
-          products={products}
-        />
+<WarehousePurchaseModal
+  isOpen={isPurchaseModalOpen}
+  onClose={() => setIsPurchaseModalOpen(false)}
+  warehouse={warehouse}
+  supplier={supplierMap[modalProducts[0]?.supplierId] || "نامشخص"}
+  products={modalProducts} // pass only modalProducts
+/>
       )}
 
 {/* خروج از انبار */}

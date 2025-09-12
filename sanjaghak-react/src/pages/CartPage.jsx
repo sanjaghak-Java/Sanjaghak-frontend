@@ -13,7 +13,7 @@ function CartPage() {
   const [shippingCost, setShippingCost] = useState(0);
   const backgroundAreaRef = useRef(null);
 
-  const customerId = "9b1e4d75-ea1f-4984-aa32-bf14e61ffea2"; 
+  const customerId = localStorage.getItem("customerId");
   const token = localStorage.getItem("token"); 
 
   useEffect(() => {

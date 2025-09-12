@@ -21,6 +21,7 @@ const [noStockModalOpen, setNoStockModalOpen] = useState(false);
 const [createStockModalOpen, setCreateStockModalOpen] = useState(false);
 const [stockLevels, setStockLevels] = useState({ minimumLevel: "", maximumLevel: "" });
 const [stockRowToCreate, setStockRowToCreate] = useState(null); 
+
   useEffect(() => {
     if (!warehouse) return;
     const fetchSections = async () => {
@@ -137,40 +138,42 @@ const handleConfirmTransfer = async () => {
 
             <div className="purchase-info-box">
               <p><strong>انبار:</strong> {warehouse.name}</p>
-              <p><strong>تأمین‌کننده:</strong> {supplier}</p>
+              <p><strong>تأمین‌کننده:</strong> {supplier.supplierName}</p>
             </div>
 
-            <table className="purchase-product-table">
-              <thead>
-                <tr>
-                  <th>ردیف</th>
-                  <th>نام محصول</th>
-                  <th>تعداد</th>
-                  <th>عملیات</th>
-                </tr>
-              </thead>
-              <tbody>
-                {products.map((p, index) => (
-                  <tr key={p.id}>
-                    <td>{index + 1}</td>
-                    <td>{p.name}</td>
-                    <td>{p.quantity}</td>
-                    <td>
-                      <button
-                        className="purchase-btn btn-choose"
-                        onClick={() => {
-                          setSelectedProduct(p);
-                          setShowAssignModal(true);
-                          setRows([{ quantity: "", section: "", shelf: "" }]);
-                        }}
-                      >
-                        <img src={inventory} alt="" />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+<table className="purchase-product-table">
+  <thead>
+    <tr>
+      <th>ردیف</th>
+      <th>نام محصول</th>
+      <th>تعداد</th>
+      <th>عملیات</th>
+    </tr>
+  </thead>
+  <tbody>
+    {products
+      .filter(p => p.quantity > 0)
+      .map((p, index) => (
+        <tr key={p.id}>
+          <td>{index + 1}</td>
+          <td>{p.name}</td>
+          <td>{p.quantity}</td>
+          <td>
+            <button
+              className="purchase-btn btn-choose"
+              onClick={() => {
+                setSelectedProduct(p);
+                setShowAssignModal(true);
+                setRows([{ quantity: "", section: "", shelf: "" }]);
+              }}
+            >
+              <img src={inventory} alt="" />
+            </button>
+          </td>
+        </tr>
+      ))}
+  </tbody>
+</table>
 
             <div className="purchase-btn-box">
               <button
@@ -187,89 +190,77 @@ const handleConfirmTransfer = async () => {
           </>
         )}
 
-        {showAssignModal && selectedProduct && (
-          <>
-            <h2 className="purchase-modal-title">
-              اختصاص محل برای {selectedProduct.name}
-            </h2>
+{showAssignModal && selectedProduct && (
+  <div className="assign-section">
+    <h2 className="purchase-modal-title">
+      اختصاص محل برای {selectedProduct.name}
+    </h2>
+    {rows.map((row, index) => (
+      <div className="assign-row" key={index}>
+        {/* Quantity */}
+        <div className="field floating">
+          <input
+            type="number"
+            value={row.quantity}
+            onChange={(e) => handleChange(index, "quantity", e.target.value)}
+            placeholder=" "
+          />
+          <label>تعداد</label>
+        </div>
 
-            <div>
-              {rows.map((row, index) => (
-                <div className="assign-row" key={index}>
+        {/* Section */}
+        <div className="field floating">
+          <select
+            value={row.section}
+            onChange={(e) => handleChange(index, "section", e.target.value)}
+          >
+            <option value="" disabled hidden>انتخاب بخش</option>
+            {sections.map(s => (
+              <option key={s.sectionsId} value={s.sectionsId}>{s.name}</option>
+            ))}
+          </select>
+          <label>بخش</label>
+        </div>
 
-                  <div className="field floating">
-                    <input
-                      type="number"
-                      value={row.quantity}
-                      onChange={(e) => handleChange(index, "quantity", e.target.value)}
-                      placeholder=" "
-                    />
-                    <label>تعداد</label>
-                  </div>
+        {/* Shelf */}
+        <div className="field floating">
+          <select
+            value={row.shelf}
+            onChange={(e) => handleChange(index, "shelf", e.target.value)}
+          >
+            <option value="" disabled hidden>انتخاب قفسه</option>
+            {row.section && shelvesMap[row.section]?.map(sh => (
+              <option key={sh.shelvesId} value={sh.shelvesId}>{sh.shelvesCode}</option>
+            ))}
+          </select>
+          <label>قفسه</label>
+        </div>
 
-                  <div className="field floating">
-                    <select
-                      className="purchase-selector"
-                      value={row.section}
-                      onChange={(e) => handleChange(index, "section", e.target.value)}
-                    >
-                      <option value="" disabled hidden>انتخاب بخش</option>
-                      {sections.map(s => (
-                        <option key={s.sectionsId} value={s.sectionsId}>{s.name}</option>
-                      ))}
-                    </select>
-                    <label>بخش</label>
-                  </div>
+        {/* Delete row */}
+        <div>
+          <button className="delete-btn" onClick={() => handleDeleteRow(index)}>
+            <img src={bin} alt="حذف" />
+          </button>
+        </div>
+      </div>
+    ))}
 
-                  <div className="field floating">
-                    <select
-                      className="purchase-selector"
-                      value={row.shelf}
-                      onChange={(e) => handleChange(index, "shelf", e.target.value)}
-                    >
-                      <option value="" disabled hidden>انتخاب قفسه</option>
-                      {row.section && shelvesMap[row.section]?.map(sh => (
-                        <option key={sh.shelvesId} value={sh.shelvesId}>{sh.shelvesCode}</option>
-                      ))}
-                    </select>
-                    <label>قفسه</label>
-                  </div>
+    <div style={{ display: "flex", justifyContent: "center", marginBottom: "12px" }}>
+      <button className="purchase-new-btn" onClick={handleAddRow}>
+        + موقعیت جدید
+      </button>
+    </div>
 
-                  <div>
-                    <button
-                      className="delete-btn"
-                      onClick={() => handleDeleteRow(index)}
-                    >
-                      <img src={bin} alt="حذف" />
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div style={{ display: "flex", justifyContent: "center", marginBottom: "12px" }}>
-              <button className="purchase-new-btn" onClick={handleAddRow}>
-                + موقعیت جدید
-              </button>
-            </div>
-
-            <div className="purchase-btn-box">
-              <button
-                className="purchase-btn btn-back"
-                onClick={() => setShowAssignModal(false)}
-              >
-                بازگشت
-              </button>
-
-              <button
-                className="purchase-btn btn-save"
-                onClick={handleConfirmTransfer} 
-              >
-                ذخیره
-              </button>
-            </div>
-          </>
-        )}
+    <div className="purchase-btn-box">
+      <button className="purchase-btn btn-back" onClick={() => setShowAssignModal(false)}>
+        بازگشت
+      </button>
+      <button className="purchase-btn btn-save" onClick={handleConfirmTransfer}>
+        ذخیره
+      </button>
+    </div>
+  </div>
+)}
 
       </div>
       {noStockModalOpen && (

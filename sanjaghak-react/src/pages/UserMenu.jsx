@@ -16,6 +16,7 @@ const UserMenu = () => {
   const handleLogoutClick = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("id")
+        localStorage.removeItem("customerId")
     setIsModalOpen(false);
     navigate("/signin");
     window.location.reload();

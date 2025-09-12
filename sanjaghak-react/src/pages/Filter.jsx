@@ -4,29 +4,40 @@ import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import "/src/styles/filter.css";
 
-function Filter({ isOpen, onClose }) {
+function Filter({ isOpen, onClose, brands = [], onApply }) {
   const minPrice = 0;
   const maxPrice = 1000000;
 
   const [priceRange, setPriceRange] = useState([minPrice, maxPrice]);
   const [isBrandOpen, setIsBrandOpen] = useState(false);
   const [isPriceOpen, setIsPriceOpen] = useState(false);
+  const [selectedBrands, setSelectedBrands] = useState([]);
 
   if (!isOpen) return null;
 
   const toggleBrand = () => setIsBrandOpen((prev) => !prev);
   const togglePrice = () => setIsPriceOpen((prev) => !prev);
 
-  const onSliderChange = ([low, high]) => {
-    const realLow = maxPrice - high + minPrice;
-    const realHigh = maxPrice - low + minPrice;
-    setPriceRange([realLow, realHigh]);
+  const onSliderChange = (value) => {
+    setPriceRange(value);
   };
 
-  const sliderValue = [
-    maxPrice - priceRange[1] + minPrice,
-    maxPrice - priceRange[0] + minPrice,
-  ];
+  const handleBrandChange = (brand) => {
+    setSelectedBrands((prev) =>
+      prev.includes(brand)
+        ? prev.filter((b) => b !== brand)
+        : [...prev, brand]
+    );
+  };
+
+  const handleApply = () => {
+    const filterData = {
+      brands: selectedBrands,
+      priceRange,
+    };
+    if (onApply) onApply(filterData);
+    onClose();
+  };
 
   return ReactDOM.createPortal(
     <div className="filter-backdrop" onClick={onClose}>
@@ -55,6 +66,7 @@ function Filter({ isOpen, onClose }) {
           />
         </div>
         <hr />
+
         <div className="filter-content">
           <div className={`filter-section ${isBrandOpen ? "open" : ""}`}>
             <div className="filter-brand-header" onClick={toggleBrand}>
@@ -63,17 +75,27 @@ function Filter({ isOpen, onClose }) {
                 src="/src/assets/arrow-up.png"
                 alt="باز/بسته"
                 className="filter-arrow-up"
-                style={{ transform: isBrandOpen ? "rotate(180deg)" : "rotate(0deg)" }}
+                style={{
+                  transform: isBrandOpen ? "rotate(180deg)" : "rotate(0deg)",
+                }}
               />
             </div>
             {isBrandOpen && (
               <div className="filter-brand-content">
-                <label><input type="checkbox" /> برند A</label>
-                <label><input type="checkbox" /> برند B</label>
-                <label><input type="checkbox" /> برند C</label>
+                {brands.map((brand) => (
+                  <label key={brand}>
+                    <input
+                      type="checkbox"
+                      checked={selectedBrands.includes(brand)}
+                      onChange={() => handleBrandChange(brand)}
+                    />
+                    {brand}
+                  </label>
+                ))}
               </div>
             )}
           </div>
+
           <div className={`filter-section ${isPriceOpen ? "open" : ""}`}>
             <div className="filter-brand-header" onClick={togglePrice}>
               <h5 className="filter-brand-name">قیمت</h5>
@@ -81,21 +103,33 @@ function Filter({ isOpen, onClose }) {
                 src="/src/assets/arrow-up.png"
                 alt="باز/بسته"
                 className="filter-arrow-up"
-                style={{ transform: isPriceOpen ? "rotate(180deg)" : "rotate(0deg)" }}
+                style={{
+                  transform: isPriceOpen ? "rotate(180deg)" : "rotate(0deg)",
+                }}
               />
             </div>
             {isPriceOpen && (
-              <div className="filter-price-content" style={{ padding: "10px 0" }} dir="ltr">
+              <div
+                className="filter-price-content"
+                style={{ padding: "10px 0" }}
+                dir="ltr"
+              >
                 <Slider
                   range
                   min={minPrice}
                   max={maxPrice}
                   step={10000}
-                  value={sliderValue}
+                  value={priceRange}
                   onChange={onSliderChange}
                   allowCross={false}
                 />
-                <div style={{ display: "flex", justifyContent: "space-between", marginTop: 10 }}>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginTop: 10,
+                  }}
+                >
                   <span>{priceRange[0].toLocaleString()} تومان</span>
                   <span>{priceRange[1].toLocaleString()} تومان</span>
                 </div>
@@ -103,8 +137,9 @@ function Filter({ isOpen, onClose }) {
             )}
           </div>
         </div>
+
         <div className="Apply-filter-box">
-          <button className="Apply-filter-button">
+          <button className="Apply-filter-button" onClick={handleApply}>
             اعمال فیلتر
           </button>
         </div>

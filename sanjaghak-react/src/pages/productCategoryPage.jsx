@@ -19,6 +19,8 @@ function CategoryPage() {
   const backgroundAreaRef = useRef(null);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
+const [filteredProducts, setFilteredProducts] = useState([]);
+
   useEffect(() => {
     setLoadingProducts(true);
     setErrorProducts(null);
@@ -53,7 +55,7 @@ function CategoryPage() {
         <BackgroundPattern parentRef={backgroundAreaRef} />
 
         <CategoryBox
-          products={products}
+          products={isFilterOpen ? filteredProducts : products}
           loading={loadingProducts}
           error={errorProducts}
           onFilterClick={() => setIsFilterOpen(true)}
@@ -62,6 +64,13 @@ function CategoryPage() {
         <Filter
           isOpen={isFilterOpen}
           onClose={() => setIsFilterOpen(false)}
+          brands={[]}
+          onApply={(data) => {
+            const result = products.filter((p) =>
+              data.brands.length > 0 ? data.brands.includes(p.brand) : true
+            );
+            setFilteredProducts(result);
+          }}
         />
 
         <Footer />

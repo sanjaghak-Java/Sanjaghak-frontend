@@ -24,27 +24,25 @@ function Orders() {
   const [loading, setLoading] = useState(true);
 
   const [statusFilter, setStatusFilter] = useState('همه');
-  const [fromDate, setFromDate] = useState(null); // DateObject (persian)
-  const [toDate, setToDate] = useState(null);     // DateObject (persian)
+  const [fromDate, setFromDate] = useState(null); 
+  const [toDate, setToDate] = useState(null);     
   const [filteredOrders, setFilteredOrders] = useState([]);
 
-  const customerId = "4e50c879-baec-4cdb-820f-01192dca08d9";
+  const customerId = localStorage.getItem("customerId");
 
-  // Robust, case-insensitive status mapping
   const mapStatus = (status) => {
     if (!status && status !== "") return status;
     const s = String(status).toLowerCase();
     if (s === "processing") return "در جریان";
     if (s === "delivered") return "تحویل شده";
     if (s === "cancel" || s === "canceled" || s === "cancelled") return "لغو شده";
-    if (s === "pending") return null; // hide pending
+    if (s === "pending") return null; 
     return status;
   };
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        // 1) Fetch orders
         const response = await fetch(
           `http://127.0.0.1:8080/api/Sanjaghak/Orders/getOrdersByfilter?customerId=${customerId}`
         );
@@ -53,7 +51,7 @@ function Orders() {
         const mappedOrders = (data.content || [])
           .map((order) => {
             const status = mapStatus(order.orderStatus);
-            if (!status) return null; // skip pending
+            if (!status) return null; 
 
             const orderDateObj = order.createdAt ? new Date(order.createdAt) : null;
             const deliveryDateObj = order.updatedAt ? new Date(order.updatedAt) : null;
@@ -61,20 +59,18 @@ function Orders() {
             return {
               id: order.orderId,
               orderNumber: order.orderNumber,
-              // Persian strings for UI
 orderDate: orderDateObj
   ? new DateObject({ date: orderDateObj, calendar: persian, locale: persian_fa }).format("YYYY/MM/DD")
   : "",
 deliveryDate: deliveryDateObj
   ? new DateObject({ date: deliveryDateObj, calendar: persian, locale: persian_fa }).format("YYYY/MM/DD")
   : "",
-              // JS Date objects for filtering/comparison
               orderDateObj,
               deliveryDateObj,
               amount: Number(order.totalAmount) || 0,
               status,
               product: {
-                title: "محصول خریداری شده", // placeholder; modal fetches real product
+                title: "محصول خریداری شده", 
                 image: phone,
                 color: "مشکی",
                 colorCode: "black",
@@ -85,7 +81,6 @@ deliveryDate: deliveryDateObj
           })
           .filter(Boolean);
 
-        // 2) Fetch returns for user (requires auth token)
         const token = localStorage.getItem("token");
         const returnRes = await fetch(
           "http://127.0.0.1:8080/api/Sanjaghak/return/getAllReturnByUserId",
@@ -98,7 +93,7 @@ deliveryDate: deliveryDateObj
         if (returnRes.ok) {
           const returnData = await returnRes.json();
           returnOrders = (returnData || [])
-            .filter(r => String(r.returnStatus).toUpperCase() !== "PENDING") // skip pending returns
+            .filter(r => String(r.returnStatus).toUpperCase() !== "PENDING") 
             .map(r => {
               const rDateObj = r.createdAt ? new Date(r.createdAt) : null;
               return {
@@ -135,27 +130,23 @@ deliveryDate: deliveryDateObj
     fetchOrders();
   }, []);
 
-  // Filter using JS Date objects (convert Persian DateObject to JS Date)
 useEffect(() => {
   const filtered = orders.filter(order => {
     const matchStatus = statusFilter === 'همه' || order.status === statusFilter;
     if (!matchStatus) return false;
 
-    // If no date filters, accept it
     if (!fromDate && !toDate) return true;
 
-    // Ensure we’re comparing Gregorian dates
-    const orderDt = order.orderDateObj; // plain JS Date (Gregorian)
+    const orderDt = order.orderDateObj; 
     if (!orderDt) return false;
 
     const fromGregorian = fromDate
-      ? fromDate.toDate() // convert Persian DateObject -> JS Date (Gregorian)
+      ? fromDate.toDate() 
       : null;
     const toGregorian = toDate
       ? toDate.toDate()
       : null;
 
-    // Make to-date inclusive (end of day)
     if (toGregorian) toGregorian.setHours(23, 59, 59, 999);
 
     if (fromGregorian && orderDt < fromGregorian) return false;
@@ -167,7 +158,6 @@ useEffect(() => {
   setFilteredOrders(filtered);
 }, [statusFilter, fromDate, toDate, orders]);
 
-  // Status counts (based on merged list)
   const deliveredCount = orders.filter(o => o.status === 'تحویل شده').length;
   const returnedCount = orders.filter(o => o.status === 'مرجوع شده').length;
   const canceledCount = orders.filter(o => o.status === 'لغو شده').length;
@@ -290,7 +280,6 @@ useEffect(() => {
                         <tr key={`${order.id}_${index}`}>
                           <td>{index + 1}</td>
                           <td>{order.orderNumber}</td>
-                          {/* display Persian strings */}
                           <td>{order.orderDate}</td>
                           <td>{(order.status === 'لغو شده' || order.status === 'در جریان') ? '' : order.deliveryDate}</td>
                           <td>{(order.amount || 0).toLocaleString()} تومان</td>

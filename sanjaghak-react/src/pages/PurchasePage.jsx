@@ -4,7 +4,7 @@ import AddPurchaseFactor from './AddPurchaseFactor';
 import "/src/styles/PurchasePage.css";
 import download from '../assets/download.png';
 import PurchaseOrderFactor from './purchaseOrderFactor';
-
+import jalaali from 'jalaali-js';
 function PurchasePage() {
   const [orders, setOrders] = useState([]);
   const [suppliers, setSuppliers] = useState([]);
@@ -14,7 +14,13 @@ function PurchasePage() {
   const [supplierFilter, setSupplierFilter] = useState('همه موارد');
   const [warehouseFilter, setWarehouseFilter] = useState('همه موارد');
   const [searchText, setSearchText] = useState('');
-
+const toPersianDate = (isoDate) => {
+  if (!isoDate) return '—';
+  const date = new Date(isoDate);
+  const jDate = jalaali.toJalaali(date);
+  const pad = (n) => n.toString().padStart(2, '0');
+  return `${jDate.jy}/${pad(jDate.jm)}/${pad(jDate.jd)}`;
+};
   const [selectedPurchase, setSelectedPurchase] = useState(null);
   const [isFactorOpen, setIsFactorOpen] = useState(false);
 
@@ -24,10 +30,8 @@ function PurchasePage() {
 
   const navigate = useNavigate();
 const statusMap = {
-  Processing: "در حال پردازش",
   Shipping: "در حال ارسال",
-  Received: "دریافت‌شده",
-  Cancelled: "لغوشده"
+  received: "دریافت‌شده",
 };
 
 const getSupplierName = (supplierId) => {
@@ -132,10 +136,8 @@ const filteredPurchases = orders.filter((p) => {
           }}
         >
           <option value="همه موارد">همه وضعیت‌ها</option>
-          <option value="در حال پردازش">در حال پردازش</option>
           <option value="در حال ارسال">در حال ارسال</option>
           <option value="دریافت‌شده">دریافت‌شده</option>
-          <option value="لغوشده">لغوشده</option>
         </select>
 
 <select
@@ -214,7 +216,7 @@ const filteredPurchases = orders.filter((p) => {
         <td>{getSupplierName(purchase.suppliersId?.suppliersId)}</td>
         <td>{getWarehouseName(purchase.warehouseId?.warehouseId)}</td>
         <td>{new Date(purchase.orderDate).toLocaleDateString('fa-IR')}</td>
-        <td>{purchase.expectedDate || '—'}</td>
+        <td>{toPersianDate(purchase.expectedDate)}</td>
         <td>
           <span className={`status-badge ${
             purchase.status === 'Processing'

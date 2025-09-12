@@ -53,7 +53,7 @@ useEffect(() => {
   fetchSentOrders();
 }, [warehouse?.isCentral, token]);
 useEffect(() => {
-  if (!warehouseId || !warehouse?.isCentral) return; // safe
+  if (!warehouseId || !warehouse?.isCentral) return; 
 
   const fetchReturnRequests = async () => {
     try {
@@ -93,22 +93,18 @@ useEffect(() => {
   fetchWarehouseOrders();
 }, [warehouseId, token]);
   
-  const markOrderAsReceived = async (order) => {
-    const warehouseIdParam = order.warehouseId?.warehouseId;
-    const supplierIdParam = order.suppliersId?.suppliersId || order.supplierId;
-  
-    if (!warehouseIdParam || !supplierIdParam) {
-      console.warn("Missing warehouseId or suppliersId for order:", order);
-      return;
-    }
-  
-    let isoExpectedDate = order.expectedDate;
-    if (order.expectedDate.includes("-")) {
-      const [jy, jm, jd] = order.expectedDate.split("-").map(Number);
-      const { gy, gm, gd } = jalaali.toGregorian(jy, jm, jd);
-      isoExpectedDate = new Date(gy, gm - 1, gd).toISOString().split("T")[0]; 
-    }
-  
+const markOrderAsReceived = async (order) => {
+  const warehouseIdParam = order.warehouseId?.warehouseId;
+  const supplierIdParam = order.suppliersId?.suppliersId || order.supplierId;
+
+  if (!warehouseIdParam || !supplierIdParam) {
+    console.warn("Missing warehouseId or suppliersId for order:", order);
+    return;
+  }
+
+  const isoExpectedDate = order.expectedDate;
+
+  try {
     await fetch(
       `http://127.0.0.1:8080/api/Sanjaghak/purchaseOrders/${order.purchaseOrdersId}?warehouseId=${warehouseIdParam}&supplierId=${supplierIdParam}`,
       {
@@ -120,11 +116,14 @@ useEffect(() => {
         body: JSON.stringify({
           shippingCost: order.shippingCost,
           expectedDate: isoExpectedDate, 
-          status: "received"
+          status: "received",
         }),
       }
     );
-  };
+  } catch (err) {
+    console.error("Error marking order as received:", err);
+  }
+};
 
 //خروج از انبار
   const [isOrderOutModalOpen, setIsOrderOutModalOpen] = useState(false);
@@ -195,10 +194,9 @@ useEffect(() => {
       );
 
       const productList = [];
-      const supplierMapTemp = {}; // temporary map for supplier names
+      const supplierMapTemp = {}; 
 
       for (const order of warehouseOrders) {
-        // fetch supplier name
         const supplierId = order.suppliersId?.suppliersId || order.supplierId;
         if (!supplierMapTemp[supplierId]) {
           try {
@@ -385,11 +383,10 @@ products
       );
       if (!res.ok) throw new Error("خطا در تایید انتقال");
 
+      alert("انتقال تایید شد!");
       setShippingRequests((prev) =>
         prev.filter((s) => s.inventoryMovementId !== inventoryMovementId)
       );
-      window.location.reload();
-
     } catch (err) {
       console.error(err);
       alert("خطا در تایید انتقال");

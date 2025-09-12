@@ -62,9 +62,7 @@ const getResponseData = async (res) => {
 
 const promises = items.map(async (item) => {
   const shippingCostForItem = shippingCostsMap[item.id] || 0;
-  const expectedDate = item.arrivalDate
-    ? toEnglishDigits(item.arrivalDate.convert('gregorian').format('YYYY-MM-DD'))
-    : null;
+const expectedDate = item.arrivalDate || null;
 
   const orderBody = {
     shippingCost: shippingCostForItem,
@@ -182,7 +180,7 @@ const registerData = await getResponseData(registerRes);
         <td>{item.quantity}</td>
         <td>{item.product.costPrice.toLocaleString()}</td>
         <td>{(item.product.costPrice * item.quantity).toLocaleString()}</td>
-        <td>{item.arrivalDate ? item.arrivalDate.format("YYYY/MM/DD") : "-"}</td>
+        <td>{item.arrivalDate ? item.arrivalDate.replace(/-/g, "/") : "-"}</td>
         <td>{shippingCostForItem.toLocaleString()}</td>
       </tr>
     );

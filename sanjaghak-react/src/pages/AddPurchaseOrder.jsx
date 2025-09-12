@@ -77,25 +77,32 @@ function AddPurchaseOrder() {
     },
   ];
 
-  const handleAddItem = () => {
-    if (!selectedProduct || !quantity) {
-      alert("لطفا نام محصول و تعداد را وارد کنید.");
-      return;
-    }
+const handleAddItem = () => {
+  if (!selectedProduct || !quantity) {
+    alert("لطفا نام محصول و تعداد را وارد کنید.");
+    return;
+  }
 
-    const newItem = {
-      id: Date.now(),
-      product: selectedProduct,
-      quantity: Number(quantity),
-      arrivalDate, 
-      totalPrice: null, 
-    };
+  // Convert Persian DateObject to JS Date, then to ISO string
+  let isoArrivalDate = null;
+  if (arrivalDate) {
+    const jsDate = arrivalDate.toDate(); // convert DateObject to JS Date
+    isoArrivalDate = jsDate.toISOString().split("T")[0]; // YYYY-MM-DD format
+  }
 
-    setAddedItems(prev => [...prev, newItem]);
-    setSelectedProduct(null);
-    setArrivalDate("");
-    setQuantity("");
+  const newItem = {
+    id: Date.now(),
+    product: selectedProduct,
+    quantity: Number(quantity),
+    arrivalDate: isoArrivalDate, // <-- send ISO date
+    totalPrice: null,
   };
+
+  setAddedItems(prev => [...prev, newItem]);
+  setSelectedProduct(null);
+  setArrivalDate(""); // reset date picker
+  setQuantity("");
+};
 
   const handleRemoveItem = (id) => {
     setAddedItems(prev => prev.filter(item => item.id !== id));
@@ -253,7 +260,7 @@ function AddPurchaseOrder() {
         <td>{item.quantity}</td>
         <td>{item.product.costPrice.toLocaleString()} تومان</td>
         <td>{(item.product.costPrice * item.quantity).toLocaleString()} تومان</td>
-        <td>{item.arrivalDate ? item.arrivalDate.format("YYYY/MM/DD") : "-"}</td> 
+       <td>{item.arrivalDate || "-"}</td>
       </tr>
     ))}
   </tbody>

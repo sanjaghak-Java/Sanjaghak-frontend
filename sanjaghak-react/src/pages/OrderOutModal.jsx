@@ -10,7 +10,6 @@ function OrderOutModal({ isOpen, onClose, items, sourceWarehouse, destinationWar
     const fetchProductNamesAndShelfCodes = async () => {
       const newItems = await Promise.all(
         items.map(async (item) => {
-          // Fetch product name
           const variantId = item.variantsId?.variantId;
           let productName = "نامشخص";
           if (variantId) {
@@ -28,7 +27,6 @@ function OrderOutModal({ isOpen, onClose, items, sourceWarehouse, destinationWar
             }
           }
 
-          // Fetch source shelf code
           let sourceShelf = "نامشخص";
           const sourceShelfId = item.fromShelvesId?.shelvesId;
           if (sourceShelfId) {
@@ -50,7 +48,7 @@ function OrderOutModal({ isOpen, onClose, items, sourceWarehouse, destinationWar
             ...item,
             productName,
             sourceShelf,
-            destinationShelf: item.toShelvesId?.shelvesId || "نامشخص", // keep as-is
+            destinationShelf: item.toShelvesId?.shelvesId || "نامشخص", 
           };
         })
       );
@@ -65,7 +63,6 @@ function OrderOutModal({ isOpen, onClose, items, sourceWarehouse, destinationWar
     setLoading(true);
 
     try {
-      // Call process-order-request for each inventoryMovementId
       await Promise.all(
         items.map((item) =>
           fetch(`http://127.0.0.1:8080/api/Sanjaghak/Orders/${item.inventoryMovementId}/process-order-request`, {
@@ -75,11 +72,13 @@ function OrderOutModal({ isOpen, onClose, items, sourceWarehouse, destinationWar
         )
       );
       alert("سفارشات با موفقیت انتقال یافت!");
-      onClose(); // close modal after success
+      onClose(); 
     } catch (err) {
       console.error("خطا در تایید سفارش:", err);
     } finally {
       setLoading(false);
+       window.location.reload();
+
     }
   };
 

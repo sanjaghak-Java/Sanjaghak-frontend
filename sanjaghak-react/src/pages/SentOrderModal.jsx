@@ -5,7 +5,6 @@ function SentOrderModal({ isOpen, onClose, orders, token }) {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [orderList, setOrderList] = useState([]);
 
-  // Fetch enriched order info
   useEffect(() => {
     if (!isOpen || !orders || orders.length === 0) return;
 
@@ -15,7 +14,6 @@ function SentOrderModal({ isOpen, onClose, orders, token }) {
           let customerName = "نامشخص";
           let customerAddress = "نامشخص";
 
-          // 1️⃣ Get customer name
           if (order.customerId?.customerId) {
             try {
               const resCustomer = await fetch(
@@ -31,7 +29,6 @@ function SentOrderModal({ isOpen, onClose, orders, token }) {
             }
           }
 
-          // 2️⃣ Get billing address line1
           if (order.billingAddressId?.addressId) {
             try {
               const resAddress = await fetch(
@@ -47,7 +44,6 @@ function SentOrderModal({ isOpen, onClose, orders, token }) {
             }
           }
 
-          // 3️⃣ Get order items with product names
           let items = [];
           try {
             const resItems = await fetch(
@@ -97,7 +93,6 @@ function SentOrderModal({ isOpen, onClose, orders, token }) {
     fetchOrderDetails();
   }, [isOpen, orders, token]);
 
-  // ✅ Confirm order API call
   const confirmOrder = async (orderId) => {
     try {
       const res = await fetch(
@@ -113,7 +108,6 @@ function SentOrderModal({ isOpen, onClose, orders, token }) {
 
       if (res.ok) {
         alert("سفارش با موفقیت تایید شد!");
-        // Optionally, update the order status in the UI
         setOrderList((prev) =>
           prev.map((order) =>
             order.orderId === orderId
@@ -121,6 +115,8 @@ function SentOrderModal({ isOpen, onClose, orders, token }) {
               : order
           )
         );
+         window.location.reload();
+
       } else {
         alert("خطا در تایید سفارش!");
       }
@@ -162,7 +158,7 @@ function SentOrderModal({ isOpen, onClose, orders, token }) {
                         className="sent-operation-btn"
                         title="تایید و ارسال"
                         onClick={(e) => {
-                          e.stopPropagation(); // Prevent row click
+                          e.stopPropagation(); 
                           confirmOrder(order.orderId);
                         }}
                       >

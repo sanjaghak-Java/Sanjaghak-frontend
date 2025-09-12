@@ -115,6 +115,7 @@ const handleConfirmTransfer = async () => {
     alert("انتقال محصولات با موفقیت ثبت شد ✅");
     setShowAssignModal(false);
     setCanConfirmTransfer(false);
+    window.location.reload();
 
   } catch (err) {
     console.error(err);
@@ -138,7 +139,7 @@ const handleConfirmTransfer = async () => {
 
             <div className="purchase-info-box">
               <p><strong>انبار:</strong> {warehouse.name}</p>
-              <p><strong>تأمین‌کننده:</strong> {supplier.supplierName}</p>
+              <p><strong>تأمین‌کننده:</strong> {supplier}</p>
             </div>
 
 <table className="purchase-product-table">

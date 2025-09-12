@@ -30,7 +30,49 @@ const [modalProducts, setModalProducts] = useState([]);
   const [shippingProductsMap, setShippingProductsMap] = useState({});
   const [supplierMap, setSupplierMap] = useState({});
   const [sentOrders, setSentOrders] = useState([]);
+const [returnRequests, setReturnRequests] = useState([]);
 
+const warehouse = warehouses.find((w) => w.warehouseId === warehouseId);
+useEffect(() => {
+  if (!warehouse?.isCentral) return;
+
+  const fetchSentOrders = async () => {
+    try {
+      const res = await fetch(
+        "http://127.0.0.1:8080/api/Sanjaghak/Orders/processing-with-inventory",
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      if (!res.ok) throw new Error("خطا در دریافت سفارشات آماده ارسال");
+      const data = await res.json();
+      setSentOrders(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  fetchSentOrders();
+}, [warehouse?.isCentral, token]);
+useEffect(() => {
+  if (!warehouseId || !warehouse?.isCentral) return; // safe
+
+  const fetchReturnRequests = async () => {
+    try {
+      const res = await fetch(
+        "http://127.0.0.1:8080/api/Sanjaghak/inventoryMovement/getAllInventoryMovement",
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      if (!res.ok) throw new Error("خطا در دریافت درخواست‌های مرجوعی");
+
+      const data = await res.json();
+      const returns = data.filter(m => m.movementType === "SALE_RETURN_REQUEST");
+      setReturnRequests(returns);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  fetchReturnRequests();
+}, [warehouseId, warehouse?.isCentral, token]);
   useEffect(() => {
   if (!warehouseId) return;
 
@@ -135,77 +177,96 @@ const fetchShippingRequests = async () => {
 
     fetchShippingRequests();
   }, [warehouseId, token]);
-  useEffect(() => {
-    if (!warehouseId) return;
+useEffect(() => {
+  if (!warehouseId) return;
 
-    const fetchProducts = async () => {
-      try {
-        const resOrders = await fetch(
-          "http://127.0.0.1:8080/api/Sanjaghak/purchaseOrders/getAllPurchaseOrders",
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-        if (!resOrders.ok) throw new Error("خطا در دریافت سفارش‌ها");
-        const allOrders = await resOrders.json();
+  const fetchProducts = async () => {
+    try {
+      const resOrders = await fetch(
+        "http://127.0.0.1:8080/api/Sanjaghak/purchaseOrders/getAllPurchaseOrders",
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      if (!resOrders.ok) throw new Error("خطا در دریافت سفارش‌ها");
+      const allOrders = await resOrders.json();
 
-        const warehouseOrders = allOrders.filter(
-          (o) =>
-            o.warehouseId.warehouseId === warehouseId && o.status === "Shipping"
-        );
+      const warehouseOrders = allOrders.filter(
+        (o) =>
+          o.warehouseId.warehouseId === warehouseId && o.status === "Shipping"
+      );
 
-        const productList = [];
+      const productList = [];
+      const supplierMapTemp = {}; // temporary map for supplier names
 
-        for (const order of warehouseOrders) {
-          const resItems = await fetch(
-            `http://127.0.0.1:8080/api/Sanjaghak/purchaseOrderItems/by-order/${order.purchaseOrdersId}`,
-            { headers: { Authorization: `Bearer ${token}` } }
-          );
-          if (!resItems.ok) continue;
-          const items = await resItems.json();
-
-for (const item of items) {
-  const variantId = item.variantsId.variantId;
-  const resVariant = await fetch(
-    `http://127.0.0.1:8080/api/Sanjaghak/productVariants/${variantId}`,
-    { headers: { Authorization: `Bearer ${token}` } }
-  );
-  if (!resVariant.ok) continue;
-  const variantData = await resVariant.json();
-
-  productList.push({
-    id: variantData.variantId,
-    name: variantData.productId.productName,
-    quantity: item.quantityOrdered - item.recivedQuantity,
-    purchaseOrderItemId: item.purchaseOrderItemsId,
-    supplierId: order.supplierId,
-    purchaseOrdersId: order.purchaseOrdersId,
-    shippingCost: order.shippingCost,
-    expectedDate: order.expectedDate,
-    warehouseId: order.warehouseId,
-  });
-}
-
-const allZero = items.every(
-  item => item.quantityOrdered - item.recivedQuantity === 0
-);
-if (allZero) {
-  markOrderAsReceived({
-    purchaseOrdersId: order.purchaseOrdersId,
-    shippingCost: order.shippingCost,
-    expectedDate: order.expectedDate,
-    warehouseId: order.warehouseId,
-    supplierId: order.suppliersId?.suppliersId || order.supplierId, 
-  });
-}
+      for (const order of warehouseOrders) {
+        // fetch supplier name
+        const supplierId = order.suppliersId?.suppliersId || order.supplierId;
+        if (!supplierMapTemp[supplierId]) {
+          try {
+            const resSupplier = await fetch(
+              `http://127.0.0.1:8080/api/Sanjaghak/suppliers/${supplierId}`,
+              { headers: { Authorization: `Bearer ${token}` } }
+            );
+            if (!resSupplier.ok) throw new Error("خطا در دریافت تأمین‌کننده");
+            const supplierData = await resSupplier.json();
+            supplierMapTemp[supplierId] = supplierData.supplierName;
+          } catch (err) {
+            console.error("Error fetching supplier:", err);
+            supplierMapTemp[supplierId] = "نامشخص";
+          }
         }
 
-        setProducts(productList);
-      } catch (err) {
-        console.error(err);
-      }
-    };
+        const resItems = await fetch(
+          `http://127.0.0.1:8080/api/Sanjaghak/purchaseOrderItems/by-order/${order.purchaseOrdersId}`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        if (!resItems.ok) continue;
+        const items = await resItems.json();
 
-    fetchProducts();
-  }, [warehouseId, token]);
+        for (const item of items) {
+          const variantId = item.variantsId.variantId;
+          const resVariant = await fetch(
+            `http://127.0.0.1:8080/api/Sanjaghak/productVariants/${variantId}`,
+            { headers: { Authorization: `Bearer ${token}` } }
+          );
+          if (!resVariant.ok) continue;
+          const variantData = await resVariant.json();
+
+          productList.push({
+            id: variantData.variantId,
+            name: variantData.productId.productName,
+            quantity: item.quantityOrdered - item.recivedQuantity,
+            purchaseOrderItemId: item.purchaseOrderItemsId,
+            supplierId,
+            purchaseOrdersId: order.purchaseOrdersId,
+            shippingCost: order.shippingCost,
+            expectedDate: order.expectedDate,
+            warehouseId: order.warehouseId,
+          });
+        }
+
+        const allZero = items.every(
+          (item) => item.quantityOrdered - item.recivedQuantity === 0
+        );
+        if (allZero) {
+          markOrderAsReceived({
+            purchaseOrdersId: order.purchaseOrdersId,
+            shippingCost: order.shippingCost,
+            expectedDate: order.expectedDate,
+            warehouseId: order.warehouseId,
+            supplierId,
+          });
+        }
+      }
+
+      setSupplierMap(supplierMapTemp); 
+      setProducts(productList);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  fetchProducts();
+}, [warehouseId, token]);
   const purchaseOrdersMap = {};
 products
   .filter(p => p.quantity > 0) 
@@ -324,10 +385,11 @@ products
       );
       if (!res.ok) throw new Error("خطا در تایید انتقال");
 
-      alert("انتقال تایید شد!");
       setShippingRequests((prev) =>
         prev.filter((s) => s.inventoryMovementId !== inventoryMovementId)
       );
+      window.location.reload();
+
     } catch (err) {
       console.error(err);
       alert("خطا در تایید انتقال");
@@ -337,10 +399,32 @@ products
   if (loading) return <div>در حال بارگذاری...</div>;
   if (error) return <div>خطا: {error}</div>;
 
-  const warehouse = warehouses.find((w) => w.warehouseId === warehouseId);
   if (!warehouse) return <div>انبار یافت نشد.</div>;
+const approveReturn = async (referenceId) => {
+  try {
+    const res = await fetch(
+      `http://127.0.0.1:8080/api/Sanjaghak/inventoryMovement/processInventoryStockByReference/${referenceId}`,
+      { method: "POST", headers: { Authorization: `Bearer ${token}` } }
+    );
+    if (!res.ok) throw new Error("خطا در تایید مرجوعی");
 
+    alert("مرجوعی تایید شد!");
+    setReturnRequests(prev => prev.filter(r => r.refrenceId !== referenceId));
+  } catch (err) {
+    console.error(err);
+    alert("خطا در تایید مرجوعی");
+  }
+};
 const notifications = [
+  ...(warehouse.isCentral
+  ? returnRequests.map((ret) => ({
+      id: ret.inventoryMovementId,
+      text: "یک محصول مرجوعی شده",
+      buttonText: "تایید",
+      onClick: () => approveReturn(ret.refrenceId),
+    }))
+  : []),
+
   ...shippingRequests.map((sr) => ({
     id: sr.inventoryMovementId,
     text: `درخواست ارسال محصول ${
@@ -389,29 +473,15 @@ const notifications = [
         }]
       : []
   ),
-  ...(warehouse.isCentral && sentOrders.length > 0
-    ? [{
-        id: "sent_order",
-        text: "ارسال سفارشات",
-        buttonText: "مشاهده",
-        onClick: async () => {
-          try {
-            const res = await fetch(
-              "http://127.0.0.1:8080/api/Sanjaghak/Orders/processing-with-inventory",
-              { headers: { Authorization: `Bearer ${token}` } }
-            );
-            if (!res.ok) throw new Error("خطا در دریافت سفارشات آماده ارسال");
-            const data = await res.json();
-            setSentOrders(data);
-            setIsSentOrderModalOpen(true);
-          } catch (err) {
-            console.error(err);
-            alert("خطا در دریافت سفارشات آماده ارسال");
-          }
-        },
-      }]
-    : []
-  )
+...(warehouse.isCentral && sentOrders.length > 0
+  ? [{
+      id: "sent_order",
+      text: "ارسال سفارشات",
+      buttonText: "مشاهده",
+      onClick: () => setIsSentOrderModalOpen(true),
+    }]
+  : []
+)
 ];
 
   return (

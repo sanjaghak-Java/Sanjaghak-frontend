@@ -29,8 +29,9 @@ function WarehouseViewModal({ transferItems,id, onClose, onConfirmTransfer }) {
         throw new Error(data.message || "خطا در تایید انتقال");
       }
 
-      alert("انتقال با موفقیت تایید شد!");
       onConfirmTransfer(); 
+       window.location.reload();
+
     } catch (err) {
       console.error(err);
       setError(err.message);

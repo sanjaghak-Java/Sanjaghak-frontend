@@ -99,13 +99,7 @@ function AddShelvesModal({ visible, onClose, shelves, setShelves, isCentralWareh
               </div>
             )}
 
-            <input
-              type="text"
-              value={shelf.managerId}
-              onChange={(e) => handleChange(index, "managerId", e.target.value)}
-              placeholder="آیدی مسئول قفسه"
-              className="shelves-input-text"
-            />
+
 
             <button
               onClick={() => handleRemoveShelf(index)}

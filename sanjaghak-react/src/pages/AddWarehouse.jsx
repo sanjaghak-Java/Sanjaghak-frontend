@@ -19,7 +19,7 @@ function AddWarehouse() {
 
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-  const userId = "d34f8c7c-ddf6-4ff5-822c-b5b0c5b24145"; 
+  const userId = "92d45c1a-3f2b-4120-971f-5fbf66a4188b"; 
 
   const handleNextStep = async (e) => {
     e.preventDefault();

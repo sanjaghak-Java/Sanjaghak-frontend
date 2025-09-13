@@ -1,10 +1,18 @@
 import React from 'react';
 import Logo from '../assets/sanjaghak-logo.png';
 import "/src/styles/logout-modal.css";
+import { Link, useNavigate } from 'react-router-dom';
 
 function LogoutModal({ onClose }) {
+  const navigate = useNavigate();
   const handleLogout = () => {
     onClose();
+        localStorage.removeItem("token");
+        localStorage.removeItem("id");
+        localStorage.removeItem("customerId");
+        localStorage.removeItem("role");
+            navigate("/signin");
+
   };
 
   return (

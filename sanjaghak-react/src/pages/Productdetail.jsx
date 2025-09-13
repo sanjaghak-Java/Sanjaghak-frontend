@@ -654,7 +654,7 @@ onClick={async () => {
         </div>
         <button
   className="go-to-cart-page"
-  onClick={() => navigate("/cart")}
+  onClick={() => navigate("/mycart")}
 >
   مشاهده سبد خرید
 </button>

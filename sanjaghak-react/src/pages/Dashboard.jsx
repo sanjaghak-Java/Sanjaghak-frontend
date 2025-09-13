@@ -34,11 +34,74 @@ function AdminDashboard() {
   const [activeUsers, setActiveUsers] = useState(0);
   const [inactiveUsers, setInactiveUsers] = useState(0);
 
-  const totalRevenue = "123,456,789 تومان";
-  const totalItemsSold = "8,765";
   const bestSeller = "محصول الف";
   const leastSeller = "محصول ب";
+const [totalRevenue, setTotalRevenue] = useState(null);
+const [totalItemsSold, setTotalItemsSold] = useState(null);
 
+useEffect(() => {
+  const token = localStorage.getItem("token");
+  if (!token) return;
+
+  const buildDateRange = () => {
+    const now = new Date();
+    const startDate = new Date(now.getFullYear() - 10, now.getMonth(), now.getDate(), 0, 0, 0);
+    const endDate = new Date(now.getFullYear() + 10, now.getMonth(), now.getDate(), 23, 59, 59);
+
+    const startDateStr = startDate.toISOString().split(".")[0];
+    const endDateStr = endDate.toISOString().split(".")[0];
+    return { startDateStr, endDateStr };
+  };
+
+  const fetchRevenue = async () => {
+    try {
+      const { startDateStr, endDateStr } = buildDateRange();
+
+      const response = await fetch(
+        `http://127.0.0.1:8080/api/Sanjaghak/report/calculate?startDate=${encodeURIComponent(
+          startDateStr
+        )}&endDate=${encodeURIComponent(endDateStr)}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) throw new Error("Failed to fetch revenue");
+      const revenue = await response.json();
+      setTotalRevenue(revenue);
+    } catch (error) {
+      console.error("Error fetching total revenue:", error);
+    }
+  };
+
+  const fetchItemsSold = async () => {
+    try {
+      const { startDateStr, endDateStr } = buildDateRange();
+
+      const response = await fetch(
+        `http://127.0.0.1:8080/api/Sanjaghak/report/received-purchase-quantity?startDate=${encodeURIComponent(
+          startDateStr
+        )}&endDate=${encodeURIComponent(endDateStr)}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) throw new Error("Failed to fetch items sold");
+      const itemsSold = await response.json();
+      setTotalItemsSold(itemsSold);
+    } catch (error) {
+      console.error("Error fetching total items sold:", error);
+    }
+  };
+
+  fetchRevenue();
+  fetchItemsSold();
+}, []);
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) return;
@@ -112,26 +175,12 @@ function AdminDashboard() {
                 <p className="adminDashboardCardp">{totalRevenue}</p>
               </div>
               <div className="adminDashboardCard halfWidth">
-                <h3>تعداد کل محصولات فروخته شده</h3>
+                <h3>تعداد کالاهای تحویل گرفته شده:</h3>
                 <p className="adminDashboardCardp">{totalItemsSold}</p>
               </div>
             </div>
           </SwiperSlide>
 
-          <SwiperSlide className="dashboardSlide">
-            <div className="adminDashboardStatsRow">
-              <div className="adminDashboardCard halfWidth">
-                <h3><FaStar style={{ marginLeft: "6px" }} /> پرفروش‌ترین محصول</h3>
-                <img src="/src/assets/testimage.jpg" alt="پرفروش‌ترین محصول" className="productStatImage" />
-                <p className="adminDashboardCardp">{bestSeller}</p>
-              </div>
-              <div className="adminDashboardCard halfWidth">
-                <h3><FaSortAmountDown style={{ marginLeft: "6px" }} /> کم‌فروش‌ترین محصول</h3>
-                <img src="/src/assets/testimage.jpg" alt="کم‌فروش‌ترین محصول" className="productStatImage" />
-                <p className="adminDashboardCardp">{leastSeller}</p>
-              </div>
-            </div>
-          </SwiperSlide>
 
           <SwiperSlide className="dashboardSlide">
             <div className="adminDashboardStatsRow">

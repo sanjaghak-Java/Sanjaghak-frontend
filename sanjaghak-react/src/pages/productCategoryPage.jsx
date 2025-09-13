@@ -65,12 +65,21 @@ const [filteredProducts, setFilteredProducts] = useState([]);
           isOpen={isFilterOpen}
           onClose={() => setIsFilterOpen(false)}
           brands={[]}
-          onApply={(data) => {
-            const result = products.filter((p) =>
-              data.brands.length > 0 ? data.brands.includes(p.brand) : true
-            );
-            setFilteredProducts(result);
-          }}
+onApply={(data) => {
+  const result = products.filter((p) => {
+    // Check brand
+    const brandMatch =
+      data.brands.length > 0 ? p.brand && data.brands.includes(p.brands.brandId) : true;
+
+    // Check price
+
+
+    return brandMatch ;
+  });
+
+  setFilteredProducts(result);
+  setIsFilterOpen(false); // optional: close filter
+}}
         />
 
         <Footer />

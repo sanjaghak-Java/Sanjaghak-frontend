@@ -84,39 +84,193 @@ function DateFilterPanel({ startDate, endDate, setStartDate, setEndDate }) {
 }
 
 function FinancialReport() {
-  const { start: defaultBuyStart, end: defaultBuyEnd } = getDefaultDates();
+const [sellData, setSellData] = useState(null);
+const [loadingSell, setLoadingSell] = useState(false);
+const [errorSell, setErrorSell] = useState(null);
 
-const [buyStart, setBuyStart] = useState(defaultBuyStart);
-const [buyEnd, setBuyEnd] = useState(defaultBuyEnd);
   const [profitFilterOpen, setProfitFilterOpen] = useState(false);
-  const [profitStart, setProfitStart] = useState(null);
-  const [profitEnd, setProfitEnd] = useState(null);
 
   const [itemsFilterOpen, setItemsFilterOpen] = useState(false);
-  const [itemsStart, setItemsStart] = useState(null);
-  const [itemsEnd, setItemsEnd] = useState(null);
+
 
   const [buyFilterOpen, setBuyFilterOpen] = useState(false);
 
 
   const [sellFilterOpen, setSellFilterOpen] = useState(false);
-  const [sellStart, setSellStart] = useState(null);
-  const [sellEnd, setSellEnd] = useState(null);
+
 
   const [returnFilterOpen, setReturnFilterOpen] = useState(false);
-  const [returnStart, setReturnStart] = useState(null);
-  const [returnEnd, setReturnEnd] = useState(null);
+
 
   const [buyData, setBuyData] = useState(null);
   const [loadingBuy, setLoadingBuy] = useState(false);
   const [errorBuy, setErrorBuy] = useState(null);
+const { start: defaultBuyStart, end: defaultBuyEnd } = getDefaultDates();
+const [buyStart, setBuyStart] = useState(defaultBuyStart);
+const [buyEnd, setBuyEnd] = useState(defaultBuyEnd);
+const { start: defaultItemsStart, end: defaultItemsEnd } = getDefaultDates();
+const [itemsStart, setItemsStart] = useState(defaultItemsStart);
+const [itemsEnd, setItemsEnd] = useState(defaultItemsEnd);
+// Initialize sellStart and sellEnd with the same default
+const [sellStart, setSellStart] = useState(defaultBuyStart);
+const [sellEnd, setSellEnd] = useState(defaultBuyEnd);
+const [returnData, setReturnData] = useState(null);
+const [loadingReturn, setLoadingReturn] = useState(false);
+const [errorReturn, setErrorReturn] = useState(null);
 
+// Initialize returnStart and returnEnd with the default last-year period
+const [returnStart, setReturnStart] = useState(defaultBuyStart);
+const [returnEnd, setReturnEnd] = useState(defaultBuyEnd);
+const [profitStart, setProfitStart] = useState(defaultBuyStart);
+const [profitEnd, setProfitEnd] = useState(defaultBuyEnd);
+
+const [rawIncome, setRawIncome] = useState(null);
+const [loadingIncome, setLoadingIncome] = useState(false);
+const [errorIncome, setErrorIncome] = useState(null);
+const [itemsCount, setItemsCount] = useState(null);
+const [loadingItems, setLoadingItems] = useState(false);
+const [errorItems, setErrorItems] = useState(null);
+
+// Fetch total received purchase quantity
+useEffect(() => {
+  const fetchItemsCount = async () => {
+    if (!itemsStart || !itemsEnd) return;
+
+    setLoadingItems(true);
+    setErrorItems(null);
+
+    try {
+      const start = formatDateForApi(itemsStart, true);
+      const end = formatDateForApi(itemsEnd, false);
+
+      const url = `http://127.0.0.1:8080/api/Sanjaghak/report/received-purchase-quantity?startDate=${encodeURIComponent(
+        start
+      )}&endDate=${encodeURIComponent(end)}`;
+
+      const res = await fetch(url);
+      if (!res.ok) {
+        const text = await res.text().catch(() => "");
+        throw new Error(`سرور خطا داد: ${res.status} ${res.statusText} ${text}`);
+      }
+
+      const data = await res.json(); // it returns a number
+      setItemsCount(data ?? 0);
+    } catch (err) {
+      setErrorItems(err.message || "خطا در دریافت تعداد کالاها");
+      setItemsCount(null);
+    } finally {
+      setLoadingItems(false);
+    }
+  };
+
+  fetchItemsCount();
+}, [itemsStart, itemsEnd]);
+useEffect(() => {
+  const fetchRawIncome = async () => {
+    if (!profitStart || !profitEnd) return;
+
+    setLoadingIncome(true);
+    setErrorIncome(null);
+
+    try {
+      const start = formatDateForApi(profitStart, true);
+      const end = formatDateForApi(profitEnd, false);
+
+      const url = `http://127.0.0.1:8080/api/Sanjaghak/report/calculate?startDate=${encodeURIComponent(
+        start
+      )}&endDate=${encodeURIComponent(end)}`;
+
+      const res = await fetch(url);
+      if (!res.ok) {
+        const text = await res.text().catch(() => "");
+        throw new Error(`سرور خطا داد: ${res.status} ${res.statusText} ${text}`);
+      }
+
+      const data = await res.json();
+      setRawIncome(data ?? 0);
+    } catch (err) {
+      setErrorIncome(err.message || "خطا در دریافت درآمد خام");
+      setRawIncome(null);
+    } finally {
+      setLoadingIncome(false);
+    }
+  };
+
+  fetchRawIncome();
+}, [profitStart, profitEnd]);
+
+// Fetch return summary
+useEffect(() => {
+  const fetchReturnSummary = async () => {
+    if (!returnStart || !returnEnd) return;
+
+    setLoadingReturn(true);
+    setErrorReturn(null);
+
+    try {
+      const start = formatDateForApi(returnStart, true);
+      const end = formatDateForApi(returnEnd, false);
+
+      const url = `http://127.0.0.1:8080/api/Sanjaghak/report/returns-summary?startDate=${encodeURIComponent(
+        start
+      )}&endDate=${encodeURIComponent(end)}`;
+
+      const res = await fetch(url);
+      if (!res.ok) {
+        const text = await res.text().catch(() => "");
+        throw new Error(`سرور خطا داد: ${res.status} ${res.statusText} ${text}`);
+      }
+
+      const data = await res.json();
+      setReturnData(data);
+    } catch (err) {
+      setErrorReturn(err.message || "خطا در دریافت اطلاعات مرجوعی");
+      setReturnData(null);
+    } finally {
+      setLoadingReturn(false);
+    }
+  };
+
+  fetchReturnSummary();
+}, [returnStart, returnEnd]);
   const profitRef = useRef();
   const itemsRef = useRef();
   const buyRef = useRef();
   const sellRef = useRef();
   const returnRef = useRef();
+useEffect(() => {
+  const fetchSellSummary = async () => {
+    if (!sellStart || !sellEnd) return;
 
+    setLoadingSell(true);
+    setErrorSell(null);
+
+    try {
+      const start = formatDateForApi(sellStart, true);
+      const end = formatDateForApi(sellEnd, false);
+
+      const url = `http://127.0.0.1:8080/api/Sanjaghak/report/delivered-summary?startDate=${encodeURIComponent(
+        start
+      )}&endDate=${encodeURIComponent(end)}`;
+
+      const res = await fetch(url);
+      if (!res.ok) {
+        const text = await res.text().catch(() => "");
+        throw new Error(`سرور خطا داد: ${res.status} ${res.statusText} ${text}`);
+      }
+
+      const data = await res.json();
+      setSellData(data);
+    } catch (err) {
+      setErrorSell(err.message || "خطا در دریافت اطلاعات فروش");
+      setSellData(null);
+    } finally {
+      setLoadingSell(false);
+    }
+  };
+
+  fetchSellSummary();
+}, [sellStart, sellEnd]);
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (profitRef.current && !profitRef.current.contains(event.target))
@@ -171,53 +325,63 @@ const end = formatDateForApi(buyEnd, false);
       <h1>گزارش مالی</h1>
 
       <div className="report-boxes">
-        <div className="report-box" ref={profitRef}>
-          <div className="box-header" style={{ direction: "ltr" }}>
-            <button
-              title="فیلتر تاریخ"
-              className="filter-btn"
-              onClick={() => setProfitFilterOpen(!profitFilterOpen)}
-            >
-              <FaCalendar />
-            </button>
-          </div>
-          <h3 className="report-h3">سود خالص:</h3>
-          <p className="report-value">{formatPrice(FINANCIAL_DATA.profit)}</p>
+<div className="report-box" ref={profitRef}>
+  <div className="box-header" style={{ direction: "ltr" }}>
+    <button
+      title="فیلتر تاریخ"
+      className="filter-btn"
+      onClick={() => setProfitFilterOpen(!profitFilterOpen)}
+    >
+      <FaCalendar />
+    </button>
+  </div>
+  <h3 className="report-h3">سود خالص :</h3>
+  <p className="report-value">
+    {loadingIncome
+      ? "در حال بارگذاری..."
+      : errorIncome
+      ? <span style={{ color: "red" }}>{errorIncome}</span>
+      : formatPrice(rawIncome ?? 0)}
+  </p>
 
-          {profitFilterOpen && (
-            <DateFilterPanel
-              startDate={profitStart}
-              endDate={profitEnd}
-              setStartDate={setProfitStart}
-              setEndDate={setProfitEnd}
-            />
-          )}
-        </div>
+  {profitFilterOpen && (
+    <DateFilterPanel
+      startDate={profitStart}
+      endDate={profitEnd}
+      setStartDate={setProfitStart}
+      setEndDate={setProfitEnd}
+    />
+  )}
+</div>
 
-        <div className="report-box" ref={itemsRef}>
-          <div className="box-header" style={{ direction: "ltr" }}>
-            <button
-              title="فیلتر تاریخ"
-              className="filter-btn"
-              onClick={() => setItemsFilterOpen(!itemsFilterOpen)}
-            >
-              <FaCalendar />
-            </button>
-          </div>
-          <h3 className="report-h3">تعداد کالاهای تحویل گرفته شده:</h3>
-          <p className="report-value">
-            {FINANCIAL_DATA.items.toLocaleString("fa-IR")}
-          </p>
+<div className="report-box" ref={itemsRef}>
+  <div className="box-header" style={{ direction: "ltr" }}>
+    <button
+      title="فیلتر تاریخ"
+      className="filter-btn"
+      onClick={() => setItemsFilterOpen(!itemsFilterOpen)}
+    >
+      <FaCalendar />
+    </button>
+  </div>
+  <h3 className="report-h3">تعداد کالاهای تحویل گرفته شده:</h3>
+  <p className="report-value">
+    {loadingItems
+      ? "در حال بارگذاری..."
+      : errorItems
+      ? <span style={{ color: "red" }}>{errorItems}</span>
+      : (itemsCount ?? FINANCIAL_DATA.items).toLocaleString("fa-IR")}
+  </p>
 
-          {itemsFilterOpen && (
-            <DateFilterPanel
-              startDate={itemsStart}
-              endDate={itemsEnd}
-              setStartDate={setItemsStart}
-              setEndDate={setItemsEnd}
-            />
-          )}
-        </div>
+  {itemsFilterOpen && (
+    <DateFilterPanel
+      startDate={itemsStart}
+      endDate={itemsEnd}
+      setStartDate={setItemsStart}
+      setEndDate={setItemsEnd}
+    />
+  )}
+</div>
       </div>
 
       <div className="first-report" ref={buyRef}>
@@ -296,12 +460,12 @@ const end = formatDateForApi(buyEnd, false);
             </thead>
             <tbody>
               <tr>
-                <td>{formatPrice(FINANCIAL_DATA.sell.price)}</td>
-                <td>{formatPrice(FINANCIAL_DATA.sell.tax)}</td>
-                <td>{formatPrice(FINANCIAL_DATA.sell.shipping)}</td>
-                <td>{formatPrice(FINANCIAL_DATA.sell.discount)}</td>
-                <td>{FINANCIAL_DATA.sell.quantity.toLocaleString("fa-IR")}</td>
-                <td>{formatPrice(FINANCIAL_DATA.sell.total)}</td>
+        <td>{formatPrice(sellData?.subTotal ?? FINANCIAL_DATA.sell.price)}</td>
+        <td>{formatPrice(sellData?.taxAmount ?? FINANCIAL_DATA.sell.tax)}</td>
+        <td>{formatPrice(sellData?.shippingCost ?? FINANCIAL_DATA.sell.shipping)}</td>
+        <td>{formatPrice(sellData?.discountAmount ?? FINANCIAL_DATA.sell.discount)}</td>
+        <td>{(sellData?.quantity ?? FINANCIAL_DATA.sell.quantity).toLocaleString("fa-IR")}</td>
+        <td>{formatPrice(sellData?.totalAmount ?? FINANCIAL_DATA.sell.total)}</td>
               </tr>
             </tbody>
           </table>
@@ -340,14 +504,14 @@ const end = formatDateForApi(buyEnd, false);
                 <th>جمع کل</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td>{formatPrice(FINANCIAL_DATA.returned.price)}</td>
-                <td>{formatPrice(FINANCIAL_DATA.returned.discount)}</td>
-                <td>{FINANCIAL_DATA.returned.quantity.toLocaleString("fa-IR")}</td>
-                <td>{formatPrice(FINANCIAL_DATA.returned.total)}</td>
-              </tr>
-            </tbody>
+<tbody>
+  <tr>
+    <td>{formatPrice(returnData?.totalPrice ?? FINANCIAL_DATA.returned.price)}</td>
+    <td>{formatPrice(returnData?.totalDiscount ?? FINANCIAL_DATA.returned.discount)}</td>
+    <td>{(returnData?.totalQuantity ?? FINANCIAL_DATA.returned.quantity).toLocaleString("fa-IR")}</td>
+    <td>{formatPrice(returnData?.totalAmount ?? FINANCIAL_DATA.returned.total)}</td>
+  </tr>
+</tbody>
           </table>
           {returnFilterOpen && (
             <DateFilterPanel

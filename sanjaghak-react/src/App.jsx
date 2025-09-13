@@ -65,10 +65,12 @@ function App() {
 
   const hideNavbarPaths = ['/signin', '/signup', '/signinmobile', '/confirmCode'];
   const shouldHideNavbar = hideNavbarPaths.includes(location.pathname.toLowerCase());
-
+const particleRoutes = ['/signin', '/signup', '/signinmobile', '/confirmcode'];
+const showParticles = particleRoutes.includes(location.pathname.toLowerCase());
   return (
     <div className="appContainer">
       {shouldHideNavbar && <ParticlesBackground />}
+        {showParticles && <ParticlesBackground />}
 
       <Routes>
         <Route path="/" element={<MainPage />} />

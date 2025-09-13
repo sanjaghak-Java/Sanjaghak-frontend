@@ -1,5 +1,4 @@
-
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
   FaTachometerAlt,
@@ -15,22 +14,28 @@ import {
   FaShieldAlt,
   FaShoppingCart,
   FaClipboardList 
-
 } from "react-icons/fa";
 import "/src/styles/adminNav.css";
 import warehouseIcon from '../assets/icons8-warehouse-64.png';
 
-
 function AdminNav() {
   const navigate = useNavigate();
+  const [role, setRole] = useState("");
+
+  useEffect(() => {
+    const storedRole = localStorage.getItem("role");
+    setRole(storedRole || "");
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('id');
+    localStorage.removeItem('role');
     navigate('/signin');
   };
 
-  const menuItems = [
+  // All possible menu items
+  const allMenuItems = [
     { label: "داشبورد", path: "/admin/داشبورد", icon: <FaTachometerAlt /> },
     { label: "گزارش مالی", path: "/admin/گزارش مالی", icon: <FaFileInvoiceDollar /> },
     { label: "افزودن محصول", path: "/admin/افزودن محصول", icon: <FaBoxOpen /> },
@@ -41,11 +46,24 @@ function AdminNav() {
     { label: "لیست دسته ها", path: "/admin/لیست دسته ها", icon: <FaListUl /> },
     { label: "لیست انبار ها", path: "/admin/لیست انبار ها", icon: <img src={warehouseIcon} alt="Warehouse" className="nav-warehouse-icon" /> },
     { label: "تأمین‌کنندگان", path: "/admin/تامین‌کنندگان", icon: <FaHandshake  /> },
-    { label: "تخفیف ها", path: "/admin/تخفیف ها", icon: <FaTags   /> },
-    { label: "سفارش خرید", path: "/admin/سفارش خرید", icon: <FaShoppingCart  /> },
-    { label: "درخواست ها", path: "/admin/درخواست ها", icon: <FaClipboardList   /> },
-
+    { label: "تخفیف ها", path: "/admin/تخفیف ها", icon: <FaTags /> },
+    { label: "سفارش خرید", path: "/admin/سفارش خرید", icon: <FaShoppingCart /> },
+    { label: "درخواست ها", path: "/admin/درخواست ها", icon: <FaClipboardList /> },
   ];
+
+  // Filter menu items based on role
+  let menuItems = [];
+  if (role === "admin") {
+    menuItems = allMenuItems;
+  } else if (role === "manager") {
+    // Manager sees everything except dashboard, user list, staff list, warehouse list
+    menuItems = allMenuItems.filter(item =>
+      !["داشبورد", "لیست کاربران", "لیست کارکنان", "لیست انبار ها"].includes(item.label)
+    );
+  } else if (role === "staff") {
+    // Staff only sees warehouse list
+    menuItems = allMenuItems.filter(item => item.label === "لیست انبار ها");
+  }
 
   return (
     <div className="adminNavigationContainer">

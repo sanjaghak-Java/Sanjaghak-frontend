@@ -42,10 +42,10 @@ const handleSubmit = async () => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ 
-  email: email || null, 
-  phoneNumber: phoneNumber || null, 
-  code: code 
-})
+        email: email || null, 
+        phoneNumber: phoneNumber || null, 
+        code: code 
+      })
     });
 
     if (!response.ok) {
@@ -58,11 +58,10 @@ const handleSubmit = async () => {
     localStorage.setItem('token', data.token);
     localStorage.setItem('id', data.id); 
 
+    // Get role
     const roleResponse = await fetch('http://127.0.0.1:8080/api/Sanjaghak/UserAccount/getUserRole', {
       method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${data.token}`
-      }
+      headers: { 'Authorization': `Bearer ${data.token}` }
     });
 
     if (!roleResponse.ok) {
@@ -72,41 +71,38 @@ const handleSubmit = async () => {
     }
 
     const role = await roleResponse.text();
+    localStorage.setItem('role', role); // Store role in localStorage
 
-if (role !== "admin") {
-  const customerResponse = await fetch(
-    `http://127.0.0.1:8080/api/Sanjaghak/Customer/getCustomerByfilter?userId=${data.id}`,
-    {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${data.token}`
+    // Handle customer-specific info
+    if (role === "customer") {
+      const customerResponse = await fetch(
+        `http://127.0.0.1:8080/api/Sanjaghak/Customer/getCustomerByfilter?userId=${data.id}`,
+        { method: 'GET', headers: { 'Authorization': `Bearer ${data.token}` } }
+      );
+
+      if (!customerResponse.ok) {
+        const err = await customerResponse.text();
+        setError("خطا در دریافت اطلاعات مشتری: " + err);
+        return;
       }
+
+      const customerData = await customerResponse.json();
+      const customerId = customerData.content && customerData.content.length > 0
+        ? customerData.content[0].customerId
+        : null;
+
+      if (customerId) localStorage.setItem('customerId', customerId);
     }
-  );
 
-  if (!customerResponse.ok) {
-    const err = await customerResponse.text();
-    setError("خطا در دریافت اطلاعات مشتری: " + err);
-    return;
-  }
-
-  const customerData = await customerResponse.json();
-
-  const customerId = customerData.content && customerData.content.length > 0
-    ? customerData.content[0].customerId
-    : null;
-
-  if (customerId) {
-    localStorage.setItem('customerId', customerId);
-  } else {
-    console.warn("customerId not found in API response", customerData);
-  }
-}
-
+    // Navigate based on role
     if (role === "admin") {
       navigate('/admin/داشبورد');
+    } else if (role === "manager") {
+      navigate('/admin/گزارش مالی');
+    } else if (role === "staff") {
+      navigate('/admin/لیست انبار ها');
     } else {
-      navigate('/');
+      navigate('/'); // customer
     }
 
   } catch (e) {
@@ -132,7 +128,6 @@ if (role !== "admin") {
 
   return (
     <>
-      <ParticlesBackground />
       <div className="codeBox">
         <h1>احراز هویت</h1>
         <p>کد ۶ رقمی ارسال شده به {email} را وارد کنید</p>

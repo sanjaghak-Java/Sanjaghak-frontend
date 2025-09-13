@@ -100,7 +100,6 @@ function SignUp() {
           <img src={logo} alt="Sanjaghak Logo" className='signup-logo' />
         </Link>
       </div>
-      <ParticlesBackground />
       <form className="signUpBox" onSubmit={handleSubmit}>
         <h1>ثبت نام</h1>
 

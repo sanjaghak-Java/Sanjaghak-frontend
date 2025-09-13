@@ -173,7 +173,7 @@ const allSpecs = [...fixedSpecs, ...dynamicSpecs];
         <div className="similar-dev">
           <hr className="hr-side" />
           <h1 className="similar-title">محصولات مشابه</h1>
-          <Similarproducts />
+          <Similarproducts categoryId={product.categories?.categoryId} />
         </div>
 
         {showCartReport && <Cartreport onClose={handleCloseCartReport} />}

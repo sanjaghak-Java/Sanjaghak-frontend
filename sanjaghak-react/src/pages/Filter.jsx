@@ -1,17 +1,39 @@
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import "/src/styles/filter.css";
 
-function Filter({ isOpen, onClose, brands = [], onApply }) {
+function Filter({ isOpen, onClose, onApply }) {
   const minPrice = 0;
   const maxPrice = 1000000;
 
   const [priceRange, setPriceRange] = useState([minPrice, maxPrice]);
   const [isBrandOpen, setIsBrandOpen] = useState(false);
   const [isPriceOpen, setIsPriceOpen] = useState(false);
+
+  const [brands, setBrands] = useState([]); // fetched brands
   const [selectedBrands, setSelectedBrands] = useState([]);
+
+  // 🔹 Fetch brands from API
+  useEffect(() => {
+    if (!isOpen) return; // fetch only when modal is open
+    const token = localStorage.getItem("token");
+
+    fetch("http://127.0.0.1:8080/api/Sanjaghak/brand/getActiveBrands", {
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch brands");
+        return res.json();
+      })
+      .then((data) => {
+        setBrands(data || []);
+      })
+      .catch((err) => {
+        console.error("Error fetching brands:", err);
+      });
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -22,17 +44,17 @@ function Filter({ isOpen, onClose, brands = [], onApply }) {
     setPriceRange(value);
   };
 
-  const handleBrandChange = (brand) => {
+  const handleBrandChange = (brandId) => {
     setSelectedBrands((prev) =>
-      prev.includes(brand)
-        ? prev.filter((b) => b !== brand)
-        : [...prev, brand]
+      prev.includes(brandId)
+        ? prev.filter((id) => id !== brandId)
+        : [...prev, brandId]
     );
   };
 
   const handleApply = () => {
     const filterData = {
-      brands: selectedBrands,
+      brands: selectedBrands, // ✅ returns array of brandIds
       priceRange,
     };
     if (onApply) onApply(filterData);
@@ -68,6 +90,7 @@ function Filter({ isOpen, onClose, brands = [], onApply }) {
         <hr />
 
         <div className="filter-content">
+          {/* 🔹 Brand Section */}
           <div className={`filter-section ${isBrandOpen ? "open" : ""}`}>
             <div className="filter-brand-header" onClick={toggleBrand}>
               <h5 className="filter-brand-name">برند</h5>
@@ -83,19 +106,20 @@ function Filter({ isOpen, onClose, brands = [], onApply }) {
             {isBrandOpen && (
               <div className="filter-brand-content">
                 {brands.map((brand) => (
-                  <label key={brand}>
+                  <label key={brand.brandId}>
                     <input
                       type="checkbox"
-                      checked={selectedBrands.includes(brand)}
-                      onChange={() => handleBrandChange(brand)}
+                      checked={selectedBrands.includes(brand.brandId)}
+                      onChange={() => handleBrandChange(brand.brandId)}
                     />
-                    {brand}
+                    {brand.brandName}
                   </label>
                 ))}
               </div>
             )}
           </div>
 
+          {/* 🔹 Price Section */}
           <div className={`filter-section ${isPriceOpen ? "open" : ""}`}>
             <div className="filter-brand-header" onClick={togglePrice}>
               <h5 className="filter-brand-name">قیمت</h5>

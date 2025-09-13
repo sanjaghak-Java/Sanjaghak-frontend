@@ -144,6 +144,7 @@ function BestSellerSlider() {
           <SwiperSlide className="productSwiperSlide" key={product.productId}>
             <ProductCard
               name={product.productName}
+              productId={product.productId}
               image={product.image || "/path/to/default-image.jpg"}
               model={product.model}
               price={

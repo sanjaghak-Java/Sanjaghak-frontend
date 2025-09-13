@@ -137,6 +137,7 @@ const handleSubmit = async () => {
     alert("تخفیف با موفقیت ایجاد شد");
     onSubmit(data); // pass back to parent
     onClose();
+    window.location.reload();
   } catch (error) {
     console.error("Error creating discount:", error);
     alert("ایجاد تخفیف با مشکل مواجه شد");

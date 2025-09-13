@@ -100,15 +100,15 @@
 .addAttributeBtns {
   display: block;
   margin: 15px auto 0 auto;
-  padding: 6px 12px;
-  width: 120px;
+  /* padding: 6px 12px; */
+  padding: 0px 12px;
+  width: fit-content;
   background-color: transparent;
-  color: #ccc;
-  border: none;
-  border-radius: 6px;
-  /* border: 1px solid #dc2655; */
+  color: #444;
+  border: 1px solid #666;
+  border-radius: 100%;
   font-weight: 600;
-  font-size: 22px;
+  font-size: 28px;
   font-family: "Kamran";
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -117,16 +117,18 @@
 
 .addAttributeBtns:hover {
   color: #c4204b;
+  border-color: #c4204b;
 }
 
 .attributesTitle {
   text-align: center;
-  color: #e75454;
+  color: #888;
   font-weight: 700;
   font-size: 22px;
   margin: 20px 0 10px 0;
+  font-family: "B Elm";
   /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
-  text-shadow: 1px 1px 2px rgba(231, 84, 84, 0.5);
+  /* text-shadow: 1px 1px 2px rgba(231, 84, 84, 0.5); */
 }
 .pageTitle{
   margin-bottom: 5px;
@@ -209,8 +211,12 @@
   color: white;
 }
 
+.backBtnaddproduct{
+  background-color: #e0e0e0;
+  color: #fff;
+}
+
 .nextBtnaddproduct:hover,
-.backBtnaddproduct:hover,
 .submitBtnaddproduct:hover {
   background-color: #c4204b;
 }
@@ -226,4 +232,22 @@
 
 .inputWrapper[style*="flex-direction: column"] {
   margin: auto;
+}
+
+.variant-input{
+  width: 100%;
+  padding: 3px 6px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  font-size: 14px;
+  font-family: "Traffic";
+  background: none;
+  color: #666;
+  margin: 2px 0 16px;
+}
+
+.variant-namelab{
+  color: #333;
+  font-family: "Traffic";
 }

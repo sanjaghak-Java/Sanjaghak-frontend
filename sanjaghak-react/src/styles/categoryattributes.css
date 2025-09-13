@@ -1,5 +1,5 @@
 .editCategoryAttributesContainer {
-  margin-top: 0px;
+  /* margin-top: 0px;
   max-width: 900px;
   margin: auto;
   padding: 32px;
@@ -12,7 +12,19 @@
   gap: 24px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   direction: rtl;
-  position: relative;
+  position: relative; */
+    max-width: 700px;
+    margin: auto;
+    margin-right: auto;
+    padding: 32px;
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex
+;
+    flex-direction: column;
+    gap: 24px;
+    direction: rtl;
 }
 
 .backBtnEditCategory {
@@ -90,7 +102,7 @@
   flex-wrap: wrap;
 }
 
-.enableToggleBtn {
+/* .enableToggleBtn {
   flex: 1;
   min-width: 140px;
   padding: 10px 20px;
@@ -117,7 +129,57 @@
 
 .enableToggleBtn.disabled:hover {
   background-color: #388e3c;
+} */
+
+.enableToggleBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+  position: relative;
+  padding-right: 60px; /* فضای کافی برای سوئیچ */
+  margin-bottom: 20px;
 }
+
+/* پس‌زمینه‌ی سوئیچ */
+.enableToggleBtn::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 24px;
+  background-color: #ccc;
+  border-radius: 24px;
+  transition: background-color 0.3s ease;
+}
+
+.enableToggleBtn::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 28px;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  border-radius: 50%;
+  transition: right 0.3s ease;
+}
+
+.enableToggleBtn.enabled::before {
+  background-color: #DC2655;
+}
+
+.enableToggleBtn.enabled::after {
+  right: 2px;
+}
+
 
 .actionBtnEditCategory.deleteBtn {
   flex: 1;

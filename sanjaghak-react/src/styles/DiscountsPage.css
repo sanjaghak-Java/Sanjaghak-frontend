@@ -11,7 +11,7 @@ body, html {
   width: 83%;
   min-height: 100%;
   padding: 20px;
-  font-family: "Estedad", sans-serif;
+  /* font-family: "Estedad", sans-serif; */
   direction: rtl;
   display: flex;
   flex-direction: column;
@@ -30,8 +30,9 @@ body, html {
 
 .discounts-select {
   min-width: 180px;
-  padding: 7px 12px;
-  font-size: 16px;
+  padding: 3px 12px;
+  font-size: 15px;
+  font-family: "Jalal";
   border: 2px solid #ccc;
   border-radius: 8px;
   outline: none;
@@ -46,7 +47,8 @@ body, html {
 .discounts-search {
   width: 100%;
   max-width: 300px;
-  padding: 8px 12px;
+  font-family: "Jalal";
+  padding: 3px 12px;
   font-size: 16px;
   border: 2px solid #ccc;
   border-radius: 8px;
@@ -80,7 +82,7 @@ body, html {
   border-radius: 8px;
   padding: 15px 20px 35px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  font-family: Tahoma, sans-serif;
+  /* font-family: Tahoma, sans-serif; */
   direction: rtl;
   display: flex;
   flex-direction: column;
@@ -147,6 +149,7 @@ body, html {
   text-align: center;
   direction: rtl;
   background: transparent;
+  font-family: "Vazirmatn";
 }
 
 .discounts-table thead th {

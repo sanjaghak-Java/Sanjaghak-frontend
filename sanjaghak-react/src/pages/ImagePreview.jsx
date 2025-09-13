@@ -23,6 +23,11 @@ function ImagePreview() {
         spaceBetween={0}
       >
         <SwiperSlide className="slide">
+          <img src="./src/assets/pexels-sorjigrey-9956771.jpg"  />
+          <p className="slideTitle" id="slideTitle3">Next-Level Performance Starts Here</p>
+        </SwiperSlide>
+        
+        <SwiperSlide className="slide">
           <img src="./src/assets/linus-mimietz-gvptKmonylk-unsplash.jpg"  />
           <p className="slideTitle" id="slideTitle1"> Performance You Can Count On</p>
         </SwiperSlide>
@@ -33,10 +38,7 @@ function ImagePreview() {
             <br />of Technology Today</p>
         </SwiperSlide>
 
-        <SwiperSlide className="slide">
-          <img src="./src/assets/pexels-sorjigrey-9956771.jpg"  />
-          <p className="slideTitle" id="slideTitle3">Next-Level Performance Starts Here</p>
-        </SwiperSlide>
+
         <SwiperSlide className="slide">
           <img src="./src/assets/pexels-madebymath-331684 (1).jpg"  />
           <p className="slideTitle" id="slideTitle4">Everything You Need

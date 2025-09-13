@@ -184,7 +184,7 @@ const handleConfirmDelete = () => {
           padding: "10px 0px",
           }}
       >
-        <h2>لیست تخفیف‌ها</h2>
+        <h2 className="adminliststitle">لیست تامین‌کنندگان</h2>
         <button className="add-warehouse-button" onClick={handleAddClick}>
             + افزودن تأمین‌کننده
         </button>
@@ -246,7 +246,7 @@ const handleConfirmDelete = () => {
           بعدی
         </button>
 
-        <div className="goto-page-box">
+        <div className="gooto-page-box">
           <input
             type="number"
             min="1"

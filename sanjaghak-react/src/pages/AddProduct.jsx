@@ -468,10 +468,8 @@ const handleAddVariant = async () => {
     <div>
       <br />
       <br />
-      <br />
-      <br />
-      <br />
       <h1 className="pageTitle">افزودن محصول</h1>
+      <br />
       <form className="addProductContainer" onSubmit={(e) => e.preventDefault()}>
         {step === 1 && (
           <>
@@ -543,7 +541,7 @@ const handleAddVariant = async () => {
             <div className="inputGroup">
               <div className="inputWrapper">
                 <input type="number" required className="productWeight" placeholder=" " />
-                <label className="adminFloatingLabel">وزن (کیلوگرم)</label>
+                <label className="adminFloatingLabel">وزن (گرم)</label>
               </div>
               <div className="inputWrapper">
                 <input type="number" required className="productLength" placeholder=" " />
@@ -613,7 +611,7 @@ const handleAddVariant = async () => {
 
         {step === 2 && (
           <div className="attributeList">
-            <h2 className="attributesTitle">ویژگی‌ها</h2>
+            <h2 className="attributesTitle">ویژگی‌های محصول</h2>
             {loadingAttributes && <p>در حال بارگذاری ویژگی‌های دسته‌بندی...</p>}
             {defaultAttributes.map((attr, index) => (
               <AttributeField
@@ -637,15 +635,15 @@ const handleAddVariant = async () => {
                 onValueChange={(val) => handleCustomAttrChange(attr.id, { value: val })}
               />
             ))}
-            <button type="button" className="addAttributeBtns" onClick={handleAddAttribute}>
-              + افزودن ویژگی
+            <button type="button" className="addAttributeBtns" onClick={handleAddAttribute}  title="افزودن ویژگی جدید">
+              +
             </button>
           </div>
         )}
 
         {step === 3 && (
           <>
-            <h2 className="attributesTitle">واریانت‌ها</h2>
+            <h2 className="attributesTitle">واریانت‌های محصول</h2>
 <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap" }}>
   {variants.map((variant, i) => (
     <VariantCircle
@@ -720,52 +718,55 @@ const handleAddVariant = async () => {
               }}
             >
               <h3>افزودن واریانت جدید</h3>
-
-              <label>
+              <br />
+              <label className="variant-namelab">
                 رنگ (نام):
                 <input
                   type="text"
                   value={newVariantColorName}
                   onChange={(e) => setNewVariantColorName(e.target.value)}
-                  style={{ width: "100%", marginBottom: 10 }}
+                  className="variant-input"
+                  // style={{ width: "100%", marginBottom: 10, fontFamily: "Traffic", padding: "5px 6px"}}
                 />
               </label>
 
-              <label>
+              <label className="variant-namelab">
                 رنگ (کد هگزادسیمال):
                 <input
                   type="color"
                   value={newVariantHex}
                   onChange={(e) => setNewVariantHex(e.target.value)}
-                  style={{ width: "100%", marginBottom: 10, height: 30 }}
+                  style={{ width: "100%", marginBottom: 10, height: 30, padding: "0 2px" }}
+                  className="variant-input"
+
                 />
               </label>
 
-              <label>
+              <label className="variant-namelab">
                 قیمت فروش:
                 <input
                   type="number"
                   value={newVariantPrice}
                   onChange={(e) => setNewVariantPrice(e.target.value)}
-                  style={{ width: "100%", marginBottom: 10 }}
+                  className="variant-input"
                 />
               </label>
 
-              <label>
+              <label className="variant-namelab">
                 قیمت خرید:
                 <input
                   type="number"
                   value={newVariantCost}
                   onChange={(e) => setNewVariantCost(e.target.value)}
-                  style={{ width: "100%", marginBottom: 10 }}
+                  className="variant-input"
                 />
               </label>
 
               <div style={{ display: "flex", justifyContent: "flex-end", gap: 10 }}>
-                <button type="button" onClick={handleVariantPopupCancel}>
+                <button type="button" onClick={handleVariantPopupCancel} className="modal-button gray">
                   لغو
                 </button>
-                <button type="button" onClick={handleAddVariant}>
+                <button type="button" onClick={handleAddVariant} className="modal-button">
                   تایید
                 </button>
               </div>

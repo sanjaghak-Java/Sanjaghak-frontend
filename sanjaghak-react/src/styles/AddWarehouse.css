@@ -1,70 +1,85 @@
 .add-warehouse-container {
   width: 80%;
   max-width: 500px;
-  margin: 30px auto;
-  font-family: "Estedad", sans-serif;
+  margin: 10px auto;
   direction: rtl;
-  padding: 20px;
-  border: 1px solid #ccc;
+  padding: 20px 40px;
   border-radius: 10px;
   background: #fafafa;
+
+  direction: rtl;
+  box-shadow: 0 10px 30px rgba(77, 77, 77, 0.2);
+  /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
+  color: #333;
+  /* margin-top: -20px; */
 }
 
 .add-warehouse-form label {
   display: block;
-  margin-bottom: 15px;
-  font-weight: bold;
+  /* margin-bottom: 15px; */
+  padding: 6px;
+  color: #dc2655;
+  font-family: "Traffic";
 }
 
 .add-warehouse-form input,
 .add-warehouse-form textarea {
-  width: 100%;
-  padding: 8px 10px;
-  margin-top: 5px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  font-family: inherit;
-  font-size: 14px;
-  resize: vertical;
+    width: 100%;
+    padding: 6px 8px;
+    margin-bottom: 8px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    font-size: 14px;
+    font-family: "Traffic";
+    background: none;
+    transition: border-color 0.2s 
+ease;
 }
 
 .add-warehouse-form textarea {
   height: 70px;
 }
 
-.add-warehouse-form button {
-  background-color: #dc2655;
-  color: white;
+.shelves-dis-button{
+  background-color: transparent;
+  /* border: 1px solid #dc2655; */
   border: none;
+  color: #dc2655;
   padding: 10px 20px;
   border-radius: 8px;
   cursor: pointer;
   font-size: 16px;
   font-family: "Kamran", sans-serif;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
-.add-warehouse-form button:hover {
+.shelves-dis-button:hover{
+  color: #c4204b;
+  font-size: 17px;
+}
+
+/* .add-warehouse-form button:hover {
   background-color: #c2204a;
-}
+} */
 
-/* بخش راهرو و قفسه‌ها */
 .section-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #f1f1f1;
+  /* background-color: #f1f1f1; */
   padding: 10px 15px;
-  border-radius: 10px;
+  /* border-radius: 10px; */
+  border-bottom: 1px solid #333;
   margin-bottom: 12px;
-  border: 1px solid #ddd;
+  /* border: 1px solid #ddd; */
   transition: background-color 0.3s ease;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.07);
+  /* box-shadow: 0 2px 6px rgba(0, 0, 0, 0.07); */
 }
 
-.section-row:hover {
+/* .section-row:hover {
   background-color: #eaeaea;
-}
+} */
 
 .section-row label {
   font-weight: bold;
@@ -132,17 +147,17 @@
 
 /* دکمه ثبت انبار */
 .submit-button1 {
-  width: 80%;
-  background-color: #000000;
+  width: 100%;
+  background-color: #dc2655;
   border: none;
   border-radius: 10px;
   color: white;
   cursor: pointer;
   font-family: "Digikala ";
-  font-size: 22px;
-  padding: 5px;
+  font-size: 16px;
+  padding: 8px;
   transition: background-color 0.3s ease;
-  margin: 20px auto 0 auto;
+  margin: 20px auto 20px auto;
   display: block;
 }
 

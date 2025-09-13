@@ -1,16 +1,20 @@
+@font-face {
+  font-family: 'Estedad';
+  src: url('./src/fonts/Estedad[wght,kshd].ttf') format('truetype');
+}
+
 .adminProductCard {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
-  gap: 8px;
-  padding: 16px;
+  /* padding: 16px; */
   width: 220px;
-  height: 260px;
+  height: 310px;
   background: #ffffff;
-  border: 1px solid #d54343;
+  /* border: 1px solid #d54343; */
   border-radius: 20px;
-  box-shadow: 0 8px 20px rgba(213, 67, 67, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transition: transform 0.4s ease, box-shadow 0.4s ease;
   cursor: pointer;
   box-sizing: border-box;
@@ -20,50 +24,45 @@
 }
 
 .adminProductCard:hover {
-  transform: scale(1.1) rotate(-2deg);
-  box-shadow: 0 16px 32px rgba(213, 67, 67, 0.35);
-  border-color: #9e3030;
+  transform: scale(1.03);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
 }
 
 .adminProductCard__image {
-  width: 140px;
-  height: 120px;
+  width: auto;
+  height: 150px;
+  margin-top: 10px;
   object-fit: cover;
-  border-radius: 14px;
-  border: 2px solid #d54343;
-  box-shadow: 0 4px 10px rgba(213, 67, 67, 0.25);
   transition: transform 0.3s ease;
 }
 .adminProductCard:hover .adminProductCard__image {
-  transform: scale(1.2) rotate(4deg);
+  /* transform: scale(1.2) rotate(4deg); */
 }
 
 .adminProductCard__details {
   width: 100%;
   text-align: center;
-  color: #7a2e2e;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin-top: 20px;
 }
 
 .adminProductCard__name {
-  margin: 6px 0;
-  font-size: 20px;
-  font-weight: 900;
-  color: #d54343;
-  text-shadow: 1px 1px 5px rgba(213, 67, 67, 0.4);
+  margin: 0;
+  font-size: 18px;
+  font-family: "Estedad";
+  color: #000000;
 }
 
 .adminProductCard__info {
-  margin: 2px 0;
-  font-size: 14px;
-  font-weight: 700;
-  color: #4b1e1e;
+  font-size: 12px;
+  font-family: "Estedad";
+  font-weight: 0;
+  color: #666;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   transition: color 0.3s;
 }
-
+/* 
 .adminProductCard:hover .adminProductCard__info {
   color: #9e3030;
-}
+} */

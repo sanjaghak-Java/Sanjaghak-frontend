@@ -627,28 +627,51 @@ const selectedVariant = variants.find(v => v.variantId === selectedVariantId) ||
       style={{
         maxWidth: 900,
         margin: "auto",
-        padding: 32,
         backgroundColor: "#fff",
         borderRadius: 16,
         boxShadow: "0 4px 12px rgba(184,64,64,0.15)",
       }}
     >
-      <button
-        onClick={onBack}
-        style={{
-          marginBottom: 24,
-          padding: "8px 16px",
-          backgroundColor: "#d54343",
-          color: "white",
-          border: "none",
-          borderRadius: 8,
-          cursor: "pointer",
-          fontWeight: "700",
-        }}
-        type="button"
-      >
-        بازگشت
-      </button>
+
+      <div style={{display: "flex", alignItems: "center", justifyContent: "space-between"}}>
+        <button
+          onClick={onBack}
+          title="بازگشت"
+          style={{
+            marginBottom: 24,
+            padding: "8px 16px",
+            backgroundColor: "transparent",
+            color: "#888",
+            border: "none",
+            borderRadius: 8,
+            cursor: "pointer",
+            fontWeight: "700",
+            fontSize: "24px"
+          }}
+          type="button"
+        >
+          ➔
+        </button>
+        <button
+          onClick={() =>
+            setEditedProduct((prev) => ({ ...prev, active: !prev.active }))
+          }
+          // style={{
+          //   backgroundColor: editedProduct.active ? "#4CAF50" : "#f44336",
+          //   color: "white",
+          //   padding: "8px 16px",
+          //   border: "none",
+          //   borderRadius: "4px",
+          //   cursor: "pointer",
+          //   marginBottom: "16px",
+          //   marginRight:"38%"
+          // }}
+          className={`toggle-btn ${editedProduct.active ? "active" : ""}`}
+        >
+          {editedProduct.active ? "فعال" : "غیرفعال است (کلیک برای فعال کردن)"}
+        </button>
+      </div>
+
 
       <h2 style={{ marginBottom: 24, color: "#d54343" }}>
         ویرایش محصول: {product.productName}
@@ -804,23 +827,7 @@ const selectedVariant = variants.find(v => v.variantId === selectedVariantId) ||
           className="adminProductDetail__addImageCard"
         />
       </div>
-<button
-  onClick={() =>
-    setEditedProduct((prev) => ({ ...prev, active: !prev.active }))
-  }
-  style={{
-    backgroundColor: editedProduct.active ? "#4CAF50" : "#f44336",
-    color: "white",
-    padding: "8px 16px",
-    border: "none",
-    borderRadius: "4px",
-    cursor: "pointer",
-    marginBottom: "16px",
-    marginRight:"38%"
-  }}
->
-  {editedProduct.active ? "فعال است (کلیک برای غیرفعال کردن)" : "غیرفعال است (کلیک برای فعال کردن)"}
-</button>
+
 <div style={{ marginBottom: 20, display: "flex", gap: 16, alignItems: "center" }}>
  {variants.map((variant) => (
   <VariantCircle
@@ -848,8 +855,9 @@ const selectedVariant = variants.find(v => v.variantId === selectedVariantId) ||
           width: 40,
           height: 40,
           borderRadius: "50%",
-          backgroundColor: "#4CAF50",
-          color: "white",
+          // backgroundColor: "#4CAF50",
+          color: "#444",
+          border: "1px solid #888",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
@@ -857,6 +865,8 @@ const selectedVariant = variants.find(v => v.variantId === selectedVariantId) ||
           fontSize: 28,
           cursor: "pointer",
           userSelect: "none",
+          marginTop: "-15px"
+
         }}
         title="افزودن واریانت جدید"
       >
@@ -882,53 +892,66 @@ const selectedVariant = variants.find(v => v.variantId === selectedVariantId) ||
               backgroundColor: "white",
               borderRadius: 8,
               padding: 24,
-              width: 320,
+              width: 450,
               boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
               display: "flex",
               flexDirection: "column",
               gap: 12,
             }}
           >
-            <h3>افزودن واریانت جدید</h3>
-
-            <label>نام رنگ:</label>
+            <h3 
+              style={{
+                color: "#999",
+                width: "100%",
+                textAlign: "center"
+              }}
+              >
+              افزودن واریانت جدید
+            </h3>
+            <hr />
+            <label className="adminProductDetail__info">نام رنگ:</label>
             <input
               type="text"
+              className="adminProductDetail__input"
               name="color"
               value={newVariantData.color}
               onChange={handleNewVariantChange}
             />
 
-            <label>کد رنگ (Hexadecimal):</label>
+            <label className="adminProductDetail__info">کد رنگ (Hexadecimal):</label>
             <input
               type="color"
+              className="adminProductDetail__input"
               name="hexadecimal"
               value={newVariantData.hexadecimal}
               onChange={handleNewVariantChange}
-              style={{ width: "100%", height: 30, padding: 0, border: "none" }}
+              style={{ width: "100%", height: 40, padding: 0, border: "none", cursor: "pointer", backgroundColor: "transparent"}}
             />
 
-            <label>قیمت تمام شده (تومان):</label>
+            <label className="adminProductDetail__info">قیمت خرید (تومان):</label>
             <input
               type="number"
+              className="adminProductDetail__input"
               name="costPrice"
               value={newVariantData.costPrice}
               onChange={handleNewVariantChange}
               min={0}
             />
 
-            <label>قیمت فروش (تومان):</label>
+            <label className="adminProductDetail__info">قیمت فروش (تومان):</label>
             <input
               type="number"
+              className="adminProductDetail__input"
               name="price"
               value={newVariantData.price}
               onChange={handleNewVariantChange}
               min={0}
             />
 
-            <label>SKU (اختیاری):</label>
+            <label className="adminProductDetail__info">SKU (اختیاری):</label>
             <input
               type="text"
+              className="adminProductDetail__input"
               name="sku"
               value={newVariantData.sku}
               onChange={handleNewVariantChange}
@@ -937,20 +960,22 @@ const selectedVariant = variants.find(v => v.variantId === selectedVariantId) ||
             <div style={{ display: "flex", justifyContent: "flex-end", gap: 12, marginTop: 16 }}>
               <button
                 onClick={closeAddVariantModal}
-                style={{ padding: "6px 12px", cursor: "pointer" }}
+                // style={{ padding: "6px 12px", cursor: "pointer" }}
+                className="modal-button gray"
                 type="button"
               >
                 لغو
               </button>
               <button
                 onClick={submitNewVariant}
-                style={{
-                  padding: "6px 12px",
-                  backgroundColor: "#4CAF50",
-                  color: "white",
-                  border: "none",
-                  cursor: "pointer",
-                }}
+                // style={{
+                //   padding: "6px 12px",
+                //   backgroundColor: "#4CAF50",
+                //   color: "white",
+                //   border: "none",
+                //   cursor: "pointer",
+                // }}
+                className="modal-button"
                 type="button"
               >
                 تایید
@@ -961,24 +986,30 @@ const selectedVariant = variants.find(v => v.variantId === selectedVariantId) ||
       )}
 </div>
       <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-        <label className="adminProductDetail__info">نام محصول:</label>
-        <input
-          type="text"
-          name="productName"
-          value={editedProduct.productName}
-          onChange={handleInputChange}
-          className="adminProductDetail__input"
-        />
+        <div className="inputGroup">
+        <div>
+          <label className="adminProductDetail__info">نام محصول:</label>
+          <input
+            type="text"
+            name="productName"
+            value={editedProduct.productName}
+            onChange={handleInputChange}
+            className="adminProductDetail__input"
+          />
+        </div>
 
-        <label className="adminProductDetail__info">توضیحات:</label>
-        <textarea
-          name="productDescription"
-          value={editedProduct.productDescription}
-          onChange={handleInputChange}
-          className="adminProductDetail__input"
-          rows={4}
-          style={{ resize: "vertical" }}
-        />
+        <div>
+          <label className="adminProductDetail__info">مدل:</label>
+          <input
+            type="text"
+            name="model"
+            value={editedProduct.model}
+            onChange={handleInputChange}
+            className="adminProductDetail__input"
+          />
+          </div>
+
+        <div>
 <label className="adminProductDetail__info">SKU:</label>
 <input
   type="text"
@@ -992,71 +1023,81 @@ const selectedVariant = variants.find(v => v.variantId === selectedVariantId) ||
   }}
   className="adminProductDetail__input"
 />
-        <label className="adminProductDetail__info">مدل:</label>
-        <input
-          type="text"
-          name="model"
-          value={editedProduct.model}
+          </div>
+        </div>
+          <br />
+
+        <label className="adminProductDetail__info">توضیحات:</label>
+        <textarea
+          name="productDescription"
+          value={editedProduct.productDescription}
           onChange={handleInputChange}
           className="adminProductDetail__input"
+          rows={4}
+          style={{ resize: "vertical" }}
         />
+          <br />
 
-<label className="adminProductDetail__info">قیمت (تومان):</label>
-<input
-  type="number"
-  name="price"
-  value={selectedVariant.price}
-  onChange={(e) => {
-    const val = Number(e.target.value);
-    setVariants((prev) =>
-      prev.map((v) => (v.variantId === selectedVariantId ? { ...v, price: val } : v))
-    );
-  }}
-  className="adminProductDetail__input"
-/>
+        <div className="inputGroup">
+        <div>
+          <label className="adminProductDetail__info">قیمت (تومان):</label>
+          <input
+            type="number"
+            name="price"
+            value={selectedVariant.price}
+            onChange={(e) => {
+              const val = Number(e.target.value);
+              setVariants((prev) =>
+                prev.map((v) => (v.variantId === selectedVariantId ? { ...v, price: val } : v))
+              );
+            }}
+            className="adminProductDetail__input"
+          />
+        </div>
 
-<label className="adminProductDetail__info">قیمت تمام شده (تومان):</label>
-<input
-  type="number"
-  name="costPrice"
-  value={selectedVariant.costPrice}
-  onChange={(e) => {
-    const val = Number(e.target.value);
-    setVariants((prev) =>
-      prev.map((v) => (v.variantId === selectedVariantId ? { ...v, costPrice: val } : v))
-    );
-  }}
-  className="adminProductDetail__input"
-/>
+        <div>
+          <label className="adminProductDetail__info">قیمت تمام شده (تومان):</label>
+          <input
+            type="number"
+            name="costPrice"
+            value={selectedVariant.costPrice}
+            onChange={(e) => {
+              const val = Number(e.target.value);
+              setVariants((prev) =>
+                prev.map((v) => (v.variantId === selectedVariantId ? { ...v, costPrice: val } : v))
+              );
+            }}
+            className="adminProductDetail__input"
+          />
+        </div>
+        </div>
+          <br />
 
-        <label className="adminProductDetail__info">وزن (کیلوگرم):</label>
-        <input
-          type="number"
-          name="weight"
-          value={editedProduct.weight}
-          onChange={handleNumberChange}
-          className="adminProductDetail__input"
-        />
+        <div className="inputGroup">
+        <div>
+          <label className="adminProductDetail__info">طول (میلی‌متر):</label>
+          <input
+            type="number"
+            name="length"
+            value={editedProduct.length}
+            onChange={handleNumberChange}
+            className="adminProductDetail__input"
+          />
+        </div>
 
-        <label className="adminProductDetail__info">طول (سانتی‌متر):</label>
-        <input
-          type="number"
-          name="length"
-          value={editedProduct.length}
-          onChange={handleNumberChange}
-          className="adminProductDetail__input"
-        />
+        <div>
+          <label className="adminProductDetail__info">عرض (میلی‌متر):</label>
+          <input
+            type="number"
+            name="width"
+            value={editedProduct.width}
+            onChange={handleNumberChange}
+            className="adminProductDetail__input"
+          />
+        </div>
 
-        <label className="adminProductDetail__info">عرض (سانتی‌متر):</label>
-        <input
-          type="number"
-          name="width"
-          value={editedProduct.width}
-          onChange={handleNumberChange}
-          className="adminProductDetail__input"
-        />
-
-        <label className="adminProductDetail__info">ارتفاع (سانتی‌متر):</label>
+        <div>
+        <label className="adminProductDetail__info">ارتفاع (میلی‌متر):</label>
         <input
           type="number"
           name="height"
@@ -1064,7 +1105,25 @@ const selectedVariant = variants.find(v => v.variantId === selectedVariantId) ||
           onChange={handleNumberChange}
           className="adminProductDetail__input"
         />
+        </div>
 
+        <div>
+
+        <label className="adminProductDetail__info">وزن (گرم):</label>
+        <input
+          type="number"
+          name="weight"
+          value={editedProduct.weight}
+          onChange={handleNumberChange}
+          className="adminProductDetail__input"
+        />
+        </div>
+
+        </div>
+          <br />
+
+        <div className="inputGroup">
+        <div style={{width: "100%"}}>
         <label className="adminProductDetail__info">دسته‌بندی:</label>
         <select
           name="categoryId"
@@ -1079,7 +1138,9 @@ const selectedVariant = variants.find(v => v.variantId === selectedVariantId) ||
             </option>
           ))}
         </select>
+        </div>
 
+        <div style={{width: "100%"}}>
         <label className="adminProductDetail__info">برند:</label>
         <select
           name="brandId"
@@ -1094,11 +1155,16 @@ const selectedVariant = variants.find(v => v.variantId === selectedVariantId) ||
             </option>
           ))}
         </select>
+        </div>
+
+        </div>
+          <br />
+
       </div>
 
       <div className="attributeList" style={{ marginTop: 30 }}>
         <h2 className="attributesTitle">ویژگی‌های الزامی دسته‌بندی</h2>
-        {requiredAttributes.length === 0 && <p>ویژگی الزامی برای این دسته‌بندی وجود ندارد.</p>}
+        {requiredAttributes.length === 0 && <p className="pnocategory">ویژگی الزامی برای این دسته‌بندی وجود ندارد.</p>}
 {requiredAttributes.map((attr) => (
   <AttributeField
     key={attr.attributeId}
@@ -1118,7 +1184,7 @@ const selectedVariant = variants.find(v => v.variantId === selectedVariantId) ||
 <h2 className="attributesTitle" style={{ marginTop: 40 }}>
    ویژگی‌های دیگر
 </h2>
-{editedUnusedAttributes.length === 0 && <p>ویژگی غیر الزامی برای این دسته‌بندی وجود ندارد.</p>}
+{editedUnusedAttributes.length === 0 && <p className="pnocategory">ویژگی غیر الزامی برای این دسته‌بندی وجود ندارد.</p>}
 {editedUnusedAttributes.map((attr) => (
   <AttributeField
     key={attr.attributeId}
@@ -1145,11 +1211,12 @@ const selectedVariant = variants.find(v => v.variantId === selectedVariantId) ||
 
         <button
           type="button"
-          className="addAttributeBtn"
+          className="addAttributeBtns"
           onClick={handleAddAttribute}
-          style={{ marginTop: 16 }}
+          // style={{ marginTop: 16 }}
+          title="افزودن ویژگی جدید"
         >
-          + افزودن ویژگی
+          +
         </button>
       </div>
 
@@ -1163,16 +1230,17 @@ const selectedVariant = variants.find(v => v.variantId === selectedVariantId) ||
       >
         <button
           onClick={handleDelete}
-          style={{
-            padding: "10px 20px",
-            backgroundColor: "#7a2e2e",
-            color: "white",
-            border: "none",
-            borderRadius: 10,
-            cursor: "pointer",
-            fontWeight: "700",
-            flexGrow: 1,
-          }}
+          // style={{
+          //   padding: "10px 20px",
+          //   backgroundColor: "#7a2e2e",
+          //   color: "white",
+          //   border: "none",
+          //   borderRadius: 10,
+          //   cursor: "pointer",
+          //   fontWeight: "700",
+          //   flexGrow: 1,
+          // }}
+          className="delete-product-button"
           type="button"
         >
           حذف محصول
@@ -1180,21 +1248,24 @@ const selectedVariant = variants.find(v => v.variantId === selectedVariantId) ||
 
         <button
           onClick={handleSave}
-          style={{
-            padding: "10px 20px",
-            backgroundColor: "#d54343",
-            color: "white",
-            border: "none",
-            borderRadius: 10,
-            cursor: "pointer",
-            fontWeight: "700",
-            flexGrow: 1,
-          }}
+          // style={{
+          //   padding: "10px 20px",
+          //   backgroundColor: "#d54343",
+          //   color: "white",
+          //   border: "none",
+          //   borderRadius: 10,
+          //   cursor: "pointer",
+          //   fontWeight: "700",
+          //   flexGrow: 1,
+          // }}
+          className="save-product-button"
           type="button"
         >
           ذخیره تغییرات
         </button>
       </div>
+            <br />
+
 {editingVariant && (
   <div
     style={{

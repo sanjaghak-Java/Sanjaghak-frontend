@@ -55,6 +55,11 @@
   /* padding: 14px 15px; */
 }
 
+.signUpcodeButton:hover{
+  background-color: rgb(244, 165, 165);
+  box-shadow: 0 0px 20px #ff002294;
+}
+
 .signUpInput:focus {
   outline: none;
   border-color: #dc265475;

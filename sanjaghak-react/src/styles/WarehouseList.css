@@ -43,7 +43,7 @@
   padding: 16px 0;
   width: 100%;
   gap: 20px;
-  border-bottom: 2px solid #1976d2;
+  /* border-bottom: 2px solid #1976d2; */
   margin-bottom: 10px;
 }
 
@@ -51,17 +51,18 @@
   flex: 1;
   text-align: center;
   font-weight: 700;
-  color: #1976d2;
+  color: #111;
   margin: 0;
+  font-family: "Vazirmatn";
 }
 
 /* کارت انبار */
 .warehouse-cards {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 0;
   max-width: 1230px;
-  margin: 0 auto 0 0;
+  margin: 30px auto 0 0;
   direction: rtl;
 }
 
@@ -184,29 +185,31 @@
 .add-warehouse-button {
   padding: 10px 20px;
   font-size: 16px;
-  background-color: #1976d2;
+  background-color: #9e9e9e;
   color: white;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease;
   user-select: none;
-  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.5);
-
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
   display: inline-block; /* اطمینان از اینکه دکمه به اندازه محتوا است */
 }
 
 
 .add-warehouse-button:hover {
-  background-color: #0d47a1;
+  background-color: #7f7f7f;
 }
 
 /* متن وقتی آیتمی نیست */
 .no-results {
+  background-color: white;
+  padding: 22px;
+  border-radius: 15px;
   text-align: center;
   font-size: 16px;
-  margin-top: 30px;
   color: #999;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* پیجینیشن */

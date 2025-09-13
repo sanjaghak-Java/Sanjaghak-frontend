@@ -1,5 +1,6 @@
 import React from "react";
 import "/src/styles/attributefield.css";
+import bin from '../assets/bin.png';
 
 function AdminCategoryAttributeField({
   id,
@@ -48,7 +49,7 @@ function AdminCategoryAttributeField({
           className="deleteAttrBtn"
           onClick={() => onDelete(id)}
         >
-          حذف
+          <img src={bin} alt="" />
         </button>
       )}
     </div>

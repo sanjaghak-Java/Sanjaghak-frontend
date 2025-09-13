@@ -310,20 +310,20 @@ const handleDeleteAttribute = (id) => {
       >
         ← بازگشت
       </button>
-      <h2 className="editCategoryAttributesTitle">ویرایش دسته بندی</h2>
+      <h2 className="pageTitle">ویرایش دسته بندی</h2>
 
       <div className="categoryInfoContainer">
-        <label>نام دسته بندی:</label>
+        <label className="adminProductDetail__info">نام دسته بندی:</label>
         <input
           type="text"
           value={categoryName}
           onChange={(e) => setCategoryName(e.target.value)}
-          className="categoryInput"
+          className="adminProductDetail__input"
           placeholder="نام دسته بندی را وارد کنید"
           disabled={saving || deleting}
         />
 
-        <label>تصویر دسته بندی:</label>
+        <label className="adminProductDetail__info">تصویر دسته بندی:</label>
         <input
           type="file"
           accept="image/*"
@@ -335,11 +335,11 @@ const handleDeleteAttribute = (id) => {
           <img src={imagePreview} alt="پیش‌نمایش" className="imagePreview" />
         )}
 
-        <label>توضیحات:</label>
+        <label className="adminProductDetail__info">توضیحات:</label>
         <textarea
           value={categoryDescription}
           onChange={(e) => setCategoryDescription(e.target.value)}
-          className="categoryInput"
+          className="adminProductDetail__input"
           placeholder="توضیحات دسته بندی را وارد کنید"
           disabled={saving || deleting}
         />
@@ -355,17 +355,9 @@ const handleDeleteAttribute = (id) => {
           {enabled ? "غیرفعال‌سازی" : "فعال‌سازی"}
         </button>
 
-        <button
-          type="button"
-          className="actionBtnEditCategory deleteBtn"
-          onClick={handleDelete}
-          disabled={saving || deleting}
-        >
-          {deleting ? "در حال حذف..." : "حذف دسته‌بندی"}
-        </button>
       </div>
 
-      <h3 className="editCategoryAttributesTitle">ویژگی‌های دسته بندی</h3>
+      <h3 className="attributesTitle">ویژگی‌های دسته بندی</h3>
       <div className="attributeList">
         {attributes.map((attr) => (
           <AdminCategoryAttributeField
@@ -382,17 +374,27 @@ const handleDeleteAttribute = (id) => {
 
       <button
         type="button"
-        className="addAttributeBtn"
+        className="addAttributeBtns"
         onClick={handleAddAttribute}
         disabled={saving || deleting}
+        title="افزودن ویژگی جدید"
       >
-        + افزودن ویژگی جدید
+        +
       </button>
 
       <div className="stepButtonsEditCategory">
         <button
           type="button"
-          className="saveBtnEditCategory"
+          className="delete-product-button"
+          onClick={handleDelete}
+          disabled={saving || deleting}
+        >
+          {deleting ? "در حال حذف..." : "حذف دسته‌بندی"}
+        </button>
+        
+        <button
+          type="button"
+          className="save-product-button"
           onClick={handleSave}
           disabled={saving || deleting}
         >

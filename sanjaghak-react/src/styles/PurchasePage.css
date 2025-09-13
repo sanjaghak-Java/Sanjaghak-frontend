@@ -17,21 +17,41 @@
 }
 .purchase-filters {
   margin-bottom: 20px;
+  width: 80%;
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
   align-items: center;
 }
 
-.purchase-filters input,
-.purchase-filters select {
-  padding: 8px 12px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  font-size: 14px;
-  min-width: 200px;
+.purchase-filters input{
+  width: 100%;
+  max-width: 300px;
+  font-family: "Jalal";
+  padding: 3px 12px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.3s ease;
 }
 
+.purchase-filters select {
+  min-width: 180px;
+  padding: 3px 12px;
+  font-size: 15px;
+  font-family: "Jalal";
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.purchase-filters input:focus ,
+.purchase-filters select:focus{
+    border-color: #c4204b;
+}
 
 .add-button {
   background-color: #dc2655;
@@ -54,6 +74,7 @@
   text-align: center;
   direction: rtl;
   background: transparent;
+  font-family: "Vazirmatn";
 }
 
 .purchase-table thead th {

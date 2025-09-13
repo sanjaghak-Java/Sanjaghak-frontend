@@ -326,7 +326,7 @@ const filteredDiscounts = discounts.filter((d) => {
             direction: "rtl",
           }}
         >
-          <h2>لیست تخفیف‌ها</h2>
+          <h2 className="adminliststitle">لیست تخفیف‌ها</h2>
           <button className="add-warehouse-button" onClick={handleOpenCreateModal}>
             +ایجاد کد تخفیف
           </button>
@@ -401,7 +401,7 @@ const filteredDiscounts = discounts.filter((d) => {
             بعدی
           </button>
 
-          <div className="goto-page-box">
+          <div className="gooto-page-box">
             <input
               type="number"
               min="1"

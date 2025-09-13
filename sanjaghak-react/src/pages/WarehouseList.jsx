@@ -82,7 +82,7 @@ function WarehouseList() {
 
   return (
     <div className="warehouse-list-container">
-      <h2 className="warehousetitle">لیست انبارها</h2>
+      <h2 className="adminliststitle">لیست انبارها</h2>
 
       <input
         type="text"
@@ -92,7 +92,7 @@ function WarehouseList() {
           setSearchTerm(e.target.value);
           setCurrentPage(1);
         }}
-        className="warehouse-search-input"
+        className="supplier-search"
       />
 
       <div className="warehouse-cards">

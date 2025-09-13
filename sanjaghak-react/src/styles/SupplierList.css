@@ -21,9 +21,11 @@
 .supplier-search {
   text-align: right;
   min-width: 250px;
-  padding: 8px 12px;
+  padding: 3px 12px;
   border: 2px solid #ccc;
   border-radius: 8px;
+  font-family: "Jalal";
+  font-size: 15px;
 }
 
 .supplier-search:focus {
@@ -67,6 +69,7 @@
   direction: rtl;
   background: transparent;
   margin-top: 20px;
+  font-family: "Vazirmatn";
 }
 
 .supplier-table thead th {
@@ -149,6 +152,7 @@
   gap: 8px;
   margin-top: 30px;
   flex-wrap: wrap;
+  font-family: "Traffic";
 }
 
 .pagination button {
@@ -181,14 +185,14 @@
   font-weight: bold;
 }
 
-.goto-page-box {
+.gooto-page-box {
   display: flex;
   align-items: center;
   gap: 6px;
 }
 
-.goto-page-box input {
-  width: 100px;
+.gooto-page-box input {
+  width: 110px;
   font-size: 12px;
   padding: 5px;
   border: 1px solid #ccc;
@@ -197,12 +201,12 @@
   text-align: center;
 }
 
-.goto-page-box input:focus{
+.gooto-page-box input:focus{
   outline: none;
   border: 1px solid #c4204b;
 }
 
-.goto-page-box button {
+.gooto-page-box button {
   background-color: #DC2655;
   color: white;
   padding: 5px 12px;
@@ -213,7 +217,7 @@
   transition: background-color 0.2s;
 }
 
-.goto-page-box button:hover {
+.gooto-page-box button:hover {
   background-color: #c2204a;
 }
 

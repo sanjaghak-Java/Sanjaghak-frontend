@@ -333,7 +333,7 @@ useEffect(() => {
 
       {/* Table */}
       <div className="request-title-div">
-        <h2>لیست درخواست‌ها</h2>
+        <h2 className='adminliststitle'>لیست درخواست‌ها</h2>
         <div>
           {selectedStatus && (["خریدها", "مرجوعی‌ها", "لغو شده‌ها"].includes(selectedStatus.category) && ["در حال پردازش", "تحویل داده شده", "تائید شده", "رد شده", "در حال بررسی"].includes(selectedStatus.status)) && (
             <button className="downloadbutton" title="دانلود">
@@ -383,7 +383,7 @@ useEffect(() => {
           <button key={i + 1} className={currentPage === i + 1 ? "active-page" : ""} onClick={() => goToPage(i + 1)}>{i + 1}</button>
         ))}
         <button onClick={() => goToPage(currentPage + 1)} disabled={currentPage === totalPages}>بعدی</button>
-        <div className="goto-page-box">
+        <div className="gooto-page-box">
           <input type="number" min="1" max={totalPages} placeholder="شماره صفحه..." value={pageInput} onChange={(e) => setPageInput(e.target.value)} />
           <button onClick={() => goToPage(Number(pageInput))}>برو</button>
         </div>

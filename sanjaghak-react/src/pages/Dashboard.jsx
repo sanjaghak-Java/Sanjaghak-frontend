@@ -207,7 +207,7 @@ useEffect(() => {
           {latestUser ? (
             <div className="adminDashboardRecentUserInfo">
               <img
-                src={latestUser.profilePicture || "/src/assets/testimage.jpg"}
+                src={latestUser.profilePicture || "/src/assets/user.png"}
                 alt={`${latestUser.firstName} ${latestUser.lastName}`}
                 className="adminDashboardRecentUserPic"
               />

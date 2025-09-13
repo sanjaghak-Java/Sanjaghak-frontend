@@ -467,8 +467,7 @@ const handleAddVariant = async () => {
     <>
     <div>
       <br />
-      <br />
-      <h1 className="pageTitle">افزودن محصول</h1>
+      <h1 className="pageTitle" style={{marginRight: "200px"}}>افزودن محصول</h1>
       <br />
       <form className="addProductContainer" onSubmit={(e) => e.preventDefault()}>
         {step === 1 && (

@@ -3,10 +3,10 @@
   padding: 20px;
   font-family: "Vazir", sans-serif;
   direction: rtl;
-  background-color: #f7f8fa;
+  /* background-color: #f7f8fa; */
   min-height: 100vh;
-  max-width: 900px;
-  margin: 0 auto;
+  max-width: 1100px;
+  margin: 0 100px;
 }
 
 /* هدر بالای صفحه */
@@ -61,7 +61,7 @@
 .card:hover {
   transform: translateY(-5px);
   border-color: #b40000;
-  box-shadow: 0 6px 16px rgba(108,99,255,0.2);
+  /* box-shadow: 0 6px 16px rgba(108,99,255,0.2); */
 }
 
 /* عنوان کارت */
@@ -229,6 +229,7 @@
 }
 .return-modal-content {
   background: #fff;
+  font-family: "Traffic";
   padding: 20px;
   border-radius: 8px;
 }

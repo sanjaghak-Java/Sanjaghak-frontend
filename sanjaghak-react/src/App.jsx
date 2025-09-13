@@ -56,7 +56,7 @@ const products = Array.from({ length: 50 }, (_, i) => ({
   price: 1000 * i,
   category: "Category 1",
   brand: "Brand X",
-  image: "/src/assets/testimage.jpg",
+  image: "/src/assets/user.png",
   description: "Some description",
 }));
 

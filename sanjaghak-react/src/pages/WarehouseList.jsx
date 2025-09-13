@@ -1,6 +1,8 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "/src/styles/WarehouseList.css";
+import edit from "../assets/edit.png";
+import notif from "../assets/notification.png";
 
 const ITEMS_PER_PAGE = 5;
 
@@ -82,8 +84,7 @@ function WarehouseList() {
 
   return (
     <div className="warehouse-list-container">
-      <h2 className="adminliststitle">لیست انبارها</h2>
-
+      <div style={{ position: "relative", display: "flex", alignItems: "center",  justifyContent: "center"}}>
       <input
         type="text"
         placeholder="جستجو..."
@@ -94,6 +95,24 @@ function WarehouseList() {
         }}
         className="supplier-search"
       />
+      </div>
+
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: "space-between",
+          width: '100%',
+          direction: 'rtl',
+          padding: '10px 0px',
+          marginTop: "30px"
+        }}
+        >
+      <h2 className="adminliststitle">لیست انبارها</h2>
+        <button onClick={handleAdd} className="add-warehouse-button">
+          + افزودن انبار
+        </button>
+      </div>
 
       <div className="warehouse-cards">
         <div className="warehouse-titles">
@@ -112,6 +131,7 @@ function WarehouseList() {
             <div
               key={warehouse.id}
               className="warehouse-card"
+              style={{marginBottom: "20px"}}
               onClick={() => navigate(`/admin/انبار/${warehouse.id}`)}
             >
               <h3>{warehouse.name}</h3>
@@ -132,17 +152,18 @@ function WarehouseList() {
               <div className="info-line">{warehouse.postalCode}</div>
               <div className="info-line">{warehouse.phone}</div>
 
-<div className="card-buttons" onClick={(e) => e.stopPropagation()}>
-  <button onClick={() => handleEdit(warehouse.id)} className="edit-button">
-    ویرایش
+<div className="card-buttons" onClick={(e) => e.stopPropagation()} style={{display: "flex"}}>
+  <button onClick={() => handleEdit(warehouse.id)} className="admin-edit-button">
+                  <img src={edit} alt="ویرایش" />
   </button>
-  <button
+  {/* <button
     onClick={() => handleToggleActive(warehouse.id)}
     className={warehouse.active ? "deactivate-button" : "activate-button"}
   >
     {warehouse.active ? "غیرفعال کردن" : "فعال کردن"}
-  </button>
+  </button> */}
   <button
+      className="notifications-buttonnotif"
     onClick={() => {
       navigate("/admin/انتقال-بین-انبار", {
         state: { sourceWarehouseName: warehouse.name },
@@ -156,9 +177,9 @@ function WarehouseList() {
       e.stopPropagation(); 
       navigate(`/admin/اعلانات-انبار/${warehouse.id}`);
     }}
-    className="notifications-button"
+    className="notifications-buttonnotif"
   >
-    اعلانات
+                  <img src={notif} alt="اعلانات" />
   </button>
 </div>
             </div>
@@ -195,11 +216,7 @@ function WarehouseList() {
         </div>
       )}
 
-      <div className="add-warehouse-button-container">
-        <button onClick={handleAdd} className="add-warehouse-button">
-          + افزودن انبار
-        </button>
-      </div>
+
     </div>
   );
 }

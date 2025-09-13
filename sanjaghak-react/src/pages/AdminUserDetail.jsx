@@ -58,7 +58,7 @@ function AdminUserDetail({ user, onBack, onUpdateUser }) {
 
       const updatedUserFrontend = {
         id: updatedUserBackend.id,
-        profilePic: updatedUserBackend.profilePic || "/src/assets/testimage.jpg",
+        profilePic: updatedUserBackend.profilePic || "/src/assets/user.png",
         name: updatedUserBackend.firstName || "",
         surname: updatedUserBackend.lastName || "",
         phone: updatedUserBackend.phoneNumber || "",
@@ -81,9 +81,9 @@ function AdminUserDetail({ user, onBack, onUpdateUser }) {
 
   return (
     <div className="supplier-container">
-      <h1 className="adminProductDetail__name">ویرایش کاربر</h1>
+      <h1 className="pageTitle">ویرایش کاربر</h1>
 
-      <div className="adminProductDetailContainer">
+      <div className="adminProductDetailContainer" style={{padding: "30px "}}>
         <div style={{ display: "flex", alignItems: "center", gap: "5px", width: "100%", direction: "ltr" }}>
           <label className="switch">
             <input

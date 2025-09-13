@@ -47,7 +47,8 @@
 
 .adminProductCard__name {
   margin: 0;
-  font-size: 18px;
+  padding: 5px;
+  font-size: 14px;
   font-family: "Estedad";
   color: #000000;
 }

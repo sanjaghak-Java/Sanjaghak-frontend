@@ -297,10 +297,10 @@ const handleShelfClick = async (shelf) => {
   return (
     <div className="warehouse-detail-container">
       <div className="header">
-        <button onClick={handleBack} className="warehouse-detail-back-button">
+        {/* <button onClick={handleBack} className="warehouse-detail-back-button">
           بازگشت
-        </button>
-        <h3>جزئیات انبار</h3>
+        </button> */}
+        <h3 className="pageTitle">جزئیات انبار</h3>
       </div>
 
       {loading && <p>در حال بارگذاری...</p>}
@@ -434,8 +434,15 @@ const handleShelfClick = async (shelf) => {
       <h4>قفسه {selectedShelf.code} خالی است</h4>
       <p>می‌خواهید موجودی اضافه کنید؟</p>
       <div style={{ marginTop: "10px" }}>
+        <button
+          className="modal-button gray"
+          style={{marginLeft: "50px"}}
+          onClick={() => setShowEmptyShelfModal(false)}
+        >
+          انصراف
+        </button>
 <button
-  className="ok-button"
+  className="modal-button"
   onClick={() => {
     setShowEmptyShelfModal(false); 
     setShowStockModal(true);       
@@ -444,12 +451,7 @@ const handleShelfClick = async (shelf) => {
 >
   افزودن موجودی
 </button>
-        <button
-          className="cancel-button"
-          onClick={() => setShowEmptyShelfModal(false)}
-        >
-          انصراف
-        </button>
+
       </div>
     </div>
   </div>

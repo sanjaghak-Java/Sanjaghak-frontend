@@ -1,5 +1,6 @@
 .adminProductDetailContainer {
   min-width: 650px;
+  height: 100%;
   direction: rtl;
   padding: 0px 40px;
   background-color: #fff;

@@ -142,8 +142,8 @@ const handleSubmit = async (e) => {
         <input value={phone} onChange={(e) => setPhone(e.target.value)} required />
 
         <div className="form-buttons">
-          <button type="submit" className="save-button">ذخیره</button>
-          <button type="button" onClick={() => navigate(-1)} className="cancel-button">
+          <button type="submit" className="modal-button">ذخیره</button>
+          <button type="button" onClick={() => navigate(-1)} className="modal-button gray">
             انصراف
           </button>
         </div>

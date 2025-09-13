@@ -74,7 +74,7 @@ function EmployeeList() {
 
 const mappedEmployees = filteredUsers.map((u) => ({
   id: u.id,
-  profilePic: u.profilePic || "/src/assets/testimage.jpg",
+  profilePic: u.profilePic || "/src/assets/user.png",
   name: u.firstName || "",
   surname: u.lastName || "",
   phone: u.phoneNumber || "",

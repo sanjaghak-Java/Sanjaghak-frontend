@@ -190,7 +190,7 @@ export default function WarehouseProductModal({ shelf, onClose, onSave }) {
                 <tr>
                   <th>موجودی</th>
                   <td>
-                    <button onClick={decreaseStock} className="stock-btn minus-btn">-</button>
+                    <button onClick={increaseStock} className="stock-btn plus-btn">+</button>
                     <input
                       type="text"
                       className="stock-input"
@@ -199,7 +199,8 @@ export default function WarehouseProductModal({ shelf, onClose, onSave }) {
                       inputMode="numeric"
                       pattern="[0-9]*"
                     />
-                    <button onClick={increaseStock} className="stock-btn plus-btn">+</button>
+                    <button onClick={decreaseStock} className="stock-btn minus-btn">-</button>
+
                   </td>
                 </tr>
                 <tr>
@@ -215,7 +216,7 @@ export default function WarehouseProductModal({ shelf, onClose, onSave }) {
 
             <div className="modal-actions">
               <button
-                className="save-btn"
+                className="add-button"
                 onClick={handleSave}
                 disabled={!hasChanges}
               >

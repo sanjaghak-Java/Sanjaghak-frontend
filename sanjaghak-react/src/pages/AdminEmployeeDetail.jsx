@@ -52,7 +52,7 @@ function AdminEmployeeDetail({ employee, onBack, onUpdateEmployee }) {
   return (
     <div className="supplier-container">
       <h1 className="adminProductDetail__name">ویرایش کارمند</h1>
-      <div className="adminProductDetailContainer">
+      <div className="adminProductDetailContainer" style={{padding: "30px"}}>
           <div style={{display: "flex", gap: "5px", width: "100%", direction: "ltr"}}>
             <span>{editedEmployee.isActive ? "فعال" : "غیرفعال"}</span>
             <label className="switch">

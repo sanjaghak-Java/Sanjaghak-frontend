@@ -527,7 +527,7 @@ const notifications = [
         </div>
       ))}
 
-      <button
+      {/* <button
         onClick={() => navigate(-1)}
         style={{
           marginTop: 20,
@@ -544,7 +544,7 @@ const notifications = [
         onMouseLeave={(e) => (e.target.style.backgroundColor = "#f44336")}
       >
         بازگشت
-      </button>
+      </button> */}
 
       {isModalOpen && (
         <WarehouseViewModal

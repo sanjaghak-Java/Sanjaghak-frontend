@@ -80,6 +80,7 @@
   min-height: 120px;
   margin-right: 10px;
   box-sizing: border-box;
+  font-family: "Vazirmatn";
 }
 
 .warehouse-card:hover {
@@ -93,7 +94,7 @@
   margin: 0;
   font-weight: 700;
   font-size: 22px;
-  color: #0d47a1;
+  color: #111;
 }
 
 .info-line {
@@ -106,7 +107,6 @@
 
 .card-buttons {
   display: flex;
-  flex-direction: column;
   gap: 8px;
   min-width: 110px;
 }
@@ -162,20 +162,25 @@
 }
 
 /* دکمه انتقال بین انبارها */
-.card-buttons button:nth-child(3) {
-  background-color: #ffa726;
-  color: #222;
-  font-weight: 900;
+.notifications-buttonnotif{
+  background-color: transparent;
   font-size: 18px;
   line-height: 1;
   box-shadow: none;
+  border: none;
+  outline: none;
   border-radius: 6px;
   transition: background-color 0.3s ease;
+  cursor: pointer;
 }
 
-.card-buttons button:nth-child(3):hover {
-  background-color: #fb8c00;
+.notifications-buttonnotif img{
+  width: 25px;
 }
+
+/* .card-buttons button:nth-child(3):hover {
+  background-color: #fb8c00;
+} */
 
 .add-warehouse-button-container {
   text-align: center; /* والد را وسط‌چین می‌کنیم */

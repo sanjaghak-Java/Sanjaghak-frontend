@@ -55,7 +55,7 @@ function UserList() {
           const timestamp = u.createdAt ? new Date(u.createdAt).getTime() : null;
           return {
             id: u.id,
-            profilePic: u.profilePic || "/src/assets/testimage.jpg",
+            profilePic: u.profilePic || "/src/assets/user.png",
             name: u.firstName || "",
             surname: u.lastName || "",
             phone: u.phoneNumber || "",

@@ -42,19 +42,13 @@
   font-weight: 700;
 }
 
-/* .profilePic {
-  width: 48px;
-  height: 48px;
+.profilePic {
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #b84050;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.profilePic:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 12px rgba(184, 64, 80, 0.5);
-} */
 
 .activeEmployee {
   background-color: #fff8f8;
